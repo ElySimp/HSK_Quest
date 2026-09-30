@@ -1,34 +1,72 @@
-# Gradle files
-.gradle/
-build/
+# ============================================
+# OS-generated files
+# ============================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+*.swp
+*.swo
+*~
 
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
-
-# IntelliJ
-*.iml
+# ============================================
+# IDE / Editor
+# ============================================
+# IntelliJ / Android Studio
 .idea/
+*.iml
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-# Keystore files
+# VS Code
+.vscode/
+
+# ============================================
+# Android / Gradle
+# ============================================
+.gradle/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.hprof
+output-metadata.json
+
+# ============================================
+# Keystore & Signing
+# ============================================
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# ============================================
+# Google Services / Firebase
+# ============================================
 google-services.json
 
-# Android Profiling
-*.hprof
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+*.egg
+.venv/
+venv/
+env/
+.env
+
+# ============================================
+# Logs
+# ============================================
+*.log
+
+# ============================================
+# Project-specific
+# ============================================
+contexts_&_plans/
