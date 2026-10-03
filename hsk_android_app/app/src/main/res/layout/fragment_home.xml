@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen"
+    android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Top bar: currencies + survival HP -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:id="@+id/tv_diamonds"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/hq_sky"
+                    android:textStyle="bold"
+                    tools:text="💎 100" />
+
+                <TextView
+                    android:id="@+id/tv_coins"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/hq_gold"
+                    android:textStyle="bold"
+                    tools:text="🪙 0" />
+
+                <TextView
+                    android:id="@+id/tv_survival_hp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@color/hq_crimson"
+                    android:textStyle="bold"
+                    tools:text="❤️ 100" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_offline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/home_offline"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!-- Greeting -->
+            <TextView
+                android:id="@+id/tv_greeting"
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                tools:text="你好, Faldo!" />
+
+            <!-- Player card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_level"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/hq_text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Lv. 1" />
+
+                    <TextView
+                        android:id="@+id/tv_league"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/hq_violet"
+                        android:textStyle="bold"
+                        tools:text="Bronze" />
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_xp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:max="100"
+                    app:indicatorColor="@color/hq_jade"
+                    app:trackColor="@color/hq_bg_deep"
+                    app:trackCornerRadius="6dp"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_xp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/hq_text_secondary"
+                    android:textSize="12sp"
+                    tools:text="0 / 100 XP" />
+
+                <TextView
+                    android:id="@+id/tv_stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/hq_text_primary"
+                    tools:text="STR 0   DEX 0   DEF 0   VIT 0" />
+            </LinearLayout>
+
+            <!-- Pet area placeholder (Phase 3) -->
+            <TextView
+                android:id="@+id/tv_pet_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/home_pet_placeholder"
+                android:textColor="@color/hq_text_muted" />
+
+            <!-- Navigation -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_world_map"
+                style="@style/HqButton.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/home_world_map" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_shop"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:text="@string/home_shop" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_gacha"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="@string/home_gacha" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_leaderboard"
+                style="@style/HqButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/home_leaderboard" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_logout"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/home_logout"
+                android:textColor="@color/hq_crimson" />
+    </LinearLayout>
+</ScrollView>

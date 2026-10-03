@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Single-activity navigation graph.
+    Flow: Splash -> (Login <-> Register) -> Home -> WorldMap -> Battle
+          Home -> Shop / Gacha / Leaderboard
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.faldo.hsk_quest.ui.splash.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splash_to_login"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splash_to_home"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.faldo.hsk_quest.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.faldo.hsk_quest.ui.auth.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_to_home"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.faldo.hsk_quest.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_worldmap"
+            app:destination="@id/worldMapFragment" />
+        <action
+            android:id="@+id/action_home_to_shop"
+            app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_home_to_gacha"
+            app:destination="@id/gachaFragment" />
+        <action
+            android:id="@+id/action_home_to_leaderboard"
+            app:destination="@id/leaderboardFragment" />
+        <action
+            android:id="@+id/action_home_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/worldMapFragment"
+        android:name="com.faldo.hsk_quest.ui.worldmap.WorldMapFragment"
+        android:label="World Map"
+        tools:layout="@layout/fragment_world_map">
+        <action
+            android:id="@+id/action_worldmap_to_battle"
+            app:destination="@id/battleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/battleFragment"
+        android:name="com.faldo.hsk_quest.ui.battle.BattleFragment"
+        android:label="Battle"
+        tools:layout="@layout/fragment_placeholder">
+        <argument
+            android:name="areaId"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <argument
+            android:name="monsterType"
+            android:defaultValue="normal"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.faldo.hsk_quest.ui.shop.ShopFragment"
+        android:label="Shop"
+        tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
+        android:id="@+id/gachaFragment"
+        android:name="com.faldo.hsk_quest.ui.gacha.GachaFragment"
+        android:label="Gacha"
+        tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.faldo.hsk_quest.ui.leaderboard.LeaderboardFragment"
+        android:label="Leaderboard"
+        tools:layout="@layout/fragment_placeholder" />
+</navigation>

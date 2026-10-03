@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Brand palette: dark navy dungeon + imperial gold + jade accents -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="hq_bg_deep">#FF0B0F1E</color>
+    <color name="hq_bg">#FF121833</color>
+    <color name="hq_surface">#FF1B2347</color>
+    <color name="hq_surface_light">#FF26305C</color>
+    <color name="hq_stroke">#FF3A4680</color>
+
+    <color name="hq_gold">#FFF5C451</color>
+    <color name="hq_gold_dark">#FFC8962B</color>
+    <color name="hq_jade">#FF3DD6A3</color>
+    <color name="hq_crimson">#FFE5484D</color>
+    <color name="hq_sky">#FF5AA9FF</color>
+    <color name="hq_violet">#FFA78BFA</color>
+
+    <color name="hq_text_primary">#FFF3F4FA</color>
+    <color name="hq_text_secondary">#FFA9B0D3</color>
+    <color name="hq_text_muted">#FF6B7299</color>
 </resources>

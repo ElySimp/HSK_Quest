@@ -1,7 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Hsk_android_app" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Night mode uses the same dark game theme defined in values/themes.xml. -->
+    <style name="Base.Theme.Hsk_android_app" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/hq_gold</item>
+        <item name="colorOnPrimary">@color/hq_bg_deep</item>
+        <item name="colorSecondary">@color/hq_jade</item>
+        <item name="colorOnSecondary">@color/hq_bg_deep</item>
+        <item name="colorError">@color/hq_crimson</item>
+        <item name="android:colorBackground">@color/hq_bg_deep</item>
+        <item name="colorSurface">@color/hq_surface</item>
+        <item name="colorOnSurface">@color/hq_text_primary</item>
+        <item name="android:windowBackground">@color/hq_bg_deep</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Circular gold-ringed emblem behind the logo hanzi. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:gradientRadius="120dp"
+        android:type="radial"
+        android:centerColor="@color/hq_surface"
+        android:endColor="@color/hq_bg_deep"
+        android:startColor="@color/hq_surface_light" />
+    <stroke
+        android:width="3dp"
+        android:color="@color/hq_gold" />
+</shape>

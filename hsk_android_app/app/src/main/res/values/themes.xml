@@ -1,9 +1,59 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Hsk_android_app" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme. The game is always dark-themed. -->
+    <style name="Base.Theme.Hsk_android_app" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/hq_gold</item>
+        <item name="colorOnPrimary">@color/hq_bg_deep</item>
+        <item name="colorSecondary">@color/hq_jade</item>
+        <item name="colorOnSecondary">@color/hq_bg_deep</item>
+        <item name="colorError">@color/hq_crimson</item>
+        <item name="android:colorBackground">@color/hq_bg_deep</item>
+        <item name="colorSurface">@color/hq_surface</item>
+        <item name="colorOnSurface">@color/hq_text_primary</item>
+        <item name="android:windowBackground">@color/hq_bg_deep</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.Hsk_android_app" parent="Base.Theme.Hsk_android_app" />
+
+    <!-- Reusable text styles -->
+    <style name="HqText.Title" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">@color/hq_gold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
+
+    <style name="HqText.Subtitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/hq_text_secondary</item>
+    </style>
+
+    <!-- Primary gold button -->
+    <style name="HqButton.Primary" parent="Widget.Material3.Button">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="backgroundTint">@color/hq_gold</item>
+        <item name="android:textColor">@color/hq_bg_deep</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
+
+    <!-- Secondary outlined button -->
+    <style name="HqButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textColor">@color/hq_text_primary</item>
+        <item name="strokeColor">@color/hq_stroke</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
+
+    <!-- Text input -->
+    <style name="HqInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/hq_gold</item>
+        <item name="hintTextColor">@color/hq_gold</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
 </resources>

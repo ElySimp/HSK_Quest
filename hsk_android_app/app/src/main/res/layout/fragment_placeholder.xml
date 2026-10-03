@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared placeholder layout for screens implemented in later phases. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/placeholder_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_icon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/bg_emblem"
+        android:gravity="center"
+        android:textSize="48sp"
+        tools:text="⚔️" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        tools:text="Battle" />
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        tools:text="Coming in Phase 2" />
+
+    <TextView
+        android:id="@+id/tv_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_card"
+        android:fontFamily="monospace"
+        android:padding="16dp"
+        android:textColor="@color/hq_text_secondary"
+        android:visibility="gone"
+        tools:text="Monster HP 50"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_back"
+        style="@style/HqButton.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="32dp"
+        android:text="@string/back" />
+</LinearLayout>

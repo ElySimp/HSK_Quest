@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Full-screen vertical gradient used as the base background of every screen. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/hq_bg"
+        android:endColor="@color/hq_bg_deep"
+        android:startColor="@color/hq_surface" />
+</shape>

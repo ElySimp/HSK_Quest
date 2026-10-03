@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">hsk_android_app</string>
+    <string name="app_name">HSK Quest</string>
+    <string name="app_tagline">Defeat monsters. Master Hanzi.</string>
+    <string name="app_logo_hanzi">汉语</string>
+
+    <!-- Auth -->
+    <string name="auth_login_title">Welcome back, Hero</string>
+    <string name="auth_register_title">Begin your quest</string>
+    <string name="auth_username">Username</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_hsk_target">Target HSK level</string>
+    <string name="auth_login">Enter the realm</string>
+    <string name="auth_register">Create hero</string>
+    <string name="auth_go_register">New here? Create a hero</string>
+    <string name="auth_go_login">Already a hero? Log in</string>
+    <string name="auth_err_username">Username: 3-50 chars, letters/numbers/_ only</string>
+    <string name="auth_err_password">Password must be at least 6 characters</string>
+    <string name="auth_err_empty">Please fill in all fields</string>
+    <string name="hsk_level_format">HSK %1$d</string>
+
+    <!-- Home -->
+    <string name="home_greeting">你好, %1$s!</string>
+    <string name="home_level_format">Lv. %1$d</string>
+    <string name="home_world_map">World Map</string>
+    <string name="home_shop">Shop</string>
+    <string name="home_gacha">Gacha</string>
+    <string name="home_leaderboard">Leaderboard</string>
+    <string name="home_logout">Log out</string>
+    <string name="home_pet_placeholder">Your pet companion lives here (Phase 3)</string>
+    <string name="home_offline">Offline - showing cached profile</string>
+
+    <!-- Placeholders -->
+    <string name="title_world_map">World Map</string>
+    <string name="title_battle">Battle</string>
+    <string name="title_shop">Shop</string>
+    <string name="title_gacha">Gacha</string>
+    <string name="title_leaderboard">Leaderboard</string>
+    <string name="placeholder_coming">Coming in %1$s</string>
+    <string name="worldmap_start_battle">Test battle (HSK 1)</string>
+    <string name="back">Back</string>
+
+    <!-- Errors -->
+    <string name="err_network">Cannot reach the server. Is the backend running?</string>
+    <string name="err_unknown">Something went wrong</string>
 </resources>
