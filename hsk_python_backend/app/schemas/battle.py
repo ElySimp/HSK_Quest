@@ -6,10 +6,12 @@ from pydantic import BaseModel, Field
 
 class BattleResultRequest(BaseModel):
     """Submitted by the client after a battle ends."""
-    monster_id: int
+    # Encoded by the client as area_id * 100 + type_index * 10 + slot
+    monster_id: int = Field(..., ge=0)
     area_id: int = Field(..., ge=1, le=9)
     monster_type: str = Field(default="normal", pattern=r"^(normal|elite|boss)$")
-    result: str = Field(..., pattern=r"^(win|lose)$")
+    # "flee" = player retreated voluntarily: no rewards, no penalty
+    result: str = Field(..., pattern=r"^(win|lose|flee)$")
     damage_dealt: int = Field(..., ge=0)
     damage_taken: int = Field(..., ge=0)
     questions_answered: int = Field(..., ge=0)
@@ -26,4 +28,7 @@ class BattleResultResponse(BaseModel):
     level_up: bool = False
     new_level: int | None = None
     stat_points_available: int = 0
+    survival_hp: int = 0
+    # item_id of the equipment lost on defeat, if any
+    lost_item: str | None = None
     message: str = ""

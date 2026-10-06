@@ -36,3 +36,15 @@ class PlayerProfileResponse(BaseModel):
     stats: PlayerStatsResponse
 
     model_config = {"from_attributes": True}
+
+
+class DailyStatusResponse(BaseModel):
+    can_claim: bool
+    streak: int
+    coins_reward: int
+
+
+class DailyClaimResponse(BaseModel):
+    coins_awarded: int
+    streak: int
+    total_coins: int

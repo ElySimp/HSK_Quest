@@ -3,14 +3,18 @@ package com.faldo.hsk_quest.data.repository
 import com.faldo.hsk_quest.data.local.TokenManager
 import com.faldo.hsk_quest.data.local.dao.PlayerDao
 import com.faldo.hsk_quest.data.local.entity.PlayerEntity
+import com.faldo.hsk_quest.data.model.AllocateStatRequest
+import com.faldo.hsk_quest.data.model.DailyClaimResponse
+import com.faldo.hsk_quest.data.model.DailyStatusResponse
 import com.faldo.hsk_quest.data.model.Player
+import com.faldo.hsk_quest.data.model.PlayerStats
 import com.faldo.hsk_quest.data.remote.ApiErrorParser
 import com.faldo.hsk_quest.data.remote.ApiService
+import com.faldo.hsk_quest.util.Resource
 import java.io.IOException
 
 /**
- * Offline-first access to the player profile: fetch from the backend,
- * fall back to the Room cache when the server is unreachable.
+ * Offline-first access to the player profile, stat allocations, and daily rewards.
  */
 class PlayerRepository(
     private val api: ApiService,
@@ -21,8 +25,6 @@ class PlayerRepository(
     sealed class ProfileResult {
         data class Fresh(val player: Player) : ProfileResult()
         data class Cached(val player: Player) : ProfileResult()
-
-        /** The token was rejected by the server; the user must log in again. */
         data object Unauthorized : ProfileResult()
         data class Failure(val message: String) : ProfileResult()
     }
@@ -41,6 +43,68 @@ class PlayerRepository(
             }
         } catch (e: IOException) {
             cachedOr(AuthRepository.NETWORK_ERROR)
+        }
+    }
+
+    suspend fun allocateStat(statName: String): Resource<PlayerStats> {
+        return try {
+            val response = api.allocateStat(AllocateStatRequest(statName))
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                // Update local Room cache with updated stats if profile exists
+                val username = tokenManager.getUsername()
+                if (username != null) {
+                    val cached = playerDao.getByUsername(username)
+                    if (cached != null) {
+                        playerDao.upsert(
+                            PlayerEntity.fromModel(cached.toModel().copy(stats = body))
+                        )
+                    }
+                }
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: IOException) {
+            Resource.Error(AuthRepository.NETWORK_ERROR)
+        }
+    }
+
+    suspend fun getDailyStatus(): Resource<DailyStatusResponse> {
+        return try {
+            val response = api.getDailyStatus()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: IOException) {
+            Resource.Error(AuthRepository.NETWORK_ERROR)
+        }
+    }
+
+    suspend fun claimDaily(): Resource<DailyClaimResponse> {
+        return try {
+            val response = api.claimDaily()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                // Update coins in cached profile
+                val username = tokenManager.getUsername()
+                if (username != null) {
+                    val cached = playerDao.getByUsername(username)
+                    if (cached != null) {
+                        val updated = cached.toModel()
+                        val updatedStats = updated.stats.copy(coins = body.totalCoins)
+                        playerDao.upsert(PlayerEntity.fromModel(updated.copy(stats = updatedStats)))
+                    }
+                }
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: IOException) {
+            Resource.Error(AuthRepository.NETWORK_ERROR)
         }
     }
 

@@ -3,6 +3,18 @@
     <string name="app_tagline">Defeat monsters. Master Hanzi.</string>
     <string name="app_logo_hanzi">汉语</string>
 
+    <!-- Navigation Drawer -->
+    <string name="nav_home">Home Base</string>
+    <string name="nav_world_map">World Map</string>
+    <string name="nav_character">Character &amp; Stats</string>
+    <string name="nav_pet">Companion Pet</string>
+    <string name="nav_shop">Merchant Shop</string>
+    <string name="nav_gacha">Pet Gacha</string>
+    <string name="nav_leaderboard">Leaderboard</string>
+    <string name="nav_practice">AI Practice (Lab)</string>
+    <string name="nav_logout">Log out</string>
+    <string name="nav_header_tagline">RPG × Adaptive Chinese</string>
+
     <!-- Auth -->
     <string name="auth_login_title">Welcome back, Hero</string>
     <string name="auth_register_title">Begin your quest</string>
@@ -18,25 +30,65 @@
     <string name="auth_err_empty">Please fill in all fields</string>
     <string name="hsk_level_format">HSK %1$d</string>
 
-    <!-- Home -->
+    <!-- Home (Focused) -->
     <string name="home_greeting">你好, %1$s!</string>
     <string name="home_level_format">Lv. %1$d</string>
-    <string name="home_world_map">World Map</string>
-    <string name="home_shop">Shop</string>
-    <string name="home_gacha">Gacha</string>
-    <string name="home_leaderboard">Leaderboard</string>
-    <string name="home_logout">Log out</string>
-    <string name="home_pet_placeholder">Your pet companion lives here (Phase 3)</string>
-    <string name="home_offline">Offline - showing cached profile</string>
+    <string name="home_start_adventure">Start Adventure</string>
+    <string name="home_daily_reward_title">Daily Bounty</string>
+    <string name="home_daily_claim_btn">Claim Bounty</string>
+    <string name="home_daily_claimed">Claimed for Today</string>
+    <string name="home_daily_streak_fmt">Streak: %1$d Days</string>
+    <string name="home_daily_reward_fmt">+%1$d Coins</string>
+    <string name="home_daily_quests_title">Daily Quests</string>
+    <string name="home_quest_1">Defeat 3 Normal Monsters (0/3)</string>
+    <string name="home_quest_2">Answer 5 Questions with Critical Hit (0/5)</string>
+    <string name="home_pet_partner_title">Companion Pet</string>
+    <string name="home_offline">Offline - cached profile</string>
 
-    <!-- Placeholders -->
-    <string name="title_world_map">World Map</string>
+    <!-- Character / Stats -->
+    <string name="title_character">Hero Stats</string>
+    <string name="stat_str_label">STR (Strength)</string>
+    <string name="stat_str_desc">+5 Raw Damage per point</string>
+    <string name="stat_dex_label">DEX (Dexterity)</string>
+    <string name="stat_dex_desc">+2% Critical Hit multiplier</string>
+    <string name="stat_def_label">DEF (Defense)</string>
+    <string name="stat_def_desc">-2 Damage received per point</string>
+    <string name="stat_vit_label">VIT (Vitality)</string>
+    <string name="stat_vit_desc">+25 Max HP per point</string>
+    <string name="stat_points_available">Available Points: %1$d</string>
+
+    <!-- Battle -->
     <string name="title_battle">Battle</string>
+    <string name="battle_flee">Flee</string>
+    <string name="battle_flee_prompt_title">Low Health Warning!</string>
+    <string name="battle_flee_prompt_msg">Your HP is below 20%! Flee now safely, or risk losing an equipment item on defeat?</string>
+    <string name="battle_flee_confirm_btn">Flee Safely</string>
+    <string name="battle_continue_btn">Keep Fighting!</string>
+    <string name="battle_crit_ready">CRIT WINDOW!</string>
+    <string name="battle_combo_fmt">%1$d COMBO</string>
+    <string name="battle_victory">VICTORY!</string>
+    <string name="battle_defeat">DEFEAT</string>
+    <string name="battle_fled">ESCAPED</string>
+    <string name="battle_fight_again">Fight Again</string>
+    <string name="battle_return_map">World Map</string>
+
+    <!-- AI Practice (Lab) -->
+    <string name="title_practice">AI Practice Lab</string>
+    <string name="practice_canvas_title">Hanzi Stroke Canvas</string>
+    <string name="practice_canvas_desc">Draw Hanzi strokes below (minimum 2 strokes required):</string>
+    <string name="practice_clear_canvas">Clear Canvas</string>
+    <string name="practice_verify_strokes">Test Stroke Detection</string>
+    <string name="practice_audio_title">Voice Pronunciation Recorder</string>
+    <string name="practice_record_start">Hold to Record Voice</string>
+    <string name="practice_recording">Recording in progress...</string>
+
+    <!-- General / Placeholders -->
+    <string name="title_world_map">World Map</string>
     <string name="title_shop">Shop</string>
     <string name="title_gacha">Gacha</string>
     <string name="title_leaderboard">Leaderboard</string>
+    <string name="title_pet">Companion Pet</string>
     <string name="placeholder_coming">Coming in %1$s</string>
-    <string name="worldmap_start_battle">Test battle (HSK 1)</string>
     <string name="back">Back</string>
 
     <!-- Errors -->

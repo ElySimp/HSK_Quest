@@ -8,6 +8,7 @@ import com.faldo.hsk_quest.data.local.TokenManager
 import com.faldo.hsk_quest.data.remote.ApiService
 import com.faldo.hsk_quest.data.remote.RetrofitClient
 import com.faldo.hsk_quest.data.repository.AuthRepository
+import com.faldo.hsk_quest.data.repository.BattleRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
 
 /**
@@ -41,5 +42,8 @@ class AppContainer(context: Context) {
     }
     val playerRepository: PlayerRepository by lazy {
         PlayerRepository(apiService, tokenManager, database.playerDao())
+    }
+    val battleRepository: BattleRepository by lazy {
+        BattleRepository(apiService, tokenManager, database.playerDao())
     }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeFragment"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/worldMapFragment"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="@string/nav_world_map" />
+        <item
+            android:id="@+id/characterFragment"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/nav_character" />
+        <item
+            android:id="@+id/petFragment"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="@string/nav_pet" />
+        <item
+            android:id="@+id/shopFragment"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/nav_shop" />
+        <item
+            android:id="@+id/gachaFragment"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/nav_gacha" />
+        <item
+            android:id="@+id/leaderboardFragment"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="@string/nav_leaderboard" />
+        <item
+            android:id="@+id/practiceFragment"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/nav_practice" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="@string/nav_logout" />
+        </menu>
+    </item>
+</menu>

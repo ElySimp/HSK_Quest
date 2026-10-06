@@ -1,7 +1,7 @@
 """
-Player router — /api/player endpoints for stats and profile.
+Player router — /api/player endpoints for stats, profile and daily rewards.
 """
-import math
+from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
@@ -10,15 +10,23 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.user import User
 from app.models.player import PlayerStats
+from app.models.daily import DailyClaim
 from app.schemas.player import (
     PlayerStatsResponse,
     AllocateStatRequest,
     PlayerProfileResponse,
+    DailyStatusResponse,
+    DailyClaimResponse,
 )
 from app.services.combat import xp_to_next_level, calculate_max_hp
 from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/player", tags=["Player"])
+
+# Daily reward: base coins + bonus per consecutive day (bonus capped at 7-day streak)
+DAILY_BASE_COINS = 50
+DAILY_STREAK_BONUS = 10
+DAILY_MAX_STREAK_BONUS_DAYS = 7
 
 
 @router.get("/me", response_model=PlayerProfileResponse)
@@ -124,3 +132,69 @@ async def allocate_stat(
         league=stats.league,
         highest_area_cleared=stats.highest_area_cleared,
     )
+
+
+# ---------------------------------------------------------------------------
+# Daily reward
+# ---------------------------------------------------------------------------
+def _daily_coins(streak: int) -> int:
+    bonus_days = min(streak, DAILY_MAX_STREAK_BONUS_DAYS) - 1
+    return DAILY_BASE_COINS + DAILY_STREAK_BONUS * max(0, bonus_days)
+
+
+async def _latest_claim(db: AsyncSession, user_id: int) -> DailyClaim | None:
+    row = await db.execute(
+        select(DailyClaim)
+        .where(DailyClaim.user_id == user_id)
+        .order_by(DailyClaim.claim_date.desc())
+        .limit(1)
+    )
+    return row.scalar_one_or_none()
+
+
+def _next_streak(latest: DailyClaim | None, today: date) -> int:
+    if latest is not None and latest.claim_date == today - timedelta(days=1):
+        return latest.streak + 1
+    return 1
+
+
+@router.get("/daily", response_model=DailyStatusResponse)
+async def daily_status(
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Whether today's reward is claimable, the current streak and the reward amount."""
+    today = date.today()
+    latest = await _latest_claim(db, user_id)
+    claimed_today = latest is not None and latest.claim_date == today
+    streak = latest.streak if claimed_today else _next_streak(latest, today)
+    return DailyStatusResponse(
+        can_claim=not claimed_today,
+        streak=streak,
+        coins_reward=_daily_coins(streak),
+    )
+
+
+@router.post("/daily/claim", response_model=DailyClaimResponse)
+async def claim_daily(
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Claim today's login reward. One claim per calendar day (server date)."""
+    today = date.today()
+    latest = await _latest_claim(db, user_id)
+    if latest is not None and latest.claim_date == today:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Daily reward already claimed today")
+
+    row = await db.execute(select(PlayerStats).where(PlayerStats.user_id == user_id))
+    stats = row.scalar_one_or_none()
+    if not stats:
+        raise HTTPException(status_code=404, detail="Player stats not found")
+
+    streak = _next_streak(latest, today)
+    coins = _daily_coins(streak)
+    stats.coins += coins
+    db.add(DailyClaim(user_id=user_id, claim_date=today, streak=streak, coins_awarded=coins))
+    await db.flush()
+
+    return DailyClaimResponse(coins_awarded=coins, streak=streak, total_coins=stats.coins)

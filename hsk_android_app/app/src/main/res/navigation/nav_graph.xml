@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Single-activity navigation graph.
-    Flow: Splash -> (Login <-> Register) -> Home -> WorldMap -> Battle
-          Home -> Shop / Gacha / Leaderboard
--->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -69,11 +64,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.faldo.hsk_quest.ui.home.HomeFragment"
-        android:label="Home"
+        android:label="@string/nav_home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_worldmap"
             app:destination="@id/worldMapFragment" />
+        <action
+            android:id="@+id/action_home_to_character"
+            app:destination="@id/characterFragment" />
         <action
             android:id="@+id/action_home_to_shop"
             app:destination="@id/shopFragment" />
@@ -93,7 +91,7 @@
     <fragment
         android:id="@+id/worldMapFragment"
         android:name="com.faldo.hsk_quest.ui.worldmap.WorldMapFragment"
-        android:label="World Map"
+        android:label="@string/nav_world_map"
         tools:layout="@layout/fragment_world_map">
         <action
             android:id="@+id/action_worldmap_to_battle"
@@ -103,8 +101,8 @@
     <fragment
         android:id="@+id/battleFragment"
         android:name="com.faldo.hsk_quest.ui.battle.BattleFragment"
-        android:label="Battle"
-        tools:layout="@layout/fragment_placeholder">
+        android:label="@string/title_battle"
+        tools:layout="@layout/fragment_battle">
         <argument
             android:name="areaId"
             android:defaultValue="1"
@@ -116,20 +114,38 @@
     </fragment>
 
     <fragment
+        android:id="@+id/characterFragment"
+        android:name="com.faldo.hsk_quest.ui.character.CharacterFragment"
+        android:label="@string/nav_character"
+        tools:layout="@layout/fragment_character" />
+
+    <fragment
+        android:id="@+id/petFragment"
+        android:name="com.faldo.hsk_quest.ui.pet.PetFragment"
+        android:label="@string/nav_pet"
+        tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
         android:id="@+id/shopFragment"
         android:name="com.faldo.hsk_quest.ui.shop.ShopFragment"
-        android:label="Shop"
+        android:label="@string/nav_shop"
         tools:layout="@layout/fragment_placeholder" />
 
     <fragment
         android:id="@+id/gachaFragment"
         android:name="com.faldo.hsk_quest.ui.gacha.GachaFragment"
-        android:label="Gacha"
+        android:label="@string/nav_gacha"
         tools:layout="@layout/fragment_placeholder" />
 
     <fragment
         android:id="@+id/leaderboardFragment"
         android:name="com.faldo.hsk_quest.ui.leaderboard.LeaderboardFragment"
-        android:label="Leaderboard"
+        android:label="@string/nav_leaderboard"
         tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
+        android:id="@+id/practiceFragment"
+        android:name="com.faldo.hsk_quest.ui.practice.PracticeFragment"
+        android:label="@string/nav_practice"
+        tools:layout="@layout/fragment_practice" />
 </navigation>

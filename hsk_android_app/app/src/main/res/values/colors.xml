@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand palette: dark navy dungeon + imperial gold + jade accents -->
+    <!-- Basic base colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="hq_bg_deep">#FF0B0F1E</color>
-    <color name="hq_bg">#FF121833</color>
-    <color name="hq_surface">#FF1B2347</color>
-    <color name="hq_surface_light">#FF26305C</color>
-    <color name="hq_stroke">#FF3A4680</color>
+    <!-- Elegant ink-black theme (soft black, never pitch black) -->
+    <color name="hq_bg">#FF121214</color>
+    <color name="hq_bg_deep">#FF0E0E10</color>
+    <color name="hq_surface">#FF1A1A1E</color>
+    <color name="hq_surface_high">#FF232328</color>
+    <color name="hq_surface_light">#FF2C2C33</color>
+    <color name="hq_stroke">#FF2E2E35</color>
+    <color name="hq_stroke_gold">#66D4AF6A</color>
 
-    <color name="hq_gold">#FFF5C451</color>
-    <color name="hq_gold_dark">#FFC8962B</color>
-    <color name="hq_jade">#FF3DD6A3</color>
-    <color name="hq_crimson">#FFE5484D</color>
-    <color name="hq_sky">#FF5AA9FF</color>
+    <!-- Accent palette: champagne gold, soft jade, muted crimson -->
+    <color name="hq_gold">#FFD4AF6A</color>
+    <color name="hq_gold_dark">#FFAF8A43</color>
+    <color name="hq_gold_glow">#33D4AF6A</color>
+    <color name="hq_jade">#FF5FBF9F</color>
+    <color name="hq_crimson">#FFD9534F</color>
+    <color name="hq_crimson_glow">#33D9534F</color>
+    <color name="hq_sky">#FF64B5F6</color>
     <color name="hq_violet">#FFA78BFA</color>
 
-    <color name="hq_text_primary">#FFF3F4FA</color>
-    <color name="hq_text_secondary">#FFA9B0D3</color>
-    <color name="hq_text_muted">#FF6B7299</color>
+    <!-- Typography ink tones -->
+    <color name="hq_text_primary">#FFEDEDED</color>
+    <color name="hq_text_secondary">#FFA0A0A8</color>
+    <color name="hq_text_muted">#FF6A6A72</color>
 </resources>
