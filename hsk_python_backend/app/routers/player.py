@@ -4,6 +4,7 @@ Player router — /api/player endpoints for stats, profile and daily rewards.
 from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -198,3 +199,45 @@ async def claim_daily(
     await db.flush()
 
     return DailyClaimResponse(coins_awarded=coins, streak=streak, total_coins=stats.coins)
+
+
+class AdminGrantRequest(BaseModel):
+    username: str
+    diamonds: int = 10000
+    coins: int = 5000
+
+
+@router.post("/admin/grant", tags=["Admin / Testing"])
+async def admin_grant_resources(
+    body: AdminGrantRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Developer/Admin endpoint to grant diamonds and coins to any player.
+    Can be used from Swagger UI: http://localhost:8000/docs
+    """
+    from app.models.user import User
+
+    res = await db.execute(select(User).where(User.username.ilike(body.username.strip())))
+    user = res.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=404, detail=f"User '{body.username}' not found")
+
+    stats_res = await db.execute(select(PlayerStats).where(PlayerStats.user_id == user.id))
+    stats = stats_res.scalar_one_or_none()
+    if not stats:
+        raise HTTPException(status_code=404, detail="Player stats not found")
+
+    stats.diamonds += body.diamonds
+    stats.coins += body.coins
+    await db.commit()
+    await db.refresh(stats)
+
+    return {
+        "success": True,
+        "username": user.username,
+        "diamonds_added": body.diamonds,
+        "total_diamonds": stats.diamonds,
+        "coins_added": body.coins,
+        "total_coins": stats.coins,
+    }

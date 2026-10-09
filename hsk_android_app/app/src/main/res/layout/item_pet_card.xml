@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="140dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:background="@drawable/bg_card"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/iv_pet_thumb"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="Pet thumbnail"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/tv_pet_thumb_name"
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="13sp"
+        tools:text="Wood Rat" />
+
+    <TextView
+        android:id="@+id/tv_pet_thumb_rarity"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/hq_gold"
+        android:textSize="11sp"
+        tools:text="Common 🟢" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_equip_thumb"
+        style="@style/HqButton.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:minHeight="36dp"
+        android:padding="0dp"
+        android:text="Equip"
+        android:textSize="11sp" />
+
+</LinearLayout>

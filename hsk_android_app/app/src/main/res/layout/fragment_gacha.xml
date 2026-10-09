@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gacha_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Header & Diamond Balance -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/HqText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⛩️ Celestial Altar"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="22sp" />
+
+                <TextView
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Summon mythical beast companions"
+                    android:textColor="@color/hq_text_muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_gacha_diamonds"
+                style="@style/HqText.PixelStat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:textColor="@color/hq_sky"
+                android:textSize="18sp"
+                tools:text="💎 500" />
+        </LinearLayout>
+
+        <!-- Featured Banner Card -->
+        <LinearLayout
+            android:id="@+id/card_featured_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card_gold_border"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="FEATURED CELESTIAL BANNER"
+                android:textColor="@color/hq_gold"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Azure Dragon &amp; Guardian Fu Dog"
+                android:textSize="18sp" />
+
+            <!-- Featured Animated Sprite Banner -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_banner_preview"
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:contentDescription="Featured pet banner"
+                    android:scaleType="fitCenter" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/HqText.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="🐉 Azure Dragon: +3s to Critical Window\n🛡️ Fu Dog: Absorbs 1 Mistake in Battle"
+                android:textColor="@color/hq_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Pull Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pull_single"
+                style="@style/HqButton.Primary"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="1x Summon\n100 💎"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pull_ten"
+                style="@style/HqButton.Primary"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="10x Summon\n900 💎 (-10%)"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Drop Rates Info Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Celestial Probability Rates"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_rates_detail"
+                style="@style/HqText.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="🟡 Legendary (1.0%): Azure Dragon, Qilin\n🟣 Epic (2.0%): Fire Crane\n🔵 Rare (12.0%): Guardian Fu Dog\n🟢 Common (85.0%): Wood Rat, Stone Rabbit"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

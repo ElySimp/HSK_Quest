@@ -82,6 +82,9 @@
             android:id="@+id/action_home_to_leaderboard"
             app:destination="@id/leaderboardFragment" />
         <action
+            android:id="@+id/action_home_to_pet"
+            app:destination="@id/petFragment" />
+        <action
             android:id="@+id/action_home_to_login"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
@@ -123,7 +126,7 @@
         android:id="@+id/petFragment"
         android:name="com.faldo.hsk_quest.ui.pet.PetFragment"
         android:label="@string/nav_pet"
-        tools:layout="@layout/fragment_placeholder" />
+        tools:layout="@layout/fragment_pet" />
 
     <fragment
         android:id="@+id/shopFragment"
@@ -135,7 +138,7 @@
         android:id="@+id/gachaFragment"
         android:name="com.faldo.hsk_quest.ui.gacha.GachaFragment"
         android:label="@string/nav_gacha"
-        tools:layout="@layout/fragment_placeholder" />
+        tools:layout="@layout/fragment_gacha" />
 
     <fragment
         android:id="@+id/leaderboardFragment"

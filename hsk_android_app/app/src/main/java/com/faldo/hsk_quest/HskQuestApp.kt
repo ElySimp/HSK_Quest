@@ -46,4 +46,10 @@ class AppContainer(context: Context) {
     val battleRepository: BattleRepository by lazy {
         BattleRepository(apiService, tokenManager, database.playerDao())
     }
+    val petRepository: com.faldo.hsk_quest.data.repository.PetRepository by lazy {
+        com.faldo.hsk_quest.data.repository.PetRepository(apiService)
+    }
+    val gachaRepository: com.faldo.hsk_quest.data.repository.GachaRepository by lazy {
+        com.faldo.hsk_quest.data.repository.GachaRepository(apiService)
+    }
 }

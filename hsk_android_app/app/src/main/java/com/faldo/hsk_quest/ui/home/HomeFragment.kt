@@ -64,6 +64,10 @@ class HomeFragment : Fragment() {
             viewModel.claimDaily()
         }
 
+        binding.cardCompanionPet.setOnClickListener {
+            nav.navigate(R.id.action_home_to_pet)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.state.collect(::renderState) }

@@ -14,7 +14,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import engine, Base
-from app.routers import auth, player, battle, leaderboard, shop, gacha
+from app.routers import auth, player, battle, leaderboard, shop, gacha, pet
 
 
 # ---------------------------------------------------------------------------
@@ -65,6 +65,7 @@ app.include_router(battle.router)
 app.include_router(leaderboard.router)
 app.include_router(shop.router)
 app.include_router(gacha.router)
+app.include_router(pet.router)
 
 
 # ---------------------------------------------------------------------------

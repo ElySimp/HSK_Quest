@@ -33,6 +33,7 @@ class BattleViewModel(
     private val hskJsonLoader: HskJsonLoader,
     private val battleRepository: BattleRepository,
     private val playerRepository: PlayerRepository,
+    private val petRepository: com.faldo.hsk_quest.data.repository.PetRepository,
 ) : ViewModel() {
 
     private var areaId: Int = 1
@@ -43,6 +44,7 @@ class BattleViewModel(
     private var statDex: Int = 0
     private var statDef: Int = 0
     private var statVit: Int = 0
+    private var hasTimeExtender: Boolean = false
 
     private val _battleState = MutableStateFlow<BattleState?>(null)
     val battleState: StateFlow<BattleState?> = _battleState.asStateFlow()
@@ -88,11 +90,18 @@ class BattleViewModel(
 
             val monster = MonsterStats.create(areaId, monsterType)
 
+            // Check equipped companion pet buffs
+            val petRes = petRepository.getActivePet()
+            val activePet = if (petRes is Resource.Success) petRes.data else null
+            val hasShield = (activePet?.buffType == "shield")
+            hasTimeExtender = (activePet?.buffType == "time_extender")
+
             val initial = BattleState(
                 monster = monster,
                 monsterHp = monster.maxHp,
                 playerHp = currentHp,
                 playerMaxHp = maxHp,
+                shieldAvailable = hasShield,
             )
             _battleState.value = initial
 
@@ -117,6 +126,7 @@ class BattleViewModel(
             statStr = statStr,
             statDex = statDex,
             statDef = statDef,
+            hasTimeExtender = hasTimeExtender,
         )
         _battleState.value = updated
 
@@ -242,8 +252,9 @@ class BattleViewModel(
             hskJsonLoader: HskJsonLoader,
             battleRepository: BattleRepository,
             playerRepository: PlayerRepository,
+            petRepository: com.faldo.hsk_quest.data.repository.PetRepository,
         ): ViewModelProvider.Factory = viewModelFactory {
-            initializer { BattleViewModel(hskJsonLoader, battleRepository, playerRepository) }
+            initializer { BattleViewModel(hskJsonLoader, battleRepository, playerRepository, petRepository) }
         }
     }
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reveal_dialog_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_raised"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_reveal_icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_emblem"
+        android:gravity="center"
+        android:text="✨"
+        android:textSize="32sp" />
+
+    <TextView
+        android:id="@+id/tv_reveal_title"
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/hq_gold"
+        android:textSize="22sp"
+        tools:text="SUMMON SUCCESSFUL!" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="14dp">
+
+        <ImageView
+            android:id="@+id/iv_reveal_sprite"
+            android:layout_width="140dp"
+            android:layout_height="100dp"
+            android:contentDescription="Summoned pet preview"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_reveal_name"
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        tools:text="Azure Dragon (青龙)" />
+
+    <TextView
+        android:id="@+id/tv_reveal_rarity"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_card"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:textColor="@color/hq_gold"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="LEGENDARY 🟡" />
+
+    <TextView
+        android:id="@+id/tv_reveal_buff"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/hq_jade"
+        android:textSize="13sp"
+        tools:text="Combat Buff: ⏳ Time Extender (+3s Crit Window)" />
+
+    <TextView
+        android:id="@+id/tv_reveal_status_note"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:textColor="@color/hq_text_muted"
+        android:textSize="11sp"
+        tools:text="Equipped as your active adventure companion!" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_reveal_confirm"
+        style="@style/HqButton.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Welcome to Sanctuary" />
+
+</LinearLayout>

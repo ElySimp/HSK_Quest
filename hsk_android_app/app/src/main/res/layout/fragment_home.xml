@@ -186,6 +186,7 @@
 
         <!-- Companion Pet Sanctuary Card -->
         <LinearLayout
+            android:id="@+id/card_companion_pet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

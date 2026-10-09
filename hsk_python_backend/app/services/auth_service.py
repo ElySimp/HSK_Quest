@@ -55,26 +55,12 @@ async def register_user(
         hp=100,
         max_hp=100,
         survival_hp=100,
-        coins=0,
-        diamonds=100,  # Starting diamonds for first gacha pull
+        coins=50,
+        diamonds=500,  # Starting diamonds for initial gacha summons
         league="bronze_5",
         highest_area_cleared=0,
     )
     db.add(stats)
-
-    # Create starter pet (Egg that hatches into a common pet)
-    starter_pet = Pet(
-        user_id=user.id,
-        name="Starter Egg",
-        pet_type="egg_starter",
-        rarity="common",
-        buff_type="none",
-        affection=50.0,
-        is_active=True,
-        sprite_key="pet_dummy_1",
-    )
-    db.add(starter_pet)
-
     await db.flush()
 
     # Generate JWT token
@@ -99,6 +85,18 @@ async def login_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid username or password.",
         )
+
+    # Developer test bonus for user 'Flax' to verify Gacha and Tamagotchi
+    if user.username.lower() == "flax":
+        stats_res = await db.execute(
+            select(PlayerStats).where(PlayerStats.user_id == user.id)
+        )
+        stats = stats_res.scalar_one_or_none()
+        if stats and stats.diamonds < 2500:
+            stats.diamonds = 2500
+        if stats and stats.coins < 500:
+            stats.coins = 500
+        await db.commit()
 
     token = create_access_token(user.id, user.username)
     return user, token

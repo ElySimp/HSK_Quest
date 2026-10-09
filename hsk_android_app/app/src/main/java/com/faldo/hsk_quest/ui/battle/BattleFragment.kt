@@ -43,6 +43,7 @@ class BattleFragment : Fragment() {
             appContainer.hskJsonLoader,
             appContainer.battleRepository,
             appContainer.playerRepository,
+            appContainer.petRepository,
         )
     }
 
