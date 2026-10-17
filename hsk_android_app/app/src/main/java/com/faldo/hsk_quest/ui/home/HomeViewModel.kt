@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.faldo.hsk_quest.data.model.DailyStatusResponse
+import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.Player
 import com.faldo.hsk_quest.data.repository.AuthRepository
+import com.faldo.hsk_quest.data.repository.PetRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
 import com.faldo.hsk_quest.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val playerRepository: PlayerRepository,
     private val authRepository: AuthRepository,
+    private val petRepository: PetRepository,
 ) : ViewModel() {
 
     sealed class UiState {
@@ -36,6 +39,9 @@ class HomeViewModel(
     private val _isClaimingDaily = MutableStateFlow(false)
     val isClaimingDaily: StateFlow<Boolean> = _isClaimingDaily.asStateFlow()
 
+    private val _activePet = MutableStateFlow<PetItem?>(null)
+    val activePet: StateFlow<PetItem?> = _activePet.asStateFlow()
+
     fun refresh() {
         viewModelScope.launch {
             if (_state.value !is UiState.Loaded) _state.value = UiState.Loading
@@ -53,6 +59,12 @@ class HomeViewModel(
             when (val daily = playerRepository.getDailyStatus()) {
                 is Resource.Success -> _dailyStatus.value = daily.data
                 else -> {}
+            }
+
+            // Fetch equipped companion pet
+            when (val petRes = petRepository.getActivePet()) {
+                is Resource.Success -> _activePet.value = petRes.data
+                else -> _activePet.value = null
             }
         }
     }
@@ -95,8 +107,9 @@ class HomeViewModel(
         fun factory(
             playerRepository: PlayerRepository,
             authRepository: AuthRepository,
+            petRepository: PetRepository,
         ): ViewModelProvider.Factory = viewModelFactory {
-            initializer { HomeViewModel(playerRepository, authRepository) }
+            initializer { HomeViewModel(playerRepository, authRepository, petRepository) }
         }
     }
 }

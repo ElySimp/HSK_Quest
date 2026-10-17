@@ -20,6 +20,8 @@ object BattleEngine {
         statDex: Int,
         statDef: Int,
         hasTimeExtender: Boolean = false,
+        hasDamageBoost: Boolean = false,
+        isUnderleveledBoss: Boolean = false,
     ): BattleState {
         if (currentState.isFinished) return currentState
 
@@ -32,6 +34,7 @@ object BattleEngine {
                 statDex = statDex,
                 monsterDef = currentState.monster.def,
                 isCritical = isCritical,
+                hasDamageBoost = hasDamageBoost,
             )
             val newMonsterHp = max(0, currentState.monsterHp - damageDealt)
             val newPhase = if (newMonsterHp == 0) BattleState.Phase.VICTORY else BattleState.Phase.IN_PROGRESS
@@ -51,6 +54,8 @@ object BattleEngine {
             val rawMonsterDamage = DamageCalculator.monsterDamage(
                 monsterDmg = currentState.monster.dmg,
                 playerStatDef = statDef,
+                isUnderleveledBoss = isUnderleveledBoss,
+                playerMaxHp = currentState.playerMaxHp,
             )
 
             val (actualDamage, shieldRemaining) = if (currentState.shieldAvailable) {

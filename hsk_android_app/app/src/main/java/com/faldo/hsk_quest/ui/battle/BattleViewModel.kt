@@ -12,12 +12,15 @@ import com.faldo.hsk_quest.data.model.BattleState
 import com.faldo.hsk_quest.data.model.HskTerm
 import com.faldo.hsk_quest.data.model.MonsterType
 import com.faldo.hsk_quest.data.repository.BattleRepository
+import com.faldo.hsk_quest.data.repository.PetRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
+import com.faldo.hsk_quest.data.repository.StageRepository
 import com.faldo.hsk_quest.engine.BattleEngine
 import com.faldo.hsk_quest.engine.BattleQuestion
 import com.faldo.hsk_quest.engine.DamageCalculator
 import com.faldo.hsk_quest.engine.MonsterStats
 import com.faldo.hsk_quest.engine.QuestionGenerator
+import com.faldo.hsk_quest.util.Constants
 import com.faldo.hsk_quest.util.Resource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,11 +36,13 @@ class BattleViewModel(
     private val hskJsonLoader: HskJsonLoader,
     private val battleRepository: BattleRepository,
     private val playerRepository: PlayerRepository,
-    private val petRepository: com.faldo.hsk_quest.data.repository.PetRepository,
+    private val petRepository: PetRepository,
+    private val stageRepository: StageRepository,
 ) : ViewModel() {
 
     private var areaId: Int = 1
     private var monsterType: MonsterType = MonsterType.NORMAL
+    private var monsterIndex: Int = 1
     private var terms: List<HskTerm> = emptyList()
 
     private var statStr: Int = 0
@@ -45,6 +50,8 @@ class BattleViewModel(
     private var statDef: Int = 0
     private var statVit: Int = 0
     private var hasTimeExtender: Boolean = false
+    private var hasDamageBoost: Boolean = false
+    private var isUnderleveledBoss: Boolean = false
 
     private val _battleState = MutableStateFlow<BattleState?>(null)
     val battleState: StateFlow<BattleState?> = _battleState.asStateFlow()
@@ -65,9 +72,10 @@ class BattleViewModel(
     private var timerJob: Job? = null
     private var questionStartTime: Long = 0L
 
-    fun startBattle(areaId: Int, monsterTypeStr: String) {
+    fun startBattle(areaId: Int, monsterTypeStr: String, monsterIndex: Int = 1) {
         this.areaId = areaId
         this.monsterType = MonsterType.fromApiName(monsterTypeStr)
+        this.monsterIndex = monsterIndex
 
         viewModelScope.launch {
             // Load vocabulary
@@ -88,13 +96,26 @@ class BattleViewModel(
             val maxHp = player?.stats?.maxHp ?: DamageCalculator.maxHp(statVit)
             val currentHp = player?.stats?.hp ?: maxHp
 
-            val monster = MonsterStats.create(areaId, monsterType)
+            val monster = MonsterStats.create(areaId, monsterType, monsterIndex)
 
-            // Check equipped companion pet buffs
+            // Check equipped companion pet buffs (only active if awake: affection >= 25)
             val petRes = petRepository.getActivePet()
             val activePet = if (petRes is Resource.Success) petRes.data else null
-            val hasShield = (activePet?.buffType == "shield")
-            hasTimeExtender = (activePet?.buffType == "time_extender")
+            val isPetAwake = activePet != null && activePet.affection >= Constants.PET_AFFECTION_AWAKE_THRESHOLD
+            val hasShield = isPetAwake && (activePet?.buffType == "shield")
+            hasTimeExtender = isPetAwake && (activePet?.buffType == "time_extender")
+            hasDamageBoost = isPetAwake && (activePet?.buffType == "damage_boost")
+
+            val buffLabel = when {
+                activePet != null && !isPetAwake -> "💤 ${activePet.name} is Sleeping (Affection < 25%)"
+                hasShield -> "🛡️ Pet Shield Active (Blocks 1 Hit)"
+                hasTimeExtender -> "⏳ Pet Time Extender (+3s Crit)"
+                hasDamageBoost -> "⚔️ Pet Damage Boost (+15% Dmg)"
+                else -> null
+            }
+
+            val recLevel = stageRepository.getRecommendedLevel(areaId)
+            isUnderleveledBoss = (monsterType == MonsterType.BOSS && (player?.stats?.level ?: 1) < recLevel)
 
             val initial = BattleState(
                 monster = monster,
@@ -102,6 +123,8 @@ class BattleViewModel(
                 playerHp = currentHp,
                 playerMaxHp = maxHp,
                 shieldAvailable = hasShield,
+                activeBuffLabel = buffLabel,
+                isGatekeeperPenaltyActive = isUnderleveledBoss,
             )
             _battleState.value = initial
 
@@ -127,6 +150,8 @@ class BattleViewModel(
             statDex = statDex,
             statDef = statDef,
             hasTimeExtender = hasTimeExtender,
+            hasDamageBoost = hasDamageBoost,
+            isUnderleveledBoss = isUnderleveledBoss,
         )
         _battleState.value = updated
 
@@ -199,8 +224,8 @@ class BattleViewModel(
             BattleState.Phase.IN_PROGRESS -> "flee"
         }
 
-        // Encoded monster identifier: area * 100 + typeIndex * 10 + 1
-        val monsterIdCode = areaId * 100 + monsterType.ordinal * 10 + 1
+        // Encoded monster identifier: area * 100 + typeIndex * 10 + monsterIndex
+        val monsterIdCode = areaId * 100 + monsterType.ordinal * 10 + monsterIndex
 
         val request = BattleResultRequest(
             monsterId = monsterIdCode,
@@ -215,6 +240,22 @@ class BattleViewModel(
         )
 
         viewModelScope.launch {
+            // Save stage progression offline-first if player won
+            if (resultStr == "win") {
+                val stars = when {
+                    state.playerHp >= (state.playerMaxHp * 0.8) -> 3
+                    state.playerHp >= (state.playerMaxHp * 0.4) -> 2
+                    else -> 1
+                }
+                stageRepository.recordStageCleared(
+                    areaId = areaId,
+                    monsterTypeStr = monsterType.apiName,
+                    stageIndex = monsterIndex,
+                    stars = stars,
+                    highestDamage = state.totalDamageDealt,
+                )
+            }
+
             when (val r = battleRepository.submitBattleResult(request)) {
                 is Resource.Success -> {
                     _serverResult.emit(r.data)
@@ -252,9 +293,18 @@ class BattleViewModel(
             hskJsonLoader: HskJsonLoader,
             battleRepository: BattleRepository,
             playerRepository: PlayerRepository,
-            petRepository: com.faldo.hsk_quest.data.repository.PetRepository,
+            petRepository: PetRepository,
+            stageRepository: StageRepository,
         ): ViewModelProvider.Factory = viewModelFactory {
-            initializer { BattleViewModel(hskJsonLoader, battleRepository, playerRepository, petRepository) }
+            initializer {
+                BattleViewModel(
+                    hskJsonLoader,
+                    battleRepository,
+                    playerRepository,
+                    petRepository,
+                    stageRepository,
+                )
+            }
         }
     }
 }

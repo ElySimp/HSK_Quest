@@ -1,16 +1,16 @@
 """
 Battle router — /api/battle endpoints for submitting battle results.
+Handles anti-cheat plausibility, sub-stage monster scaling, persistent HP,
+defeat penalties (Coins + Pet Affection), and adaptive weakness logging.
 """
-import random
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.models.player import PlayerStats
+from app.models.pet import Pet
 from app.models.battle import BattleHistory, WeaknessLog
-from app.models.inventory import Inventory
 from app.schemas.battle import BattleResultRequest, BattleResultResponse
 from app.services.combat import (
     xp_to_next_level,
@@ -44,41 +44,38 @@ async def _consecutive_kills(db: AsyncSession, user_id: int, monster_id: int) ->
     return streak
 
 
-def _validate_plausibility(request: BattleResultRequest, stats: PlayerStats, monster_hp: int) -> None:
-    """Reject obviously impossible submissions (basic anti-cheat)."""
+async def _get_active_pet(db: AsyncSession, user_id: int) -> Pet | None:
+    """Fetch user's currently equipped companion pet."""
+    row = await db.execute(
+        select(Pet).where(Pet.user_id == user_id, Pet.is_active == True)
+    )
+    return row.scalar_one_or_none()
+
+
+def _validate_plausibility(
+    request: BattleResultRequest,
+    stats: PlayerStats,
+    monster_hp: int,
+    has_damage_boost: bool = False,
+) -> None:
+    """Reject obviously impossible submissions (anti-cheat)."""
     if request.correct_answers > request.questions_answered:
         raise HTTPException(status_code=400, detail="correct_answers exceeds questions_answered")
 
-    max_hit = int(calculate_base_damage(stats.stat_str) * calculate_critical_multiplier(stats.stat_dex))
-    if request.damage_dealt > max(1, max_hit) * request.correct_answers:
+    base_hit = calculate_base_damage(stats.stat_str)
+    crit_mult = calculate_critical_multiplier(stats.stat_dex)
+    pet_mult = 1.15 if has_damage_boost else 1.0
+
+    max_single_hit = int(base_hit * crit_mult * pet_mult)
+    if request.damage_dealt > max(1, max_single_hit) * request.correct_answers:
         raise HTTPException(status_code=400, detail="damage_dealt is not plausible")
 
     if request.result == "win" and request.damage_dealt < monster_hp:
         raise HTTPException(status_code=400, detail="Victory requires dealing the monster's full HP")
 
 
-async def _lose_random_equipment(db: AsyncSession, user_id: int) -> str | None:
-    """
-    Death penalty: remove one random equipment item.
-    There is no equip slot system yet, so every owned equipment item counts as equipped.
-    """
-    rows = await db.execute(
-        select(Inventory).where(Inventory.user_id == user_id, Inventory.item_type == "equipment")
-    )
-    items = list(rows.scalars().all())
-    if not items:
-        return None
-    item = random.choice(items)
-    lost_id = item.item_id
-    if item.quantity > 1:
-        item.quantity -= 1
-    else:
-        await db.delete(item)
-    return lost_id
-
-
 async def _update_weakness(db: AsyncSession, user_id: int, request: BattleResultRequest) -> None:
-    """Accumulate per-skill correct/wrong counters for the adaptive boss AI (Phase 5/6)."""
+    """Accumulate per-skill correct/wrong counters for the adaptive boss AI."""
     if request.questions_answered == 0:
         return
     row = await db.execute(
@@ -103,21 +100,32 @@ async def submit_battle_result(
     """
     Submit battle result for server-side validation and reward distribution.
 
-    The server:
-    1. Validates the result is plausible (anti-cheat)
-    2. Applies diminishing returns for consecutive kills of the same monster
-    3. Awards XP and Coins, handles level-up and stat point grants
-    4. On defeat: survival HP damage + loses one random equipment item
-    5. On flee: no rewards and no penalty
-    6. Logs to battle_history (leaderboard) and weakness_log (adaptive AI)
+    Server enforces:
+    1. Anti-cheat plausibility with active pet damage boost check
+    2. Sub-stage progressive scaling (index 1..4)
+    3. Persistent HP reduction across victory, retreat, and defeat
+    4. Meaningful defeat penalty (Coins loss + Pet Affection drop)
+    5. Diminishing returns on repeated monster kills
+    6. Logging to battle_history and weakness_log
     """
     result = await db.execute(select(PlayerStats).where(PlayerStats.user_id == user_id))
     stats = result.scalar_one_or_none()
     if not stats:
         raise HTTPException(status_code=404, detail="Player stats not found")
 
-    monster_stats = get_monster_stats(request.area_id, request.monster_type)
-    _validate_plausibility(request, stats, monster_stats["hp"])
+    # Decode sub-stage index from monster_id (e.g. area 1, normal #3 -> 103 % 10 = 3)
+    stage_index = max(1, request.monster_id % 10)
+    monster_stats = get_monster_stats(request.area_id, request.monster_type, stage_index)
+
+    # Active pet buff inspection
+    active_pet = await _get_active_pet(db, user_id)
+    has_dmg_boost = bool(
+        active_pet
+        and active_pet.affection >= 25.0
+        and active_pet.buff_type == "damage_boost"
+    )
+
+    _validate_plausibility(request, stats, monster_stats["hp"], has_dmg_boost)
 
     consecutive_kills = await _consecutive_kills(db, user_id, request.monster_id)
     dr_multiplier = diminishing_returns_multiplier(consecutive_kills)
@@ -129,11 +137,21 @@ async def submit_battle_result(
     lost_item = None
 
     if request.result == "win":
+        # 1. Rewards
         xp_earned = int(monster_stats["xp_reward"] * dr_multiplier)
         coins_earned = int(monster_stats["coin_reward"] * dr_multiplier)
         stats.xp += xp_earned
         stats.coins += coins_earned
 
+        # 2. HP Persistence: damage taken persists between battles!
+        stats.hp = max(1, stats.hp - request.damage_taken)
+        stats.survival_hp = stats.hp
+
+        # 3. Pet Affection Decay: battle strain slightly fatigues companion
+        if active_pet:
+            active_pet.affection = max(0.0, active_pet.affection - 3.0)
+
+        # 4. Level up calculation
         xp_needed = xp_to_next_level(stats.level)
         while stats.xp >= xp_needed:
             stats.xp -= xp_needed
@@ -143,13 +161,27 @@ async def submit_battle_result(
             new_level = stats.level
             xp_needed = xp_to_next_level(stats.level)
 
+        # 5. Gatekeeper area unlocking
         if request.monster_type == "boss" and request.area_id > stats.highest_area_cleared:
             stats.highest_area_cleared = request.area_id
 
     elif request.result == "lose":
-        survival_damage = max(5, monster_stats["dmg"] // 2)
-        stats.survival_hp = max(0, stats.survival_hp - survival_damage)
-        lost_item = await _lose_random_equipment(db, user_id)
+        # Defeat penalty: HP drops to 10% MaxHP, lose 10% coins, companion loses 10 affection
+        stats.hp = max(10, int(stats.max_hp * 0.10))
+        stats.survival_hp = stats.hp
+
+        coins_lost = min(500, int(stats.coins * 0.10))
+        stats.coins = max(0, stats.coins - coins_lost)
+
+        if active_pet:
+            active_pet.affection = max(0.0, active_pet.affection - 10.0)
+
+        lost_item = f"{coins_lost} Coins & -10 Pet Affection"
+
+    else:
+        # Fled battle safely: forfeit rewards, retain taken damage
+        stats.hp = max(1, stats.hp - request.damage_taken)
+        stats.survival_hp = stats.hp
 
     db.add(BattleHistory(
         user_id=user_id,
@@ -169,17 +201,17 @@ async def submit_battle_result(
     await db.flush()
 
     if request.result == "win":
-        msg = f"Victory! +{xp_earned} XP, +{coins_earned} coins"
+        msg = f"Victory! +{xp_earned} XP, +{coins_earned} coins."
         if dr_multiplier < 1.0:
-            msg += f" (Diminishing returns: {int(dr_multiplier * 100)}%)"
+            msg += f" (Farming Diminishing returns: {int(dr_multiplier * 100)}%)"
         if level_up:
             msg += f" Level Up! You are now Level {new_level}!"
     elif request.result == "lose":
-        msg = "Defeated... The monster was too strong this time."
+        msg = "Defeated... The beast overwhelmed your vitality!"
         if lost_item:
-            msg += f" You lost: {lost_item}."
+            msg += f" Penalty: Lost {lost_item}."
     else:
-        msg = "You fled the battle safely."
+        msg = "Tactical retreat. You preserved your coins and escaped safely."
 
     return BattleResultResponse(
         result=request.result,
@@ -189,7 +221,7 @@ async def submit_battle_result(
         level_up=level_up,
         new_level=new_level,
         stat_points_available=stats.unspent_stat_points,
-        survival_hp=stats.survival_hp,
+        survival_hp=stats.hp,
         lost_item=lost_item,
         message=msg,
     )

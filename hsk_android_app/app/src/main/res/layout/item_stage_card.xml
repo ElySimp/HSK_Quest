@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stage_card_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <!-- Top Row: Stage Badge, Title & Status Pill -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Stage Number Pill -->
+        <TextView
+            android:id="@+id/tv_stage_number"
+            style="@style/HqText.PixelStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_stat_box"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/hq_gold"
+            android:textSize="13sp"
+            tools:text="1-1" />
+
+        <!-- Title & Subtitle Container -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_stage_title"
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                tools:text="Green Bamboo Goblin #1" />
+
+            <TextView
+                android:id="@+id/tv_stage_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="11sp"
+                tools:text="HSK 1 Normal Encounter" />
+        </LinearLayout>
+
+        <!-- Stars / Status Icon -->
+        <TextView
+            android:id="@+id/tv_stage_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="⭐⭐⭐" />
+    </LinearLayout>
+
+    <!-- Monster Stats & Reward Badges -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_monster_stats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/hq_text_secondary"
+            android:textSize="12sp"
+            tools:text="❤️ 50 HP · 🛡️ 0 DEF · ⚔️ 5 Dmg" />
+
+        <TextView
+            android:id="@+id/tv_rewards_preview"
+            style="@style/HqText.PixelStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hq_jade"
+            android:textSize="12sp"
+            tools:text="+15 XP · +10 🪙" />
+    </LinearLayout>
+
+    <!-- Bottom Row: Challenge Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_stage_action"
+        style="@style/HqButton.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="12dp"
+        android:text="⚔️ Challenge Stage"
+        android:textSize="13sp" />
+</LinearLayout>

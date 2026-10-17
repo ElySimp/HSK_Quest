@@ -1,5 +1,6 @@
 """
 Gacha router — /api/gacha endpoints for Chinese mythological beast summoning.
+Enforces duplicate fusion/coin awards so the sanctuary collection stays clean.
 """
 import random
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -21,12 +22,6 @@ router = APIRouter(prefix="/api/gacha", tags=["Gacha"])
 
 COST_SINGLE = 100
 COST_TEN = 900
-
-# 5x harder rate thresholds:
-# Legendary: 1% (0.01)
-# Epic: 2% (0.02)
-# Rare: 12% (0.12)
-# Common: 85% (0.85)
 
 COMMON_POOL = [
     {"name": "Wood Rat (木鼠)", "pet_type": "wood_rat", "rarity": "common", "buff_type": "none", "sprite_key": "pet_dummy_1"},
@@ -72,6 +67,7 @@ async def pull_single_gacha(
 ):
     """
     Summon 1 pet (Cost: 100 Diamonds).
+    If player already owns the beast, boosts affection (+15) and awards +40 bonus coins.
     """
     stats_res = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
@@ -89,13 +85,36 @@ async def pull_single_gacha(
     # Deduct diamonds
     stats.diamonds -= COST_SINGLE
 
+    template = _roll_single_pet()
+
+    # Check if user already owns this species
+    existing_pet_res = await db.execute(
+        select(Pet).where(Pet.user_id == user_id, Pet.pet_type == template["pet_type"])
+    )
+    existing_pet = existing_pet_res.scalar_one_or_none()
+
+    if existing_pet:
+        # Duplicate handling: boost affection and award bonus coins
+        existing_pet.affection = min(100.0, existing_pet.affection + 15.0)
+        stats.coins += 40
+        await db.commit()
+        await db.refresh(existing_pet)
+        await db.refresh(stats)
+
+        return GachaPullResponse(
+            success=True,
+            pet=PetResponse.model_validate(existing_pet),
+            remaining_diamonds=stats.diamonds,
+            is_new_companion=False,
+            message=f"Duplicate {existing_pet.name}! Affection +15, +40 Bonus Coins awarded!",
+        )
+
     # Check if user currently has an active pet
     active_res = await db.execute(
         select(Pet).where(Pet.user_id == user_id, Pet.is_active == True)
     )
     has_active_pet = active_res.scalar_one_or_none() is not None
 
-    template = _roll_single_pet()
     new_pet = Pet(
         user_id=user_id,
         name=template["name"],
@@ -127,6 +146,7 @@ async def pull_ten_gacha(
 ):
     """
     Summon 10 pets (Cost: 900 Diamonds, 10% discount).
+    Duplicates boost affection (+15) and award +40 bonus coins each.
     """
     stats_res = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
@@ -144,14 +164,17 @@ async def pull_ten_gacha(
     # Deduct diamonds
     stats.diamonds -= COST_TEN
 
-    active_res = await db.execute(
-        select(Pet).where(Pet.user_id == user_id, Pet.is_active == True)
+    # Fetch all existing pets owned by user
+    owned_res = await db.execute(
+        select(Pet).where(Pet.user_id == user_id)
     )
-    has_active_pet = active_res.scalar_one_or_none() is not None
+    owned_pets_map = {p.pet_type: p for p in owned_res.scalars().all()}
+    has_active_pet = any(p.is_active for p in owned_pets_map.values())
 
-    created_pets = []
+    result_pets = []
     rarity_ranks = {"common": 1, "rare": 2, "epic": 3, "legendary": 4}
     highest_rank = 1
+    duplicate_count = 0
 
     for i in range(10):
         template = _roll_single_pet()
@@ -159,32 +182,48 @@ async def pull_ten_gacha(
         if rank > highest_rank:
             highest_rank = rank
 
-        is_first = (not has_active_pet and i == 0)
-        p = Pet(
-            user_id=user_id,
-            name=template["name"],
-            pet_type=template["pet_type"],
-            rarity=template["rarity"],
-            buff_type=template["buff_type"],
-            affection=50.0,
-            is_active=is_first,
-            sprite_key=template["sprite_key"],
-        )
-        db.add(p)
-        created_pets.append(p)
+        pet_type = template["pet_type"]
+        if pet_type in owned_pets_map:
+            # Duplicate
+            p = owned_pets_map[pet_type]
+            p.affection = min(100.0, p.affection + 15.0)
+            stats.coins += 40
+            duplicate_count += 1
+            result_pets.append(p)
+        else:
+            is_first = (not has_active_pet and len(result_pets) == 0)
+            p = Pet(
+                user_id=user_id,
+                name=template["name"],
+                pet_type=template["pet_type"],
+                rarity=template["rarity"],
+                buff_type=template["buff_type"],
+                affection=50.0,
+                is_active=is_first,
+                sprite_key=template["sprite_key"],
+            )
+            db.add(p)
+            owned_pets_map[pet_type] = p
+            if is_first:
+                has_active_pet = True
+            result_pets.append(p)
 
     await db.commit()
-    for p in created_pets:
+    for p in result_pets:
         await db.refresh(p)
     await db.refresh(stats)
 
     inv_rarities = {1: "common", 2: "rare", 3: "epic", 4: "legendary"}
     highest_rarity_str = inv_rarities[highest_rank]
 
+    msg = f"10x Summon complete! Highest rarity pulled: {highest_rarity_str.upper()}."
+    if duplicate_count > 0:
+        msg += f" ({duplicate_count} duplicate pulls converted to Affection & Bonus Coins!)"
+
     return GachaMultiPullResponse(
         success=True,
-        pets=[PetResponse.model_validate(p) for p in created_pets],
+        pets=[PetResponse.model_validate(p) for p in result_pets],
         remaining_diamonds=stats.diamonds,
         highest_rarity=highest_rarity_str,
-        message=f"10x Summon complete! Highest rarity pulled: {highest_rarity_str.upper()}.",
+        message=msg,
     )

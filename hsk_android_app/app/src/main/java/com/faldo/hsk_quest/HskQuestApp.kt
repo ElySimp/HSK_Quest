@@ -52,4 +52,14 @@ class AppContainer(context: Context) {
     val gachaRepository: com.faldo.hsk_quest.data.repository.GachaRepository by lazy {
         com.faldo.hsk_quest.data.repository.GachaRepository(apiService)
     }
+    val shopRepository: com.faldo.hsk_quest.data.repository.ShopRepository by lazy {
+        com.faldo.hsk_quest.data.repository.ShopRepository(apiService)
+    }
+    val stageRepository: com.faldo.hsk_quest.data.repository.StageRepository by lazy {
+        com.faldo.hsk_quest.data.repository.StageRepository(
+            database.stageProgressDao(),
+            tokenManager,
+            database.playerDao()
+        )
+    }
 }

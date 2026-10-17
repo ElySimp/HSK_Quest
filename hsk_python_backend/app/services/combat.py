@@ -1,6 +1,6 @@
 """
 Combat service — game engine calculations.
-XP, damage, leveling, and diminishing returns.
+XP, damage, leveling, monster scaling, and diminishing returns.
 """
 import math
 
@@ -30,19 +30,21 @@ def calculate_final_damage(
     stat_dex: int,
     monster_def: int,
     is_critical: bool,
+    has_damage_boost: bool = False,
 ) -> int:
     """
     Full damage calculation:
-    Final = max(1, BaseDmg - DefReduction) × CritMultiplier
+    Final = max(1, BaseDmg - DefReduction) × CritMultiplier × PetDamageMultiplier
     """
     base = calculate_base_damage(stat_str)
     def_reduction = calculate_defense_reduction(monster_def, 0)  # Player attacks monster
     raw = max(1, base - def_reduction)
 
-    if is_critical:
-        crit_mult = calculate_critical_multiplier(stat_dex)
-        return int(raw * crit_mult)
-    return raw
+    mult = calculate_critical_multiplier(stat_dex) if is_critical else 1.0
+    if has_damage_boost:
+        mult *= 1.15
+
+    return int(raw * mult)
 
 
 def calculate_max_hp(stat_vit: int) -> int:
@@ -85,20 +87,35 @@ BOSS_DMG_MULT = 2.0
 BOSS_REWARD_MULT = 5.0
 
 
-def get_monster_stats(area_id: int, monster_type: str) -> dict:
-    """Get monster stats for a given area and type."""
+def stage_step_multiplier(stage_index: int) -> float:
+    """
+    Progressive scaling for stages 1..4 within an area:
+    Stage 1 = 1.00x, Stage 2 = 1.12x, Stage 3 = 1.24x, Stage 4 = 1.36x.
+    """
+    clamped = max(1, min(4, stage_index))
+    return 1.0 + 0.12 * (clamped - 1)
+
+
+def get_monster_stats(area_id: int, monster_type: str, stage_index: int = 1) -> dict:
+    """Get monster stats for a given area, type, and sub-stage index (1..4)."""
     base = MONSTER_BASE_STATS.get(area_id, MONSTER_BASE_STATS[1]).copy()
+    step_mult = 1.0 if monster_type == "boss" else stage_step_multiplier(stage_index)
 
     if monster_type == "elite":
-        base["hp"] = int(base["hp"] * ELITE_HP_MULT)
-        base["dmg"] = int(base["dmg"] * ELITE_DMG_MULT)
-        base["xp_reward"] = int(base["xp_reward"] * ELITE_REWARD_MULT)
-        base["coin_reward"] = int(base["coin_reward"] * ELITE_REWARD_MULT)
+        base["hp"] = int(base["hp"] * ELITE_HP_MULT * step_mult)
+        base["dmg"] = int(base["dmg"] * ELITE_DMG_MULT * step_mult)
+        base["xp_reward"] = int(base["xp_reward"] * ELITE_REWARD_MULT * step_mult)
+        base["coin_reward"] = int(base["coin_reward"] * ELITE_REWARD_MULT * step_mult)
     elif monster_type == "boss":
         base["hp"] = int(base["hp"] * BOSS_HP_MULT)
         base["dmg"] = int(base["dmg"] * BOSS_DMG_MULT)
         base["xp_reward"] = int(base["xp_reward"] * BOSS_REWARD_MULT)
         base["coin_reward"] = int(base["coin_reward"] * BOSS_REWARD_MULT)
+    else:
+        base["hp"] = int(base["hp"] * step_mult)
+        base["dmg"] = int(base["dmg"] * step_mult)
+        base["xp_reward"] = int(base["xp_reward"] * step_mult)
+        base["coin_reward"] = int(base["coin_reward"] * step_mult)
 
     return base
 

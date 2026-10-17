@@ -65,4 +65,16 @@ interface ApiService {
 
     @POST("api/gacha/pull-10")
     suspend fun pullTenGacha(): Response<com.faldo.hsk_quest.data.model.GachaMultiPullResponse>
+
+    @GET("api/shop/catalog")
+    suspend fun getShopCatalog(): Response<com.faldo.hsk_quest.data.model.ShopCatalogResponse>
+
+    @POST("api/shop/buy")
+    suspend fun buyShopItem(@Body body: com.faldo.hsk_quest.data.model.BuyItemRequest): Response<com.faldo.hsk_quest.data.model.BuyItemResponse>
+
+    @GET("api/shop/inventory")
+    suspend fun getInventory(): Response<com.faldo.hsk_quest.data.model.InventoryListResponse>
+
+    @POST("api/shop/use")
+    suspend fun useItem(@Body body: com.faldo.hsk_quest.data.model.UseItemRequest): Response<com.faldo.hsk_quest.data.model.UseItemResponse>
 }

@@ -65,7 +65,7 @@ async def get_profile(
             stat_vit=stats.stat_vit,
             hp=stats.hp,
             max_hp=stats.max_hp,
-            survival_hp=stats.survival_hp,
+            survival_hp=stats.hp,
             coins=stats.coins,
             diamonds=stats.diamonds,
             league=stats.league,
@@ -87,7 +87,7 @@ async def allocate_stat(
     - STR: +5 Raw Damage per point
     - DEX: +2% Critical Damage per point (base 150%)
     - DEF: -2 Raw Damage received per point
-    - VIT: +25 Max HP per point (base 100)
+    - VIT: +25 Max HP per point (base 100) + restores 25 HP
     """
     result = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
@@ -107,13 +107,12 @@ async def allocate_stat(
     setattr(stats, stat_field, current_value + 1)
     stats.unspent_stat_points -= 1
 
-    # Recalculate max HP if VIT changed
+    # Recalculate max HP if VIT changed and heal proportionally
     if request.stat_name == "vit":
         stats.max_hp = calculate_max_hp(stats.stat_vit)
-        # Also heal to new max if current HP was at old max
-        if stats.hp == stats.max_hp - 25:  # Was at previous max
-            stats.hp = stats.max_hp
+        stats.hp = min(stats.max_hp, stats.hp + 25)
 
+    stats.survival_hp = stats.hp
     await db.flush()
 
     return PlayerStatsResponse(
@@ -127,7 +126,7 @@ async def allocate_stat(
         stat_vit=stats.stat_vit,
         hp=stats.hp,
         max_hp=stats.max_hp,
-        survival_hp=stats.survival_hp,
+        survival_hp=stats.hp,
         coins=stats.coins,
         diamonds=stats.diamonds,
         league=stats.league,

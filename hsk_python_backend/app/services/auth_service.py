@@ -20,9 +20,8 @@ async def register_user(
     """
     Register a new user with:
     - Hashed password
-    - Initial PlayerStats (level 1, 100 HP, 0 coins/diamonds)
-    - Starter pet (Egg — becomes a random common pet)
-
+    - Initial PlayerStats (level 1, 100 HP, 50 coins, 500 diamonds)
+    - Starter companion pet (Wood Rat)
     Returns (user, access_token).
     """
     # Check if username already exists
@@ -61,6 +60,20 @@ async def register_user(
         highest_area_cleared=0,
     )
     db.add(stats)
+    await db.flush()
+
+    # Create starter companion pet (Wood Rat)
+    starter_pet = Pet(
+        user_id=user.id,
+        name="Wood Rat (木鼠)",
+        pet_type="wood_rat",
+        rarity="common",
+        buff_type="none",
+        affection=60.0,
+        is_active=True,
+        sprite_key="pet_dummy_1",
+    )
+    db.add(starter_pet)
     await db.flush()
 
     # Generate JWT token

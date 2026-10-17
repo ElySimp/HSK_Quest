@@ -1,5 +1,6 @@
 package com.faldo.hsk_quest.util
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
@@ -47,6 +48,42 @@ class SpriteAnimator(
     }
 
     companion object {
+        private val frameCache = mutableMapOf<String, Bitmap>()
+
+        /**
+         * Extracts a single frame from a spritesheet as a sharp pixel-art Bitmap.
+         * Caches extracted bitmaps in memory to prevent repeated decoding.
+         */
+        fun extractFrame(
+            context: Context,
+            @DrawableRes drawableRes: Int,
+            rows: Int,
+            cols: Int,
+            targetRow: Int,
+            targetCol: Int,
+        ): Bitmap? {
+            val cacheKey = "$drawableRes-$rows-$cols-$targetRow-$targetCol"
+            frameCache[cacheKey]?.let { return it }
+
+            val options = BitmapFactory.Options().apply {
+                inScaled = false
+            }
+            val sheet = BitmapFactory.decodeResource(context.resources, drawableRes, options)
+                ?: return null
+
+            val frameWidth = sheet.width / cols
+            val frameHeight = sheet.height / rows
+            val x = targetCol * frameWidth
+            val y = targetRow * frameHeight
+
+            if (x + frameWidth <= sheet.width && y + frameHeight <= sheet.height) {
+                val frame = Bitmap.createBitmap(sheet, x, y, frameWidth, frameHeight)
+                frameCache[cacheKey] = frame
+                return frame
+            }
+            return null
+        }
+
         /**
          * Loads a spritesheet from drawable resources and splits it into frame bitmaps.
          *

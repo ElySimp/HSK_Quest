@@ -65,6 +65,8 @@
         <item name="cornerRadius">14dp</item>
     </style>
 
+    <style name="HqButton.Filled" parent="HqButton.Primary" />
+
     <style name="HqButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:minHeight">50dp</item>
         <item name="android:fontFamily">@font/font_google_sans</item>

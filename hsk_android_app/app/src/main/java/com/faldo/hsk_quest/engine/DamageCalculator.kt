@@ -4,7 +4,7 @@ import com.faldo.hsk_quest.util.Constants
 import kotlin.math.max
 
 /**
- * Damage formulas. Must stay in sync with backend app/services/combat.py.
+ * Damage formulas. Kept in sync with backend app/services/combat.py.
  */
 object DamageCalculator {
 
@@ -17,16 +17,39 @@ object DamageCalculator {
 
     /**
      * Damage dealt by the player to a monster:
-     * max(1, base - monsterDef) x (crit multiplier if answered inside the crit window).
+     * max(1, base - monsterDef) x (crit multiplier) x (pet damage boost if active).
      */
-    fun playerDamage(statStr: Int, statDex: Int, monsterDef: Int, isCritical: Boolean): Int {
+    fun playerDamage(
+        statStr: Int,
+        statDex: Int,
+        monsterDef: Int,
+        isCritical: Boolean,
+        hasDamageBoost: Boolean = false,
+    ): Int {
         val raw = max(1, baseDamage(statStr) - monsterDef.coerceAtLeast(0))
-        return if (isCritical) (raw * critMultiplier(statDex)).toInt() else raw
+        var mult = if (isCritical) critMultiplier(statDex) else 1.0
+        if (hasDamageBoost) {
+            mult *= Constants.PET_DAMAGE_BOOST_MULTIPLIER
+        }
+        return (raw * mult).toInt()
     }
 
-    /** Damage dealt by a monster to the player: max(1, monsterDmg - DEF x 2). */
-    fun monsterDamage(monsterDmg: Int, playerStatDef: Int): Int =
-        max(1, monsterDmg - playerStatDef * Constants.DEF_REDUCTION_PER_POINT)
+    /**
+     * Damage dealt by a monster to the player:
+     * If challenging Gatekeeper Boss while under-leveled, deals playerMaxHp (1-Hit KO unless shielded).
+     * Otherwise: max(1, monsterDmg - DEF x 2).
+     */
+    fun monsterDamage(
+        monsterDmg: Int,
+        playerStatDef: Int,
+        isUnderleveledBoss: Boolean = false,
+        playerMaxHp: Int = 100,
+    ): Int {
+        if (isUnderleveledBoss) {
+            return playerMaxHp
+        }
+        return max(1, monsterDmg - playerStatDef * Constants.DEF_REDUCTION_PER_POINT)
+    }
 
     /** Max HP = 100 + VIT x 25. */
     fun maxHp(statVit: Int): Int = Constants.BASE_MAX_HP + statVit * Constants.HP_PER_VIT

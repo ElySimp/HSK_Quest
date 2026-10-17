@@ -15,6 +15,8 @@ data class BattleState(
     val correctAnswers: Int = 0,
     val wrongAnswers: Int = 0,
     val shieldAvailable: Boolean = false,
+    val activeBuffLabel: String? = null,
+    val isGatekeeperPenaltyActive: Boolean = false,
     val lastDamageDealt: Int = 0,
     val lastDamageTaken: Int = 0,
     val wasCritical: Boolean = false,

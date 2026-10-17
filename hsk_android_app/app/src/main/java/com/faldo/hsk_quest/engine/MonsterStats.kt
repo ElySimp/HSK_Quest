@@ -2,9 +2,10 @@ package com.faldo.hsk_quest.engine
 
 import com.faldo.hsk_quest.data.model.Monster
 import com.faldo.hsk_quest.data.model.MonsterType
+import com.faldo.hsk_quest.util.Constants
 
 /**
- * Monster stat templates per HSK area plus elite/boss multipliers.
+ * Monster stat templates per HSK area plus progressive sub-stage scaling and elite/boss multipliers.
  * Mirrors MONSTER_BASE_STATS and get_monster_stats() in backend combat.py.
  */
 object MonsterStats {
@@ -38,17 +39,21 @@ object MonsterStats {
             MonsterType.ELITE -> Triple(ELITE_HP_MULT, ELITE_DMG_MULT, ELITE_REWARD_MULT)
             MonsterType.BOSS -> Triple(BOSS_HP_MULT, BOSS_DMG_MULT, BOSS_REWARD_MULT)
         }
+
+        // Sub-stage progressive scaling (1.00x, 1.12x, 1.24x, 1.36x for stages 1..4)
+        val stepMult = if (type == MonsterType.BOSS) 1.0 else (1.0 + Constants.STAGE_STEP_SCALING * (index.coerceIn(1, 4) - 1))
+
         val label = type.name.lowercase().replaceFirstChar { it.uppercase() }
         return Monster(
             id = "area${areaId}_${type.apiName}_$index",
-            name = if (type == MonsterType.BOSS) "HSK $areaId Boss" else "HSK $areaId $label #$index",
+            name = if (type == MonsterType.BOSS) "HSK $areaId Gatekeeper Boss" else "HSK $areaId $label #$index",
             areaId = areaId,
             type = type,
-            maxHp = (base.hp * hpMult).toInt(),
+            maxHp = (base.hp * hpMult * stepMult).toInt(),
             def = base.def,
-            dmg = (base.dmg * dmgMult).toInt(),
-            xpReward = (base.xp * rewardMult).toInt(),
-            coinReward = (base.coins * rewardMult).toInt(),
+            dmg = (base.dmg * dmgMult * stepMult).toInt(),
+            xpReward = (base.xp * rewardMult * stepMult).toInt(),
+            coinReward = (base.coins * rewardMult * stepMult).toInt(),
         )
     }
 

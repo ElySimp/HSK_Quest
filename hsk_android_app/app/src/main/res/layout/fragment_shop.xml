@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shop_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Top Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⛩️ Ancient Market"
+                android:textColor="@color/hq_gold"
+                android:textSize="22sp" />
+
+            <TextView
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Toko Makanan &amp; Healing Provisions"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Current HP Badge -->
+        <TextView
+            android:id="@+id/tv_shop_hp"
+            style="@style/HqText.PixelStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            android:textColor="@color/hq_crimson"
+            android:textSize="14sp"
+            tools:text="❤️ 100/100" />
+    </LinearLayout>
+
+    <!-- Currency Balance Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_shop_coins"
+            style="@style/HqText.PixelStat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_stat_box"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:textColor="@color/hq_gold"
+            android:textSize="14sp"
+            tools:text="🪙 1,250 Coins" />
+
+        <TextView
+            android:id="@+id/tv_shop_diamonds"
+            style="@style/HqText.PixelStat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_stat_box"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:textColor="@color/hq_sky"
+            android:textSize="14sp"
+            tools:text="💎 2,500 Gems" />
+    </LinearLayout>
+
+    <!-- Category Filter Tabs -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_all"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="All Items 📜" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_food"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🍜 Toko Makanan" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_elixirs"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🧪 Elixirs" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_bag"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎒 Tas Saya (My Bag)" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <!-- Progress indicator -->
+    <ProgressBar
+        android:id="@+id/pb_shop_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:indeterminateTint="@color/hq_gold"
+        android:visibility="gone" />
+
+    <!-- Content Items List -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shop_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            tools:listitem="@layout/item_shop_card" />
+
+        <!-- Empty state (e.g. Empty Bag) -->
+        <LinearLayout
+            android:id="@+id/ll_shop_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_empty_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎒"
+                android:textSize="52sp" />
+
+            <TextView
+                android:id="@+id/tv_empty_title"
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Your bag is empty"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_empty_desc"
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Visit Toko Makanan to stock up on provisions for you and your companion pet!"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

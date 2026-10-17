@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 /**
  * Core battle arena fragment for flashcard combat.
  * Handles sprite animations, timer countdowns, answering feedback, low HP flee prompts,
- * and battle result modal presentation.
+ * pet buff indicator, and battle result modal presentation.
  */
 class BattleFragment : Fragment() {
 
@@ -44,6 +44,7 @@ class BattleFragment : Fragment() {
             appContainer.battleRepository,
             appContainer.playerRepository,
             appContainer.petRepository,
+            appContainer.stageRepository,
         )
     }
 
@@ -68,8 +69,14 @@ class BattleFragment : Fragment() {
 
         val areaId = arguments?.getInt(ARG_AREA_ID, 1) ?: 1
         val monsterTypeStr = arguments?.getString(ARG_MONSTER_TYPE) ?: "normal"
+        val monsterIndex = arguments?.getInt(ARG_MONSTER_INDEX, 1) ?: 1
 
-        binding.tvStageLabel.text = "HSK $areaId · ${monsterTypeStr.replaceFirstChar { it.uppercase() }}"
+        val stageLabel = if (monsterTypeStr.lowercase() == "boss") {
+            "HSK $areaId · 👑 Gatekeeper Boss"
+        } else {
+            "HSK $areaId · ${monsterTypeStr.replaceFirstChar { it.uppercase() }} #$monsterIndex"
+        }
+        binding.tvStageLabel.text = stageLabel
 
         // Start 8-frame loop for monster sprite
         spriteAnimator = SpriteAnimator.startAnimation(
@@ -82,9 +89,9 @@ class BattleFragment : Fragment() {
 
         setupOptionButtons()
         setupFleeButton()
-        observeViewModel(areaId, monsterTypeStr)
+        observeViewModel(areaId, monsterTypeStr, monsterIndex)
 
-        viewModel.startBattle(areaId, monsterTypeStr)
+        viewModel.startBattle(areaId, monsterTypeStr, monsterIndex)
     }
 
     private fun setupOptionButtons() {
@@ -138,7 +145,7 @@ class BattleFragment : Fragment() {
         binding.btnFlee.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Flee Battle?")
-                .setMessage("Are you sure you want to retreat? You will forfeit rewards but keep all your equipment safely.")
+                .setMessage("Are you sure you want to retreat? You will forfeit rewards but protect your coins and pet affection.")
                 .setPositiveButton("Flee") { _, _ ->
                     viewModel.flee()
                 }
@@ -147,7 +154,7 @@ class BattleFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel(areaId: Int, monsterTypeStr: String) {
+    private fun observeViewModel(areaId: Int, monsterTypeStr: String, monsterIndex: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -170,7 +177,7 @@ class BattleFragment : Fragment() {
 
                 launch {
                     viewModel.serverResult.collect { result ->
-                        showResultBottomSheet(result, areaId, monsterTypeStr)
+                        showResultBottomSheet(result, areaId, monsterTypeStr, monsterIndex)
                     }
                 }
             }
@@ -183,9 +190,20 @@ class BattleFragment : Fragment() {
         binding.tvMonsterHpNumeric.text = "${state.monsterHp}/${state.monster.maxHp}"
         binding.progressMonsterHp.progress = state.monsterHpPercent
 
-        // Player HP
+        // Player HP & Buff label
         binding.tvPlayerHpNumeric.text = "${state.playerHp}/${state.playerMaxHp}"
         binding.progressPlayerHp.progress = state.playerHpPercent
+
+        if (!state.activeBuffLabel.isNullOrBlank()) {
+            binding.tvPlayerLabel.text = state.activeBuffLabel
+        } else {
+            binding.tvPlayerLabel.text = "Hero HP"
+        }
+
+        // Warning banner for Underleveled Gatekeeper Boss
+        if (state.isGatekeeperPenaltyActive) {
+            binding.tvStageLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_crimson))
+        }
 
         // Combo indicator
         if (state.combo > 1) {
@@ -282,7 +300,7 @@ class BattleFragment : Fragment() {
     private fun showLowHpWarningDialog() {
         lowHpDialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("⚠️ Critical Health Warning!")
-            .setMessage("Your HP has dropped below 20%! If you are defeated, you risk losing random equipment. Would you like to flee safely now?")
+            .setMessage("Your HP has dropped below 20%! If you are defeated, you will lose 10% Coins and your Pet will lose 10 Affection. Would you like to flee safely now?")
             .setCancelable(false)
             .setPositiveButton("Flee Safely") { dialog, _ ->
                 dialog.dismiss()
@@ -301,6 +319,7 @@ class BattleFragment : Fragment() {
         result: BattleResultResponse,
         areaId: Int,
         monsterTypeStr: String,
+        monsterIndex: Int,
     ) {
         resultBottomSheet?.dismiss()
 
@@ -346,10 +365,10 @@ class BattleFragment : Fragment() {
             sheetBinding.tvLevelUpBanner.visibility = View.GONE
         }
 
-        // Lost equipment penalty alert
+        // Defeat penalty alert
         if (!result.lostItem.isNullOrBlank()) {
             sheetBinding.tvLostItemBanner.visibility = View.VISIBLE
-            sheetBinding.tvLostItemBanner.text = "⚠️ Equipment Lost in Battle: ${result.lostItem}!"
+            sheetBinding.tvLostItemBanner.text = "⚠️ Defeat Penalty: Lost ${result.lostItem}!"
         } else {
             sheetBinding.tvLostItemBanner.visibility = View.GONE
         }
@@ -357,7 +376,7 @@ class BattleFragment : Fragment() {
         // Action buttons
         sheetBinding.btnFightAgain.setOnClickListener {
             sheet.dismiss()
-            viewModel.startBattle(areaId, monsterTypeStr)
+            viewModel.startBattle(areaId, monsterTypeStr, monsterIndex)
         }
 
         sheetBinding.btnReturnWorldMap.setOnClickListener {
@@ -383,5 +402,6 @@ class BattleFragment : Fragment() {
     companion object {
         const val ARG_AREA_ID = "areaId"
         const val ARG_MONSTER_TYPE = "monsterType"
+        const val ARG_MONSTER_INDEX = "monsterIndex"
     }
 }

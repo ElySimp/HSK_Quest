@@ -24,6 +24,13 @@ object Constants {
     const val CRIT_WINDOW_MS = 2_000L
     const val CRIT_WINDOW_TIME_EXTENDER_MS = 5_000L
 
+    // Pet Buffs
+    const val PET_AFFECTION_AWAKE_THRESHOLD = 25f
+    const val PET_DAMAGE_BOOST_MULTIPLIER = 1.15
+
+    // Stage scaling: +12% per stage index (1..4)
+    const val STAGE_STEP_SCALING = 0.12
+
     // XP curve: 100 x Level^1.2
     const val XP_BASE = 100.0
     const val XP_EXPONENT = 1.2

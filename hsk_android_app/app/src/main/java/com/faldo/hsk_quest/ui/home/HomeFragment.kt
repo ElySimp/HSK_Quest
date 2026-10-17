@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.DailyStatusResponse
+import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.Player
 import com.faldo.hsk_quest.databinding.FragmentHomeBinding
 import com.faldo.hsk_quest.engine.XpCalculator
@@ -27,10 +29,15 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels {
-        HomeViewModel.factory(appContainer.playerRepository, appContainer.authRepository)
+        HomeViewModel.factory(
+            appContainer.playerRepository,
+            appContainer.authRepository,
+            appContainer.petRepository,
+        )
     }
 
     private var petAnimator: SpriteAnimator? = null
+    private var currentActivePet: PetItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,16 +51,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Setup pet animation (row 0 = idle 1, 4 frames)
-        petAnimator = SpriteAnimator.startAnimation(
-            imageView = binding.ivPetSprite,
-            drawableRes = R.drawable.pet_dummy_1,
-            rows = 3,
-            cols = 4,
-            targetRow = 0,
-            frameCount = 4,
-            fps = 6,
-        )
+        setupCurrencyIcons()
 
         val nav = findNavController()
         binding.btnStartAdventure.setOnClickListener {
@@ -65,19 +63,50 @@ class HomeFragment : Fragment() {
         }
 
         binding.cardCompanionPet.setOnClickListener {
-            nav.navigate(R.id.action_home_to_pet)
+            if (currentActivePet != null) {
+                nav.navigate(R.id.action_home_to_pet)
+            } else {
+                nav.navigate(R.id.action_home_to_gacha)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.state.collect(::renderState) }
                 launch { viewModel.dailyStatus.collect(::renderDaily) }
+                launch { viewModel.activePet.collect(::renderPet) }
                 launch {
                     viewModel.isClaimingDaily.collect { isClaiming ->
                         if (isClaiming) binding.btnClaimDaily.isEnabled = false
                     }
                 }
             }
+        }
+    }
+
+    private fun setupCurrencyIcons() {
+        val gemBitmap = SpriteAnimator.extractFrame(
+            context = requireContext(),
+            drawableRes = R.drawable.currency_gems,
+            rows = 9,
+            cols = 5,
+            targetRow = 0,
+            targetCol = 4,
+        )
+        if (gemBitmap != null) {
+            binding.ivCurrencyDiamond.setImageBitmap(gemBitmap)
+        }
+
+        val coinBitmap = SpriteAnimator.extractFrame(
+            context = requireContext(),
+            drawableRes = R.drawable.currency_coins,
+            rows = 9,
+            cols = 5,
+            targetRow = 0,
+            targetCol = 0,
+        )
+        if (coinBitmap != null) {
+            binding.ivCurrencyCoin.setImageBitmap(coinBitmap)
         }
     }
 
@@ -111,9 +140,9 @@ class HomeFragment : Fragment() {
     private fun bindPlayer(player: Player, isCached: Boolean) {
         val s = player.stats
         with(binding) {
-            tvDiamonds.text = "💎 ${s.diamonds}"
-            tvCoins.text = "🪙 ${s.coins}"
-            tvSurvivalHp.text = "❤️ ${s.survivalHp}"
+            tvDiamonds.text = "${s.diamonds}"
+            tvCoins.text = "${s.coins}"
+            tvSurvivalHp.text = "${s.hp}/${s.maxHp}"
             tvOffline.visibility = if (isCached) View.VISIBLE else View.GONE
 
             tvGreeting.text = getString(R.string.home_greeting, player.username)
@@ -121,6 +150,80 @@ class HomeFragment : Fragment() {
 
             progressXp.setProgressCompat(XpCalculator.progressPercent(s.level, s.xp), true)
             tvXpLabel.text = "${s.xp} / ${s.xpToNextLevel} XP"
+        }
+    }
+
+    private fun renderPet(pet: PetItem?) {
+        currentActivePet = pet
+        if (pet == null) {
+            petAnimator?.stop()
+            petAnimator = null
+            binding.layoutNoPet.visibility = View.VISIBLE
+            binding.layoutHasPet.visibility = View.GONE
+            return
+        }
+
+        binding.layoutNoPet.visibility = View.GONE
+        binding.layoutHasPet.visibility = View.VISIBLE
+
+        binding.tvPetName.text = pet.name
+
+        val rarityStr = when (pet.rarity.lowercase()) {
+            "legendary" -> "🟡 Legendary"
+            "epic" -> "🟣 Epic"
+            "rare" -> "🔵 Rare"
+            else -> "🟢 Common"
+        }
+        binding.tvPetRarity.text = rarityStr
+
+        val affVal = pet.affection.toInt().coerceIn(0, 100)
+        binding.tvPetAffectionVal.text = "❤️ $affVal%"
+        binding.progressPetAffection.progress = affVal
+
+        val drawableRes = if (pet.spriteKey == "pet_dummy_2") {
+            R.drawable.pet_dummy_2
+        } else {
+            R.drawable.pet_dummy_1
+        }
+
+        petAnimator?.stop()
+
+        if (pet.isSleeping) {
+            binding.tvPetMood.text = "💤 Sleeping soundly... (Buffs inactive < 25%)"
+            binding.tvPetMood.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
+            )
+            // Row 2 = Sleep animation, 4 frames
+            petAnimator = SpriteAnimator.startAnimation(
+                imageView = binding.ivPetSprite,
+                drawableRes = drawableRes,
+                rows = 3,
+                cols = 4,
+                targetRow = 2,
+                frameCount = 4,
+                fps = 4,
+            )
+        } else {
+            val buffLabel = when (pet.buffType) {
+                "shield" -> "🛡️ Shield Active"
+                "time_extender" -> "⏳ +3s Crit Active"
+                "damage_boost" -> "⚔️ +15% Dmg Active"
+                else -> "✨ Energetic & Happy!"
+            }
+            binding.tvPetMood.text = buffLabel
+            binding.tvPetMood.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.hq_jade)
+            )
+            // Row 0 = Idle 1 animation, 4 frames
+            petAnimator = SpriteAnimator.startAnimation(
+                imageView = binding.ivPetSprite,
+                drawableRes = drawableRes,
+                rows = 3,
+                cols = 4,
+                targetRow = 0,
+                frameCount = 4,
+                fps = 6,
+            )
         }
     }
 

@@ -235,9 +235,10 @@ async def feed_pet(
     affection_gained = 15.0
     pet.affection = min(100.0, pet.affection + affection_gained)
 
-    # Heal player HP
+    # Heal player HP and keep survival_hp synchronized
     hp_healed = 25
     stats.hp = min(stats.max_hp, stats.hp + hp_healed)
+    stats.survival_hp = stats.hp
 
     await db.commit()
     await db.refresh(pet)
