@@ -1,7 +1,7 @@
 """
 Battle router — /api/battle endpoints for submitting battle results.
 Handles anti-cheat plausibility, sub-stage monster scaling, persistent HP,
-defeat penalties (Coins + Pet Affection), and adaptive weakness logging.
+defeat penalties (Coins + Pet Affection), league promotion, and adaptive weakness logging.
 """
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
@@ -19,6 +19,7 @@ from app.services.combat import (
     calculate_base_damage,
     calculate_critical_multiplier,
 )
+from app.services.leaderboard_service import league_for_area
 from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/battle", tags=["Battle"])
@@ -106,7 +107,8 @@ async def submit_battle_result(
     3. Persistent HP reduction across victory, retreat, and defeat
     4. Meaningful defeat penalty (Coins loss + Pet Affection drop)
     5. Diminishing returns on repeated monster kills
-    6. Logging to battle_history and weakness_log
+    6. Automatic league recalculation when Gatekeeper Boss advances highest_area_cleared
+    7. Logging to battle_history and weakness_log
     """
     result = await db.execute(select(PlayerStats).where(PlayerStats.user_id == user_id))
     stats = result.scalar_one_or_none()
@@ -161,9 +163,10 @@ async def submit_battle_result(
             new_level = stats.level
             xp_needed = xp_to_next_level(stats.level)
 
-        # 5. Gatekeeper area unlocking
+        # 5. Gatekeeper area unlocking & league tier update
         if request.monster_type == "boss" and request.area_id > stats.highest_area_cleared:
             stats.highest_area_cleared = request.area_id
+        stats.league = league_for_area(stats.highest_area_cleared)
 
     elif request.result == "lose":
         # Defeat penalty: HP drops to 10% MaxHP, lose 10% coins, companion loses 10 affection

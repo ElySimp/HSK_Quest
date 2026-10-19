@@ -20,7 +20,7 @@ async def register_user(
     """
     Register a new user with:
     - Hashed password
-    - Initial PlayerStats (level 1, 100 HP, 50 coins, 500 diamonds)
+    - Initial PlayerStats (level 1, 100 HP, 50 coins, 500 diamonds, bronze league)
     - Starter companion pet (Wood Rat)
     Returns (user, access_token).
     """
@@ -56,7 +56,7 @@ async def register_user(
         survival_hp=100,
         coins=50,
         diamonds=500,  # Starting diamonds for initial gacha summons
-        league="bronze_5",
+        league="bronze",
         highest_area_cleared=0,
     )
     db.add(stats)

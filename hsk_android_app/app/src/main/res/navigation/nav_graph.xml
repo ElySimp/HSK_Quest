@@ -148,7 +148,7 @@
         android:id="@+id/leaderboardFragment"
         android:name="com.faldo.hsk_quest.ui.leaderboard.LeaderboardFragment"
         android:label="@string/nav_leaderboard"
-        tools:layout="@layout/fragment_placeholder" />
+        tools:layout="@layout/fragment_leaderboard" />
 
     <fragment
         android:id="@+id/practiceFragment"

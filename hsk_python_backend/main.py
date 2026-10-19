@@ -12,23 +12,44 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 # pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
 from app.database import engine, Base
 from app.routers import auth, player, battle, leaderboard, shop, gacha, pet
 
 
 # ---------------------------------------------------------------------------
-# Lifespan: create tables on startup
+# Lifespan: create tables & ensure indexes/league normalization on startup
 # ---------------------------------------------------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Create all database tables on startup, dispose engine on shutdown."""
+    """Create all database tables on startup, run idempotent index/league migrations, dispose on shutdown."""
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    print("[OK] Database tables created/verified successfully!")
+        await conn.execute(
+            text(
+                "CREATE INDEX IF NOT EXISTS ix_battle_history_created_at "
+                "ON battle_history (created_at)"
+            )
+        )
+        await conn.execute(
+            text(
+                "CREATE INDEX IF NOT EXISTS ix_battle_history_user_created "
+                "ON battle_history (user_id, created_at)"
+            )
+        )
+        await conn.execute(
+            text(
+                "UPDATE player_stats SET league = CASE "
+                "WHEN highest_area_cleared >= 7 THEN 'radiant' "
+                "WHEN highest_area_cleared = 6 THEN 'gold' "
+                "WHEN highest_area_cleared >= 4 THEN 'silver' "
+                "ELSE 'bronze' END "
+                "WHERE league NOT IN ('bronze', 'silver', 'gold', 'radiant') OR league IS NULL"
+            )
+        )
     yield
     await engine.dispose()
-    print("[CLOSED] Database connection closed.")
 
 
 # ---------------------------------------------------------------------------

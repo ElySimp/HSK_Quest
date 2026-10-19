@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -251,14 +250,12 @@ class WorldMapFragment : Fragment() {
     }
 
     private fun launchBattle(node: StageNode) {
-        findNavController().navigate(
-            R.id.action_worldmap_to_battle,
-            bundleOf(
-                BattleFragment.ARG_AREA_ID to node.areaId,
-                BattleFragment.ARG_MONSTER_TYPE to node.monsterType.apiName,
-                BattleFragment.ARG_MONSTER_INDEX to node.index,
-            ),
-        )
+        val args = Bundle().apply {
+            putInt(BattleFragment.ARG_AREA_ID, node.areaId)
+            putString(BattleFragment.ARG_MONSTER_TYPE, node.monsterType.apiName)
+            putInt(BattleFragment.ARG_MONSTER_INDEX, node.index)
+        }
+        findNavController().navigate(R.id.action_worldmap_to_battle, args)
     }
 
     override fun onDestroyView() {

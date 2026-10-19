@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    tools:text="Lv. 1 Hero · Bronze League" />
+                    tools:text="Lv. 1 · 🥉 Bronze League" />
             </LinearLayout>
 
             <TextView
@@ -269,7 +269,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_pet_sprite"
@@ -299,7 +301,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
-                            tools:text="Azure Dragon" />
+                            tools:text="Wood Rat (木鼠)" />
 
                         <TextView
                             android:id="@+id/tv_pet_rarity"
@@ -308,7 +310,7 @@
                             android:layout_marginStart="8dp"
                             android:textColor="@color/hq_gold"
                             android:textSize="12sp"
-                            tools:text="🟡 Legendary" />
+                            tools:text="🟢 Common" />
                     </LinearLayout>
 
                     <TextView
@@ -318,7 +320,7 @@
                         android:layout_marginTop="2dp"
                         android:textColor="@color/hq_text_secondary"
                         android:textSize="12sp"
-                        tools:text="✨ Feeling energetic and happy!" />
+                        tools:text="✨ Energetic &amp; Happy!" />
 
                     <!-- Affection Progress -->
                     <LinearLayout
@@ -347,12 +349,12 @@
                             android:textColor="@color/hq_crimson"
                             android:textSize="11sp"
                             android:textStyle="bold"
-                            tools:text="❤️ 85%" />
+                            tools:text="❤️ 60%" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- State: No Pet Owned / Equipped -->
+            <!-- State: Loading / Error / No Pet Owned -->
             <LinearLayout
                 android:id="@+id/layout_no_pet"
                 android:layout_width="match_parent"
@@ -360,12 +362,13 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
+                    android:id="@+id/tv_no_pet_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🥚"
+                    android:text="⏳"
                     android:textSize="36sp" />
 
                 <LinearLayout
@@ -376,17 +379,19 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_no_pet_title"
                         style="@style/HqText.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nest is Empty"
+                        android:text="Calling Your Companion..."
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_no_pet_subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Tap to summon your companion at the Celestial Gacha Altar!"
+                        android:text="Connecting to the Tamagotchi Sanctuary..."
                         android:textColor="@color/hq_text_muted"
                         android:textSize="12sp" />
                 </LinearLayout>

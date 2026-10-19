@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rank_card_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <!-- Rank Badge Box -->
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_stat_box">
+
+        <TextView
+            android:id="@+id/tv_rank_badge"
+            style="@style/HqText.PixelStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/hq_gold"
+            android:textSize="18sp"
+            tools:text="🥇" />
+    </FrameLayout>
+
+    <!-- Player Info Column -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_rank_username"
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Flax" />
+
+            <TextView
+                android:id="@+id/tv_you_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
+                android:text="YOU"
+                android:textColor="@color/hq_gold"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_rank_subtitle"
+            style="@style/HqText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/hq_text_secondary"
+            android:textSize="11sp"
+            tools:text="Lv. 5 · HSK 2 Cleared" />
+    </LinearLayout>
+
+    <!-- Right Total Damage Column -->
+    <TextView
+        android:id="@+id/tv_rank_damage"
+        style="@style/HqText.PixelStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_stat_box"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp"
+        android:textColor="@color/hq_crimson"
+        android:textSize="14sp"
+        tools:text="⚔️ 2,450" />
+
+</LinearLayout>

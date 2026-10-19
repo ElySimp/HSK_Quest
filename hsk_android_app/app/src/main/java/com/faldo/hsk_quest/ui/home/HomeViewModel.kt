@@ -30,6 +30,12 @@ class HomeViewModel(
         data object LoggedOut : UiState()
     }
 
+    sealed class PetState {
+        data object Loading : PetState()
+        data class Loaded(val pet: PetItem?) : PetState()
+        data class Error(val message: String) : PetState()
+    }
+
     private val _state = MutableStateFlow<UiState>(UiState.Loading)
     val state: StateFlow<UiState> = _state.asStateFlow()
 
@@ -39,10 +45,11 @@ class HomeViewModel(
     private val _isClaimingDaily = MutableStateFlow(false)
     val isClaimingDaily: StateFlow<Boolean> = _isClaimingDaily.asStateFlow()
 
-    private val _activePet = MutableStateFlow<PetItem?>(null)
-    val activePet: StateFlow<PetItem?> = _activePet.asStateFlow()
+    private val _petState = MutableStateFlow<PetState>(PetState.Loading)
+    val petState: StateFlow<PetState> = _petState.asStateFlow()
 
     fun refresh() {
+        // 1. Fetch player profile
         viewModelScope.launch {
             if (_state.value !is UiState.Loaded) _state.value = UiState.Loading
             _state.value = when (val r = playerRepository.fetchProfile()) {
@@ -54,17 +61,34 @@ class HomeViewModel(
                     UiState.LoggedOut
                 }
             }
+        }
 
-            // Check daily reward status
+        // 2. Fetch daily reward status in parallel
+        viewModelScope.launch {
             when (val daily = playerRepository.getDailyStatus()) {
                 is Resource.Success -> _dailyStatus.value = daily.data
                 else -> {}
             }
+        }
 
-            // Fetch equipped companion pet
+        // 3. Fetch equipped companion pet in parallel so starter pet appears immediately
+        retryPetLoad()
+    }
+
+    fun retryPetLoad() {
+        viewModelScope.launch {
+            if (_petState.value !is PetState.Loaded) {
+                _petState.value = PetState.Loading
+            }
             when (val petRes = petRepository.getActivePet()) {
-                is Resource.Success -> _activePet.value = petRes.data
-                else -> _activePet.value = null
+                is Resource.Success -> _petState.value = PetState.Loaded(petRes.data)
+                is Resource.Error -> {
+                    // Preserve already-loaded pet if available; otherwise surface retryable error
+                    if (_petState.value !is PetState.Loaded) {
+                        _petState.value = PetState.Error(petRes.message)
+                    }
+                }
+                Resource.Loading -> {}
             }
         }
     }

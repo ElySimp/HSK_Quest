@@ -61,7 +61,7 @@
     <string name="title_battle">Battle</string>
     <string name="battle_flee">Flee</string>
     <string name="battle_flee_prompt_title">Low Health Warning!</string>
-    <string name="battle_flee_prompt_msg">Your HP is below 20%! Flee now safely, or risk losing an equipment item on defeat?</string>
+    <string name="battle_flee_prompt_msg" formatted="false">Your HP is below 20%! Flee now safely, or risk losing 10% Coins &amp; Pet Affection on defeat?</string>
     <string name="battle_flee_confirm_btn">Flee Safely</string>
     <string name="battle_continue_btn">Keep Fighting!</string>
     <string name="battle_crit_ready">CRIT WINDOW!</string>

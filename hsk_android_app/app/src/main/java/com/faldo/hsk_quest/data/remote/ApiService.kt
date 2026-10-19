@@ -11,10 +11,12 @@ import com.faldo.hsk_quest.data.model.PlayerStats
 import com.faldo.hsk_quest.data.model.RegisterRequest
 import com.faldo.hsk_quest.data.model.RegisterResponse
 import com.faldo.hsk_quest.data.model.TokenResponse
+import com.faldo.hsk_quest.data.model.WeeklyLeaderboardResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 /**
  * Retrofit definition of the FastAPI "Brain Server" endpoints.
@@ -77,4 +79,9 @@ interface ApiService {
 
     @POST("api/shop/use")
     suspend fun useItem(@Body body: com.faldo.hsk_quest.data.model.UseItemRequest): Response<com.faldo.hsk_quest.data.model.UseItemResponse>
+
+    @GET("api/leaderboard/weekly")
+    suspend fun getWeeklyLeaderboard(
+        @Query("league") league: String? = null,
+    ): Response<WeeklyLeaderboardResponse>
 }

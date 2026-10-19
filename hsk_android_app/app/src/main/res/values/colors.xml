@@ -23,6 +23,8 @@
     <color name="hq_crimson_glow">#33D9534F</color>
     <color name="hq_sky">#FF64B5F6</color>
     <color name="hq_violet">#FFA78BFA</color>
+    <color name="hq_bronze">#FFCD7F32</color>
+    <color name="hq_silver">#FFC0C7D0</color>
 
     <!-- Typography ink tones -->
     <color name="hq_text_primary">#FFEDEDED</color>

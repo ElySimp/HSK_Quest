@@ -9,6 +9,7 @@ import com.faldo.hsk_quest.data.remote.ApiService
 import com.faldo.hsk_quest.data.remote.RetrofitClient
 import com.faldo.hsk_quest.data.repository.AuthRepository
 import com.faldo.hsk_quest.data.repository.BattleRepository
+import com.faldo.hsk_quest.data.repository.LeaderboardRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
 
 /**
@@ -61,5 +62,8 @@ class AppContainer(context: Context) {
             tokenManager,
             database.playerDao()
         )
+    }
+    val leaderboardRepository: LeaderboardRepository by lazy {
+        LeaderboardRepository(apiService)
     }
 }

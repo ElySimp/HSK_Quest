@@ -63,10 +63,20 @@ class HomeFragment : Fragment() {
         }
 
         binding.cardCompanionPet.setOnClickListener {
-            if (currentActivePet != null) {
-                nav.navigate(R.id.action_home_to_pet)
-            } else {
-                nav.navigate(R.id.action_home_to_gacha)
+            when (val pState = viewModel.petState.value) {
+                HomeViewModel.PetState.Loading -> {
+                    // Wait until pet finishes loading
+                }
+                is HomeViewModel.PetState.Error -> {
+                    viewModel.retryPetLoad()
+                }
+                is HomeViewModel.PetState.Loaded -> {
+                    if (pState.pet != null) {
+                        nav.navigate(R.id.action_home_to_pet)
+                    } else {
+                        nav.navigate(R.id.action_home_to_gacha)
+                    }
+                }
             }
         }
 
@@ -74,7 +84,7 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.state.collect(::renderState) }
                 launch { viewModel.dailyStatus.collect(::renderDaily) }
-                launch { viewModel.activePet.collect(::renderPet) }
+                launch { viewModel.petState.collect(::renderPetState) }
                 launch {
                     viewModel.isClaimingDaily.collect { isClaiming ->
                         if (isClaiming) binding.btnClaimDaily.isEnabled = false
@@ -146,10 +156,48 @@ class HomeFragment : Fragment() {
             tvOffline.visibility = if (isCached) View.VISIBLE else View.GONE
 
             tvGreeting.text = getString(R.string.home_greeting, player.username)
-            tvLevelLeague.text = "${getString(R.string.home_level_format, s.level)} · ${s.league.replaceFirstChar { it.uppercase() }}"
+            tvLevelLeague.text = "${getString(R.string.home_level_format, s.level)} · ${formatLeagueBadge(s.league)}"
 
             progressXp.setProgressCompat(XpCalculator.progressPercent(s.level, s.xp), true)
             tvXpLabel.text = "${s.xp} / ${s.xpToNextLevel} XP"
+        }
+    }
+
+    private fun formatLeagueBadge(rawLeague: String): String {
+        val norm = rawLeague.lowercase()
+        return when {
+            norm.startsWith("radiant") -> "👑 Radiant League"
+            norm.startsWith("gold") -> "🥇 Gold League"
+            norm.startsWith("silver") -> "🥈 Silver League"
+            else -> "🥉 Bronze League"
+        }
+    }
+
+    private fun renderPetState(petState: HomeViewModel.PetState) {
+        when (petState) {
+            HomeViewModel.PetState.Loading -> {
+                currentActivePet = null
+                petAnimator?.stop()
+                petAnimator = null
+                binding.layoutHasPet.visibility = View.GONE
+                binding.layoutNoPet.visibility = View.VISIBLE
+                binding.tvNoPetIcon.text = "⏳"
+                binding.tvNoPetTitle.text = "Calling Your Companion..."
+                binding.tvNoPetSubtitle.text = "Connecting to the Tamagotchi Sanctuary..."
+            }
+            is HomeViewModel.PetState.Error -> {
+                currentActivePet = null
+                petAnimator?.stop()
+                petAnimator = null
+                binding.layoutHasPet.visibility = View.GONE
+                binding.layoutNoPet.visibility = View.VISIBLE
+                binding.tvNoPetIcon.text = "⚠️"
+                binding.tvNoPetTitle.text = "Sanctuary Connection Lost"
+                binding.tvNoPetSubtitle.text = "Tap to retry loading your companion"
+            }
+            is HomeViewModel.PetState.Loaded -> {
+                renderPet(petState.pet)
+            }
         }
     }
 
@@ -160,6 +208,9 @@ class HomeFragment : Fragment() {
             petAnimator = null
             binding.layoutNoPet.visibility = View.VISIBLE
             binding.layoutHasPet.visibility = View.GONE
+            binding.tvNoPetIcon.text = "🥚"
+            binding.tvNoPetTitle.text = "Nest is Empty"
+            binding.tvNoPetSubtitle.text = "Tap to summon your companion at the Celestial Gacha Altar!"
             return
         }
 
