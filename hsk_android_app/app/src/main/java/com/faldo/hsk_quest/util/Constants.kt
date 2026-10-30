@@ -13,12 +13,12 @@ object Constants {
 
     // Combat
     const val BASE_DAMAGE = 10
-    const val DAMAGE_PER_STR = 5
+    const val DAMAGE_PER_STR = 2
     const val BASE_CRIT_MULTIPLIER = 1.50
-    const val CRIT_PER_DEX = 0.02
-    const val DEF_REDUCTION_PER_POINT = 2
+    const val CRIT_PER_DEX = 0.0025
+    const val DEF_REDUCTION_PER_POINT = 0.5
     const val BASE_MAX_HP = 100
-    const val HP_PER_VIT = 25
+    const val HP_PER_VIT = 5
 
     // Critical-hit answer window
     const val CRIT_WINDOW_MS = 2_000L
@@ -28,8 +28,8 @@ object Constants {
     const val PET_AFFECTION_AWAKE_THRESHOLD = 25f
     const val PET_DAMAGE_BOOST_MULTIPLIER = 1.15
 
-    // Stage scaling: +12% per stage index (1..4)
-    const val STAGE_STEP_SCALING = 0.12
+    // Stage scaling: +18% per stage index (1..4)
+    const val STAGE_STEP_SCALING = 0.18
 
     // XP curve: 100 x Level^1.2
     const val XP_BASE = 100.0

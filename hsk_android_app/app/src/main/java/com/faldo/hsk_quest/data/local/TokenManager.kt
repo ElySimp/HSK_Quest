@@ -40,6 +40,12 @@ class TokenManager(context: Context) {
         cachedToken = token
     }
 
+    suspend fun updateUsername(username: String) {
+        dataStore.edit {
+            it[KEY_USERNAME] = username
+        }
+    }
+
     suspend fun clear() {
         dataStore.edit { it.clear() }
         cachedToken = null

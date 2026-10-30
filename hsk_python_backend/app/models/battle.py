@@ -1,9 +1,9 @@
 """
 Battle-related models — history log and weakness tracking.
 """
-from datetime import datetime
+from datetime import datetime, timezone
 
-from sqlalchemy import Integer, String, Float, DateTime, ForeignKey, func
+from sqlalchemy import Integer, String, Float, DateTime, ForeignKey, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -73,3 +73,36 @@ class WeaknessLog(Base):
 
     # Relationships
     user: Mapped["User"] = relationship("User", back_populates="weakness_logs")
+
+
+class UserVocabMastery(Base):
+    """
+    Compact per-user vocabulary mastery and mistake tracking table.
+    Rows are only created when a user makes at least one mistake on a word,
+    keeping storage O(distinct struggled words) rather than O(total questions answered).
+    """
+    __tablename__ = "user_vocab_mastery"
+    __table_args__ = (
+        UniqueConstraint("user_id", "hsk_level", "hanzi", name="uq_user_vocab_mastery"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    hsk_level: Mapped[int] = mapped_column(Integer, index=True)
+    hanzi: Mapped[str] = mapped_column(String(32), index=True)
+    pinyin: Mapped[str] = mapped_column(String(64), default="")
+    english: Mapped[str] = mapped_column(String(255), default="")
+
+    wrong_count: Mapped[int] = mapped_column(Integer, default=0)
+    correct_count: Mapped[int] = mapped_column(Integer, default=0)
+    correct_streak: Mapped[int] = mapped_column(Integer, default=0)
+    mastery_score: Mapped[int] = mapped_column(Integer, default=50)
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
+

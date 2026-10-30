@@ -2,6 +2,15 @@ package com.faldo.hsk_quest.data.model
 
 import com.google.gson.annotations.SerializedName
 
+data class VocabDeltaDto(
+    val hanzi: String,
+    @SerializedName("hsk_level") val hskLevel: Int = 1,
+    val pinyin: String = "",
+    val english: String = "",
+    @SerializedName("wrong_delta") val wrongDelta: Int = 0,
+    @SerializedName("correct_delta") val correctDelta: Int = 0,
+)
+
 data class BattleResultRequest(
     @SerializedName("monster_id") val monsterId: Int,
     @SerializedName("area_id") val areaId: Int,
@@ -12,6 +21,7 @@ data class BattleResultRequest(
     @SerializedName("questions_answered") val questionsAnswered: Int,
     @SerializedName("correct_answers") val correctAnswers: Int,
     @SerializedName("skill_type") val skillType: String = "reading",
+    @SerializedName("vocab_deltas") val vocabDeltas: List<VocabDeltaDto> = emptyList(),
 )
 
 data class BattleResultResponse(

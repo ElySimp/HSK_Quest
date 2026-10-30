@@ -15,6 +15,15 @@
         android:layout_height="56dp"
         android:background="@drawable/bg_stat_box">
 
+        <ImageView
+            android:id="@+id/iv_item_sprite"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:contentDescription="Item sprite"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tv_item_icon"
             android:layout_width="wrap_content"
@@ -100,6 +109,21 @@
                 android:textSize="10sp"
                 android:textStyle="bold"
                 tools:text="+20 ❤️ Affection" />
+
+            <TextView
+                android:id="@+id/tv_value_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/hq_gold"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="⚡ 8.0 HP/🪙"
+                tools:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 
@@ -110,6 +134,17 @@
         android:layout_marginStart="8dp"
         android:gravity="end"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_item_price_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hq_gold"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="35 🪙"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_item_owned_count"
@@ -125,13 +160,64 @@
             android:id="@+id/btn_item_action"
             style="@style/HqButton.Primary"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="34dp"
             android:layout_marginTop="4dp"
-            android:minHeight="36dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="34dp"
             android:paddingHorizontal="12dp"
             android:paddingVertical="0dp"
             android:textSize="11sp"
-            tools:text="40 🪙 Buy" />
+            tools:text="+ Add" />
+
+        <LinearLayout
+            android:id="@+id/layout_cart_stepper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/btn_cart_minus"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_stat_box"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="−"
+                android:textColor="@color/hq_gold"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_cart_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="26dp"
+                android:paddingHorizontal="4dp"
+                android:text="1"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_cart_plus"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_stat_box"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/hq_gold"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

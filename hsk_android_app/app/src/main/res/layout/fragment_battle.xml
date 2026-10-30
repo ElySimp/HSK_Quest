@@ -58,11 +58,11 @@
         android:id="@+id/card_monster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_card_raised"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="12dp"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/btn_flee">
 
         <LinearLayout
@@ -94,7 +94,7 @@
             android:id="@+id/progress_monster_hp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:max="100"
             android:progress="100"
             app:indicatorColor="@color/hq_crimson"
@@ -102,18 +102,40 @@
             app:trackCornerRadius="3dp"
             app:trackThickness="8dp" />
 
+        <TextView
+            android:id="@+id/tv_boss_enrage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="🔥 BOSS ENRAGED! (HP &lt; 30%)"
+            android:textColor="@color/hq_crimson"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <!-- Monster Animated Sprite -->
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="4dp">
 
             <ImageView
                 android:id="@+id/iv_monster_sprite"
-                android:layout_width="140dp"
-                android:layout_height="90dp"
+                android:layout_width="84dp"
+                android:layout_height="68dp"
                 android:contentDescription="Monster Sprite"
                 android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/iv_slash_vfx"
+                android:layout_width="84dp"
+                android:layout_height="68dp"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:contentDescription="Slash VFX"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_vfx_slash" />
 
             <!-- Floating Damage Text Popup -->
             <TextView
@@ -131,49 +153,112 @@
         </FrameLayout>
     </LinearLayout>
 
-    <!-- Player Status Bar -->
+    <!-- Player Status & Companion Pet Combat Bar -->
     <LinearLayout
         android:id="@+id/card_player_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_card"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="14dp"
+        android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"
         app:layout_constraintTop_toBottomOf="@id/card_monster">
 
-        <TextView
-            android:id="@+id/tv_player_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hero HP"
-            android:textColor="@color/hq_text_primary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_player_hp"
+        <!-- Left Section: Hero Vitality Bar -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
             android:layout_weight="1"
-            android:max="100"
-            android:progress="100"
-            app:indicatorColor="@color/hq_jade"
-            app:trackColor="@color/hq_surface_high"
-            app:trackCornerRadius="3dp"
-            app:trackThickness="8dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_player_hp_numeric"
-            style="@style/HqText.PixelStat"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_player_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="🛡️ Hero Vitality"
+                    android:textColor="@color/hq_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_player_hp_numeric"
+                    style="@style/HqText.PixelStat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="❤️ 100/100 (100%)"
+                    android:textColor="@color/hq_jade"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_player_hp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:max="100"
+                android:progress="100"
+                app:indicatorColor="@color/hq_jade"
+                app:trackColor="@color/hq_surface_high"
+                app:trackCornerRadius="5dp"
+                app:trackThickness="10dp" />
+        </LinearLayout>
+
+        <!-- Middle Section: Equipped Companion Pet Visual Box -->
+        <LinearLayout
+            android:id="@+id/layout_battle_pet_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/hq_jade"
-            android:textSize="15sp"
-            tools:text="100/100" />
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_stat_box"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_battle_pet_sprite"
+                android:layout_width="36dp"
+                android:layout_height="32dp"
+                android:contentDescription="Equipped Pet"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tv_battle_pet_buff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/hq_gold"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:text="🛡️ Shield" />
+        </LinearLayout>
+
+        <!-- Right Section: In-Battle Inventory Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_quick_elixir"
+            style="@style/HqButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:minHeight="36dp"
+            android:paddingHorizontal="10dp"
+            android:text="🎒 Bag (0)"
+            android:textColor="@color/hq_gold"
+            android:textSize="11sp"
+            app:strokeColor="@color/hq_gold" />
     </LinearLayout>
 
     <!-- Question Prompt Card -->
@@ -181,11 +266,11 @@
         android:id="@+id/card_question"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="8dp"
         android:background="@drawable/bg_card_raised"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/progress_timer"
         app:layout_constraintTop_toBottomOf="@id/card_player_status">
 
@@ -204,9 +289,9 @@
             style="@style/HqText.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:gravity="center"
-            android:textSize="26sp"
+            android:textSize="21sp"
             tools:text="to love; to be fond of" />
 
         <TextView
@@ -215,9 +300,73 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:gravity="center"
             android:textColor="@color/hq_text_muted"
             android:textSize="13sp"
-            tools:text="ài" />
+            tools:text="Select the matching Hanzi character / word" />
+
+        <LinearLayout
+            android:id="@+id/layout_multimodal_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_replay_audio"
+                style="@style/HqButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:minHeight="34dp"
+                android:paddingHorizontal="12dp"
+                android:text="🔊 Listen"
+                android:textColor="@color/hq_gold"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:strokeColor="@color/hq_gold"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_speak_mandarin"
+                style="@style/HqButton.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="6dp"
+                android:minHeight="34dp"
+                android:paddingHorizontal="12dp"
+                android:text="🎙️ Tap to Speak"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cant_speak"
+                style="@style/HqButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="6dp"
+                android:minHeight="34dp"
+                android:paddingHorizontal="10dp"
+                android:text="🔇 Can't Speak"
+                android:textColor="@color/hq_text_muted"
+                android:textSize="11sp"
+                android:visibility="gone"
+                app:strokeColor="@color/hq_text_muted"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_speech_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textColor="@color/hq_gold"
+            android:textSize="11sp"
+            android:visibility="gone"
+            tools:text="🎙️ Tap 'Tap to Speak' and pronounce 爱 aloud — or select its Pinyin below"
+            tools:visibility="visible" />
     </LinearLayout>
 
     <!-- Timer Countdown Bar -->
@@ -225,7 +374,7 @@
         android:id="@+id/progress_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:max="1000"
         android:progress="1000"
         app:indicatorColor="@color/hq_gold"
@@ -234,7 +383,7 @@
         app:trackCornerRadius="2dp"
         app:trackThickness="6dp" />
 
-    <!-- 2x2 Answer Grid -->
+    <!-- 4x1 Full-Width Vertical Answer Stack -->
     <LinearLayout
         android:id="@+id/grid_options"
         android:layout_width="match_parent"
@@ -242,74 +391,220 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <TextView
+            android:id="@+id/btn_option_0"
+            style="@style/HqText.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_option_idle"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minHeight="46dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp"
+            tools:text="爱" />
+
+        <TextView
+            android:id="@+id/btn_option_1"
+            style="@style/HqText.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_option_idle"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minHeight="46dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp"
+            tools:text="八" />
+
+        <TextView
+            android:id="@+id/btn_option_2"
+            style="@style/HqText.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_option_idle"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minHeight="46dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp"
+            tools:text="爸爸" />
+
+        <TextView
+            android:id="@+id/btn_option_3"
+            style="@style/HqText.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_option_idle"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minHeight="46dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:textSize="14sp"
+            tools:text="吧" />
+    </LinearLayout>
+
+    <!-- In-Battle Inventory Overlay (Covers Question Box & Answer Stack) -->
+    <LinearLayout
+        android:id="@+id/layout_battle_inventory_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_card_gold_border"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_question"
+        tools:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_option_0"
                 style="@style/HqText.Title"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_marginEnd="6dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_option_idle"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:textSize="18sp"
-                tools:text="爱" />
+                android:text="🎒 Battle Satchel · ⏸️ Timer Paused"
+                android:textColor="@color/hq_gold"
+                android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/btn_option_1"
-                style="@style/HqText.Title"
-                android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_option_idle"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:textSize="18sp"
-                tools:text="八" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_close_battle_bag"
+                style="@style/HqButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:minHeight="32dp"
+                android:paddingHorizontal="10dp"
+                android:text="✕ Resume"
+                android:textColor="@color/hq_crimson"
+                android:textSize="11sp"
+                app:strokeColor="@color/hq_crimson" />
         </LinearLayout>
+
+        <TextView
+            style="@style/HqText.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Drink a Red Healing Potion for instant % Max HP recovery:"
+            android:textColor="@color/hq_text_muted"
+            android:textSize="11sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/ll_battle_bag_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Battle Intro Loading & Gameplay Tips Overlay -->
+    <LinearLayout
+        android:id="@+id/layout_battle_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_screen"
+        android:clickable="true"
+        android:elevation="12dp"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_loading_stage_title"
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="⚔️ Entering Battle..."
+            android:textColor="@color/hq_gold"
+            android:textSize="20sp" />
+
+        <ProgressBar
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:indeterminateTint="@color/hq_gold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_card_raised"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/btn_option_2"
-                style="@style/HqText.Title"
-                android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_option_idle"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:textSize="18sp"
-                tools:text="爸爸" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📜 COMBAT SCROLL TIP"
+                android:textColor="@color/hq_gold"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btn_option_3"
-                style="@style/HqText.Title"
-                android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_option_idle"
-                android:clickable="true"
-                android:focusable="true"
+                android:id="@+id/tv_battle_tip"
+                style="@style/HqText.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:textSize="18sp"
-                tools:text="吧" />
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="13sp"
+                tools:text="💡 Tip: Eat Human Food from your Inventory outside battle for cheap 2x HP recovery! Save Red Potions for emergency % Max HP healing mid-battle!" />
         </LinearLayout>
+
+        <TextView
+            style="@style/HqText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Tap anywhere to start battle ›"
+            android:textColor="@color/hq_text_muted"
+            android:textSize="11sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,15 +7,18 @@ import com.faldo.hsk_quest.data.model.DailyClaimResponse
 import com.faldo.hsk_quest.data.model.DailyStatusResponse
 import com.faldo.hsk_quest.data.model.LoginRequest
 import com.faldo.hsk_quest.data.model.Player
+import com.faldo.hsk_quest.data.model.PlayerProfileResponse
 import com.faldo.hsk_quest.data.model.PlayerStats
 import com.faldo.hsk_quest.data.model.RegisterRequest
 import com.faldo.hsk_quest.data.model.RegisterResponse
 import com.faldo.hsk_quest.data.model.TokenResponse
+import com.faldo.hsk_quest.data.model.UpdateProfileRequest
 import com.faldo.hsk_quest.data.model.WeeklyLeaderboardResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 /**
@@ -31,6 +34,9 @@ interface ApiService {
 
     @GET("api/player/me")
     suspend fun getMyProfile(): Response<Player>
+
+    @PUT("api/player/profile")
+    suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<PlayerProfileResponse>
 
     @POST("api/player/allocate-stat")
     suspend fun allocateStat(@Body body: AllocateStatRequest): Response<PlayerStats>

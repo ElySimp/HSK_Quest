@@ -37,10 +37,25 @@ class LeaderboardViewModel(
 
     private var countdownJob: Job? = null
 
+    init {
+        leaderboardRepository.cachedLeaderboard?.let { cached ->
+            _selectedLeague.value = cached.league
+            _state.value = UiState.Loaded(cached)
+            startCountdown(cached.secondsUntilReset)
+        }
+    }
+
     fun loadLeaderboard(league: String? = _selectedLeague.value) {
         _selectedLeague.value = league
         viewModelScope.launch {
-            _state.value = UiState.Loading
+            val cached = leaderboardRepository.cachedLeaderboard
+            if (cached != null && (league == null || cached.league.equals(league, ignoreCase = true))) {
+                _selectedLeague.value = cached.league
+                _state.value = UiState.Loaded(cached)
+                startCountdown(cached.secondsUntilReset)
+            } else if (_state.value !is UiState.Loaded) {
+                _state.value = UiState.Loading
+            }
             when (val res = leaderboardRepository.getWeeklyLeaderboard(league)) {
                 is Resource.Success -> {
                     val data = res.data
@@ -49,7 +64,9 @@ class LeaderboardViewModel(
                     startCountdown(data.secondsUntilReset)
                 }
                 is Resource.Error -> {
-                    _state.value = UiState.Error(res.message)
+                    if (_state.value !is UiState.Loaded) {
+                        _state.value = UiState.Error(res.message)
+                    }
                 }
                 Resource.Loading -> {}
             }

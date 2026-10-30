@@ -99,17 +99,5 @@ async def login_user(
             detail="Invalid username or password.",
         )
 
-    # Developer test bonus for user 'Flax' to verify Gacha and Tamagotchi
-    if user.username.lower() == "flax":
-        stats_res = await db.execute(
-            select(PlayerStats).where(PlayerStats.user_id == user.id)
-        )
-        stats = stats_res.scalar_one_or_none()
-        if stats and stats.diamonds < 2500:
-            stats.diamonds = 2500
-        if stats and stats.coins < 500:
-            stats.coins = 500
-        await db.commit()
-
     token = create_access_token(user.id, user.username)
     return user, token

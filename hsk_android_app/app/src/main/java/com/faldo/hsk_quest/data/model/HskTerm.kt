@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * A single vocabulary entry from assets/hsk_data/hsk-*.json.
+ * Note: alsoLevels can contain string ranges such as "7-9" alongside integer levels.
  */
 data class HskTerm(
     val number: Int,
@@ -12,7 +13,8 @@ data class HskTerm(
     val pinyin: String,
     val english: String,
     val partOfSpeech: String?,
-    val alsoLevels: List<Int>? = null,
+    val sense: Int? = null,
+    val alsoLevels: List<String>? = null,
 )
 
 /**

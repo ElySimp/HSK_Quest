@@ -2,16 +2,17 @@ package com.faldo.hsk_quest.engine
 
 import com.faldo.hsk_quest.util.Constants
 import kotlin.math.max
+import kotlin.math.round
 
 /**
  * Damage formulas. Kept in sync with backend app/services/combat.py.
  */
 object DamageCalculator {
 
-    /** Base damage = 10 + STR x 5. */
+    /** Base damage = 10 + STR x 2. */
     fun baseDamage(statStr: Int): Int = Constants.BASE_DAMAGE + statStr * Constants.DAMAGE_PER_STR
 
-    /** Critical multiplier = 1.5 + DEX x 0.02. */
+    /** Critical multiplier = 1.5 + DEX x 0.0025. */
     fun critMultiplier(statDex: Int): Double =
         Constants.BASE_CRIT_MULTIPLIER + statDex * Constants.CRIT_PER_DEX
 
@@ -37,7 +38,7 @@ object DamageCalculator {
     /**
      * Damage dealt by a monster to the player:
      * If challenging Gatekeeper Boss while under-leveled, deals playerMaxHp (1-Hit KO unless shielded).
-     * Otherwise: max(1, monsterDmg - DEF x 2).
+     * Otherwise: max(1, monsterDmg - round(DEF x 0.5)).
      */
     fun monsterDamage(
         monsterDmg: Int,
@@ -48,10 +49,10 @@ object DamageCalculator {
         if (isUnderleveledBoss) {
             return playerMaxHp
         }
-        return max(1, monsterDmg - playerStatDef * Constants.DEF_REDUCTION_PER_POINT)
+        return (monsterDmg - round(playerStatDef * Constants.DEF_REDUCTION_PER_POINT).toInt()).coerceAtLeast(1)
     }
 
-    /** Max HP = 100 + VIT x 25. */
+    /** Max HP = 100 + VIT x 5. */
     fun maxHp(statVit: Int): Int = Constants.BASE_MAX_HP + statVit * Constants.HP_PER_VIT
 
     /** Critical-hit answer window, extended by the Time Extender pet buff. */

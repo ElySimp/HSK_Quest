@@ -21,18 +21,18 @@ class PlayerStats(Base):
     unspent_stat_points: Mapped[int] = mapped_column(Integer, default=0)
 
     # --- Combat Stats ---
-    # STR: +5 Raw Damage / point
+    # STR: +2 Raw Damage / point
     stat_str: Mapped[int] = mapped_column(Integer, default=0)
-    # DEX: +2% Critical Damage / point (base 150%)
+    # DEX: +0.25% Critical Damage / point (base 150%)
     stat_dex: Mapped[int] = mapped_column(Integer, default=0)
-    # DEF: -2 Raw Damage received / point
+    # DEF: -0.5 Raw Damage received / point
     stat_def: Mapped[int] = mapped_column(Integer, default=0)
-    # VIT: +25 Max HP / point (base 100)
+    # VIT: +5 Max HP / point (base 100)
     stat_vit: Mapped[int] = mapped_column(Integer, default=0)
 
     # --- HP ---
     hp: Mapped[int] = mapped_column(Integer, default=100)  # Current HP
-    max_hp: Mapped[int] = mapped_column(Integer, default=100)  # Base 100 + VIT*25
+    max_hp: Mapped[int] = mapped_column(Integer, default=100)  # Base 100 + VIT*5
     survival_hp: Mapped[int] = mapped_column(Integer, default=100)  # Account survival HP
 
     # --- Currency ---

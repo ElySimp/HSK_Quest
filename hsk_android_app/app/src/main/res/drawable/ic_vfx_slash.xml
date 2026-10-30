@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Outer Crimson Aura Glow -->
+    <path
+        android:fillColor="#99EF4444"
+        android:pathData="M10,84 C26,56 54,28 86,10 C68,36 42,62 10,84 Z" />
+
+    <!-- Secondary Gold Slash Arc -->
+    <path
+        android:fillColor="#E6F59E0B"
+        android:pathData="M14,82 C30,54 56,28 84,12 C64,36 40,60 14,82 Z" />
+
+    <!-- Bright Inner Blade Core -->
+    <path
+        android:fillColor="#FFFFFBEB"
+        android:pathData="M18,78 C34,54 56,32 80,16 C60,38 38,60 18,78 Z" />
+
+    <!-- Impact Spark Accents -->
+    <path
+        android:fillColor="#FFFDE047"
+        android:pathData="M48,40 L52,32 L54,40 L62,42 L54,44 L52,52 L50,44 L42,42 Z" />
+</vector>

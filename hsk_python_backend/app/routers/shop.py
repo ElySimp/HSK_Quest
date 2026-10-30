@@ -24,102 +24,284 @@ from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/shop", tags=["Shop"])
 
-# Catalog of available food and consumable items in the ancient Chinese market
+# Catalog of available alchemical elixirs, human meals, and companion pet treats
 SHOP_ITEMS: dict[str, dict] = {
+    # ------------------------------------------------------------------
+    # ELIXIRS (4 Tiered Red Healing Potions — % Max HP Heal in Battle)
+    # ------------------------------------------------------------------
+    "minor_healing_potion": {
+        "id": "minor_healing_potion",
+        "name": "Minor Healing Potion",
+        "name_zh": "小治疗药水",
+        "category": "elixir",
+        "description": "Small crimson vial that instantly restores 25% of your Max HP in battle.",
+        "hp_restore": 0,
+        "hp_restore_pct": 25,
+        "affection_boost": 0,
+        "price_coins": 60,
+        "price_diamonds": 0,
+        "icon_emoji": "🧪",
+        "sprite_res": "potion_minor_red",
+    },
+    "healing_potion": {
+        "id": "healing_potion",
+        "name": "Healing Potion",
+        "name_zh": "中治疗药水",
+        "category": "elixir",
+        "description": "Refined alchemical elixir that restores 50% of your Max HP in battle.",
+        "hp_restore": 0,
+        "hp_restore_pct": 50,
+        "affection_boost": 0,
+        "price_coins": 120,
+        "price_diamonds": 0,
+        "icon_emoji": "🧪",
+        "sprite_res": "potion_regular_red",
+    },
+    "greater_healing_potion": {
+        "id": "greater_healing_potion",
+        "name": "Greater Healing Potion",
+        "name_zh": "大治疗药水",
+        "category": "elixir",
+        "description": "Concentrated crimson bottle that restores 75% of your Max HP in battle.",
+        "hp_restore": 0,
+        "hp_restore_pct": 75,
+        "affection_boost": 0,
+        "price_coins": 200,
+        "price_diamonds": 0,
+        "icon_emoji": "🧪",
+        "sprite_res": "potion_greater_red",
+    },
+    "supreme_healing_potion": {
+        "id": "supreme_healing_potion",
+        "name": "Supreme Healing Potion",
+        "name_zh": "极品灵药",
+        "category": "elixir",
+        "description": "Imperial alchemical jar that fully restores 100% of your Max HP!",
+        "hp_restore": 0,
+        "hp_restore_pct": 100,
+        "affection_boost": 0,
+        "price_coins": 320,
+        "price_diamonds": 0,
+        "icon_emoji": "🏺",
+        "sprite_res": "potion_supreme_red",
+    },
+    # ------------------------------------------------------------------
+    # HUMAN FOOD (Escalating HP/Coin Efficiency for Out-of-Battle Healing)
+    # ------------------------------------------------------------------
     "rice_ball_hsk1": {
         "id": "rice_ball_hsk1",
-        "name": "Rice Ball",
-        "name_zh": "饭团 (Fàntuán)",
+        "name": "Warm Rice Ball",
+        "name_zh": "饭团",
         "category": "food",
-        "description": "A fragrant seasoned rice ball. Restores a small amount of HP and cheers up your companion pet.",
-        "hp_restore": 20,
-        "affection_boost": 10,
+        "description": "Steamed sticky rice ball wrapped in crisp nori. Restores +60 Hero HP (4.0 HP/Coin).",
+        "hp_restore": 60,
+        "hp_restore_pct": 0,
+        "affection_boost": 0,
         "price_coins": 15,
         "price_diamonds": 0,
         "icon_emoji": "🍙",
+        "sprite_res": None,
     },
     "dumpling_hsk2": {
         "id": "dumpling_hsk2",
         "name": "Jade Dumplings",
-        "name_zh": "水饺 (Shuǐjiǎo)",
+        "name_zh": "水饺",
         "category": "food",
-        "description": "Steamed dumplings stuffed with savory herbs. Restores moderate HP and warms your pet's heart.",
-        "hp_restore": 50,
-        "affection_boost": 20,
-        "price_coins": 40,
+        "description": "Steamed dumplings stuffed with aromatic herbs. Restores +175 Hero HP (5.0 HP/Coin).",
+        "hp_restore": 175,
+        "hp_restore_pct": 0,
+        "affection_boost": 0,
+        "price_coins": 35,
         "price_diamonds": 0,
         "icon_emoji": "🥟",
+        "sprite_res": None,
     },
     "noodle_hsk3": {
         "id": "noodle_hsk3",
-        "name": "Beef Noodle Bowl",
-        "name_zh": "牛肉面 (Niúròumiàn)",
+        "name": "Lanzhou Beef Noodles",
+        "name_zh": "牛肉面",
         "category": "food",
-        "description": "Hearty hand-pulled noodles in rich broth. High vitality recovery for arduous battles.",
-        "hp_restore": 100,
-        "affection_boost": 35,
-        "price_coins": 80,
+        "description": "Rich spiced beef broth with hand-pulled noodles. Restores +455 Hero HP (6.5 HP/Coin).",
+        "hp_restore": 455,
+        "hp_restore_pct": 0,
+        "affection_boost": 0,
+        "price_coins": 70,
         "price_diamonds": 0,
         "icon_emoji": "🍜",
+        "sprite_res": None,
     },
     "hotpot_hsk4": {
         "id": "hotpot_hsk4",
         "name": "Imperial Hotpot",
-        "name_zh": "火锅 (Huǒguō)",
+        "name_zh": "麻辣火锅",
         "category": "food",
-        "description": "A bubbling cauldron of spicy delicacies. Greatly revitalizes both adventurer and companion.",
-        "hp_restore": 200,
-        "affection_boost": 50,
-        "price_coins": 160,
+        "description": "Fiery simmering cauldron of meats and mushrooms. Restores +1040 Hero HP (8.0 HP/Coin).",
+        "hp_restore": 1040,
+        "hp_restore_pct": 0,
+        "affection_boost": 0,
+        "price_coins": 130,
         "price_diamonds": 0,
         "icon_emoji": "🍲",
+        "sprite_res": None,
+    },
+    "roast_duck_hsk5": {
+        "id": "roast_duck_hsk5",
+        "name": "Peking Roast Duck",
+        "name_zh": "北京烤鸭",
+        "category": "food",
+        "description": "Crispy glazed imperial roast duck feast. Restores +2200 Hero HP (10.0 HP/Coin — Best Value!).",
+        "hp_restore": 2200,
+        "hp_restore_pct": 0,
+        "affection_boost": 0,
+        "price_coins": 220,
+        "price_diamonds": 0,
+        "icon_emoji": "🦆",
+        "sprite_res": None,
+    },
+    # ------------------------------------------------------------------
+    # PET FOOD (Escalating Affection/Coin Efficiency for Pet Sanctuary)
+    # ------------------------------------------------------------------
+    "pet_bone_snack": {
+        "id": "pet_bone_snack",
+        "name": "Crispy Spirit Bone",
+        "name_zh": "灵骨棒",
+        "category": "pet_food",
+        "description": "Crunchy spirit bone treat for companion pets. Restores +12 Pet Affection (0.8 ❤️/Coin).",
+        "hp_restore": 0,
+        "hp_restore_pct": 0,
+        "affection_boost": 12,
+        "price_coins": 15,
+        "price_diamonds": 0,
+        "icon_emoji": "🦴",
+        "sprite_res": None,
+    },
+    "pet_honey_cookie": {
+        "id": "pet_honey_cookie",
+        "name": "Honey Paw Biscuits",
+        "name_zh": "蜜爪饼干",
+        "category": "pet_food",
+        "description": "Paw-shaped biscuits glazed with wildflower honey. Restores +30 Pet Affection (1.0 ❤️/Coin).",
+        "hp_restore": 0,
+        "hp_restore_pct": 0,
+        "affection_boost": 30,
+        "price_coins": 30,
+        "price_diamonds": 0,
+        "icon_emoji": "🍪",
+        "sprite_res": None,
+    },
+    "pet_dried_koi": {
+        "id": "pet_dried_koi",
+        "name": "Golden Dried Koi",
+        "name_zh": "黄金鱼干",
+        "category": "pet_food",
+        "description": "Sun-dried river koi treat packed with spirit energy. Restores +60 Pet Affection (1.2 ❤️/Coin).",
+        "hp_restore": 0,
+        "hp_restore_pct": 0,
+        "affection_boost": 60,
+        "price_coins": 50,
+        "price_diamonds": 0,
+        "icon_emoji": "🐟",
+        "sprite_res": None,
+    },
+    "pet_jade_bamboo": {
+        "id": "pet_jade_bamboo",
+        "name": "Jade Bamboo Shoot",
+        "name_zh": "翠竹笋",
+        "category": "pet_food",
+        "description": "Tender celestial bamboo shoot from the Misty Peaks. Fully restores +100 Pet Affection (1.4 ❤️/Coin — Best Value!).",
+        "hp_restore": 0,
+        "hp_restore_pct": 0,
+        "affection_boost": 100,
+        "price_coins": 70,
+        "price_diamonds": 0,
+        "icon_emoji": "🎋",
+        "sprite_res": None,
     },
     "mooncake_hsk5": {
         "id": "mooncake_hsk5",
-        "name": "Celestial Mooncake",
-        "name_zh": "月饼 (Yuèbǐng)",
-        "category": "food",
-        "description": "Baked under mid-autumn moonlight with lotus paste. Fully restores HP and maximizes pet affection.",
-        "hp_restore": 999,
+        "name": "Celestial Spirit Peach",
+        "name_zh": "仙桃酥",
+        "category": "pet_food",
+        "description": "Mythical immortal peach pastry. Restores +100 Pet Affection & +500 Hero HP!",
+        "hp_restore": 500,
+        "hp_restore_pct": 0,
         "affection_boost": 100,
         "price_coins": 0,
-        "price_diamonds": 50,
-        "icon_emoji": "🥮",
+        "price_diamonds": 20,
+        "icon_emoji": "🍑",
+        "sprite_res": None,
     },
+}
+
+# Backwards compatibility mapping for legacy inventory rows in existing databases
+LEGACY_SHOP_ITEMS: dict[str, dict] = {
     "salve_elixir": {
         "id": "salve_elixir",
-        "name": "Healing Salve",
-        "name_zh": "金创药 (Jīnchuāngyào)",
+        "name": "Minor Healing Potion",
+        "name_zh": "小治疗药水",
         "category": "elixir",
-        "description": "Traditional herbal medicine for quick first aid on battle wounds.",
-        "hp_restore": 60,
+        "description": "Small crimson vial that instantly restores 25% of your Max HP in battle.",
+        "hp_restore": 0,
+        "hp_restore_pct": 25,
         "affection_boost": 0,
-        "price_coins": 45,
+        "price_coins": 60,
         "price_diamonds": 0,
         "icon_emoji": "🧪",
+        "sprite_res": "potion_minor_red",
     },
     "vitality_elixir": {
         "id": "vitality_elixir",
-        "name": "Vitality Elixir",
-        "name_zh": "大还丹 (Dàhuándān)",
+        "name": "Healing Potion",
+        "name_zh": "中治疗药水",
         "category": "elixir",
-        "description": "A legendary Taoist pill condensed from celestial herbs. Restores 180 HP.",
-        "hp_restore": 180,
+        "description": "Refined alchemical elixir that restores 50% of your Max HP in battle.",
+        "hp_restore": 0,
+        "hp_restore_pct": 50,
         "affection_boost": 0,
         "price_coins": 120,
         "price_diamonds": 0,
-        "icon_emoji": "⚗️",
+        "icon_emoji": "🧪",
+        "sprite_res": "potion_regular_red",
     },
 }
 
 
+def get_item_meta(item_id: str) -> dict | None:
+    """Resolve item metadata from active catalog or legacy item dictionary."""
+    return SHOP_ITEMS.get(item_id) or LEGACY_SHOP_ITEMS.get(item_id)
+
+
+def compute_scaled_coin_price(item_meta: dict, player_level: int) -> int:
+    """
+    Compute coin price for an item.
+    Elixirs (% Max HP potions) scale dynamically with the player's current level.
+    """
+    base_coins = item_meta.get("price_coins", 0)
+    if item_meta.get("category") == "elixir" and base_coins > 0:
+        return int(round(base_coins * (1.0 + max(0, player_level - 1) * 0.25)))
+    return base_coins
+
+
 @router.get("/catalog", response_model=ShopCatalogResponse)
 @router.get("/items", response_model=ShopCatalogResponse)
-async def get_shop_catalog():
+async def get_shop_catalog(
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
     """
-    Get full list of items available in the shop with pricing and stat buffs.
+    Get full list of items available in the shop with level-scaled potion pricing and stat buffs.
     """
-    items = [ShopItem(**item_data) for item_data in SHOP_ITEMS.values()]
+    stats_res = await db.execute(
+        select(PlayerStats).where(PlayerStats.user_id == user_id)
+    )
+    stats = stats_res.scalar_one_or_none()
+    player_level = stats.level if stats else 1
+
+    items = []
+    for item_data in SHOP_ITEMS.values():
+        scaled_data = dict(item_data)
+        scaled_data["price_coins"] = compute_scaled_coin_price(item_data, player_level)
+        items.append(ShopItem(**scaled_data))
     return ShopCatalogResponse(items=items)
 
 
@@ -132,16 +314,12 @@ async def buy_item(
     """
     Purchase one or more items from the shop using Coins or Diamonds.
     """
-    item_data = SHOP_ITEMS.get(request.item_id)
-    if not item_data:
+    item_meta = get_item_meta(request.item_id)
+    if not item_meta:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Item '{request.item_id}' does not exist in the shop catalog.",
         )
-
-    quantity = request.quantity
-    total_coins = item_data["price_coins"] * quantity
-    total_diamonds = item_data["price_diamonds"] * quantity
 
     stats_res = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
@@ -152,6 +330,11 @@ async def buy_item(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Player stats not found.",
         )
+
+    quantity = request.quantity
+    unit_coin_price = compute_scaled_coin_price(item_meta, stats.level)
+    total_coins = unit_coin_price * quantity
+    total_diamonds = item_meta["price_diamonds"] * quantity
 
     # Balance validation
     if total_coins > 0 and stats.coins < total_coins:
@@ -184,7 +367,7 @@ async def buy_item(
     else:
         new_inv = Inventory(
             user_id=user_id,
-            item_type=item_data["category"],
+            item_type=item_meta["category"],
             item_id=request.item_id,
             quantity=quantity,
         )
@@ -195,7 +378,7 @@ async def buy_item(
 
     return BuyItemResponse(
         success=True,
-        message=f"Successfully purchased {quantity}x {item_data['name']}!",
+        message=f"Successfully purchased {quantity}x {item_meta['name']}!",
         item_id=request.item_id,
         quantity_bought=quantity,
         total_owned=total_owned,
@@ -222,19 +405,21 @@ async def get_player_inventory(
 
     items = []
     for row in rows:
-        catalog_info = SHOP_ITEMS.get(row.item_id, {})
+        catalog_info = get_item_meta(row.item_id) or {}
         items.append(
             InventoryItemResponse(
                 id=row.id,
                 item_id=row.item_id,
-                item_type=row.item_type,
+                item_type=catalog_info.get("category", row.item_type),
                 quantity=row.quantity,
                 name=catalog_info.get("name", row.item_id.replace("_", " ").title()),
                 name_zh=catalog_info.get("name_zh", ""),
                 description=catalog_info.get("description", "A consumable item."),
                 hp_restore=catalog_info.get("hp_restore", 0),
+                hp_restore_pct=catalog_info.get("hp_restore_pct", 0),
                 affection_boost=catalog_info.get("affection_boost", 0),
                 icon_emoji=catalog_info.get("icon_emoji", "📦"),
+                sprite_res=catalog_info.get("sprite_res"),
             )
         )
 
@@ -264,8 +449,8 @@ async def use_inventory_item(
             detail=f"Item '{request.item_id}' not found in your inventory.",
         )
 
-    catalog_info = SHOP_ITEMS.get(request.item_id)
-    if not catalog_info:
+    item_meta = get_item_meta(request.item_id)
+    if not item_meta:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Item specifications not found in catalog.",
@@ -293,15 +478,19 @@ async def use_inventory_item(
     if inventory_item.quantity <= 0:
         await db.delete(inventory_item)
 
-    # Heal player HP
+    # Heal player HP (percentage-based for potions, flat for meals)
     old_hp = stats.hp
-    hp_restore_amount = catalog_info.get("hp_restore", 0)
-    stats.hp = min(stats.max_hp, stats.hp + hp_restore_amount)
+    if item_meta.get("hp_restore_pct", 0) > 0:
+        target_hp_heal = max(1, int(round(stats.max_hp * item_meta["hp_restore_pct"] / 100.0)))
+    else:
+        target_hp_heal = item_meta.get("hp_restore", 0)
+
+    stats.hp = min(stats.max_hp, stats.hp + target_hp_heal)
     stats.survival_hp = stats.hp
     hp_restored = stats.hp - old_hp
 
     # Boost pet affection if applicable
-    affection_boost = catalog_info.get("affection_boost", 0)
+    affection_boost = item_meta.get("affection_boost", 0)
     affection_gained = 0
     current_affection = None
 
@@ -314,7 +503,7 @@ async def use_inventory_item(
 
     await db.commit()
 
-    msg = f"Used {catalog_info['name']}."
+    msg = f"Used {item_meta['name']}."
     if hp_restored > 0:
         msg += f" Restored {hp_restored} HP!"
     if affection_gained > 0 and active_pet:

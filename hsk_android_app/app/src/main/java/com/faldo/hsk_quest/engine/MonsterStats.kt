@@ -13,24 +13,24 @@ object MonsterStats {
     private data class Base(val hp: Int, val def: Int, val dmg: Int, val xp: Int, val coins: Int)
 
     private val BASE_STATS = mapOf(
-        1 to Base(50, 0, 5, 15, 10),
-        2 to Base(80, 2, 8, 25, 18),
-        3 to Base(120, 5, 12, 40, 28),
-        4 to Base(180, 8, 18, 60, 42),
-        5 to Base(260, 12, 25, 85, 60),
-        6 to Base(360, 16, 35, 120, 85),
-        7 to Base(500, 22, 48, 170, 120),
-        8 to Base(680, 28, 65, 240, 170),
-        9 to Base(900, 35, 85, 350, 250),
+        1 to Base(80, 1, 12, 20, 15),
+        2 to Base(140, 3, 18, 35, 25),
+        3 to Base(230, 5, 26, 55, 40),
+        4 to Base(360, 8, 36, 80, 60),
+        5 to Base(540, 11, 48, 115, 85),
+        6 to Base(780, 15, 64, 160, 120),
+        7 to Base(1080, 20, 85, 220, 165),
+        8 to Base(1450, 26, 115, 300, 225),
+        9 to Base(1950, 34, 155, 420, 320),
     )
 
-    private const val ELITE_HP_MULT = 1.5
-    private const val ELITE_DMG_MULT = 3.5
-    private const val ELITE_REWARD_MULT = 2.0
+    private const val ELITE_HP_MULT = 2.2
+    private const val ELITE_DMG_MULT = 2.5
+    private const val ELITE_REWARD_MULT = 2.5
 
-    private const val BOSS_HP_MULT = 3.0
-    private const val BOSS_DMG_MULT = 2.0
-    private const val BOSS_REWARD_MULT = 5.0
+    private const val BOSS_HP_MULT = 7.0
+    private const val BOSS_DMG_MULT = 4.2
+    private const val BOSS_REWARD_MULT = 6.0
 
     fun create(areaId: Int, type: MonsterType, index: Int = 1): Monster {
         val base = BASE_STATS[areaId] ?: BASE_STATS.getValue(1)
@@ -40,7 +40,7 @@ object MonsterStats {
             MonsterType.BOSS -> Triple(BOSS_HP_MULT, BOSS_DMG_MULT, BOSS_REWARD_MULT)
         }
 
-        // Sub-stage progressive scaling (1.00x, 1.12x, 1.24x, 1.36x for stages 1..4)
+        // Sub-stage progressive scaling (1.00x, 1.18x, 1.36x, 1.54x for stages 1..4)
         val stepMult = if (type == MonsterType.BOSS) 1.0 else (1.0 + Constants.STAGE_STEP_SCALING * (index.coerceIn(1, 4) - 1))
 
         val label = type.name.lowercase().replaceFirstChar { it.uppercase() }

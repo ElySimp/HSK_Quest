@@ -15,6 +15,7 @@ from app.models.daily import DailyClaim
 from app.schemas.player import (
     PlayerStatsResponse,
     AllocateStatRequest,
+    UpdateProfileRequest,
     PlayerProfileResponse,
     DailyStatusResponse,
     DailyClaimResponse,
@@ -74,6 +75,81 @@ async def get_profile(
     )
 
 
+@router.put("/profile", response_model=PlayerProfileResponse)
+async def update_profile(
+    request: UpdateProfileRequest,
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Update current player's username and/or target HSK level."""
+    result = await db.execute(select(User).where(User.id == user_id))
+    current_user = result.scalar_one_or_none()
+    if not current_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if request.username is not None:
+        new_username = request.username.strip()
+        if len(new_username) < 2 or len(new_username) > 50:
+            raise HTTPException(
+                status_code=400,
+                detail="Username must be between 2 and 50 characters.",
+            )
+        if new_username != current_user.username:
+            existing = await db.execute(
+                select(User).where(
+                    User.username == new_username,
+                    User.id != current_user.id,
+                )
+            )
+            if existing.scalar_one_or_none() is not None:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=f"Username '{new_username}' is already taken.",
+                )
+            current_user.username = new_username
+
+    if request.hsk_target is not None:
+        if not (1 <= request.hsk_target <= 9):
+            raise HTTPException(
+                status_code=400,
+                detail="HSK target must be between 1 and 9.",
+            )
+        current_user.hsk_target = request.hsk_target
+
+    stats_res = await db.execute(
+        select(PlayerStats).where(PlayerStats.user_id == current_user.id)
+    )
+    stats = stats_res.scalar_one_or_none()
+    if not stats:
+        raise HTTPException(status_code=404, detail="Player stats not found")
+
+    await db.commit()
+    await db.refresh(current_user)
+
+    return PlayerProfileResponse(
+        user_id=current_user.id,
+        username=current_user.username,
+        hsk_target=current_user.hsk_target,
+        stats=PlayerStatsResponse(
+            level=stats.level,
+            xp=stats.xp,
+            xp_to_next_level=xp_to_next_level(stats.level),
+            unspent_stat_points=stats.unspent_stat_points,
+            stat_str=stats.stat_str,
+            stat_dex=stats.stat_dex,
+            stat_def=stats.stat_def,
+            stat_vit=stats.stat_vit,
+            hp=stats.hp,
+            max_hp=stats.max_hp,
+            survival_hp=stats.hp,
+            coins=stats.coins,
+            diamonds=stats.diamonds,
+            league=stats.league,
+            highest_area_cleared=stats.highest_area_cleared,
+        ),
+    )
+
+
 @router.post("/allocate-stat", response_model=PlayerStatsResponse)
 async def allocate_stat(
     request: AllocateStatRequest,
@@ -84,10 +160,10 @@ async def allocate_stat(
     Allocate 1 unspent stat point to STR, DEX, DEF, or VIT.
 
     Effects:
-    - STR: +5 Raw Damage per point
-    - DEX: +2% Critical Damage per point (base 150%)
-    - DEF: -2 Raw Damage received per point
-    - VIT: +25 Max HP per point (base 100) + restores 25 HP
+    - STR: +2 Raw Damage per point
+    - DEX: +0.25% Critical Damage per point (base 150%)
+    - DEF: -0.5 Raw Damage received per point
+    - VIT: +5 Max HP per point (base 100) + restores 5 HP
     """
     result = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
@@ -110,7 +186,7 @@ async def allocate_stat(
     # Recalculate max HP if VIT changed and heal proportionally
     if request.stat_name == "vit":
         stats.max_hp = calculate_max_hp(stats.stat_vit)
-        stats.hp = min(stats.max_hp, stats.hp + 25)
+        stats.hp = min(stats.max_hp, stats.hp + 5)
 
     stats.survival_hp = stats.hp
     await db.flush()
@@ -240,3 +316,92 @@ async def admin_grant_resources(
         "coins_added": body.coins,
         "total_coins": stats.coins,
     }
+
+
+@router.get("/admin/vocab-analytics", tags=["Admin / Testing"])
+async def admin_vocab_analytics(
+    username: str | None = None,
+    hsk_level: int | None = None,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Developer/Admin endpoint to inspect tracked vocabulary mistakes and mastery analytics.
+    """
+    from sqlalchemy import func
+    from app.models.battle import UserVocabMastery
+
+    count_query = select(func.count(UserVocabMastery.id))
+    if hsk_level is not None:
+        count_query = count_query.where(UserVocabMastery.hsk_level == hsk_level)
+    total_rows = (await db.execute(count_query)).scalar() or 0
+
+    hardest_query = (
+        select(
+            UserVocabMastery.hsk_level,
+            UserVocabMastery.hanzi,
+            UserVocabMastery.pinyin,
+            UserVocabMastery.english,
+            func.sum(UserVocabMastery.wrong_count).label("total_wrong"),
+            func.sum(UserVocabMastery.correct_count).label("total_correct"),
+            func.avg(UserVocabMastery.mastery_score).label("avg_mastery"),
+        )
+        .group_by(
+            UserVocabMastery.hsk_level,
+            UserVocabMastery.hanzi,
+            UserVocabMastery.pinyin,
+            UserVocabMastery.english,
+        )
+        .order_by(func.sum(UserVocabMastery.wrong_count).desc())
+        .limit(20)
+    )
+    if hsk_level is not None:
+        hardest_query = hardest_query.where(UserVocabMastery.hsk_level == hsk_level)
+
+    hardest_rows = (await db.execute(hardest_query)).all()
+    global_hardest_words = [
+        {
+            "hsk_level": r.hsk_level,
+            "hanzi": r.hanzi,
+            "pinyin": r.pinyin,
+            "english": r.english,
+            "total_wrong": int(r.total_wrong or 0),
+            "total_correct": int(r.total_correct or 0),
+            "avg_mastery": round(float(r.avg_mastery or 0.0), 1),
+        }
+        for r in hardest_rows
+    ]
+
+    user_weak_words = []
+    if username:
+        user_res = await db.execute(select(User).where(User.username.ilike(username.strip())))
+        target_user = user_res.scalar_one_or_none()
+        if target_user:
+            user_query = (
+                select(UserVocabMastery)
+                .where(UserVocabMastery.user_id == target_user.id)
+                .order_by(UserVocabMastery.mastery_score.asc(), UserVocabMastery.wrong_count.desc())
+                .limit(30)
+            )
+            if hsk_level is not None:
+                user_query = user_query.where(UserVocabMastery.hsk_level == hsk_level)
+            u_rows = (await db.execute(user_query)).scalars().all()
+            user_weak_words = [
+                {
+                    "hsk_level": w.hsk_level,
+                    "hanzi": w.hanzi,
+                    "pinyin": w.pinyin,
+                    "english": w.english,
+                    "wrong_count": w.wrong_count,
+                    "correct_count": w.correct_count,
+                    "correct_streak": w.correct_streak,
+                    "mastery_score": w.mastery_score,
+                }
+                for w in u_rows
+            ]
+
+    return {
+        "total_tracked_rows": int(total_rows),
+        "global_hardest_words": global_hardest_words,
+        "user_weak_words": user_weak_words,
+    }
+

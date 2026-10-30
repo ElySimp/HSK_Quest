@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="wrap_content"
+    android:minHeight="176dp"
     android:background="@color/hq_surface"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:paddingStart="20dp"
+    android:paddingTop="28dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="18dp">
 
-    <TextView
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="@drawable/bg_emblem"
-        android:gravity="center"
-        android:text="@string/app_logo_hanzi"
-        android:textColor="@color/hq_gold"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+    <FrameLayout
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_emblem">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/app_logo_hanzi"
+            android:textColor="@color/hq_gold"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <TextView
         style="@style/HqText.HeroName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:includeFontPadding="false"
         android:text="@string/app_name" />
 
     <TextView
         style="@style/HqText.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
+        android:includeFontPadding="false"
         android:text="@string/nav_header_tagline"
         android:textSize="12sp" />
 </LinearLayout>

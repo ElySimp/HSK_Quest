@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.databinding.FragmentLoginBinding
 import com.faldo.hsk_quest.util.appContainer
-import com.faldo.hsk_quest.util.applySystemBarsPadding
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -37,7 +36,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.applySystemBarsPadding()
 
         binding.btnLogin.setOnClickListener { submit() }
         binding.etPassword.setOnEditorActionListener { _, actionId, _ ->

@@ -7,10 +7,14 @@ import com.faldo.hsk_quest.data.model.AllocateStatRequest
 import com.faldo.hsk_quest.data.model.DailyClaimResponse
 import com.faldo.hsk_quest.data.model.DailyStatusResponse
 import com.faldo.hsk_quest.data.model.Player
+import com.faldo.hsk_quest.data.model.PlayerProfileResponse
 import com.faldo.hsk_quest.data.model.PlayerStats
+import com.faldo.hsk_quest.data.model.UpdateProfileRequest
 import com.faldo.hsk_quest.data.remote.ApiErrorParser
 import com.faldo.hsk_quest.data.remote.ApiService
 import com.faldo.hsk_quest.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 /**
@@ -21,6 +25,22 @@ class PlayerRepository(
     private val tokenManager: TokenManager,
     private val playerDao: PlayerDao,
 ) {
+
+    @Volatile
+    var cachedDailyStatus: DailyStatusResponse? = null
+
+    @Volatile
+    var cachedMemoryPlayer: Player? = null
+
+    fun clearMemoryCache() {
+        cachedDailyStatus = null
+        cachedMemoryPlayer = null
+    }
+
+    fun observeLocalPlayer(): Flow<Player?> =
+        playerDao.observeLatest().map { entity ->
+            entity?.toModel()?.also { cachedMemoryPlayer = it }
+        }
 
     sealed class ProfileResult {
         data class Fresh(val player: Player) : ProfileResult()
@@ -35,6 +55,7 @@ class PlayerRepository(
             val body = response.body()
             when {
                 response.isSuccessful && body != null -> {
+                    cachedMemoryPlayer = body
                     playerDao.upsert(PlayerEntity.fromModel(body))
                     ProfileResult.Fresh(body)
                 }
@@ -43,6 +64,27 @@ class PlayerRepository(
             }
         } catch (e: IOException) {
             cachedOr(AuthRepository.NETWORK_ERROR)
+        }
+    }
+
+    suspend fun updateProfile(username: String, hskTarget: Int): Resource<PlayerProfileResponse> {
+        return try {
+            val response = api.updateProfile(
+                UpdateProfileRequest(
+                    username = username.trim(),
+                    hskTarget = hskTarget,
+                )
+            )
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                playerDao.upsert(PlayerEntity.fromModel(body))
+                tokenManager.updateUsername(body.username)
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: IOException) {
+            Resource.Error(AuthRepository.NETWORK_ERROR)
         }
     }
 
@@ -75,6 +117,7 @@ class PlayerRepository(
             val response = api.getDailyStatus()
             val body = response.body()
             if (response.isSuccessful && body != null) {
+                cachedDailyStatus = body
                 Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
@@ -89,6 +132,14 @@ class PlayerRepository(
             val response = api.claimDaily()
             val body = response.body()
             if (response.isSuccessful && body != null) {
+                cachedDailyStatus = cachedDailyStatus?.copy(
+                    canClaim = false,
+                    streak = body.streak,
+                ) ?: DailyStatusResponse(
+                    canClaim = false,
+                    streak = body.streak,
+                    coinsReward = body.coinsAwarded,
+                )
                 // Update coins in cached profile
                 val username = tokenManager.getUsername()
                 if (username != null) {

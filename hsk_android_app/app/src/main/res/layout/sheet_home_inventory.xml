@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_raised"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/HqText.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🎒 Adventurer's Inventory Bag"
+            android:textColor="@color/hq_gold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_sheet_bag_hp"
+            style="@style/HqText.PixelStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_stat_box"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/hq_crimson"
+            android:textSize="13sp"
+            tools:text="❤️ 100/100 HP" />
+    </LinearLayout>
+
+    <!-- Subtitle -->
+    <TextView
+        style="@style/HqText.Subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Eat Human Meals here to restore HP before battle, or check your Potions &amp; Pet Treats."
+        android:textColor="@color/hq_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Constrained RecyclerView for Owned Items -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_inventory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_max="360dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_shop_card" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Empty Bag State -->
+    <LinearLayout
+        android:id="@+id/ll_home_bag_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎒"
+            android:textSize="42sp" />
+
+        <TextView
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Your Inventory Bag is Empty"
+            android:textColor="@color/hq_text_primary"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/HqText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="Visit the Merchant Shop to stock up on HP Meals, Battle Potions, and Pet Treats!"
+            android:textColor="@color/hq_text_muted"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_go_shop"
+            style="@style/HqButton.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="16dp"
+            android:text="🏪 Go to Merchant Shop"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Bottom Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_open_shop"
+            style="@style/HqButton.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1.3"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="🏪 Open Merchant Shop"
+            android:textColor="@color/hq_gold"
+            android:textSize="12sp"
+            app:strokeColor="@color/hq_stroke_gold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_close"
+            style="@style/HqButton.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="0.7"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Close"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

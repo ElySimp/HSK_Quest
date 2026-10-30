@@ -9,13 +9,15 @@ data class ShopItem(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("name_zh") val nameZh: String,
-    @SerializedName("category") val category: String, // "food" | "elixir"
+    @SerializedName("category") val category: String, // "elixir" | "food" | "pet_food"
     @SerializedName("description") val description: String,
     @SerializedName("hp_restore") val hpRestore: Int,
+    @SerializedName("hp_restore_pct") val hpRestorePct: Int = 0,
     @SerializedName("affection_boost") val affectionBoost: Int,
     @SerializedName("price_coins") val priceCoins: Int,
     @SerializedName("price_diamonds") val priceDiamonds: Int,
     @SerializedName("icon_emoji") val iconEmoji: String,
+    @SerializedName("sprite_res") val spriteRes: String? = null,
 )
 
 data class ShopCatalogResponse(
@@ -49,8 +51,10 @@ data class InventoryItem(
     @SerializedName("name_zh") val nameZh: String,
     @SerializedName("description") val description: String,
     @SerializedName("hp_restore") val hpRestore: Int,
+    @SerializedName("hp_restore_pct") val hpRestorePct: Int = 0,
     @SerializedName("affection_boost") val affectionBoost: Int,
     @SerializedName("icon_emoji") val iconEmoji: String,
+    @SerializedName("sprite_res") val spriteRes: String? = null,
 )
 
 data class InventoryListResponse(

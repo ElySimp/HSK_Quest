@@ -172,11 +172,21 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_play_again_rps"
+        style="@style/HqButton.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="🔄 Play Again"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_close_rps"
         style="@style/HqButton.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Back to Sanctuary" />
+        android:layout_marginTop="8dp"
+        android:text="Close" />
 
 </LinearLayout>

@@ -85,6 +85,9 @@
             android:id="@+id/action_home_to_pet"
             app:destination="@id/petFragment" />
         <action
+            android:id="@+id/action_home_to_practice"
+            app:destination="@id/practiceFragment" />
+        <action
             android:id="@+id/action_home_to_login"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
@@ -153,6 +156,6 @@
     <fragment
         android:id="@+id/practiceFragment"
         android:name="com.faldo.hsk_quest.ui.practice.PracticeFragment"
-        android:label="@string/nav_practice"
+        android:label="HSK Dictionary &amp; Lab"
         tools:layout="@layout/fragment_practice" />
 </navigation>

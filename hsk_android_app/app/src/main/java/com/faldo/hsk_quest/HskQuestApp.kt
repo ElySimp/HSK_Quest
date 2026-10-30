@@ -35,6 +35,7 @@ class AppContainer(context: Context) {
 
     val tokenManager: TokenManager by lazy { TokenManager(appContext) }
     val database: AppDatabase by lazy { AppDatabase.build(appContext) }
+    val vocabMasteryDao by lazy { database.vocabMasteryDao() }
     val apiService: ApiService by lazy { RetrofitClient.create(tokenManager) }
     val hskJsonLoader: HskJsonLoader by lazy { HskJsonLoader(appContext) }
 

@@ -19,11 +19,29 @@ class PetRepository(
     private val api: ApiService,
 ) {
 
+    @Volatile
+    var cachedActivePet: PetItem? = null
+
+    @Volatile
+    var hasLoadedActivePet: Boolean = false
+
+    @Volatile
+    var cachedPetList: PetListResponse? = null
+
+    fun clearMemoryCache() {
+        cachedActivePet = null
+        hasLoadedActivePet = false
+        cachedPetList = null
+    }
+
     suspend fun getActivePet(): Resource<PetItem?> = withContext(Dispatchers.IO) {
         try {
             val response = api.getActivePet()
             if (response.isSuccessful) {
-                Resource.Success(response.body())
+                val body = response.body()
+                cachedActivePet = body
+                hasLoadedActivePet = true
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }
@@ -36,7 +54,11 @@ class PetRepository(
         try {
             val response = api.getPets()
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!)
+                val body = response.body()!!
+                cachedPetList = body
+                cachedActivePet = body.activePet
+                hasLoadedActivePet = true
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }
@@ -49,7 +71,16 @@ class PetRepository(
         try {
             val response = api.equipPet(petId)
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!)
+                val body = response.body()!!
+                cachedActivePet = body
+                hasLoadedActivePet = true
+                cachedPetList = cachedPetList?.let { currentList ->
+                    currentList.copy(
+                        pets = currentList.pets.map { it.copy(isActive = it.id == body.id) },
+                        activePet = body,
+                    )
+                }
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }
@@ -62,7 +93,9 @@ class PetRepository(
         try {
             val response = api.playRps(RpsRequest(choice = choice))
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!)
+                val body = response.body()!!
+                cachedActivePet = cachedActivePet?.copy(affection = body.currentAffection)
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }
@@ -75,7 +108,9 @@ class PetRepository(
         try {
             val response = api.feedPet(FeedPetRequest(foodId = foodId))
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!)
+                val body = response.body()!!
+                cachedActivePet = cachedActivePet?.copy(affection = body.currentAffection)
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }

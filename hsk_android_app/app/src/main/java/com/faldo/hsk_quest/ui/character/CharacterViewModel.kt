@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.faldo.hsk_quest.data.model.Player
+import com.faldo.hsk_quest.data.repository.AuthRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
 import com.faldo.hsk_quest.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class CharacterViewModel(
     private val playerRepository: PlayerRepository,
+    val authRepository: AuthRepository? = null,
 ) : ViewModel() {
 
     sealed class UiState {
@@ -29,13 +31,43 @@ class CharacterViewModel(
     private val _isAllocating = MutableStateFlow(false)
     val isAllocating: StateFlow<Boolean> = _isAllocating.asStateFlow()
 
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            playerRepository.observeLocalPlayer().collect { localPlayer ->
+                if (localPlayer != null) {
+                    _state.value = UiState.Loaded(localPlayer)
+                }
+            }
+        }
+    }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
+    }
+
     fun loadProfile() {
         viewModelScope.launch {
-            _state.value = when (val r = playerRepository.fetchProfile()) {
-                is PlayerRepository.ProfileResult.Fresh -> UiState.Loaded(r.player)
-                is PlayerRepository.ProfileResult.Cached -> UiState.Loaded(r.player)
-                is PlayerRepository.ProfileResult.Failure -> UiState.Error(r.message)
-                PlayerRepository.ProfileResult.Unauthorized -> UiState.Error("Session expired")
+            if (_state.value !is UiState.Loaded) {
+                _state.value = UiState.Loading
+            }
+            when (val r = playerRepository.fetchProfile()) {
+                is PlayerRepository.ProfileResult.Fresh -> {
+                    _state.value = UiState.Loaded(r.player)
+                }
+                is PlayerRepository.ProfileResult.Cached -> {
+                    _state.value = UiState.Loaded(r.player)
+                }
+                is PlayerRepository.ProfileResult.Failure -> {
+                    if (_state.value !is UiState.Loaded) {
+                        _state.value = UiState.Error(r.message)
+                    }
+                }
+                PlayerRepository.ProfileResult.Unauthorized -> {
+                    _state.value = UiState.Error("Session expired")
+                }
             }
         }
     }
@@ -52,7 +84,7 @@ class CharacterViewModel(
                     _state.value = UiState.Loaded(current.copy(stats = r.data))
                 }
                 is Resource.Error -> {
-                    // Silently ignore or reload
+                    _toastMessage.value = r.message
                 }
                 Resource.Loading -> {}
             }
@@ -60,10 +92,33 @@ class CharacterViewModel(
         }
     }
 
+    fun updateProfile(username: String, hskTarget: Int) {
+        val trimmed = username.trim()
+        if (trimmed.length < 2 || trimmed.length > 50) {
+            _toastMessage.value = "Username must be between 2 and 50 characters."
+            return
+        }
+        viewModelScope.launch {
+            when (val r = playerRepository.updateProfile(trimmed, hskTarget)) {
+                is Resource.Success -> {
+                    _state.value = UiState.Loaded(r.data)
+                    _toastMessage.value = "Profile updated! Target: HSK ${r.data.hskTarget}"
+                }
+                is Resource.Error -> {
+                    _toastMessage.value = r.message
+                }
+                Resource.Loading -> {}
+            }
+        }
+    }
+
     companion object {
-        fun factory(playerRepository: PlayerRepository): ViewModelProvider.Factory =
+        fun factory(
+            playerRepository: PlayerRepository,
+            authRepository: AuthRepository? = null,
+        ): ViewModelProvider.Factory =
             viewModelFactory {
-                initializer { CharacterViewModel(playerRepository) }
+                initializer { CharacterViewModel(playerRepository, authRepository) }
             }
     }
 }

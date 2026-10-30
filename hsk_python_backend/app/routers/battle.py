@@ -3,6 +3,8 @@ Battle router — /api/battle endpoints for submitting battle results.
 Handles anti-cheat plausibility, sub-stage monster scaling, persistent HP,
 defeat penalties (Coins + Pet Affection), league promotion, and adaptive weakness logging.
 """
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.player import PlayerStats
 from app.models.pet import Pet
-from app.models.battle import BattleHistory, WeaknessLog
+from app.models.battle import BattleHistory, WeaknessLog, UserVocabMastery
 from app.schemas.battle import BattleResultRequest, BattleResultResponse
 from app.services.combat import (
     xp_to_next_level,
@@ -90,6 +92,65 @@ async def _update_weakness(db: AsyncSession, user_id: int, request: BattleResult
         db.add(log)
     log.total_correct = (log.total_correct or 0) + request.correct_answers
     log.total_wrong = (log.total_wrong or 0) + (request.questions_answered - request.correct_answers)
+
+
+async def _update_vocab_mastery(db: AsyncSession, user_id: int, request: BattleResultRequest) -> None:
+    """
+    Upsert compact per-word mastery deltas from the battle session.
+    Only creates a new row when wrong_delta > 0 to keep the database lean.
+    """
+    if not request.vocab_deltas:
+        return
+
+    now = datetime.now(timezone.utc)
+    for delta in request.vocab_deltas:
+        hanzi_clean = delta.hanzi.strip()
+        if not hanzi_clean or (delta.wrong_delta <= 0 and delta.correct_delta <= 0):
+            continue
+
+        res = await db.execute(
+            select(UserVocabMastery).where(
+                UserVocabMastery.user_id == user_id,
+                UserVocabMastery.hsk_level == delta.hsk_level,
+                UserVocabMastery.hanzi == hanzi_clean,
+            )
+        )
+        row = res.scalar_one_or_none()
+        if row is None and delta.wrong_delta <= 0:
+            # Never struggled with this word yet; skip inserting to keep table compact
+            continue
+
+        if row is None:
+            row = UserVocabMastery(
+                user_id=user_id,
+                hsk_level=delta.hsk_level,
+                hanzi=hanzi_clean[:32],
+                pinyin=delta.pinyin[:64],
+                english=delta.english[:255],
+                wrong_count=0,
+                correct_count=0,
+                correct_streak=0,
+                mastery_score=50,
+            )
+            db.add(row)
+
+        row.wrong_count = (row.wrong_count or 0) + max(0, delta.wrong_delta)
+        row.correct_count = (row.correct_count or 0) + max(0, delta.correct_delta)
+        if delta.pinyin and not row.pinyin:
+            row.pinyin = delta.pinyin[:64]
+        if delta.english and not row.english:
+            row.english = delta.english[:255]
+
+        current_score = row.mastery_score if row.mastery_score is not None else 50
+        if delta.wrong_delta > 0:
+            row.correct_streak = 0
+            row.mastery_score = max(0, current_score - 20 * delta.wrong_delta)
+        elif delta.correct_delta > 0:
+            row.correct_streak = (row.correct_streak or 0) + delta.correct_delta
+            row.mastery_score = min(100, current_score + 15 * delta.correct_delta)
+
+        row.updated_at = now
+
 
 
 @router.post("/result", response_model=BattleResultResponse)
@@ -201,6 +262,7 @@ async def submit_battle_result(
         coins_earned=coins_earned,
     ))
     await _update_weakness(db, user_id, request)
+    await _update_vocab_mastery(db, user_id, request)
     await db.flush()
 
     if request.result == "win":

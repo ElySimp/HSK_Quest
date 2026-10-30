@@ -48,13 +48,13 @@
     <!-- Character / Stats -->
     <string name="title_character">Hero Stats</string>
     <string name="stat_str_label">STR (Strength)</string>
-    <string name="stat_str_desc">+5 Raw Damage per point</string>
+    <string name="stat_str_desc">+2 Raw Damage per point</string>
     <string name="stat_dex_label">DEX (Dexterity)</string>
-    <string name="stat_dex_desc">+2% Critical Hit multiplier</string>
+    <string name="stat_dex_desc">+0.25% Critical Hit multiplier</string>
     <string name="stat_def_label">DEF (Defense)</string>
-    <string name="stat_def_desc">-2 Damage received per point</string>
+    <string name="stat_def_desc">-0.5 Damage received per point</string>
     <string name="stat_vit_label">VIT (Vitality)</string>
-    <string name="stat_vit_desc">+25 Max HP per point</string>
+    <string name="stat_vit_desc">+5 Max HP per point</string>
     <string name="stat_points_available">Available Points: %1$d</string>
 
     <!-- Battle -->

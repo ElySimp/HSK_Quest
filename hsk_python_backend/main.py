@@ -14,8 +14,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
-from app.database import engine, Base
-from app.routers import auth, player, battle, leaderboard, shop, gacha, pet
+from app.database import engine, Base, async_session
+from app.routers import auth, player, battle, leaderboard, shop, gacha, pet, admin
+from app.services.maintenance_service import prune_battle_history
 
 
 # ---------------------------------------------------------------------------
@@ -48,6 +49,15 @@ async def lifespan(app: FastAPI):
                 "WHERE league NOT IN ('bronze', 'silver', 'gold', 'radiant') OR league IS NULL"
             )
         )
+
+    # Automated data lifecycle management: prune battle logs older than 30 days
+    try:
+        async with async_session() as db:
+            await prune_battle_history(db, retention_days=30)
+    except Exception:
+        # Prevent server launch failure if background pruning encounters temporary issues
+        pass
+
     yield
     await engine.dispose()
 
@@ -87,6 +97,8 @@ app.include_router(leaderboard.router)
 app.include_router(shop.router)
 app.include_router(gacha.router)
 app.include_router(pet.router)
+app.include_router(admin.admin_ui_router)
+app.include_router(admin.router)
 
 
 # ---------------------------------------------------------------------------

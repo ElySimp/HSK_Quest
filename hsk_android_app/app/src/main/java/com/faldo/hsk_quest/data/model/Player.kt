@@ -33,6 +33,16 @@ data class Player(
     val stats: PlayerStats,
 )
 
+typealias PlayerProfileResponse = Player
+
+/**
+ * Request body for PUT /api/player/profile.
+ */
+data class UpdateProfileRequest(
+    val username: String? = null,
+    @SerializedName("hsk_target") val hskTarget: Int? = null,
+)
+
 /** Stats that can receive allocated points on level-up. */
 enum class StatType(val apiName: String) {
     STR("str"),

@@ -48,11 +48,11 @@ class PetAdapter(
             binding.tvPetThumbRarity.text = rarityEmoji
 
             // Resolve drawable
-            val drawableRes = if (pet.spriteKey == "pet_dummy_2") {
-                R.drawable.pet_dummy_2
-            } else {
-                R.drawable.pet_dummy_1
-            }
+            val drawableRes = SpriteAnimator.resolvePetDrawable(
+                binding.root.context,
+                pet.petType,
+                pet.spriteKey,
+            )
 
             // Slice static frame 0 from row 0
             val frames = SpriteAnimator.loadFrames(

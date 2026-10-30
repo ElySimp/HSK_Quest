@@ -1,9 +1,17 @@
 package com.faldo.hsk_quest.ui.gacha
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -11,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.GachaMultiPullResponse
 import com.faldo.hsk_quest.data.model.GachaPullResponse
@@ -24,7 +33,9 @@ import kotlinx.coroutines.launch
 
 /**
  * Gacha Summoning Altar.
- * Enables single and 10x summoning for Chinese mythological companion beasts.
+ * Enables single and 10x summoning for Chinese mythological companion beasts,
+ * featuring an animated shrine centerpiece, summoning ritual loading state,
+ * and animated 1x/10x reveal dialogs.
  */
 class GachaFragment : Fragment() {
 
@@ -40,6 +51,8 @@ class GachaFragment : Fragment() {
     }
 
     private var bannerAnimator: SpriteAnimator? = null
+    private var activeRevealAnimator: SpriteAnimator? = null
+    private var ritualPulseAnimator: AnimatorSet? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,15 +66,15 @@ class GachaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Loop featured banner pet (Row 0, 4 frames of pet_dummy_2)
+        // Animate the shrine altar preview pet across 4 idle frames at 5 FPS
         bannerAnimator = SpriteAnimator.startAnimation(
-            imageView = binding.ivBannerPreview,
-            drawableRes = R.drawable.pet_dummy_2,
+            imageView = binding.ivAltarPreview,
+            drawableRes = SpriteAnimator.resolvePetDrawable(requireContext(), "azure_dragon", "pet_dummy_2"),
             rows = 3,
             cols = 4,
             targetRow = 0,
             frameCount = 4,
-            fps = 6
+            fps = 5,
         )
 
         binding.btnPullSingle.setOnClickListener {
@@ -70,6 +83,10 @@ class GachaFragment : Fragment() {
 
         binding.btnPullTen.setOnClickListener {
             viewModel.pullTen()
+        }
+
+        binding.btnGoPetSanctuary.setOnClickListener {
+            findNavController().navigate(R.id.petFragment)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -81,15 +98,41 @@ class GachaFragment : Fragment() {
                 }
 
                 launch {
+                    viewModel.summoningMode.collect { mode ->
+                        when (mode) {
+                            1 -> {
+                                binding.tvSummonStatus.text =
+                                    "✨ Channeling Celestial Jade... Summoning Spirit..."
+                            }
+                            10 -> {
+                                binding.tvSummonStatus.text =
+                                    "🌟 Channeling 10x Celestial Convergence... Summoning Spirits..."
+                            }
+                        }
+                    }
+                }
+
+                launch {
                     viewModel.isLoading.collect { loading ->
                         binding.btnPullSingle.isEnabled = !loading
                         binding.btnPullTen.isEnabled = !loading
+                        if (loading) {
+                            binding.layoutSummonRitual.visibility = View.VISIBLE
+                            binding.btnPullSingle.text = "✨ Summoning..."
+                            binding.btnPullTen.text = "✨ Summoning..."
+                            startRitualPulseAnimation()
+                        } else {
+                            stopRitualPulseAnimation()
+                            binding.layoutSummonRitual.visibility = View.GONE
+                            binding.btnPullSingle.text = "✨ 1x Summon\n100 💎"
+                            binding.btnPullTen.text = "🌟 10x Summon\n900 💎 (Save 100!)"
+                        }
                     }
                 }
 
                 launch {
                     viewModel.singleSummonResult.collect { result ->
-                        showSummonRevealDialog(result.pet, result.isNewCompanion)
+                        showSummonRevealDialog(result)
                     }
                 }
 
@@ -110,56 +153,105 @@ class GachaFragment : Fragment() {
         viewModel.loadBalance()
     }
 
-    private fun showSummonRevealDialog(pet: PetItem, isNewCompanion: Boolean) {
+    private fun startRitualPulseAnimation() {
+        ritualPulseAnimator?.cancel()
+
+        val previewScaleX = ObjectAnimator.ofFloat(binding.ivAltarPreview, View.SCALE_X, 1.0f, 1.18f).apply {
+            duration = 320L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        val previewScaleY = ObjectAnimator.ofFloat(binding.ivAltarPreview, View.SCALE_Y, 1.0f, 1.18f).apply {
+            duration = 320L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        val previewWobble = ObjectAnimator.ofFloat(binding.ivAltarPreview, View.ROTATION, -6f, 6f).apply {
+            duration = 240L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+
+        val auraScaleX = ObjectAnimator.ofFloat(binding.viewAltarAura, View.SCALE_X, 1.0f, 1.18f).apply {
+            duration = 320L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        val auraScaleY = ObjectAnimator.ofFloat(binding.viewAltarAura, View.SCALE_Y, 1.0f, 1.18f).apply {
+            duration = 320L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+
+        ritualPulseAnimator = AnimatorSet().apply {
+            playTogether(previewScaleX, previewScaleY, previewWobble, auraScaleX, auraScaleY)
+            start()
+        }
+    }
+
+    private fun stopRitualPulseAnimation() {
+        ritualPulseAnimator?.cancel()
+        ritualPulseAnimator = null
+        binding.ivAltarPreview.scaleX = 1.0f
+        binding.ivAltarPreview.scaleY = 1.0f
+        binding.ivAltarPreview.rotation = 0f
+        binding.viewAltarAura.scaleX = 1.0f
+        binding.viewAltarAura.scaleY = 1.0f
+    }
+
+    private fun showSummonRevealDialog(result: GachaPullResponse) {
+        val pet = result.pet
         val dialogBinding = DialogSummonRevealBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
             .setCancelable(false)
             .create()
 
+        dialogBinding.tvRevealTitle.text = "SUMMON SUCCESSFUL! ✨"
         dialogBinding.tvRevealName.text = pet.name
 
-        val rarityStr = when (pet.rarity.lowercase()) {
-            "legendary" -> "LEGENDARY 🟡"
-            "epic" -> "EPIC 🟣"
-            "rare" -> "RARE 🔵"
-            else -> "COMMON 🟢"
-        }
-        dialogBinding.tvRevealRarity.text = rarityStr
-
-        val buffDesc = when (pet.buffType) {
-            "shield" -> "Combat Buff: 🛡️ Shield (Absorbs 1 mistake)"
-            "time_extender" -> "Combat Buff: ⏳ Time Extender (+3s Crit Window)"
-            "damage_boost" -> "Combat Buff: ⚔️ Damage Boost (+10% Damage)"
-            else -> "Combat Buff: None"
-        }
-        dialogBinding.tvRevealBuff.text = buffDesc
-
-        dialogBinding.tvRevealStatusNote.text = if (isNewCompanion) {
-            "✨ Automatically equipped as your active companion!"
+        if (result.isNewCompanion) {
+            dialogBinding.tvRevealStatusPill.text = "✨ NEW COMPANION!"
+            dialogBinding.tvRevealStatusPill.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.hq_jade)
+            )
         } else {
-            "Added to your companion sanctuary collection."
+            dialogBinding.tvRevealStatusPill.text = "🔄 DUPLICATE (+15 ❤️ Affection, +40 🪙 Coins)"
+            dialogBinding.tvRevealStatusPill.setTextColor(
+                ContextCompat.getColor(requireContext(), R.color.hq_gold)
+            )
         }
 
-        val drawableRes = if (pet.spriteKey == "pet_dummy_2") {
-            R.drawable.pet_dummy_2
-        } else {
-            R.drawable.pet_dummy_1
+        dialogBinding.tvRevealRarity.text = formatRarityLabel(pet.rarity)
+        dialogBinding.tvRevealRarity.setTextColor(getRarityColor(pet.rarity))
+        dialogBinding.tvRevealBuff.text = formatBuffDescription(pet.buffType)
+        dialogBinding.tvRevealSubtext.text = result.message.ifBlank {
+            if (result.isNewCompanion) {
+                "✨ Added to your Companion Sanctuary!"
+            } else {
+                "+15 Affection & +40 Bonus Coins awarded!"
+            }
         }
+        dialogBinding.scrollMultiResults.visibility = View.GONE
 
-        // Preview static frame 0
-        val frames = SpriteAnimator.loadFrames(
-            imageView = dialogBinding.ivRevealSprite,
+        val drawableRes = SpriteAnimator.resolvePetDrawable(requireContext(), pet.petType, pet.spriteKey)
+        activeRevealAnimator?.stop()
+        val revealAnimator = SpriteAnimator.startAnimation(
+            imageView = dialogBinding.ivRevealPetSprite,
             drawableRes = drawableRes,
             rows = 3,
             cols = 4,
             targetRow = 0,
-            frameCount = 1
+            frameCount = 4,
+            fps = 6,
         )
-        if (frames.isNotEmpty()) {
-            dialogBinding.ivRevealSprite.setImageBitmap(frames[0])
-        } else {
-            dialogBinding.ivRevealSprite.setImageResource(drawableRes)
+        activeRevealAnimator = revealAnimator
+
+        dialog.setOnDismissListener {
+            revealAnimator.stop()
+            if (activeRevealAnimator === revealAnimator) {
+                activeRevealAnimator = null
+            }
         }
 
         dialogBinding.btnRevealConfirm.setOnClickListener {
@@ -167,18 +259,11 @@ class GachaFragment : Fragment() {
         }
 
         dialog.show()
+        playDialogEntranceAnimation(dialogBinding.revealDialogRoot)
     }
 
     private fun showMultiSummonDialog(result: GachaMultiPullResponse) {
-        // Show highest rarity pet in detail, with count summary
-        val bestPet = result.pets.maxByOrNull {
-            when (it.rarity.lowercase()) {
-                "legendary" -> 4
-                "epic" -> 3
-                "rare" -> 2
-                else -> 1
-            }
-        } ?: result.pets.first()
+        val bestPet = result.pets.maxByOrNull { rarityRank(it.rarity) } ?: result.pets.first()
 
         val dialogBinding = DialogSummonRevealBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
@@ -187,38 +272,86 @@ class GachaFragment : Fragment() {
             .create()
 
         dialogBinding.tvRevealTitle.text = "10x SUMMON COMPLETED! 🎊"
-        dialogBinding.tvRevealName.text = "Highest: ${bestPet.name}"
+        dialogBinding.tvRevealStatusPill.text = "🌟 10x CELESTIAL CONVERGENCE"
+        dialogBinding.tvRevealStatusPill.setTextColor(
+            ContextCompat.getColor(requireContext(), R.color.hq_gold)
+        )
 
-        val rarityStr = when (bestPet.rarity.lowercase()) {
-            "legendary" -> "LEGENDARY 🟡"
-            "epic" -> "EPIC 🟣"
-            "rare" -> "RARE 🔵"
-            else -> "COMMON 🟢"
-        }
-        dialogBinding.tvRevealRarity.text = rarityStr
-
-        val petNames = result.pets.joinToString(", ") { it.name.substringBefore(" ") }
-        dialogBinding.tvRevealBuff.text = "Summoned: $petNames"
-        dialogBinding.tvRevealStatusNote.text = "10 companions added to your Sanctuary collection!"
-
-        val drawableRes = if (bestPet.spriteKey == "pet_dummy_2") {
-            R.drawable.pet_dummy_2
-        } else {
-            R.drawable.pet_dummy_1
+        dialogBinding.tvRevealName.text = "Featured: ${bestPet.name}"
+        dialogBinding.tvRevealRarity.text = formatRarityLabel(bestPet.rarity)
+        dialogBinding.tvRevealRarity.setTextColor(getRarityColor(bestPet.rarity))
+        dialogBinding.tvRevealBuff.text = formatBuffDescription(bestPet.buffType)
+        dialogBinding.tvRevealSubtext.text = result.message.ifBlank {
+            "10 companions channeled into your Sanctuary!"
         }
 
-        val frames = SpriteAnimator.loadFrames(
-            imageView = dialogBinding.ivRevealSprite,
+        // Populate 10x multi-summon list with color-coded rows
+        dialogBinding.scrollMultiResults.visibility = View.VISIBLE
+        dialogBinding.containerMultiResults.removeAllViews()
+        val density = resources.displayMetrics.density
+
+        result.pets.forEachIndexed { index, petItem ->
+            val row = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER_VERTICAL
+                setBackgroundResource(R.drawable.bg_card_raised)
+                val padH = (10 * density).toInt()
+                val padV = (7 * density).toInt()
+                setPadding(padH, padV, padH, padV)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                ).apply {
+                    if (index < result.pets.lastIndex) {
+                        bottomMargin = (6 * density).toInt()
+                    }
+                }
+            }
+
+            val rarityBadge = when (petItem.rarity.lowercase()) {
+                "legendary" -> "🟡 [LEGENDARY]"
+                "epic" -> "🟣 [EPIC]"
+                "rare" -> "🔵 [RARE]"
+                else -> "🟢 [COMMON]"
+            }
+            val rarityColor = getRarityColor(petItem.rarity)
+
+            val topLine = TextView(requireContext()).apply {
+                text = "#${index + 1}  $rarityBadge  ${petItem.name}"
+                setTextColor(rarityColor)
+                textSize = 12.5f
+                setTypeface(typeface, Typeface.BOLD)
+            }
+
+            val bottomLine = TextView(requireContext()).apply {
+                text = "     ${formatShortBuff(petItem.buffType)}"
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_text_secondary))
+                textSize = 11f
+            }
+
+            row.addView(topLine)
+            row.addView(bottomLine)
+            dialogBinding.containerMultiResults.addView(row)
+        }
+
+        val drawableRes = SpriteAnimator.resolvePetDrawable(requireContext(), bestPet.petType, bestPet.spriteKey)
+        activeRevealAnimator?.stop()
+        val revealAnimator = SpriteAnimator.startAnimation(
+            imageView = dialogBinding.ivRevealPetSprite,
             drawableRes = drawableRes,
             rows = 3,
             cols = 4,
             targetRow = 0,
-            frameCount = 1
+            frameCount = 4,
+            fps = 6,
         )
-        if (frames.isNotEmpty()) {
-            dialogBinding.ivRevealSprite.setImageBitmap(frames[0])
-        } else {
-            dialogBinding.ivRevealSprite.setImageResource(drawableRes)
+        activeRevealAnimator = revealAnimator
+
+        dialog.setOnDismissListener {
+            revealAnimator.stop()
+            if (activeRevealAnimator === revealAnimator) {
+                activeRevealAnimator = null
+            }
         }
 
         dialogBinding.btnRevealConfirm.setOnClickListener {
@@ -226,12 +359,75 @@ class GachaFragment : Fragment() {
         }
 
         dialog.show()
+        playDialogEntranceAnimation(dialogBinding.revealDialogRoot)
+    }
+
+    private fun playDialogEntranceAnimation(targetView: View) {
+        targetView.scaleX = 0.75f
+        targetView.scaleY = 0.75f
+        targetView.alpha = 0f
+        targetView.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .alpha(1f)
+            .setDuration(420L)
+            .setInterpolator(OvershootInterpolator(1.25f))
+            .start()
+    }
+
+    private fun rarityRank(rarity: String): Int {
+        return when (rarity.lowercase()) {
+            "legendary" -> 4
+            "epic" -> 3
+            "rare" -> 2
+            else -> 1
+        }
+    }
+
+    private fun formatRarityLabel(rarity: String): String {
+        return when (rarity.lowercase()) {
+            "legendary" -> "LEGENDARY 🟡"
+            "epic" -> "EPIC 🟣"
+            "rare" -> "RARE 🔵"
+            else -> "COMMON 🟢"
+        }
+    }
+
+    private fun getRarityColor(rarity: String): Int {
+        val colorRes = when (rarity.lowercase()) {
+            "legendary" -> R.color.hq_gold
+            "epic" -> R.color.hq_crimson
+            "rare" -> R.color.hq_sky
+            else -> R.color.hq_jade
+        }
+        return ContextCompat.getColor(requireContext(), colorRes)
+    }
+
+    private fun formatBuffDescription(buffType: String): String {
+        return when (buffType) {
+            "shield" -> "Combat Buff: 🛡️ Shield (Absorbs 1 mistake)"
+            "time_extender" -> "Combat Buff: ⏳ Time Extender (+3s Crit Window)"
+            "damage_boost" -> "Combat Buff: ⚔️ Damage Boost (+10% Damage)"
+            else -> "Combat Buff: None"
+        }
+    }
+
+    private fun formatShortBuff(buffType: String): String {
+        return when (buffType) {
+            "shield" -> "🛡️ Shield (Absorbs 1 mistake)"
+            "time_extender" -> "⏳ Time Extender (+3s Crit Window)"
+            "damage_boost" -> "⚔️ Damage Boost (+10% Damage)"
+            else -> "🐾 Loyal Sanctuary Companion"
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        stopRitualPulseAnimation()
         bannerAnimator?.stop()
         bannerAnimator = null
+        activeRevealAnimator?.stop()
+        activeRevealAnimator = null
         _binding = null
     }
 }

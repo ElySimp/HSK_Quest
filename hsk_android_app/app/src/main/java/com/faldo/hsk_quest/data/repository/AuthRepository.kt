@@ -26,6 +26,7 @@ class AuthRepository(
             val response = api.register(RegisterRequest(username, password, hskTarget))
             val body = response.body()
             if (response.isSuccessful && body != null) {
+                playerDao.clear()
                 tokenManager.save(body.accessToken, body.user.username)
                 Resource.Success(Unit)
             } else {
@@ -38,6 +39,9 @@ class AuthRepository(
             val response = api.login(LoginRequest(username, password))
             val body = response.body()
             if (response.isSuccessful && body != null) {
+                if (tokenManager.getUsername() != username) {
+                    playerDao.clear()
+                }
                 tokenManager.save(body.accessToken, username)
                 Resource.Success(Unit)
             } else {

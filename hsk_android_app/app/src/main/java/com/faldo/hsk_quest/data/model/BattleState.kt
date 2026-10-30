@@ -30,4 +30,6 @@ data class BattleState(
     val totalQuestionsAnswered: Int get() = correctAnswers + wrongAnswers
     val playerHpPercent: Int get() = if (playerMaxHp > 0) ((playerHp.toDouble() / playerMaxHp) * 100).toInt() else 0
     val monsterHpPercent: Int get() = if (monster.maxHp > 0) ((monsterHp.toDouble() / monster.maxHp) * 100).toInt() else 0
+    val isBossEnraged: Boolean
+        get() = monster.type == MonsterType.BOSS && monsterHp > 0 && monsterHpPercent <= 30
 }

@@ -32,7 +32,7 @@
         <item
             android:id="@+id/practiceFragment"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/nav_practice" />
+            android:title="HSK Dictionary &amp; Lab" />
     </group>
 
     <item android:title="">

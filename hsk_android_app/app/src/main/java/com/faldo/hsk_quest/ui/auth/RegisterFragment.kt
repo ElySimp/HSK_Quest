@@ -14,7 +14,6 @@ import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.databinding.FragmentRegisterBinding
 import com.faldo.hsk_quest.util.Constants
 import com.faldo.hsk_quest.util.appContainer
-import com.faldo.hsk_quest.util.applySystemBarsPadding
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 
@@ -38,7 +37,6 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.applySystemBarsPadding()
         setupHskChips()
 
         binding.btnRegister.setOnClickListener {

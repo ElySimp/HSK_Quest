@@ -104,4 +104,17 @@ object BattleEngine {
     fun dismissLowHpWarning(currentState: BattleState): BattleState {
         return currentState.copy(isLowHpWarningActive = false)
     }
+
+    fun applyElixirHeal(currentState: BattleState, healAmount: Int): BattleState {
+        if (currentState.isFinished || healAmount <= 0) return currentState
+        val newHp = kotlin.math.min(currentState.playerMaxHp, currentState.playerHp + healAmount)
+        val actualHealed = newHp - currentState.playerHp
+        return currentState.copy(
+            playerHp = newHp,
+            totalDamageTaken = max(0, currentState.totalDamageTaken - actualHealed),
+            lastDamageDealt = 0,
+            lastDamageTaken = 0,
+            isLowHpWarningActive = false,
+        )
+    }
 }

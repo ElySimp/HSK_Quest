@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.faldo.hsk_quest.MainActivity
 import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.AreaInfo
 import com.faldo.hsk_quest.data.model.MonsterType
@@ -21,7 +22,6 @@ import com.faldo.hsk_quest.databinding.FragmentWorldMapBinding
 import com.faldo.hsk_quest.databinding.ItemStageCardBinding
 import com.faldo.hsk_quest.ui.battle.BattleFragment
 import com.faldo.hsk_quest.util.appContainer
-import com.faldo.hsk_quest.util.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -53,9 +53,9 @@ class WorldMapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.applySystemBarsPadding()
 
         binding.btnBack.setOnClickListener { findNavController().navigateUp() }
+        (activity as? MainActivity)?.attachScrollListener(binding.scrollWorldMap)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -81,9 +81,13 @@ class WorldMapFragment : Fragment() {
                 }
                 text = label
                 setAllCaps(false)
-                textSize = 12f
-                val padH = (resources.displayMetrics.density * 12).toInt()
-                val padV = (resources.displayMetrics.density * 6).toInt()
+                textSize = 11f
+                insetTop = 0
+                insetBottom = 0
+                minHeight = (resources.displayMetrics.density * 32).toInt()
+                minimumHeight = (resources.displayMetrics.density * 32).toInt()
+                val padH = (resources.displayMetrics.density * 10).toInt()
+                val padV = (resources.displayMetrics.density * 4).toInt()
                 setPadding(padH, padV, padH, padV)
 
                 if (isSelected) {
@@ -105,9 +109,9 @@ class WorldMapFragment : Fragment() {
 
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    (resources.displayMetrics.density * 32).toInt()
                 ).apply {
-                    marginEnd = (resources.displayMetrics.density * 8).toInt()
+                    marginEnd = (resources.displayMetrics.density * 6).toInt()
                 }
 
                 setOnClickListener {
@@ -123,14 +127,14 @@ class WorldMapFragment : Fragment() {
         with(binding) {
             tvAreaTitle.text = "HSK ${info.areaId}: ${info.title} (${info.chineseTitle})"
             tvAreaDesc.text = info.description
-            tvAreaClearedStars.text = "⭐ ${info.clearedCount} / ${info.totalCount} Cleared"
-            tvAreaRecLevel.text = "🛡️ Recommended: Lv. ${info.recommendedLevel}"
+            tvAreaClearedStars.text = "⭐ ${info.clearedCount}/${info.totalCount}"
+            tvAreaRecLevel.text = "🛡️ Rec. Lv. ${info.recommendedLevel}"
 
             if (info.isUnlocked) {
                 tvAreaLockStatus.text = "🔓 Realm Open"
                 tvAreaLockStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_jade))
             } else {
-                tvAreaLockStatus.text = "🔒 Locked (Defeat HSK ${info.areaId - 1} Boss)"
+                tvAreaLockStatus.text = "🔒 Locked"
                 tvAreaLockStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_crimson))
             }
         }

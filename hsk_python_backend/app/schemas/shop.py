@@ -9,13 +9,15 @@ class ShopItem(BaseModel):
     id: str
     name: str
     name_zh: str
-    category: str  # "food" | "elixir"
+    category: str  # "elixir" | "food" | "pet_food"
     description: str
     hp_restore: int
+    hp_restore_pct: int = 0
     affection_boost: int
     price_coins: int = 0
     price_diamonds: int = 0
     icon_emoji: str
+    sprite_res: Optional[str] = None
 
 
 class ShopCatalogResponse(BaseModel):
@@ -46,8 +48,10 @@ class InventoryItemResponse(BaseModel):
     name_zh: str
     description: str
     hp_restore: int
+    hp_restore_pct: int = 0
     affection_boost: int
     icon_emoji: str
+    sprite_res: Optional[str] = None
 
 
 class InventoryListResponse(BaseModel):

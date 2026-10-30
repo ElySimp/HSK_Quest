@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK Quest — Admin Dashboard & LiveOps</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink: {
+              950: '#0c0c0e',
+              900: '#121215',
+              850: '#151518',
+              800: '#18181c',
+              700: '#222228',
+              600: '#2a2a32',
+              500: '#3a3a46',
+            },
+            gold: {
+              300: '#f6e05e',
+              400: '#e5be70',
+              500: '#d4af6a',
+              600: '#b89047',
+              700: '#8c6827',
+            },
+            jade: {
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+            },
+            crimson: {
+              400: '#f87171',
+              500: '#e05252',
+              600: '#dc2626',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom scrollbar matching dark aesthetic */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0c0c0e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a32;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3a3a46;
+    }
+  </style>
+</head>
+<body class="bg-ink-950 text-gray-100 font-sans min-h-screen antialiased flex flex-col selection:bg-gold-500 selection:text-ink-950">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-30 bg-ink-900/90 backdrop-blur border-b border-ink-600 px-6 py-4 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl filter drop-shadow">🐉</span>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            HSK Quest <span class="text-gold-500 font-semibold text-sm tracking-wider uppercase px-2 py-0.5 rounded bg-gold-500/10 border border-gold-500/30">Admin Dashboard</span>
+          </h1>
+          <p class="text-xs text-gray-400">LiveOps Telemetry, Progression Tuning & Database Maintenance</p>
+        </div>
+      </div>
+
+      <!-- Action toolbar -->
+      <div class="flex items-center gap-3">
+        <button id="btn-refresh-all" onclick="refreshDashboard()" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-lg bg-ink-800 hover:bg-ink-700 text-gray-200 border border-ink-600 transition shadow-sm hover:border-gold-500/50">
+          <svg class="w-3.5 h-3.5 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Refresh All
+        </button>
+        <a href="/docs" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg bg-ink-800/60 hover:bg-ink-700 text-gray-400 hover:text-white border border-ink-600 transition">
+          Swagger Docs ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-6 py-6 space-y-6">
+
+    <!-- Database Maintenance & Health Banner -->
+    <section class="bg-gradient-to-r from-ink-800 to-ink-850 rounded-xl p-5 border border-ink-600 shadow-lg">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              ● Active Storage Guard
+            </span>
+            <span class="text-xs text-gray-400">ISO-Week Protected</span>
+          </div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            Database Maintenance & Lifecycle Telemetry
+          </h2>
+          <p class="text-xs text-gray-400 max-w-2xl leading-relaxed">
+            Automatic prune removes battle logs older than 30 days while strictly safeguarding active ISO-week damage scores for weekly leaderboard integrity.
+          </p>
+        </div>
+
+        <!-- Prune Action Controls -->
+        <div class="flex items-center gap-3 w-full lg:w-auto">
+          <button id="btn-prune" onclick="confirmPruneBattles(30)" class="w-full lg:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-lg bg-crimson-600 hover:bg-crimson-500 text-white shadow-md hover:shadow-crimson-500/20 transition border border-crimson-400/30">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+            Prune Old Battles (&gt;30d)
+          </button>
+        </div>
+      </div>
+
+      <!-- Telemetry Counters Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-5 pt-5 border-t border-ink-600/60">
+        <!-- Battle History -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Battle Logs</p>
+          <p id="stat-battles-total" class="text-lg font-bold text-white mt-1">-</p>
+          <span id="stat-battles-prunable" class="text-[10px] text-amber-400 font-medium">Eligible: -</span>
+        </div>
+        <!-- Registered Users -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Users</p>
+          <p id="stat-users-total" class="text-lg font-bold text-white mt-1">-</p>
+          <span class="text-[10px] text-gray-500">Accounts</span>
+        </div>
+        <!-- Player Stats -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Player Stats</p>
+          <p id="stat-players-total" class="text-lg font-bold text-gold-500 mt-1">-</p>
+          <span class="text-[10px] text-gray-500">Active characters</span>
+        </div>
+        <!-- Weakness Logs -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Weakness Logs</p>
+          <p id="stat-weakness-total" class="text-lg font-bold text-white mt-1">-</p>
+          <span class="text-[10px] text-gray-500">Adaptive AI</span>
+        </div>
+        <!-- Vocab Mastery -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Vocab Mastery</p>
+          <p id="stat-vocab-total" class="text-lg font-bold text-white mt-1">-</p>
+          <span class="text-[10px] text-gray-500">Tracked words</span>
+        </div>
+        <!-- Companion Pets -->
+        <div class="bg-ink-900/60 rounded-lg p-3 border border-ink-700">
+          <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Companion Pets</p>
+          <p id="stat-pets-total" class="text-lg font-bold text-jade-400 mt-1">-</p>
+          <span class="text-[10px] text-gray-500">Gacha entities</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Player Stats Directory -->
+    <section class="bg-ink-800 rounded-xl border border-ink-600 shadow-xl overflow-hidden">
+      <!-- Toolbar & Live Filter -->
+      <div class="p-5 border-b border-ink-600 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            Player Stats Directory
+          </h2>
+          <p class="text-xs text-gray-400">View and adjust live currencies, health bars, levels, and combat attributes</p>
+        </div>
+
+        <!-- Search Bar & Summary Pills -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative w-full sm:w-64">
+            <input 
+              id="search-input" 
+              type="text" 
+              placeholder="Search by username or ID..." 
+              oninput="onSearchChange(this.value)"
+              class="w-full px-3.5 py-2 pl-9 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white placeholder-gray-500 focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition"
+            >
+            <svg class="w-4 h-4 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+
+          <!-- Currency Circulation Counters -->
+          <div class="hidden sm:flex items-center gap-2 text-xs">
+            <span class="px-2.5 py-1.5 rounded-lg bg-ink-900 border border-ink-700 text-gray-300">
+              🪙 <strong id="circulating-coins" class="text-white ml-1">0</strong>
+            </span>
+            <span class="px-2.5 py-1.5 rounded-lg bg-ink-900 border border-ink-700 text-gray-300">
+              💎 <strong id="circulating-diamonds" class="text-gold-500 ml-1">0</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-ink-900/80 text-gray-400 uppercase tracking-wider text-[11px] border-b border-ink-600">
+            <tr>
+              <th scope="col" class="py-3.5 px-4 font-semibold">User</th>
+              <th scope="col" class="py-3.5 px-3 font-semibold">Level &amp; Target</th>
+              <th scope="col" class="py-3.5 px-3 font-semibold">League</th>
+              <th scope="col" class="py-3.5 px-4 font-semibold">Vitality (HP)</th>
+              <th scope="col" class="py-3.5 px-3 font-semibold">Currencies</th>
+              <th scope="col" class="py-3.5 px-3 font-semibold">Combat Stats</th>
+              <th scope="col" class="py-3.5 px-4 font-semibold text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="player-table-body" class="divide-y divide-ink-700/60">
+            <!-- Dynamic rows will be inserted here -->
+            <tr>
+              <td colspan="7" class="py-12 text-center text-gray-500">
+                <svg class="animate-spin h-6 w-6 text-gold-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                Loading players directory...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer / Row Counter -->
+      <div class="p-3 bg-ink-900/50 border-t border-ink-600 text-xs text-gray-400 flex justify-between items-center px-4">
+        <span>Showing <strong id="visible-count" class="text-white">0</strong> player(s)</span>
+        <span class="text-[11px] text-gray-500">FastAPI &amp; PostgreSQL Backend</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit Stats Modal -->
+  <div id="edit-modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-800 border border-ink-600 rounded-xl shadow-2xl max-w-xl w-full overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in duration-200">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-ink-900 border-b border-ink-600 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">✏️</span>
+          <div>
+            <h3 class="text-sm font-bold text-white">Edit Player Progression &amp; Stats</h3>
+            <p id="modal-subtitle" class="text-xs text-gray-400">User: -</p>
+          </div>
+        </div>
+        <button onclick="closeEditModal()" class="text-gray-400 hover:text-white p-1 rounded hover:bg-ink-700 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Form) -->
+      <form id="edit-stats-form" onsubmit="submitStatsEdit(event)" class="p-6 space-y-4 overflow-y-auto">
+        <input type="hidden" id="edit-user-id">
+
+        <!-- Currencies Section -->
+        <div>
+          <h4 class="text-xs font-semibold text-gold-500 uppercase tracking-wider mb-2">Currencies &amp; Vault</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">🪙 Coins</label>
+              <input type="number" id="edit-coins" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">💎 Diamonds</label>
+              <input type="number" id="edit-diamonds" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Level & Progression -->
+        <div>
+          <h4 class="text-xs font-semibold text-gold-500 uppercase tracking-wider mb-2">Level &amp; Advancement</h4>
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">⭐ Level</label>
+              <input type="number" id="edit-level" min="1" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">XP Points</label>
+              <input type="number" id="edit-xp" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Unspent Points</label>
+              <input type="number" id="edit-unspent-points" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Pool -->
+        <div>
+          <h4 class="text-xs font-semibold text-gold-500 uppercase tracking-wider mb-2">Health &amp; Vitality</h4>
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Current HP</label>
+              <input type="number" id="edit-hp" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Max HP</label>
+              <input type="number" id="edit-max-hp" min="1" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Survival HP</label>
+              <input type="number" id="edit-survival-hp" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Combat Stats (STR, DEX, DEF, VIT) -->
+        <div>
+          <h4 class="text-xs font-semibold text-gold-500 uppercase tracking-wider mb-2">RPG Combat Attributes</h4>
+          <div class="grid grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">⚔️ STR</label>
+              <input type="number" id="edit-str" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">⚡ DEX</label>
+              <input type="number" id="edit-dex" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">🛡️ DEF</label>
+              <input type="number" id="edit-def" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">❤️ VIT</label>
+              <input type="number" id="edit-vit" min="0" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- League & Area Progression -->
+        <div>
+          <h4 class="text-xs font-semibold text-gold-500 uppercase tracking-wider mb-2">League &amp; Realm Area</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Leaderboard League</label>
+              <select id="edit-league" class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+                <option value="bronze">Bronze (Areas 0-3)</option>
+                <option value="silver">Silver (Areas 4-5)</option>
+                <option value="gold">Gold (Area 6)</option>
+                <option value="radiant">Radiant (Areas 7-9)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Highest Area Cleared (0-9)</label>
+              <input type="number" id="edit-area" min="0" max="9" required class="w-full px-3 py-2 text-xs rounded-lg bg-ink-900 border border-ink-600 text-white focus:outline-none focus:border-gold-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="pt-4 border-t border-ink-600 flex justify-end gap-3">
+          <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-xs font-medium rounded-lg bg-ink-900 hover:bg-ink-700 text-gray-300 border border-ink-600 transition">
+            Cancel
+          </button>
+          <button type="submit" id="btn-save-stats" class="px-5 py-2 text-xs font-semibold rounded-lg bg-gold-500 hover:bg-gold-400 text-ink-950 font-bold transition shadow-lg shadow-gold-500/20">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Client-side Logic (Vanilla JS) -->
+  <script>
+    // State storage
+    let allPlayers = [];
+    let currentFilter = '';
+
+    // League Badge Color Configurations
+    const LEAGUE_STYLES = {
+      radiant: { bg: 'bg-purple-950/70', text: 'text-purple-300', border: 'border-purple-500/50', label: 'Radiant' },
+      gold: { bg: 'bg-amber-950/70', text: 'text-gold-400', border: 'border-gold-500/50', label: 'Gold' },
+      silver: { bg: 'bg-slate-800/80', text: 'text-slate-300', border: 'border-slate-500/50', label: 'Silver' },
+      bronze: { bg: 'bg-amber-900/30', text: 'text-amber-500', border: 'border-amber-700/50', label: 'Bronze' },
+    };
+
+    // Initialize Dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+      refreshDashboard();
+    });
+
+    async function refreshDashboard() {
+      await Promise.all([
+        loadMaintenanceStats(),
+        loadPlayers(),
+      ]);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Fetch and Display Database Maintenance Telemetry
+    // ---------------------------------------------------------------------------
+    async function loadMaintenanceStats() {
+      try {
+        const response = await fetch('/api/admin/maintenance/stats');
+        if (!response.ok) throw new Error('Failed to load database stats');
+        const data = await response.json();
+
+        document.getElementById('stat-battles-total').textContent = (data.battle_history || 0).toLocaleString();
+        document.getElementById('stat-battles-prunable').textContent = `Eligible: ${(data.eligible_for_pruning_count || 0).toLocaleString()}`;
+        document.getElementById('stat-users-total').textContent = (data.users || 0).toLocaleString();
+        document.getElementById('stat-players-total').textContent = (data.player_stats || 0).toLocaleString();
+        document.getElementById('stat-weakness-total').textContent = (data.weakness_log || 0).toLocaleString();
+        document.getElementById('stat-vocab-total').textContent = (data.user_vocab_mastery || 0).toLocaleString();
+        document.getElementById('stat-pets-total').textContent = (data.pets || 0).toLocaleString();
+      } catch (err) {
+        showToast('Failed to fetch maintenance telemetry: ' + err.message, 'error');
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Fetch and Display Player Directory
+    // ---------------------------------------------------------------------------
+    async function loadPlayers() {
+      try {
+        const response = await fetch('/api/admin/players');
+        if (!response.ok) throw new Error('Failed to load players directory');
+        allPlayers = await response.json();
+
+        // Update Circulation Totals
+        let totalCoins = 0;
+        let totalDiamonds = 0;
+        allPlayers.forEach(p => {
+          totalCoins += (p.coins || 0);
+          totalDiamonds += (p.diamonds || 0);
+        });
+
+        document.getElementById('circulating-coins').textContent = totalCoins.toLocaleString();
+        document.getElementById('circulating-diamonds').textContent = totalDiamonds.toLocaleString();
+
+        renderPlayerTable();
+      } catch (err) {
+        document.getElementById('player-table-body').innerHTML = `
+          <tr>
+            <td colspan="7" class="py-8 text-center text-crimson-400">
+              Error loading players: ${err.message}
+            </td>
+          </tr>
+        `;
+        showToast('Failed to load players: ' + err.message, 'error');
+      }
+    }
+
+    function onSearchChange(val) {
+      currentFilter = (val || '').toLowerCase().trim();
+      renderPlayerTable();
+    }
+
+    function renderPlayerTable() {
+      const tbody = document.getElementById('player-table-body');
+      const filtered = allPlayers.filter(p => {
+        if (!currentFilter) return true;
+        const usernameMatch = (p.username || '').toLowerCase().includes(currentFilter);
+        const idMatch = String(p.user_id).includes(currentFilter);
+        return usernameMatch || idMatch;
+      });
+
+      document.getElementById('visible-count').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-12 text-center text-gray-500">
+              No players found matching "${currentFilter}"
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(player => {
+        const hp = player.hp || 0;
+        const maxHp = Math.max(1, player.max_hp || 100);
+        const hpPercent = Math.min(100, Math.max(0, Math.round((hp / maxHp) * 100)));
+
+        // Color coded HP bar
+        let hpBarColor = 'bg-jade-500';
+        if (hpPercent < 25) {
+          hpBarColor = 'bg-crimson-500';
+        } else if (hpPercent < 55) {
+          hpBarColor = 'bg-amber-500';
+        }
+
+        // League badge style
+        const leagueKey = (player.league || 'bronze').toLowerCase();
+        const leagueInfo = LEAGUE_STYLES[leagueKey] || LEAGUE_STYLES.bronze;
+
+        return `
+          <tr class="hover:bg-ink-850/60 transition group">
+            <!-- User -->
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-ink-900 border border-ink-600 flex items-center justify-center font-bold text-gold-500 text-xs">
+                  ${(player.username || 'P').charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div class="font-semibold text-white group-hover:text-gold-400 transition">${escapeHtml(player.username)}</div>
+                  <div class="text-[10px] text-gray-500 font-mono">UID: ${player.user_id}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Level & Target -->
+            <td class="py-3 px-3">
+              <div class="font-bold text-white">Lv. ${player.level}</div>
+              <div class="text-[10px] text-gray-400">HSK Target: ${player.hsk_target}</div>
+            </td>
+
+            <!-- League -->
+            <td class="py-3 px-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${leagueInfo.bg} ${leagueInfo.text} border ${leagueInfo.border}">
+                ${leagueInfo.label}
+              </span>
+              <div class="text-[10px] text-gray-500 mt-0.5">Area ${player.highest_area_cleared}/9</div>
+            </td>
+
+            <!-- HP Bar -->
+            <td class="py-3 px-4 min-w-[140px]">
+              <div class="flex justify-between items-center text-[10px] text-gray-400 mb-1">
+                <span>${hp} / ${maxHp}</span>
+                <span class="font-mono text-gray-500">${hpPercent}%</span>
+              </div>
+              <div class="w-full bg-ink-900 rounded-full h-1.5 overflow-hidden border border-ink-700">
+                <div class="${hpBarColor} h-1.5 rounded-full transition-all duration-300" style="width: ${hpPercent}%"></div>
+              </div>
+            </td>
+
+            <!-- Currencies -->
+            <td class="py-3 px-3">
+              <div class="text-white font-medium">🪙 ${(player.coins || 0).toLocaleString()}</div>
+              <div class="text-gold-500 font-medium">💎 ${(player.diamonds || 0).toLocaleString()}</div>
+            </td>
+
+            <!-- Combat Stats -->
+            <td class="py-3 px-3 font-mono text-[11px] text-gray-400">
+              <span title="STR">${player.stat_str}</span> / 
+              <span title="DEX">${player.stat_dex}</span> / 
+              <span title="DEF">${player.stat_def}</span> / 
+              <span title="VIT">${player.stat_vit}</span>
+              <div class="text-[10px] text-gray-500 font-sans">Pts: ${player.unspent_stat_points}</div>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-3 px-4 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                <button 
+                  onclick="quickHealPlayer(${player.user_id}, '${escapeHtml(player.username)}')" 
+                  title="Restore Full HP"
+                  class="px-2 py-1 text-[11px] font-medium rounded bg-jade-500/10 hover:bg-jade-500/20 text-jade-400 border border-jade-500/30 transition shadow-sm"
+                >
+                  💚 Heal
+                </button>
+                <button 
+                  onclick="openEditModal(${player.user_id})" 
+                  title="Modify Player Stats"
+                  class="px-2 py-1 text-[11px] font-medium rounded bg-gold-500/10 hover:bg-gold-500/20 text-gold-400 border border-gold-500/30 transition shadow-sm"
+                >
+                  ✏️ Edit
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ---------------------------------------------------------------------------
+    // Quick Heal Action
+    // ---------------------------------------------------------------------------
+    async function quickHealPlayer(userId, username) {
+      try {
+        const response = await fetch(`/api/admin/players/${userId}/quick-heal`, {
+          method: 'POST'
+        });
+        if (!response.ok) throw new Error('Quick heal request failed');
+        const data = await response.json();
+
+        // Update local state without full reload
+        const idx = allPlayers.findIndex(p => p.user_id === userId);
+        if (idx !== -1) {
+          allPlayers[idx].hp = data.hp;
+          allPlayers[idx].survival_hp = data.survival_hp;
+          renderPlayerTable();
+        }
+
+        showToast(`💚 ${data.message || `${username} fully healed!`}`, 'success');
+      } catch (err) {
+        showToast('Error healing player: ' + err.message, 'error');
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Prune Battles Maintenance Action
+    // ---------------------------------------------------------------------------
+    async function confirmPruneBattles(days) {
+      const confirmed = confirm(
+        `Are you sure you want to prune battle history records older than ${days} days?\n\n` +
+        `Safety Guarantee: Records belonging to the active ISO-week weekly leaderboard are strictly preserved.`
+      );
+      if (!confirmed) return;
+
+      const btn = document.getElementById('btn-prune');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Pruning...';
+
+      try {
+        const response = await fetch(`/api/admin/maintenance/prune-battles?days=${days}`, {
+          method: 'POST'
+        });
+        if (!response.ok) throw new Error('Prune request failed');
+        const data = await response.json();
+
+        showToast(`🧹 Maintenance complete! Pruned ${data.deleted_count} old battle records.`, 'success');
+        await loadMaintenanceStats();
+      } catch (err) {
+        showToast('Error executing prune: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Modal Edit Flow
+    // ---------------------------------------------------------------------------
+    function openEditModal(userId) {
+      const player = allPlayers.find(p => p.user_id === userId);
+      if (!player) return;
+
+      document.getElementById('edit-user-id').value = player.user_id;
+      document.getElementById('modal-subtitle').textContent = `User: ${player.username} (ID: ${player.user_id})`;
+
+      document.getElementById('edit-coins').value = player.coins;
+      document.getElementById('edit-diamonds').value = player.diamonds;
+
+      document.getElementById('edit-level').value = player.level;
+      document.getElementById('edit-xp').value = player.xp;
+      document.getElementById('edit-unspent-points').value = player.unspent_stat_points;
+
+      document.getElementById('edit-hp').value = player.hp;
+      document.getElementById('edit-max-hp').value = player.max_hp;
+      document.getElementById('edit-survival-hp').value = player.survival_hp;
+
+      document.getElementById('edit-str').value = player.stat_str;
+      document.getElementById('edit-dex').value = player.stat_dex;
+      document.getElementById('edit-def').value = player.stat_def;
+      document.getElementById('edit-vit').value = player.stat_vit;
+
+      document.getElementById('edit-league').value = (player.league || 'bronze').toLowerCase();
+      document.getElementById('edit-area').value = player.highest_area_cleared;
+
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+    }
+
+    async function submitStatsEdit(event) {
+      event.preventDefault();
+      const userId = parseInt(document.getElementById('edit-user-id').value, 10);
+      const btn = document.getElementById('btn-save-stats');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      const payload = {
+        coins: parseInt(document.getElementById('edit-coins').value, 10),
+        diamonds: parseInt(document.getElementById('edit-diamonds').value, 10),
+        level: parseInt(document.getElementById('edit-level').value, 10),
+        xp: parseInt(document.getElementById('edit-xp').value, 10),
+        unspent_stat_points: parseInt(document.getElementById('edit-unspent-points').value, 10),
+        hp: parseInt(document.getElementById('edit-hp').value, 10),
+        max_hp: parseInt(document.getElementById('edit-max-hp').value, 10),
+        survival_hp: parseInt(document.getElementById('edit-survival-hp').value, 10),
+        stat_str: parseInt(document.getElementById('edit-str').value, 10),
+        stat_dex: parseInt(document.getElementById('edit-dex').value, 10),
+        stat_def: parseInt(document.getElementById('edit-def').value, 10),
+        stat_vit: parseInt(document.getElementById('edit-vit').value, 10),
+        league: document.getElementById('edit-league').value,
+        highest_area_cleared: parseInt(document.getElementById('edit-area').value, 10),
+      };
+
+      try {
+        const response = await fetch(`/api/admin/players/${userId}/stats`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.detail || 'Failed to update player stats');
+        }
+
+        const updatedPlayer = await response.json();
+
+        // Update local list
+        const idx = allPlayers.findIndex(p => p.user_id === userId);
+        if (idx !== -1) {
+          allPlayers[idx] = updatedPlayer;
+          renderPlayerTable();
+        }
+
+        closeEditModal();
+        showToast(`✨ Stats for '${updatedPlayer.username}' saved successfully!`, 'success');
+      } catch (err) {
+        showToast('Update failed: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Save Changes';
+      }
+    }
+
+    // ---------------------------------------------------------------------------
+    // Toast Notification System
+    // ---------------------------------------------------------------------------
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+
+      const isError = type === 'error';
+      const bgColor = isError ? 'bg-crimson-600/95 border-crimson-400' : 'bg-ink-800/95 border-gold-500/50';
+      const textColor = isError ? 'text-white' : 'text-gray-100';
+
+      toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-lg border shadow-2xl backdrop-blur text-xs ${bgColor} ${textColor} transition-all duration-300 transform translate-y-2 opacity-0`;
+      toast.innerHTML = `
+        <span>${isError ? '⚠️' : '✨'}</span>
+        <span class="font-medium">${escapeHtml(message)}</span>
+      `;
+
+      container.appendChild(toast);
+
+      // Trigger entrance
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      // Auto dismiss after 3.5 seconds
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Utility: XSS prevention
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

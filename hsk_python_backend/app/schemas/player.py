@@ -1,6 +1,7 @@
 """
 Player schemas — request/response models for player stats.
 """
+from typing import Optional
 from pydantic import BaseModel, Field
 
 
@@ -27,6 +28,12 @@ class PlayerStatsResponse(BaseModel):
 class AllocateStatRequest(BaseModel):
     """Allocate a single stat point."""
     stat_name: str = Field(..., pattern=r"^(str|dex|def|vit)$")
+
+
+class UpdateProfileRequest(BaseModel):
+    """Update player username and/or target HSK level."""
+    username: Optional[str] = Field(None, min_length=2, max_length=50)
+    hsk_target: Optional[int] = Field(None, ge=1, le=9)
 
 
 class PlayerProfileResponse(BaseModel):

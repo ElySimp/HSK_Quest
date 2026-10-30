@@ -14,12 +14,20 @@ class LeaderboardRepository(
     private val api: ApiService,
 ) {
 
+    @Volatile
+    var cachedLeaderboard: WeeklyLeaderboardResponse? = null
+
+    fun clearMemoryCache() {
+        cachedLeaderboard = null
+    }
+
     suspend fun getWeeklyLeaderboard(league: String? = null): Resource<WeeklyLeaderboardResponse> =
         withContext(Dispatchers.IO) {
             try {
                 val response = api.getWeeklyLeaderboard(league)
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
+                    cachedLeaderboard = body
                     Resource.Success(body)
                 } else {
                     Resource.Error(ApiErrorParser.parse(response))

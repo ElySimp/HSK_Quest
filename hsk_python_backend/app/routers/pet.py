@@ -1,6 +1,7 @@
 """
 Pet router — /api/pet endpoints for Tamagotchi care, Rock-Paper-Scissors, and equipping.
 """
+from datetime import datetime, timezone
 import random
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, update
@@ -10,6 +11,7 @@ from app.database import get_db
 from app.models.pet import Pet
 from app.models.player import PlayerStats
 from app.models.inventory import Inventory
+from app.routers.shop import SHOP_ITEMS, get_item_meta
 from app.schemas.pet import (
     PetResponse,
     PetListResponse,
@@ -180,9 +182,10 @@ async def feed_pet(
 ):
     """
     Feed active pet:
-    - If inventory has food, consumes 1 food item.
-    - Otherwise, automatically buys a basic rice ball snack for 15 coins.
-    Increases pet affection (+15) and restores player HP (+25).
+    - If a specific food_id is provided, consumes 1 unit of that dish from inventory.
+    - If food_id == "quick_snack", buys and feeds a Warm Rice Ball for 15 coins.
+    - If food_id is None, consumes the first available food item in inventory or falls back to a 15-coin Rice Ball.
+    Applies true catalog affection_boost and hp_restore stats.
     """
     # Fetch active pet
     pet_res = await db.execute(
@@ -205,50 +208,95 @@ async def feed_pet(
             detail="Player stats not found",
         )
 
-    # Check inventory for food
-    inv_res = await db.execute(
-        select(Inventory).where(
-            Inventory.user_id == user_id,
-            Inventory.item_type == "food",
-            Inventory.quantity > 0,
+    if request.food_id and request.food_id != "quick_snack":
+        inv_res = await db.execute(
+            select(Inventory).where(
+                Inventory.user_id == user_id,
+                Inventory.item_id == request.food_id,
+                Inventory.quantity > 0,
+            )
         )
-    )
-    food_item = inv_res.scalars().first()
-
-    snack_name = "Snack"
-    if food_item:
+        food_item = inv_res.scalars().first()
+        if not food_item:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="You do not have that pet treat in your bag. Visit the Merchant Shop first!",
+            )
         food_item.quantity -= 1
         if food_item.quantity <= 0:
             await db.delete(food_item)
-        snack_name = food_item.item_id.replace("_", " ").title()
-    else:
-        # Check if player has 15 coins to buy instant snack
-        SNACK_COST = 15
-        if stats.coins < SNACK_COST:
+
+        catalog = get_item_meta(request.food_id) or {}
+        affection_gain = float(catalog.get("affection_boost", 15))
+        hp_gain = int(catalog.get("hp_restore", 0))
+        fallback_name = getattr(food_item, "item_name", food_item.item_id.replace("_", " ").title())
+        food_name = catalog.get("name", fallback_name)
+    elif request.food_id == "quick_snack":
+        if stats.coins < 15:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Not enough coins ({stats.coins}/{SNACK_COST}) or food items to feed your pet.",
+                detail="Need 15 Coins for a Crispy Spirit Bone!",
             )
-        stats.coins -= SNACK_COST
-        snack_name = "Rice Ball (15 Coins)"
+        stats.coins -= 15
+        affection_gain = 15.0
+        hp_gain = 0
+        food_name = "Crispy Spirit Bone (灵骨棒)"
+    else:
+        inv_res = await db.execute(
+            select(Inventory).where(
+                Inventory.user_id == user_id,
+                Inventory.item_type.in_(["pet_food", "food"]),
+                Inventory.quantity > 0,
+            )
+        )
+        bag_items = list(inv_res.scalars().all())
+        # Prioritize exclusive pet_food items first
+        bag_items.sort(key=lambda row: 0 if row.item_type == "pet_food" else 1)
+        food_item = bag_items[0] if bag_items else None
+        if food_item:
+            food_item.quantity -= 1
+            if food_item.quantity <= 0:
+                await db.delete(food_item)
+            catalog = get_item_meta(food_item.item_id) or {}
+            affection_gain = float(catalog.get("affection_boost", 15))
+            hp_gain = int(catalog.get("hp_restore", 0))
+            fallback_name = getattr(food_item, "item_name", food_item.item_id.replace("_", " ").title())
+            food_name = catalog.get("name", fallback_name)
+        else:
+            if stats.coins >= 15:
+                stats.coins -= 15
+                affection_gain = 15.0
+                hp_gain = 0
+                food_name = "Crispy Spirit Bone (灵骨棒)"
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="No pet treats in your bag and not enough coins (15) for a Crispy Spirit Bone!",
+                )
 
-    affection_gained = 15.0
-    pet.affection = min(100.0, pet.affection + affection_gained)
+    pet.affection = min(100.0, pet.affection + affection_gain)
+    pet.last_fed = datetime.now(timezone.utc)
 
-    # Heal player HP and keep survival_hp synchronized
-    hp_healed = 25
-    stats.hp = min(stats.max_hp, stats.hp + hp_healed)
-    stats.survival_hp = stats.hp
+    # Heal player HP and survival_hp if item also restores HP
+    if hp_gain > 0:
+        stats.hp = min(stats.max_hp, stats.hp + hp_gain)
+        stats.survival_hp = min(stats.max_hp, stats.survival_hp + hp_gain)
 
     await db.commit()
     await db.refresh(pet)
     await db.refresh(stats)
 
+    msg = f"Fed {food_name} to {pet.name}! +{int(affection_gain)} Affection"
+    if hp_gain > 0:
+        msg += f", +{hp_gain} HP!"
+    else:
+        msg += "!"
+
     return FeedPetResponse(
         success=True,
-        affection_gained=affection_gained,
+        affection_gained=affection_gain,
         current_affection=round(pet.affection, 1),
-        hp_healed=hp_healed,
+        hp_healed=hp_gain,
         current_player_hp=stats.hp,
-        message=f"Fed {pet.name} with {snack_name}! Affection +{affection_gained}, HP +{hp_healed}!",
+        message=msg,
     )

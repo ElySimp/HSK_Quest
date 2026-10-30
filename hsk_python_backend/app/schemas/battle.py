@@ -4,6 +4,16 @@ Battle schemas — request/response models for combat results.
 from pydantic import BaseModel, Field
 
 
+class VocabDeltaItem(BaseModel):
+    """Per-word mistake/correct delta accumulated during a single battle session."""
+    hanzi: str
+    hsk_level: int = 1
+    pinyin: str = ""
+    english: str = ""
+    wrong_delta: int = 0
+    correct_delta: int = 0
+
+
 class BattleResultRequest(BaseModel):
     """Submitted by the client after a battle ends."""
     # Encoded by the client as area_id * 100 + type_index * 10 + slot
@@ -17,6 +27,7 @@ class BattleResultRequest(BaseModel):
     questions_answered: int = Field(..., ge=0)
     correct_answers: int = Field(..., ge=0)
     skill_type: str = Field(default="reading", pattern=r"^(reading|writing|listening|speaking|mixed)$")
+    vocab_deltas: list[VocabDeltaItem] = Field(default_factory=list)
 
 
 class BattleResultResponse(BaseModel):
