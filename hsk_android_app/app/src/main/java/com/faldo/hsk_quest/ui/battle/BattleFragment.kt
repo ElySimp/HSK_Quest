@@ -39,6 +39,7 @@ import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.databinding.FragmentBattleBinding
 import com.faldo.hsk_quest.databinding.SheetBattleResultBinding
 import com.faldo.hsk_quest.engine.BattleQuestion
+import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -125,6 +126,13 @@ class BattleFragment : Fragment() {
             "HSK $areaId · ${monsterTypeStr.replaceFirstChar { it.uppercase() }} #$monsterIndex"
         }
         binding.tvStageLabel.text = stageLabel
+
+        val enrageIconSize = (18 * resources.displayMetrics.density).toInt()
+        ContextCompat.getDrawable(requireContext(), R.drawable.ic_vfx_enrage_flame)?.let { flame ->
+            flame.setBounds(0, 0, enrageIconSize, enrageIconSize)
+            binding.tvBossEnrage.setCompoundDrawablesRelative(flame, null, null, null)
+            binding.tvBossEnrage.compoundDrawablePadding = enrageIconSize / 3
+        }
 
         showBattleLoadingOverlay(stageLabel)
         initTextToSpeech()
@@ -414,6 +422,7 @@ class BattleFragment : Fragment() {
                 setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.hq_jade))
                 setOnClickListener {
                     didDrinkInBagSession = true
+                    appContainer.soundPlayer.play(Sfx.POTION)
                     viewModel.usePotionById(potion.itemId)
                 }
             }
@@ -543,9 +552,11 @@ class BattleFragment : Fragment() {
         val isCorrect = q.isCorrect(selectedIndex)
 
         if (isCorrect) {
+            appContainer.soundPlayer.play(Sfx.CORRECT)
             selectedView.setBackgroundResource(R.drawable.bg_option_correct)
             selectedView.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_jade))
         } else {
+            appContainer.soundPlayer.play(Sfx.WRONG)
             selectedView.setBackgroundResource(R.drawable.bg_option_wrong)
             selectedView.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_crimson))
 
@@ -728,8 +739,9 @@ class BattleFragment : Fragment() {
 
         // Damage popups & hit/slash animations
         if (state.lastDamageDealt > 0) {
+            appContainer.soundPlayer.play(if (state.wasCritical) Sfx.CRIT else Sfx.HIT)
             triggerDamagePopup(state.lastDamageDealt, state.wasCritical)
-            triggerMonsterHitAndSlash()
+            triggerMonsterHitAndSlash(state.wasCritical)
         }
         if (state.lastDamageTaken > 0) {
             triggerPlayerDamageShake()
@@ -802,7 +814,7 @@ class BattleFragment : Fragment() {
         }
     }
 
-    private fun triggerMonsterHitAndSlash() {
+    private fun triggerMonsterHitAndSlash(isCrit: Boolean) {
         ObjectAnimator.ofFloat(
             binding.ivMonsterSprite,
             View.TRANSLATION_X,
@@ -818,6 +830,7 @@ class BattleFragment : Fragment() {
         }, 180)
 
         binding.ivSlashVfx.apply {
+            setImageResource(if (isCrit) R.drawable.ic_vfx_crit_burst else R.drawable.ic_vfx_slash)
             alpha = 1f
             scaleX = 0.35f
             scaleY = 0.35f
@@ -925,6 +938,12 @@ class BattleFragment : Fragment() {
                     ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
                 )
             }
+        }
+
+        if (result.levelUp) {
+            appContainer.soundPlayer.play(Sfx.LEVEL_UP)
+        } else if (result.result == "win") {
+            appContainer.soundPlayer.play(Sfx.MONSTER_DEFEAT)
         }
 
         sheetBinding.tvResultMessage.text = result.message

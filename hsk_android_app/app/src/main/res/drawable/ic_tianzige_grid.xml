@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+
+    <!-- Outer square border -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/hq_stroke_gold"
+        android:strokeWidth="3"
+        android:pathData="M4,4 L236,4 L236,236 L4,236 Z" />
+
+    <!-- Horizontal and vertical center guides (dashed) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/hq_stroke"
+        android:strokeWidth="1.5"
+        android:pathData="M4,120 L236,120 M120,4 L120,236" />
+
+    <!-- Diagonal guides -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="@color/hq_stroke"
+        android:strokeWidth="1"
+        android:pathData="M4,4 L236,236 M236,4 L4,236" />
+</vector>

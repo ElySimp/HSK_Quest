@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Radiant glow halo -->
+    <path
+        android:fillColor="@color/hq_gold_glow"
+        android:pathData="M24,0 L45,7 L45,24 C45,36 36,45 24,48 C12,45 3,36 3,24 L3,7 Z" />
+
+    <!-- Outer shield -->
+    <path
+        android:fillColor="@color/hq_violet"
+        android:pathData="M24,3 L41,9 L41,24 C41,34 34,42 24,45 C14,42 7,34 7,24 L7,9 Z" />
+
+    <!-- Inner shield plate -->
+    <path
+        android:fillColor="@color/hq_surface"
+        android:pathData="M24,7 L37,11.5 L37,24 C37,32 31.5,38.5 24,41 C16.5,38.5 11,32 11,24 L11,11.5 Z" />
+
+    <!-- Eight-point radiant star -->
+    <path
+        android:fillColor="@color/hq_gold"
+        android:pathData="M24,10 L27,20 L37,24 L27,28 L24,38 L21,28 L11,24 L21,20 Z" />
+    <path
+        android:fillColor="@color/hq_text_primary"
+        android:pathData="M24,17 L25.8,22.2 L31,24 L25.8,25.8 L24,31 L22.2,25.8 L17,24 L22.2,22.2 Z" />
+</vector>

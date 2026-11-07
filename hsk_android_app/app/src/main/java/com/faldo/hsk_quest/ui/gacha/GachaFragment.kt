@@ -24,8 +24,11 @@ import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.GachaMultiPullResponse
 import com.faldo.hsk_quest.data.model.GachaPullResponse
 import com.faldo.hsk_quest.data.model.PetItem
+import com.faldo.hsk_quest.databinding.DialogMultiSummonRevealBinding
 import com.faldo.hsk_quest.databinding.DialogSummonRevealBinding
 import com.faldo.hsk_quest.databinding.FragmentGachaBinding
+import com.faldo.hsk_quest.databinding.ItemGachaUnitCardBinding
+import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -201,11 +204,13 @@ class GachaFragment : Fragment() {
 
     private fun showSummonRevealDialog(result: GachaPullResponse) {
         val pet = result.pet
+        appContainer.soundPlayer.play(Sfx.GACHA_SUMMON)
         val dialogBinding = DialogSummonRevealBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
-            .setCancelable(false)
+            .setCancelable(true)
             .create()
+        dialog.setCanceledOnTouchOutside(true)
 
         dialogBinding.tvRevealTitle.text = "SUMMON SUCCESSFUL! ✨"
         dialogBinding.tvRevealName.text = pet.name
@@ -232,7 +237,6 @@ class GachaFragment : Fragment() {
                 "+15 Affection & +40 Bonus Coins awarded!"
             }
         }
-        dialogBinding.scrollMultiResults.visibility = View.GONE
 
         val drawableRes = SpriteAnimator.resolvePetDrawable(requireContext(), pet.petType, pet.spriteKey)
         activeRevealAnimator?.stop()
@@ -263,103 +267,111 @@ class GachaFragment : Fragment() {
     }
 
     private fun showMultiSummonDialog(result: GachaMultiPullResponse) {
-        val bestPet = result.pets.maxByOrNull { rarityRank(it.rarity) } ?: result.pets.first()
+        appContainer.soundPlayer.play(Sfx.GACHA_SUMMON)
 
-        val dialogBinding = DialogSummonRevealBinding.inflate(layoutInflater)
+        val dialogBinding = DialogMultiSummonRevealBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
-            .setCancelable(false)
+            .setCancelable(true)
             .create()
+        dialog.setCanceledOnTouchOutside(true)
 
-        dialogBinding.tvRevealTitle.text = "10x SUMMON COMPLETED! 🎊"
-        dialogBinding.tvRevealStatusPill.text = "🌟 10x CELESTIAL CONVERGENCE"
-        dialogBinding.tvRevealStatusPill.setTextColor(
-            ContextCompat.getColor(requireContext(), R.color.hq_gold)
-        )
+        dialogBinding.tvMultiTitle.text = "10x SUMMON COMPLETED! 🎊"
 
-        dialogBinding.tvRevealName.text = "Featured: ${bestPet.name}"
-        dialogBinding.tvRevealRarity.text = formatRarityLabel(bestPet.rarity)
-        dialogBinding.tvRevealRarity.setTextColor(getRarityColor(bestPet.rarity))
-        dialogBinding.tvRevealBuff.text = formatBuffDescription(bestPet.buffType)
-        dialogBinding.tvRevealSubtext.text = result.message.ifBlank {
-            "10 companions channeled into your Sanctuary!"
+        // Compute breakdown of rarities
+        val legendaryCount = result.pets.count { it.rarity.equals("legendary", ignoreCase = true) }
+        val epicCount = result.pets.count { it.rarity.equals("epic", ignoreCase = true) }
+        val rareCount = result.pets.count { it.rarity.equals("rare", ignoreCase = true) }
+        val commonCount = result.pets.count { it.rarity.equals("common", ignoreCase = true) }
+
+        val breakdownList = mutableListOf<String>()
+        if (legendaryCount > 0) breakdownList.add("$legendaryCount LEGENDARY 🟡")
+        if (epicCount > 0) breakdownList.add("$epicCount EPIC 🟣")
+        if (rareCount > 0) breakdownList.add("$rareCount RARE 🔵")
+        if (commonCount > 0) breakdownList.add("$commonCount COMMON 🟢")
+
+        val summaryText = breakdownList.joinToString(" · ").ifBlank {
+            "🌟 Highest: ${result.highestRarity.uppercase()}"
+        }
+        dialogBinding.tvMultiStatusPill.text = summaryText
+        dialogBinding.tvMultiSubtext.text = result.message.ifBlank {
+            "10 mythical companions channeled into your Sanctuary!"
         }
 
-        // Populate 10x multi-summon list with color-coded rows
-        dialogBinding.scrollMultiResults.visibility = View.VISIBLE
-        dialogBinding.containerMultiResults.removeAllViews()
-        val density = resources.displayMetrics.density
+        // Render 2-column grid of 10 companion cards
+        dialogBinding.containerUnitsGrid.removeAllViews()
+        val rowCount = (result.pets.size + 1) / 2
 
-        result.pets.forEachIndexed { index, petItem ->
-            val row = LinearLayout(requireContext()).apply {
-                orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER_VERTICAL
-                setBackgroundResource(R.drawable.bg_card_raised)
-                val padH = (10 * density).toInt()
-                val padV = (7 * density).toInt()
-                setPadding(padH, padV, padH, padV)
+        for (r in 0 until rowCount) {
+            val rowLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                 ).apply {
-                    if (index < result.pets.lastIndex) {
-                        bottomMargin = (6 * density).toInt()
-                    }
+                    bottomMargin = (4 * resources.displayMetrics.density).toInt()
                 }
             }
 
-            val rarityBadge = when (petItem.rarity.lowercase()) {
-                "legendary" -> "🟡 [LEGENDARY]"
-                "epic" -> "🟣 [EPIC]"
-                "rare" -> "🔵 [RARE]"
-                else -> "🟢 [COMMON]"
-            }
-            val rarityColor = getRarityColor(petItem.rarity)
+            for (c in 0..1) {
+                val index = r * 2 + c
+                if (index < result.pets.size) {
+                    val petItem = result.pets[index]
+                    val cardBinding = ItemGachaUnitCardBinding.inflate(layoutInflater, rowLayout, false)
 
-            val topLine = TextView(requireContext()).apply {
-                text = "#${index + 1}  $rarityBadge  ${petItem.name}"
-                setTextColor(rarityColor)
-                textSize = 12.5f
-                setTypeface(typeface, Typeface.BOLD)
-            }
+                    cardBinding.tvUnitName.text = petItem.name
+                    cardBinding.tvUnitRarity.text = formatRarityLabel(petItem.rarity)
+                    val rarityColor = getRarityColor(petItem.rarity)
+                    cardBinding.tvUnitRarity.setTextColor(rarityColor)
+                    cardBinding.tvUnitBuff.text = formatShortBuff(petItem.buffType)
 
-            val bottomLine = TextView(requireContext()).apply {
-                text = "     ${formatShortBuff(petItem.buffType)}"
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_text_secondary))
-                textSize = 11f
-            }
+                    if (petItem.rarity.equals("legendary", ignoreCase = true)) {
+                        cardBinding.cardUnitRoot.setBackgroundResource(R.drawable.bg_card_gold_border)
+                    } else {
+                        cardBinding.cardUnitRoot.setBackgroundResource(R.drawable.bg_card)
+                    }
 
-            row.addView(topLine)
-            row.addView(bottomLine)
-            dialogBinding.containerMultiResults.addView(row)
+                    // Render sharp static idle frame
+                    val drawableRes = SpriteAnimator.resolvePetDrawable(
+                        requireContext(),
+                        petItem.petType,
+                        petItem.spriteKey,
+                    )
+                    val frames = SpriteAnimator.loadFrames(
+                        imageView = cardBinding.ivUnitSprite,
+                        drawableRes = drawableRes,
+                        rows = 3,
+                        cols = 4,
+                        targetRow = 0,
+                        frameCount = 1,
+                    )
+                    if (frames.isNotEmpty()) {
+                        cardBinding.ivUnitSprite.setImageBitmap(frames[0])
+                    } else {
+                        cardBinding.ivUnitSprite.setImageResource(drawableRes)
+                    }
+
+                    rowLayout.addView(cardBinding.root)
+                } else {
+                    val emptySpacer = View(requireContext()).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            1f,
+                        )
+                    }
+                    rowLayout.addView(emptySpacer)
+                }
+            }
+            dialogBinding.containerUnitsGrid.addView(rowLayout)
         }
 
-        val drawableRes = SpriteAnimator.resolvePetDrawable(requireContext(), bestPet.petType, bestPet.spriteKey)
-        activeRevealAnimator?.stop()
-        val revealAnimator = SpriteAnimator.startAnimation(
-            imageView = dialogBinding.ivRevealPetSprite,
-            drawableRes = drawableRes,
-            rows = 3,
-            cols = 4,
-            targetRow = 0,
-            frameCount = 4,
-            fps = 6,
-        )
-        activeRevealAnimator = revealAnimator
-
-        dialog.setOnDismissListener {
-            revealAnimator.stop()
-            if (activeRevealAnimator === revealAnimator) {
-                activeRevealAnimator = null
-            }
-        }
-
-        dialogBinding.btnRevealConfirm.setOnClickListener {
+        dialogBinding.btnMultiConfirm.setOnClickListener {
             dialog.dismiss()
         }
 
         dialog.show()
-        playDialogEntranceAnimation(dialogBinding.revealDialogRoot)
+        playDialogEntranceAnimation(dialogBinding.multiRevealDialogRoot)
     }
 
     private fun playDialogEntranceAnimation(targetView: View) {
@@ -396,7 +408,7 @@ class GachaFragment : Fragment() {
     private fun getRarityColor(rarity: String): Int {
         val colorRes = when (rarity.lowercase()) {
             "legendary" -> R.color.hq_gold
-            "epic" -> R.color.hq_crimson
+            "epic" -> R.color.hq_violet
             "rare" -> R.color.hq_sky
             else -> R.color.hq_jade
         }

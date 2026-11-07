@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_unit_root"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg_card"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Pet Sprite with subtle aura / background frame -->
+    <FrameLayout
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="2dp">
+
+        <View
+            android:id="@+id/view_unit_aura"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_emblem" />
+
+        <ImageView
+            android:id="@+id/iv_unit_sprite"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:contentDescription="Companion Sprite"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+
+    <!-- Pet Name -->
+    <TextView
+        android:id="@+id/tv_unit_name"
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/hq_text_primary"
+        android:textSize="12sp"
+        tools:text="Azure Dragon" />
+
+    <!-- Rarity Badge Pill -->
+    <TextView
+        android:id="@+id/tv_unit_rarity"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_card_raised"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="2dp"
+        android:textColor="@color/hq_gold"
+        android:textSize="9.5sp"
+        android:textStyle="bold"
+        tools:text="🟡 LEGENDARY" />
+
+    <!-- Combat Buff Tag -->
+    <TextView
+        android:id="@+id/tv_unit_buff"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/hq_jade"
+        android:textSize="9.5sp"
+        tools:text="⏳ Time +3s" />
+
+</LinearLayout>

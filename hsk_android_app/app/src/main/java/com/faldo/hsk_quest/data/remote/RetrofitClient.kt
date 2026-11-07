@@ -52,6 +52,12 @@ object RetrofitClient {
         }
 
         val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .header("ngrok-skip-browser-warning", "true")
+                    .build()
+                chain.proceed(request)
+            }
             .addInterceptor(AuthInterceptor(tokenManager))
             .addInterceptor(logging)
             .connectTimeout(15, TimeUnit.SECONDS)

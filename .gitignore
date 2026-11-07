@@ -72,3 +72,8 @@ ca.pem
 # Project-specific
 # ============================================
 contexts_&_plans/
+tools/
+
+
+hsk_python_backend/cloudflared.exe
+hsk_python_backend/ngrok.exe

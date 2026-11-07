@@ -21,12 +21,11 @@ android {
 
     buildTypes {
         debug {
-            // 10.0.2.2 = host machine loopback from the Android emulator.
-            // For a physical device, replace with the laptop's LAN IP.
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/\"")
+            // Permanent Ngrok Free Tunnel URL
+            buildConfigField("String", "BASE_URL", "\"https://rememberingly-unobstructed-brittany.ngrok-free.dev/\"")
         }
         release {
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/\"")
+            buildConfigField("String", "BASE_URL", "\"https://rememberingly-unobstructed-brittany.ngrok-free.dev/\"")
             optimization {
                 enable = false
             }

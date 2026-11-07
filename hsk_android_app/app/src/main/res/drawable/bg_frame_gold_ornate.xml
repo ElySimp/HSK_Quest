@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Soft gold outer glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/hq_gold_glow" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+
+    <!-- Outer gold border -->
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/hq_surface" />
+            <stroke
+                android:width="1.5dp"
+                android:color="@color/hq_gold" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+
+    <!-- Inner thin border for the double-line ornamental look -->
+    <item
+        android:bottom="6dp"
+        android:left="6dp"
+        android:right="6dp"
+        android:top="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/transparent" />
+            <stroke
+                android:width="0.75dp"
+                android:color="@color/hq_stroke_gold" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+</layer-list>

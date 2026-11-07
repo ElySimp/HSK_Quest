@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Flask body -->
+    <path
+        android:fillColor="@color/hq_crimson"
+        android:pathData="M9,3 L15,3 L15,5 L14,5 L14,9 L19,19 C19.6,20.3 18.7,21.5 17.4,21.5 L6.6,21.5 C5.3,21.5 4.4,20.3 5,19 L10,9 L10,5 L9,5 Z" />
+
+    <!-- Glass highlight -->
+    <path
+        android:fillColor="@color/hq_text_primary"
+        android:fillAlpha="0.35"
+        android:pathData="M10.5,12 L12,12 L9,19 L7.8,19 Z" />
+
+    <!-- Cork -->
+    <path
+        android:fillColor="@color/hq_gold"
+        android:pathData="M8.5,1.5 L15.5,1.5 L15.5,3 L8.5,3 Z" />
+</vector>

@@ -176,6 +176,18 @@ class MainActivity : AppCompatActivity() {
 
     private var isBottomNavSlidDown: Boolean = false
 
+    fun setBottomNavVisible(visible: Boolean) {
+        if (visible) {
+            isBottomNavSlidDown = false
+            binding.bottomNav.translationY = 0f
+            binding.bottomNav.visibility = View.VISIBLE
+        } else {
+            isBottomNavSlidDown = false
+            binding.bottomNav.translationY = 0f
+            binding.bottomNav.visibility = View.GONE
+        }
+    }
+
     fun slideHideBottomNav() {
         if (isBottomNavSlidDown || binding.bottomNav.visibility != View.VISIBLE) return
         isBottomNavSlidDown = true

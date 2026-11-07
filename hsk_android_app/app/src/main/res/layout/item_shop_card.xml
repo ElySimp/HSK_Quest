@@ -41,35 +41,35 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_item_name"
+            style="@style/HqText.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Supreme Healing Potion" />
+
+        <TextView
+            android:id="@+id/tv_item_name_zh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_item_name"
-                style="@style/HqText.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Jade Dumplings" />
-
-            <TextView
-                android:id="@+id/tv_item_name_zh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/hq_text_secondary"
-                android:textSize="12sp"
-                tools:text="水饺" />
-        </LinearLayout>
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/hq_gold"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:text="至尊生命药水" />
 
         <TextView
             android:id="@+id/tv_item_desc"
             style="@style/HqText.Subtitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:ellipsize="end"
@@ -79,7 +79,7 @@
 
         <!-- Stat Buff Badges -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center_vertical"
@@ -90,8 +90,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_stat_box"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
+                android:singleLine="true"
                 android:textColor="@color/hq_crimson"
                 android:textSize="10sp"
                 android:textStyle="bold"
@@ -103,12 +106,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_stat_box"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
+                android:singleLine="true"
                 android:textColor="@color/hq_jade"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                tools:text="+20 ❤️ Affection" />
+                tools:text="+20 ❤️" />
 
             <TextView
                 android:id="@+id/tv_value_badge"
@@ -116,8 +122,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_stat_box"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
+                android:singleLine="true"
                 android:textColor="@color/hq_gold"
                 android:textSize="10sp"
                 android:textStyle="bold"
@@ -139,6 +148,8 @@
             android:id="@+id/tv_item_price_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textColor="@color/hq_gold"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -150,6 +161,8 @@
             android:id="@+id/tv_item_owned_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textColor="@color/hq_text_muted"
             android:textSize="10sp"
             android:visibility="gone"
@@ -164,9 +177,11 @@
             android:layout_marginTop="4dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:maxLines="1"
             android:minHeight="34dp"
             android:paddingHorizontal="12dp"
             android:paddingVertical="0dp"
+            android:singleLine="true"
             android:textSize="11sp"
             tools:text="+ Add" />
 

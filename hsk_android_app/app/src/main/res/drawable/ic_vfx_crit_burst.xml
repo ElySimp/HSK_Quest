@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Outer crimson starburst -->
+    <path
+        android:fillColor="#99EF4444"
+        android:pathData="M48,4 L56,32 L84,16 L66,40 L92,48 L66,56 L84,80 L56,64 L48,92 L40,64 L12,80 L30,56 L4,48 L30,40 L12,16 L40,32 Z" />
+
+    <!-- Gold mid burst -->
+    <path
+        android:fillColor="#E6F59E0B"
+        android:pathData="M48,14 L54,36 L76,26 L62,42 L82,48 L62,54 L76,70 L54,60 L48,82 L42,60 L20,70 L34,54 L14,48 L34,42 L20,26 L42,36 Z" />
+
+    <!-- Bright white-hot core -->
+    <path
+        android:fillColor="#FFFFFBEB"
+        android:pathData="M48,28 L52,44 L68,48 L52,52 L48,68 L44,52 L28,48 L44,44 Z" />
+</vector>

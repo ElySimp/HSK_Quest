@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer crimson flame -->
+    <path
+        android:fillColor="@color/hq_crimson"
+        android:pathData="M24,2 C26,10 34,14 36,24 C38,32 34,44 24,46 C14,44 10,32 12,24 C13,19 17,17 18,12 C20,14 21,16 21,18 C23,14 24,8 24,2 Z" />
+
+    <!-- Orange mid flame -->
+    <path
+        android:fillColor="#FFF59E0B"
+        android:pathData="M24,14 C25,19 30,22 31,28 C32,35 29,42 24,43 C19,42 16,35 17,29 C18,25 21,23 22,19 C23,20 24,17 24,14 Z" />
+
+    <!-- Bright yellow core -->
+    <path
+        android:fillColor="#FFFDE047"
+        android:pathData="M24,26 C25,29 28,31 28,35 C28,39 26,42 24,42 C22,42 20,39 20,35 C20,31 23,29 24,26 Z" />
+</vector>

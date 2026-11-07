@@ -29,6 +29,7 @@ class CanvasWritingView @JvmOverloads constructor(
     private var guideText: String? = null
 
     var onStrokeCountChanged: ((Int) -> Unit)? = null
+    var onStrokesChanged: ((List<List<PointF>>) -> Unit)? = null
 
     private val strokePaint = Paint().apply {
         color = Color.parseColor("#D4AF6A") // Champagne gold ink
@@ -126,11 +127,29 @@ class CanvasWritingView @JvmOverloads constructor(
                 invalidate()
 
                 onStrokeCountChanged?.invoke(paths.size)
+                onStrokesChanged?.invoke(strokeVectors.map { it.toList() })
                 return true
             }
 
             else -> return false
         }
+    }
+
+    /**
+     * Removes the most recently completed stroke from the canvas and notifies listeners.
+     */
+    fun undoLastStroke() {
+        if (paths.isNotEmpty()) {
+            paths.removeAt(paths.lastIndex)
+        }
+        if (strokeVectors.isNotEmpty()) {
+            strokeVectors.removeAt(strokeVectors.lastIndex)
+        }
+        currentPath.reset()
+        currentStrokePoints.clear()
+        invalidate()
+        onStrokeCountChanged?.invoke(paths.size)
+        onStrokesChanged?.invoke(strokeVectors.map { it.toList() })
     }
 
     /**
@@ -143,6 +162,7 @@ class CanvasWritingView @JvmOverloads constructor(
         currentStrokePoints.clear()
         invalidate()
         onStrokeCountChanged?.invoke(0)
+        onStrokesChanged?.invoke(emptyList())
     }
 
     /**

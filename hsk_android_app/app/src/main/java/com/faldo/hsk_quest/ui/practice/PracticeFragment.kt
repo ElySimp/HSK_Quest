@@ -1,7 +1,9 @@
 package com.faldo.hsk_quest.ui.practice
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.PointF
 import android.graphics.Typeface
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -11,6 +13,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -41,8 +44,11 @@ import java.util.Locale
 
 /**
  * Pleco-Style HSK 1-9 Searchable Dictionary & Writing Lab.
- * Supports instant Hanzi / Pinyin (tone-insensitive & space-insensitive) / English search,
- * Mandarin TextToSpeech pronunciation, voice recording comparison, and Hanzi watermark stroke tracing.
+ * Supports:
+ * 1. Instant single-word and multi-word / sentence segmentation search (e.g. "wo ai ni", "今天我吃苹果")
+ *    with visual divider lines separating each word's matches.
+ * 2. Live Handwriting Brush Input (🖌️) with real-time Hanzi candidate suggestions below the canvas.
+ * 3. Mandarin TextToSpeech pronunciation, voice recording comparison, and Hanzi watermark stroke tracing.
  */
 class PracticeFragment : Fragment() {
 
@@ -59,7 +65,24 @@ class PracticeFragment : Fragment() {
     private val dictionaryAdapter = DictionaryAdapter()
     private var selectedLevelFilter: Int? = 1
     private var searchJob: Job? = null
+    private var handwritingJob: Job? = null
+    private var isHandwritingPanelOpen: Boolean = false
     private var activePracticeSheet: BottomSheetDialog? = null
+
+    private sealed interface DictionaryListItem {
+        data class WordDivider(
+            val segmentIndex: Int,
+            val totalSegments: Int,
+            val rawToken: String,
+            val primaryHanzi: String,
+            val primaryPinyin: String,
+            val primaryEnglish: String,
+        ) : DictionaryListItem
+
+        data class Entry(
+            val entry: DictionaryEntry,
+        ) : DictionaryListItem
+    }
 
     private val requestAudioPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -92,6 +115,7 @@ class PracticeFragment : Fragment() {
         initTextToSpeech()
         setupRecyclerView()
         setupSearchAndFilters()
+        setupHandwritingPanel()
         executeSearch(immediate = true)
         (activity as? MainActivity)?.attachRecyclerScrollListener(binding.rvDictionary)
     }
@@ -171,6 +195,139 @@ class PracticeFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the Pleco-style Handwriting Brush panel (🖌️) with live stroke recognition
+     * and tappable candidate chips below the drawing canvas.
+     */
+    private fun setupHandwritingPanel() {
+        binding.btnToggleHandwriting.setOnClickListener {
+            isHandwritingPanelOpen = !isHandwritingPanelOpen
+            if (isHandwritingPanelOpen) {
+                binding.layoutHandwritingPanel.visibility = View.VISIBLE
+                binding.btnToggleHandwriting.text = "⌨️"
+                hideKeyboard()
+            } else {
+                binding.layoutHandwritingPanel.visibility = View.GONE
+                binding.btnToggleHandwriting.text = "🖌️"
+            }
+        }
+
+        binding.btnHwUndo.setOnClickListener {
+            binding.canvasHandwritingSearch.undoLastStroke()
+        }
+
+        binding.btnHwClear.setOnClickListener {
+            binding.canvasHandwritingSearch.clear()
+        }
+
+        binding.btnHwBackspace.setOnClickListener {
+            val current = binding.etDictSearch.text?.toString().orEmpty()
+            if (current.isNotEmpty()) {
+                val updated = current.substring(0, current.offsetByCodePoints(current.length, -1))
+                binding.etDictSearch.setText(updated)
+                binding.etDictSearch.setSelection(updated.length)
+                executeSearch(immediate = true)
+            }
+        }
+
+        binding.canvasHandwritingSearch.onStrokesChanged = { strokes ->
+            updateHandwritingCandidates(strokes)
+        }
+    }
+
+    private fun updateHandwritingCandidates(strokes: List<List<PointF>>) {
+        handwritingJob?.cancel()
+        val b = _binding ?: return
+
+        if (strokes.isEmpty()) {
+            b.tvHwStatus.text = "🖌️ Handwriting Input · Draw 1 Hanzi at a time"
+            b.tvHwCandidateHint.text = "Draw strokes above — matching Hanzi suggestions will appear below:"
+            b.llHwCandidates.removeAllViews()
+            return
+        }
+
+        b.tvHwStatus.text = "🖌️ Strokes: ${strokes.size} · Matching Hanzi..."
+        handwritingJob = viewLifecycleOwner.lifecycleScope.launch {
+            val allEntries = appContainer.hskJsonLoader.loadDictionaryEntries(null)
+            val candidates = HanziHandwritingMatcher.recognizeCandidates(
+                strokes = strokes,
+                allEntries = allEntries,
+                limit = 14,
+            )
+            val bindingNow = _binding ?: return@launch
+            bindingNow.llHwCandidates.removeAllViews()
+
+            if (candidates.isEmpty()) {
+                bindingNow.tvHwCandidateHint.text = "Keep drawing strokes to refine Hanzi suggestions..."
+                return@launch
+            }
+
+            bindingNow.tvHwStatus.text = "🖌️ Strokes: ${strokes.size} · Top matches ready"
+            bindingNow.tvHwCandidateHint.text = "Tap a suggested Hanzi below to insert into search:"
+
+            val ctx = requireContext()
+            candidates.forEachIndexed { index, candidate ->
+                val chip = LinearLayout(ctx).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER
+                    setBackgroundResource(if (index == 0) R.drawable.bg_card_raised else R.drawable.bg_card)
+                    setPadding(dp(12), dp(6), dp(12), dp(6))
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ).apply {
+                        marginEnd = dp(8)
+                    }
+                    isClickable = true
+                    isFocusable = true
+                }
+
+                val tvChar = TextView(ctx).apply {
+                    text = candidate.hanzi
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    setTextColor(
+                        ContextCompat.getColor(
+                            ctx,
+                            if (index == 0) R.color.hq_gold else R.color.hq_text_primary,
+                        ),
+                    )
+                    typeface = Typeface.DEFAULT_BOLD
+                    gravity = Gravity.CENTER
+                }
+
+                val tvSub = TextView(ctx).apply {
+                    text = candidate.pinyin
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+                    setTextColor(ContextCompat.getColor(ctx, R.color.hq_jade))
+                    gravity = Gravity.CENTER
+                }
+
+                chip.addView(tvChar)
+                chip.addView(tvSub)
+
+                chip.setOnClickListener {
+                    val existing = bindingNow.etDictSearch.text?.toString().orEmpty()
+                    val nextQuery = existing + candidate.hanzi
+                    bindingNow.etDictSearch.setText(nextQuery)
+                    bindingNow.etDictSearch.setSelection(nextQuery.length)
+                    bindingNow.canvasHandwritingSearch.clear()
+                    bindingNow.tvHwCandidateHint.text =
+                        "✓ Inserted '${candidate.hanzi}' (${candidate.pinyin}) · Draw next Hanzi or tap a word below"
+                    executeSearch(immediate = true)
+                }
+
+                bindingNow.llHwCandidates.addView(chip)
+            }
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        view?.windowToken?.let { token ->
+            imm?.hideSoftInputFromWindow(token, 0)
+        }
+    }
+
     private fun executeSearch(immediate: Boolean) {
         searchJob?.cancel()
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -179,11 +336,19 @@ class PracticeFragment : Fragment() {
             }
             val query = _binding?.etDictSearch?.text?.toString().orEmpty()
             val filter = selectedLevelFilter
-            val results = if (filter == -1) {
+
+            val levelDesc = when (filter) {
+                null -> "All HSK 1–9"
+                -1 -> "🎯 Weak Words (Mistakes)"
+                in 1..6 -> "HSK $filter"
+                else -> "HSK 7–9"
+            }
+
+            if (filter == -1) {
                 val username = appContainer.tokenManager.getUsername() ?: "guest"
                 val weakWords = appContainer.vocabMasteryDao.getWeakWords(username)
                 val qNorm = HskJsonLoader.normalizePinyin(query.trim())
-                weakWords.mapIndexed { idx, w ->
+                val results = weakWords.mapIndexed { idx, w ->
                     val label = if (w.hskLevel in 7..9) "HSK 7–9" else "HSK ${w.hskLevel}"
                     val norm = HskJsonLoader.normalizePinyin(w.pinyin)
                     DictionaryEntry(
@@ -210,42 +375,87 @@ class PracticeFragment : Fragment() {
                             entry.term.english.lowercase().contains(qNorm)
                     }
                 }
-            } else {
-                appContainer.hskJsonLoader.searchDictionary(
-                    query = query,
-                    levelFilter = filter,
-                    limit = 120,
-                )
+
+                val b = _binding ?: return@launch
+                b.cardSentenceBreakdown.visibility = View.GONE
+                dictionaryAdapter.submitList(results.map { DictionaryListItem.Entry(it) })
+                b.tvDictCount.text = if (query.isBlank()) {
+                    "Showing ${results.size} words ($levelDesc) · Tap any word to listen & trace"
+                } else {
+                    "Found ${results.size} matches in $levelDesc · Tap any word to listen & trace"
+                }
+                updateEmptyState(results.isEmpty(), isWeakFilter = true)
+                return@launch
             }
+
+            val smartResponse = appContainer.hskJsonLoader.searchSmartDictionary(
+                query = query,
+                levelFilter = filter,
+                limit = 120,
+            )
 
             val b = _binding ?: return@launch
-            dictionaryAdapter.submitList(results)
 
-            val levelDesc = when (filter) {
-                null -> "All HSK 1–9"
-                -1 -> "🎯 Weak Words (Mistakes)"
-                in 1..6 -> "HSK $filter"
-                else -> "HSK 7–9"
-            }
-
-            b.tvDictCount.text = if (query.isBlank()) {
-                "Showing ${results.size} words ($levelDesc) · Tap any word to listen & trace"
-            } else {
-                "Found ${results.size} matches in $levelDesc · Tap any word to listen & trace"
-            }
-
-            if (results.isEmpty()) {
-                b.tvDictEmpty.text = if (filter == -1) {
-                    "No weak words recorded yet! 🎉\nAny HSK words you miss during combat will automatically appear here for focused review."
-                } else {
-                    "No matching HSK vocabulary found.\nTry searching by Hanzi (你好), Pinyin (ni hao / nihao), or English."
+            if (smartResponse.isMultiWordSentence && smartResponse.segments.size >= 2) {
+                b.cardSentenceBreakdown.visibility = View.VISIBLE
+                b.tvSentenceHeader.text =
+                    "🧩 Sentence (${smartResponse.segments.size} words): ${smartResponse.sentenceSummaryHanzi} (${smartResponse.sentenceSummaryPinyin})"
+                b.tvSentenceGloss.text = smartResponse.sentenceSummaryEnglish
+                b.btnSpeakSentence.setOnClickListener {
+                    speakMandarin(smartResponse.sentenceSummaryHanzi)
                 }
-                b.tvDictEmpty.visibility = View.VISIBLE
-                b.rvDictionary.visibility = View.GONE
+
+                val totalSegs = smartResponse.segments.size
+                val listItems = ArrayList<DictionaryListItem>()
+                for (segment in smartResponse.segments) {
+                    val primary = segment.primaryEntry.term
+                    listItems.add(
+                        DictionaryListItem.WordDivider(
+                            segmentIndex = segment.segmentIndex,
+                            totalSegments = totalSegs,
+                            rawToken = segment.rawToken,
+                            primaryHanzi = primary.simplified,
+                            primaryPinyin = primary.pinyin,
+                            primaryEnglish = primary.english,
+                        ),
+                    )
+                    for (match in segment.matches) {
+                        listItems.add(DictionaryListItem.Entry(match))
+                    }
+                }
+
+                dictionaryAdapter.submitList(listItems)
+                b.tvDictCount.text =
+                    "Segmented into $totalSegs words (${smartResponse.flatEntries.size} matches) · Separated by word below"
+                updateEmptyState(listItems.isEmpty(), isWeakFilter = false)
             } else {
-                b.tvDictEmpty.visibility = View.GONE
-                b.rvDictionary.visibility = View.VISIBLE
+                b.cardSentenceBreakdown.visibility = View.GONE
+                val entries = smartResponse.flatEntries
+                dictionaryAdapter.submitList(entries.map { DictionaryListItem.Entry(it) })
+
+                b.tvDictCount.text = if (query.isBlank()) {
+                    "Showing ${entries.size} words ($levelDesc) · Tap any word to listen & trace"
+                } else {
+                    "Found ${entries.size} matches in $levelDesc · Tap any word to listen & trace"
+                }
+                updateEmptyState(entries.isEmpty(), isWeakFilter = false)
             }
+        }
+    }
+
+    private fun updateEmptyState(isEmpty: Boolean, isWeakFilter: Boolean) {
+        val b = _binding ?: return
+        if (isEmpty) {
+            b.tvDictEmpty.text = if (isWeakFilter) {
+                "No weak words recorded yet! 🎉\nAny HSK words you miss during combat will automatically appear here for focused review."
+            } else {
+                "No matching HSK vocabulary found.\nTry searching a word (你好 / ni hao), a sentence (wo ai ni / 我爱你), or tap 🖌️ to draw Hanzi."
+            }
+            b.tvDictEmpty.visibility = View.VISIBLE
+            b.rvDictionary.visibility = View.GONE
+        } else {
+            b.tvDictEmpty.visibility = View.GONE
+            b.rvDictionary.visibility = View.VISIBLE
         }
     }
 
@@ -562,6 +772,7 @@ class PracticeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         searchJob?.cancel()
+        handwritingJob?.cancel()
         activePracticeSheet?.dismiss()
         activePracticeSheet = null
         audioHelper.releaseAll()
@@ -572,23 +783,91 @@ class PracticeFragment : Fragment() {
     }
 
     /**
-     * RecyclerView Adapter rendering Pleco-style HSK dictionary cards with
-     * Hanzi, HSK level badge, Pinyin, part of speech, English definition,
-     * quick TTS speaker button, and tap-to-practice trigger.
+     * RecyclerView Adapter rendering both:
+     * - [VIEW_TYPE_DIVIDER]: Visual word-separator headers for multi-word sentence queries.
+     * - [VIEW_TYPE_ENTRY]: Pleco-style HSK dictionary cards with TTS & stroke practice.
      */
     private inner class DictionaryAdapter :
-        RecyclerView.Adapter<DictionaryAdapter.EntryViewHolder>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        private var items: List<DictionaryEntry> = emptyList()
+        private var items: List<DictionaryListItem> = emptyList()
 
-        fun submitList(newItems: List<DictionaryEntry>) {
+        fun submitList(newItems: List<DictionaryListItem>) {
             items = newItems
             notifyDataSetChanged()
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
-            val ctx = parent.context
+        override fun getItemViewType(position: Int): Int = when (items[position]) {
+            is DictionaryListItem.WordDivider -> VIEW_TYPE_DIVIDER
+            is DictionaryListItem.Entry -> VIEW_TYPE_ENTRY
+        }
 
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val ctx = parent.context
+            return if (viewType == VIEW_TYPE_DIVIDER) {
+                createDividerViewHolder(ctx)
+            } else {
+                createEntryViewHolder(ctx)
+            }
+        }
+
+        private fun createDividerViewHolder(ctx: Context): DividerViewHolder {
+            val wrapper = LinearLayout(ctx).apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                ).apply {
+                    topMargin = dp(6)
+                    bottomMargin = dp(6)
+                }
+            }
+
+            val topRule = View(ctx).apply {
+                setBackgroundColor(ContextCompat.getColor(ctx, R.color.hq_stroke_gold))
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    dp(1),
+                ).apply {
+                    bottomMargin = dp(8)
+                }
+            }
+
+            val headerBar = LinearLayout(ctx).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                setBackgroundResource(R.drawable.bg_card)
+                setPadding(dp(12), dp(7), dp(12), dp(7))
+            }
+
+            val tvSegmentLabel = TextView(ctx).apply {
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                setTextColor(ContextCompat.getColor(ctx, R.color.hq_gold))
+                typeface = Typeface.DEFAULT_BOLD
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            }
+
+            val tvPrimaryMatch = TextView(ctx).apply {
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                setTextColor(ContextCompat.getColor(ctx, R.color.hq_jade))
+                typeface = Typeface.DEFAULT_BOLD
+            }
+
+            headerBar.addView(tvSegmentLabel)
+            headerBar.addView(tvPrimaryMatch)
+
+            wrapper.addView(topRule)
+            wrapper.addView(headerBar)
+
+            return DividerViewHolder(
+                root = wrapper,
+                topRule = topRule,
+                tvSegmentLabel = tvSegmentLabel,
+                tvPrimaryMatch = tvPrimaryMatch,
+            )
+        }
+
+        private fun createEntryViewHolder(ctx: Context): EntryViewHolder {
             val card = LinearLayout(ctx).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
@@ -701,11 +980,31 @@ class PracticeFragment : Fragment() {
             )
         }
 
-        override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
-            holder.bind(items[position])
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            when (val item = items[position]) {
+                is DictionaryListItem.WordDivider -> (holder as DividerViewHolder).bind(item)
+                is DictionaryListItem.Entry -> (holder as EntryViewHolder).bind(item.entry)
+            }
         }
 
         override fun getItemCount(): Int = items.size
+
+        inner class DividerViewHolder(
+            root: View,
+            private val topRule: View,
+            private val tvSegmentLabel: TextView,
+            private val tvPrimaryMatch: TextView,
+        ) : RecyclerView.ViewHolder(root) {
+
+            fun bind(divider: DictionaryListItem.WordDivider) {
+                topRule.visibility = if (divider.segmentIndex > 1) View.VISIBLE else View.GONE
+                tvSegmentLabel.text =
+                    "━━ Word ${divider.segmentIndex}/${divider.totalSegments}: \"${divider.rawToken}\""
+                val shortGloss = divider.primaryEnglish.split(";", ",", "/").firstOrNull()?.trim().orEmpty()
+                tvPrimaryMatch.text =
+                    "→ ${divider.primaryHanzi} (${divider.primaryPinyin} · $shortGloss)"
+            }
+        }
 
         inner class EntryViewHolder(
             private val root: View,
@@ -743,5 +1042,10 @@ class PracticeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_DIVIDER = 0
+        private const val VIEW_TYPE_ENTRY = 1
     }
 }

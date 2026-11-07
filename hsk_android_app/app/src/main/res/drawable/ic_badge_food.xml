@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Steam wisps -->
+    <path
+        android:strokeColor="@color/hq_text_secondary"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:pathData="M8,8 C7,6.5 9,5.5 8,4 M12,8 C11,6.5 13,5.5 12,4 M16,8 C15,6.5 17,5.5 16,4" />
+
+    <!-- Noodles / soup surface -->
+    <path
+        android:fillColor="@color/hq_gold"
+        android:pathData="M3,10 L21,10 L21,12 L3,12 Z" />
+
+    <!-- Bowl -->
+    <path
+        android:fillColor="@color/hq_jade"
+        android:pathData="M3.5,12 L20.5,12 C20.5,17 17,20.5 12,20.5 C7,20.5 3.5,17 3.5,12 Z" />
+
+    <!-- Bowl foot -->
+    <path
+        android:fillColor="@color/hq_jade"
+        android:pathData="M8.5,20.5 L15.5,20.5 L15.5,22 L8.5,22 Z" />
+</vector>

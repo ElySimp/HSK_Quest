@@ -217,38 +217,35 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            style="@style/HqText.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="Crimson Apothecary"
+                            android:textColor="@color/hq_crimson"
+                            android:textSize="14sp" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/HqText.Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="Crimson Apothecary"
-                                android:textColor="@color/hq_crimson"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:singleLine="true"
-                                android:text="万灵丹坊"
-                                android:textColor="@color/hq_text_secondary"
-                                android:textSize="11sp" />
-                        </LinearLayout>
+                            android:layout_marginTop="1dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="万灵丹坊 · Battle Elixirs"
+                            android:textColor="@color/hq_gold"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             style="@style/HqText.Subtitle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Alchemical Battle Draughts · Instant 25%–100% Max HP Recovery (Level-Scaled)"
+                            android:text="Instant 25%–100% Max HP Recovery (Level-Scaled)"
                             android:textColor="@color/hq_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -257,6 +254,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:singleLine="true"
                         android:text="Enter →"
                         android:textColor="@color/hq_gold"
                         android:textSize="12sp"
@@ -296,35 +294,35 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            style="@style/HqText.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="Imperial Pavilion Tavern"
+                            android:textColor="@color/hq_gold"
+                            android:textSize="14sp" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/HqText.Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Imperial Pavilion Tavern"
-                                android:textColor="@color/hq_gold"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="御膳酒楼"
-                                android:textColor="@color/hq_text_secondary"
-                                android:textSize="11sp" />
-                        </LinearLayout>
+                            android:layout_marginTop="1dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="御膳酒楼 · Artisanal Human Cuisine"
+                            android:textColor="@color/hq_jade"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             style="@style/HqText.Subtitle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Artisanal Human Cuisine · Higher Tier = Up to 10.0 HP per Coin Value!"
+                            android:text="Higher Tier Dishes = Up to 10.0 HP per Coin Value!"
                             android:textColor="@color/hq_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -333,6 +331,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:singleLine="true"
                         android:text="Enter →"
                         android:textColor="@color/hq_gold"
                         android:textSize="12sp"
@@ -372,35 +371,35 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            style="@style/HqText.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="Spirit Beast Menagerie"
+                            android:textColor="@color/hq_jade"
+                            android:textSize="14sp" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/HqText.Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Spirit Beast Menagerie"
-                                android:textColor="@color/hq_jade"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="灵兽仙苑"
-                                android:textColor="@color/hq_text_secondary"
-                                android:textSize="11sp" />
-                        </LinearLayout>
+                            android:layout_marginTop="1dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="灵兽仙苑 · Companion Delicacies"
+                            android:textColor="@color/hq_gold"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             style="@style/HqText.Subtitle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Mythical Companion Delicacies · Boosts Pet Affection &amp; Unlocks Combat Buffs"
+                            android:text="Boosts Pet Affection &amp; Unlocks Combat Buffs"
                             android:textColor="@color/hq_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -409,6 +408,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:singleLine="true"
                         android:text="Enter →"
                         android:textColor="@color/hq_gold"
                         android:textSize="12sp"
@@ -448,33 +448,33 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            style="@style/HqText.Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="Adventurer's Satchel"
+                            android:textColor="@color/hq_sky"
+                            android:textSize="14sp" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/HqText.Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Adventurer's Satchel"
-                                android:textColor="@color/hq_sky"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="行囊背包"
-                                android:textColor="@color/hq_text_secondary"
-                                android:textSize="11sp" />
-                        </LinearLayout>
+                            android:layout_marginTop="1dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="行囊背包 · Owned Provisions"
+                            android:textColor="@color/hq_gold"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_hub_bag_subtitle"
                             style="@style/HqText.Subtitle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="Inspect Owned Provisions &amp; Eat Human Meals to Restore HP"
@@ -487,6 +487,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:singleLine="true"
                         android:text="Open →"
                         android:textColor="@color/hq_gold"
                         android:textSize="12sp"
@@ -533,8 +534,11 @@
                 <TextView
                     android:id="@+id/tv_store_title"
                     style="@style/HqText.Title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="🍜 Imperial Pavilion Tavern (御膳酒楼)"
                     android:textColor="@color/hq_gold"
                     android:textSize="14sp" />
@@ -542,7 +546,7 @@
                 <TextView
                     android:id="@+id/tv_store_subtitle"
                     style="@style/HqText.Subtitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Tap any dish for full stats &amp; lore · Use (-) 1 (+) to add to cart"
@@ -571,7 +575,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
-                    android:paddingBottom="72dp"
+                    android:paddingBottom="68dp"
                     tools:listitem="@layout/item_shop_card" />
 
                 <LinearLayout
@@ -634,6 +638,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="🛒 3 Items · 120 🪙"
                     android:textColor="@color/hq_gold"
                     android:textSize="13sp" />

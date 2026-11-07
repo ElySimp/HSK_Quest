@@ -124,6 +124,15 @@ class LeaderboardFragment : Fragment() {
         val (badgeEmoji, leagueLabel, colorRes) = formatLeagueVisuals(data.myLeague)
         binding.tvMyLeagueTitle.text = "$badgeEmoji $leagueLabel"
         binding.tvMyLeagueTitle.setTextColor(ContextCompat.getColor(requireContext(), colorRes))
+        val emblemRes = when (data.myLeague.lowercase()) {
+            "radiant" -> R.drawable.ic_league_radiant
+            "gold" -> R.drawable.ic_league_gold
+            "silver" -> R.drawable.ic_league_silver
+            else -> R.drawable.ic_league_bronze
+        }
+        binding.tvMyLeagueTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(emblemRes, 0, 0, 0)
+        binding.tvMyLeagueTitle.compoundDrawablePadding =
+            (8 * resources.displayMetrics.density).toInt()
 
         val myRank = data.me?.rank
         val myDamage = data.me?.weeklyDamage ?: 0

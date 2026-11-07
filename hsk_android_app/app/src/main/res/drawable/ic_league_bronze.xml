@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer shield -->
+    <path
+        android:fillColor="@color/hq_bronze"
+        android:pathData="M24,3 L41,9 L41,24 C41,34 34,42 24,45 C14,42 7,34 7,24 L7,9 Z" />
+
+    <!-- Inner shield plate -->
+    <path
+        android:fillColor="@color/hq_surface"
+        android:pathData="M24,7 L37,11.5 L37,24 C37,32 31.5,38.5 24,41 C16.5,38.5 11,32 11,24 L11,11.5 Z" />
+
+    <!-- Single chevron rank mark -->
+    <path
+        android:fillColor="@color/hq_bronze"
+        android:pathData="M15,22 L24,15 L33,22 L33,27 L24,20 L15,27 Z" />
+</vector>

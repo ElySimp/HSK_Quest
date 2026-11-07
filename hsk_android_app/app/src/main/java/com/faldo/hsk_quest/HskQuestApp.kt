@@ -11,6 +11,7 @@ import com.faldo.hsk_quest.data.repository.AuthRepository
 import com.faldo.hsk_quest.data.repository.BattleRepository
 import com.faldo.hsk_quest.data.repository.LeaderboardRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
+import com.faldo.hsk_quest.util.SoundPlayer
 
 /**
  * Application entry point. Owns the manual dependency container.
@@ -38,6 +39,7 @@ class AppContainer(context: Context) {
     val vocabMasteryDao by lazy { database.vocabMasteryDao() }
     val apiService: ApiService by lazy { RetrofitClient.create(tokenManager) }
     val hskJsonLoader: HskJsonLoader by lazy { HskJsonLoader(appContext) }
+    val soundPlayer: SoundPlayer by lazy { SoundPlayer(appContext) }
 
     val authRepository: AuthRepository by lazy {
         AuthRepository(apiService, tokenManager, database.playerDao())

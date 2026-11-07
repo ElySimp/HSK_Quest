@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="🔍 Search Hanzi (你好), Pinyin (ni hao), or English..."
+            android:hint="🔍 Word or sentence (wo ai ni / 我爱你)..."
             android:imeOptions="actionSearch"
             android:importantForAutofill="no"
             android:inputType="text"
@@ -62,7 +62,7 @@
             style="@style/HqText.Title"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -72,6 +72,130 @@
             android:textSize="13sp"
             android:visibility="gone"
             tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/btn_toggle_handwriting"
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="🖌️"
+            android:textColor="@color/hq_gold"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <!-- Pleco-Style Collapsible Handwriting Input Panel -->
+    <LinearLayout
+        android:id="@+id/layout_handwriting_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_card_raised"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <!-- Handwriting Toolbar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_hw_status"
+                style="@style/HqText.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🖌️ Handwriting Input · Draw 1 Hanzi at a time"
+                android:textColor="@color/hq_gold"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/btn_hw_undo"
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="↩️ Undo"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/btn_hw_clear"
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="🧹 Clear"
+                android:textColor="@color/hq_gold"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/btn_hw_backspace"
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="⌫"
+                android:textColor="@color/hq_crimson"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Interactive Handwriting Canvas -->
+        <com.faldo.hsk_quest.ui.battle.CanvasWritingView
+            android:id="@+id/canvas_handwriting_search"
+            android:layout_width="match_parent"
+            android:layout_height="168dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_card" />
+
+        <!-- Candidate Suggestion Bar Below Canvas -->
+        <TextView
+            android:id="@+id/tv_hw_candidate_hint"
+            style="@style/HqText.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Draw strokes above — matching Hanzi suggestions will appear below:"
+            android:textColor="@color/hq_text_secondary"
+            android:textSize="11sp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/ll_hw_candidates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="40dp"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
     </LinearLayout>
 
     <!-- Horizontal HSK Level Filter Chips -->
@@ -183,6 +307,61 @@
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
+
+    <!-- Multi-Word Sentence Breakdown Card -->
+    <LinearLayout
+        android:id="@+id/card_sentence_breakdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_card_raised"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_sentence_header"
+                style="@style/HqText.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🧩 Sentence Breakdown"
+                android:textColor="@color/hq_gold"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/btn_speak_sentence"
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="🔊 Speak Sentence"
+                android:textColor="@color/hq_jade"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_sentence_gloss"
+            style="@style/HqText.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/hq_text_primary"
+            android:textSize="12sp"
+            tools:text="我 (wǒ: I)  •  爱 (ài: to love)  •  你 (nǐ: you)" />
+    </LinearLayout>
 
     <!-- Results List & Empty State -->
     <FrameLayout

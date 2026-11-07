@@ -5,6 +5,7 @@ import android.graphics.Shader
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.InventoryItem
 import com.faldo.hsk_quest.data.model.ShopItem
 import com.faldo.hsk_quest.databinding.FragmentShopBinding
+import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -81,7 +83,6 @@ class ShopFragment : Fragment() {
         observeViewModel()
 
         (activity as? MainActivity)?.attachScrollListener(binding.layoutShopHub)
-        (activity as? MainActivity)?.attachRecyclerScrollListener(binding.rvShopItems)
     }
 
     private fun setupHubAndNavigation() {
@@ -274,6 +275,7 @@ class ShopFragment : Fragment() {
     private fun updateScreenModeUi(mode: ShopScreenMode) {
         when (mode) {
             ShopScreenMode.HUB -> {
+                (activity as? MainActivity)?.setBottomNavVisible(true)
                 binding.btnShopBack.visibility = View.GONE
                 binding.layoutShopHub.visibility = View.VISIBLE
                 binding.layoutShopCatalog.visibility = View.GONE
@@ -281,7 +283,9 @@ class ShopFragment : Fragment() {
                 adapter.submitList(emptyList())
             }
             ShopScreenMode.STORE_CATALOG -> {
+                (activity as? MainActivity)?.setBottomNavVisible(false)
                 binding.btnShopBack.visibility = View.VISIBLE
+                binding.btnShopBack.text = "← Hub"
                 binding.layoutShopHub.visibility = View.GONE
                 binding.layoutShopCatalog.visibility = View.VISIBLE
                 binding.layoutShopCheckout.visibility = View.GONE
@@ -289,7 +293,9 @@ class ShopFragment : Fragment() {
                 updateStoreHeader(viewModel.filter.value)
             }
             ShopScreenMode.CHECKOUT -> {
+                (activity as? MainActivity)?.setBottomNavVisible(false)
                 binding.btnShopBack.visibility = View.VISIBLE
+                binding.btnShopBack.text = "← Back"
                 binding.layoutShopHub.visibility = View.GONE
                 binding.layoutShopCatalog.visibility = View.GONE
                 binding.layoutShopCheckout.visibility = View.VISIBLE
@@ -438,9 +444,12 @@ class ShopFragment : Fragment() {
             }
 
             val tvTitle = TextView(ctx).apply {
-                text = "${item.name} (${item.nameZh})"
+                text = item.name
                 setTextColor(ContextCompat.getColor(ctx, R.color.hq_text_primary))
                 textSize = 13f
+                isSingleLine = true
+                maxLines = 1
+                ellipsize = TextUtils.TruncateAt.END
                 setTypeface(typeface, Typeface.BOLD)
             }
             infoCol.addView(tvTitle)
@@ -452,9 +461,12 @@ class ShopFragment : Fragment() {
                 "${item.priceDiamonds * qty} 💎"
             }
             val tvSub = TextView(ctx).apply {
-                text = "$unitCost each · Subtotal: $subTotal"
+                text = "${item.nameZh}  ·  $unitCost × $qty = $subTotal"
                 setTextColor(ContextCompat.getColor(ctx, R.color.hq_gold))
                 textSize = 11f
+                isSingleLine = true
+                maxLines = 1
+                ellipsize = TextUtils.TruncateAt.END
             }
             infoCol.addView(tvSub)
             row.addView(infoCol)
@@ -506,6 +518,7 @@ class ShopFragment : Fragment() {
     private fun updateCheckoutBlurOverlay(checkingOut: Boolean) {
         val b = _binding ?: return
         if (checkingOut) {
+            (requireActivity().application as HskQuestApp).container.soundPlayer.play(Sfx.COIN)
             b.tvShopLoadingTip.text = loadingTips.random()
             b.layoutShopLoadingOverlay.visibility = View.VISIBLE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -595,12 +608,30 @@ class ShopFragment : Fragment() {
         }
 
         val tvName = TextView(ctx).apply {
-            text = "${item.name} · ${item.nameZh}"
+            text = item.name
             setTextColor(ContextCompat.getColor(ctx, R.color.hq_gold))
             textSize = 16f
+            isSingleLine = true
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
             setTypeface(typeface, Typeface.BOLD)
         }
         titleCol.addView(tvName)
+
+        val tvNameZh = TextView(ctx).apply {
+            text = item.nameZh
+            setTextColor(ContextCompat.getColor(ctx, R.color.hq_jade))
+            textSize = 13f
+            isSingleLine = true
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+            setTypeface(typeface, Typeface.BOLD)
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            ).apply { topMargin = dp(1) }
+        }
+        titleCol.addView(tvNameZh)
 
         val categoryLabel = when (item.category) {
             "elixir" -> "🧪 Alchemical Battle Potion"
@@ -608,10 +639,27 @@ class ShopFragment : Fragment() {
             "pet_food" -> "🐾 Companion Pet Delicacy"
             else -> "📦 Imperial Provision"
         }
+        val categoryBadgeRes = when (item.category) {
+            "elixir" -> R.drawable.ic_badge_potion
+            "food" -> R.drawable.ic_badge_food
+            "pet_food" -> R.drawable.ic_badge_pet_food
+            else -> 0
+        }
         val tvCategory = TextView(ctx).apply {
             text = categoryLabel
             setTextColor(ContextCompat.getColor(ctx, R.color.hq_text_secondary))
-            textSize = 12f
+            textSize = 11f
+            isSingleLine = true
+            maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
+            if (categoryBadgeRes != 0) {
+                setCompoundDrawablesRelativeWithIntrinsicBounds(categoryBadgeRes, 0, 0, 0)
+                compoundDrawablePadding = dp(6)
+            }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            ).apply { topMargin = dp(2) }
         }
         titleCol.addView(tvCategory)
         headerRow.addView(titleCol)
@@ -837,6 +885,7 @@ class ShopFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        (activity as? MainActivity)?.setBottomNavVisible(true)
         detailSheet?.dismiss()
         detailSheet = null
         detailAnimator?.stop()

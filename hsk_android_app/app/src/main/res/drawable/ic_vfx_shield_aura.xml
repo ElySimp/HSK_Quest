@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Outer barrier glow -->
+    <path
+        android:fillColor="#3364B5F6"
+        android:pathData="M48,4 C70,4 90,22 90,48 C90,74 70,92 48,92 C26,92 6,74 6,48 C6,22 26,4 48,4 Z" />
+
+    <!-- Barrier ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#CC64B5F6"
+        android:strokeWidth="3"
+        android:pathData="M48,10 C67,10 84,26 84,48 C84,70 67,86 48,86 C29,86 12,70 12,48 C12,26 29,10 48,10 Z" />
+
+    <!-- Hexagonal ward lines -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#9964B5F6"
+        android:strokeWidth="1.5"
+        android:pathData="M48,22 L70,35 L70,61 L48,74 L26,61 L26,35 Z" />
+
+    <!-- Highlight arc -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFBEB"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M22,32 C26,22 34,16 44,13" />
+</vector>
