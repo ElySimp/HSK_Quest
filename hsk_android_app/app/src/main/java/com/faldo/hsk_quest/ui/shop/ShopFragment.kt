@@ -115,7 +115,15 @@ class ShopFragment : Fragment() {
         }
 
         binding.btnFeedInSanctuary.setOnClickListener {
-            findNavController().navigate(R.id.petFragment)
+            val navOptions = androidx.navigation.NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setPopUpTo(R.id.homeFragment, false)
+                .setEnterAnim(R.anim.slide_in_left_fade)
+                .setExitAnim(R.anim.slide_out_right_fade)
+                .setPopEnterAnim(R.anim.slide_in_right_fade)
+                .setPopExitAnim(R.anim.slide_out_left_fade)
+                .build()
+            findNavController().navigate(R.id.petFragment, null, navOptions)
         }
 
         binding.btnProceedCheckout.setOnClickListener {
@@ -275,15 +283,14 @@ class ShopFragment : Fragment() {
     private fun updateScreenModeUi(mode: ShopScreenMode) {
         when (mode) {
             ShopScreenMode.HUB -> {
-                (activity as? MainActivity)?.setBottomNavVisible(true)
                 binding.btnShopBack.visibility = View.GONE
                 binding.layoutShopHub.visibility = View.VISIBLE
                 binding.layoutShopCatalog.visibility = View.GONE
                 binding.layoutShopCheckout.visibility = View.GONE
+                animateShopContainer(binding.layoutShopHub)
                 adapter.submitList(emptyList())
             }
             ShopScreenMode.STORE_CATALOG -> {
-                (activity as? MainActivity)?.setBottomNavVisible(false)
                 binding.btnShopBack.visibility = View.VISIBLE
                 binding.btnShopBack.text = "← Hub"
                 binding.layoutShopHub.visibility = View.GONE
@@ -291,17 +298,28 @@ class ShopFragment : Fragment() {
                 binding.layoutShopCheckout.visibility = View.GONE
                 binding.rvShopItems.scrollToPosition(0)
                 updateStoreHeader(viewModel.filter.value)
+                animateShopContainer(binding.layoutShopCatalog)
             }
             ShopScreenMode.CHECKOUT -> {
-                (activity as? MainActivity)?.setBottomNavVisible(false)
                 binding.btnShopBack.visibility = View.VISIBLE
                 binding.btnShopBack.text = "← Back"
                 binding.layoutShopHub.visibility = View.GONE
                 binding.layoutShopCatalog.visibility = View.GONE
                 binding.layoutShopCheckout.visibility = View.VISIBLE
+                animateShopContainer(binding.layoutShopCheckout)
             }
         }
         renderCartAndCheckoutUi()
+    }
+
+    private fun animateShopContainer(target: View) {
+        target.alpha = 0f
+        target.translationY = 14f
+        target.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(220L)
+            .start()
     }
 
     private fun updateStoreHeader(filter: ShopFilter) {

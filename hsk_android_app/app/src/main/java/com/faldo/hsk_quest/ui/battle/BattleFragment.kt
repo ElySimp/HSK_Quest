@@ -72,6 +72,7 @@ class BattleFragment : Fragment() {
     }
 
     private var spriteAnimator: SpriteAnimator? = null
+    private var currentMonsterSpriteKey: String? = null
     private var petSpriteAnimator: SpriteAnimator? = null
     private val bagPotionAnimators = mutableListOf<SpriteAnimator>()
     private var didDrinkInBagSession: Boolean = false
@@ -229,22 +230,36 @@ class BattleFragment : Fragment() {
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "hsk_battle_tts")
     }
 
-    private fun setupMonsterVisuals(areaId: Int, monsterTypeStr: String) {
+    private fun setupMonsterVisuals(
+        areaId: Int,
+        monsterTypeStr: String,
+        preferredSpriteKey: String? = null,
+    ) {
+        val clampedArea = areaId.coerceIn(1, 9)
+        val fallbackName = when (monsterTypeStr.lowercase()) {
+            "boss" -> "monster_boss_$clampedArea"
+            "elite" -> "monster_elite_$clampedArea"
+            else -> "monster_area_$clampedArea"
+        }
+        val drawableName = preferredSpriteKey?.takeIf { it.isNotBlank() } ?: fallbackName
+        if (drawableName == currentMonsterSpriteKey && spriteAnimator != null) return
+        currentMonsterSpriteKey = drawableName
+
         spriteAnimator?.stop()
         spriteAnimator = null
         idleBreathingAnimator?.cancel()
         idleBreathingAnimator = null
 
-        val clampedArea = areaId.coerceIn(1, 9)
-        val drawableName = when (monsterTypeStr.lowercase()) {
-            "boss" -> "monster_boss_$clampedArea"
-            "elite" -> "monster_elite_$clampedArea"
-            else -> "monster_area_$clampedArea"
+        val pkg = requireContext().packageName
+        var resId = resources.getIdentifier(drawableName, "drawable", pkg)
+        var resolvedName = drawableName
+        if (resId == 0 && drawableName != fallbackName) {
+            resId = resources.getIdentifier(fallbackName, "drawable", pkg)
+            resolvedName = fallbackName
         }
-        val resId = resources.getIdentifier(drawableName, "drawable", requireContext().packageName)
 
         if (resId != 0) {
-            val cols = when (drawableName) {
+            val cols = when (resolvedName) {
                 "monster_elite_9" -> 7
                 "monster_boss_9" -> 6
                 else -> 4
@@ -692,7 +707,12 @@ class BattleFragment : Fragment() {
     }
 
     private fun renderBattleState(state: BattleState) {
-        // Monster HP & Boss Enrage indicator
+        // Monster sprite, HP & Boss Enrage indicator
+        setupMonsterVisuals(
+            areaId = state.monster.areaId,
+            monsterTypeStr = state.monster.type.apiName,
+            preferredSpriteKey = state.monster.spriteKey,
+        )
         binding.tvMonsterName.text = state.monster.name
         binding.tvMonsterHpNumeric.text = "${state.monsterHp}/${state.monster.maxHp}"
         binding.progressMonsterHp.progress = state.monsterHpPercent
@@ -996,6 +1016,7 @@ class BattleFragment : Fragment() {
         idleBreathingAnimator = null
         spriteAnimator?.stop()
         spriteAnimator = null
+        currentMonsterSpriteKey = null
         petSpriteAnimator?.stop()
         petSpriteAnimator = null
         bagPotionAnimators.forEach { it.stop() }

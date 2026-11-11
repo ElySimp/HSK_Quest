@@ -3,35 +3,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/homeFragment"
-            android:icon="@android:drawable/ic_menu_agenda"
+            android:icon="@drawable/ic_nav_home"
             android:title="@string/nav_home" />
         <item
             android:id="@+id/worldMapFragment"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_nav_map"
             android:title="@string/nav_world_map" />
         <item
             android:id="@+id/characterFragment"
-            android:icon="@android:drawable/ic_menu_myplaces"
+            android:icon="@drawable/ic_nav_profile"
             android:title="@string/nav_character" />
         <item
             android:id="@+id/petFragment"
-            android:icon="@android:drawable/ic_menu_view"
+            android:icon="@drawable/ic_nav_sanctuary"
             android:title="@string/nav_pet" />
         <item
             android:id="@+id/shopFragment"
-            android:icon="@android:drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_nav_shop"
             android:title="@string/nav_shop" />
         <item
             android:id="@+id/gachaFragment"
-            android:icon="@android:drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_nav_gacha"
             android:title="@string/nav_gacha" />
         <item
             android:id="@+id/leaderboardFragment"
-            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:icon="@drawable/ic_nav_leaderboard"
             android:title="@string/nav_leaderboard" />
         <item
             android:id="@+id/practiceFragment"
-            android:icon="@android:drawable/ic_menu_edit"
+            android:icon="@drawable/ic_nav_dictionary"
             android:title="HSK Dictionary &amp; Lab" />
     </group>
 
@@ -39,7 +39,7 @@
         <menu>
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@android:drawable/ic_lock_power_off"
+                android:icon="@drawable/ic_nav_logout"
                 android:title="@string/nav_logout" />
         </menu>
     </item>

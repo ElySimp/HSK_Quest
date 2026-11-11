@@ -71,7 +71,7 @@ async def register_user(
         buff_type="none",
         affection=60.0,
         is_active=True,
-        sprite_key="pet_dummy_1",
+        sprite_key="pet_wood_rat",
     )
     db.add(starter_pet)
     await db.flush()

@@ -7,24 +7,73 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_screen"
     android:clipToPadding="false"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="72dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="24dp">
 
-        <!-- Top Profile Card -->
+        <!-- Unified 3-Pill Status Bar: Gems · Coins · HP -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card_raised"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_diamonds"
+                style="@style/HqText.PixelStat"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:textColor="@color/hq_sky"
+                android:textSize="16sp"
+                tools:text="💎 100" />
+
+            <TextView
+                android:id="@+id/tv_coins"
+                style="@style/HqText.PixelStat"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:textColor="@color/hq_gold"
+                android:textSize="16sp"
+                tools:text="🪙 350" />
+
+            <TextView
+                android:id="@+id/tv_survival_hp"
+                style="@style/HqText.PixelStat"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:textColor="@color/hq_crimson"
+                android:textSize="16sp"
+                tools:text="❤️ 100/100" />
+        </LinearLayout>
+
+        <!-- Hero Identity Card with Glow Emblem -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_card_gold_border"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="18dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,104 +81,110 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_username"
-                    style="@style/HqText.HeroName"
+                <FrameLayout
+                    android:layout_width="56dp"
+                    android:layout_height="56dp">
+
+                    <View
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_glow_aura" />
+
+                    <TextView
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_emblem"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="侠"
+                        android:textColor="@color/hq_gold"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="Faldo Maxwell" />
-
-                <TextView
-                    android:id="@+id/tv_league"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_option_idle"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
-                    android:textColor="@color/hq_violet"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="Bronze I" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/hq_gold"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="Level 5 Hero" />
-
-                <TextView
-                    android:id="@+id/tv_hsk_target"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:background="@drawable/bg_option_idle"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="3dp"
-                    android:textColor="@color/hq_jade"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="🎯 HSK Target: Level 1" />
-            </LinearLayout>
-
-            <!-- Currencies -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_diamonds"
-                    style="@style/HqText.PixelStat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/hq_sky"
-                    tools:text="💎 100" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_coins"
-                    style="@style/HqText.PixelStat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/hq_gold"
-                    tools:text="🪙 350" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_survival_hp"
-                    style="@style/HqText.PixelStat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textColor="@color/hq_crimson"
-                    tools:text="❤️ 100/100" />
+                        <TextView
+                            android:id="@+id/tv_username"
+                            style="@style/HqText.HeroName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textSize="20sp"
+                            tools:text="Faldo Maxwell" />
+
+                        <TextView
+                            android:id="@+id/tv_league"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_stat_box"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="3dp"
+                            android:textColor="@color/hq_violet"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            tools:text="Bronze" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/hq_gold"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Lv. 5" />
+
+                        <TextView
+                            android:id="@+id/tv_hsk_target"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/bg_stat_box"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:textColor="@color/hq_jade"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            tools:text="🎯 Target: HSK 1" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit_profile"
                 style="@style/HqButton.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_marginTop="14dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:minHeight="44dp"
                 android:text="✏️ Edit Profile (Username &amp; HSK Target)"
                 android:textColor="@color/hq_gold"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 app:strokeColor="@color/hq_stroke_gold" />
         </LinearLayout>
 
@@ -138,11 +193,11 @@
             android:id="@+id/banner_unspent_points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_card_gold_border"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="14dp">
 
             <TextView
                 android:id="@+id/tv_unspent_points"
@@ -151,15 +206,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/hq_gold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="Points to allocate: 3" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
                 android:text="Tap + to upgrade"
-                android:textColor="@color/hq_text_muted"
-                android:textSize="12sp" />
+                android:textColor="@color/hq_jade"
+                android:textSize="11sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Attributes Title -->
@@ -167,23 +226,33 @@
             style="@style/HqText.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Core Attributes"
-            android:textSize="18sp" />
+            android:layout_marginTop="18dp"
+            android:text="Core Combat Attributes"
+            android:textColor="@color/hq_gold"
+            android:textSize="16sp" />
 
         <!-- STR Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:text="⚔️"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -193,6 +262,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_str_label"
                     android:textColor="@color/hq_text_primary"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -200,7 +270,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_str_desc"
                     android:textColor="@color/hq_text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <TextView
@@ -208,36 +278,48 @@
                 style="@style/HqText.PixelStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="14dp"
                 android:textColor="@color/hq_gold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:text="12" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_str"
                 style="@style/HqButton.Primary"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
                 android:padding="0dp"
                 android:text="+"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
         <!-- DEX Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:text="⚡"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -247,6 +329,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_dex_label"
                     android:textColor="@color/hq_text_primary"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -254,7 +337,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_dex_desc"
                     android:textColor="@color/hq_text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <TextView
@@ -262,36 +345,48 @@
                 style="@style/HqText.PixelStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="14dp"
                 android:textColor="@color/hq_gold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:text="8" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_dex"
                 style="@style/HqButton.Primary"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
                 android:padding="0dp"
                 android:text="+"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
         <!-- DEF Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:text="🛡️"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -301,6 +396,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_def_label"
                     android:textColor="@color/hq_text_primary"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -308,7 +404,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_def_desc"
                     android:textColor="@color/hq_text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <TextView
@@ -316,36 +412,48 @@
                 style="@style/HqText.PixelStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="14dp"
                 android:textColor="@color/hq_gold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:text="5" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_def"
                 style="@style/HqButton.Primary"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
                 android:padding="0dp"
                 android:text="+"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
         <!-- VIT Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:text="❤️"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -355,6 +463,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_vit_label"
                     android:textColor="@color/hq_text_primary"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -362,7 +471,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/stat_vit_desc"
                     android:textColor="@color/hq_text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <TextView
@@ -370,21 +479,24 @@
                 style="@style/HqText.PixelStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="14dp"
                 android:textColor="@color/hq_gold"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:text="10" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_vit"
                 style="@style/HqButton.Primary"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
                 android:padding="0dp"
                 android:text="+"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
         <!-- Log Out Button -->
@@ -392,9 +504,9 @@
             android:id="@+id/btn_logout"
             style="@style/HqButton.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
             android:text="🚪 Log Out"
             android:textColor="@color/hq_crimson"
             app:strokeColor="@color/hq_crimson" />

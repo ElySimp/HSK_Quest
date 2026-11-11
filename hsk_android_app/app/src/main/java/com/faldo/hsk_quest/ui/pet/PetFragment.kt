@@ -100,16 +100,23 @@ class PetFragment : Fragment() {
     }
 
     private fun setupButtons() {
+        val subScreenNavOptions = androidx.navigation.NavOptions.Builder()
+            .setEnterAnim(R.anim.screen_enter)
+            .setExitAnim(R.anim.screen_exit)
+            .setPopEnterAnim(R.anim.screen_pop_enter)
+            .setPopExitAnim(R.anim.screen_pop_exit)
+            .build()
+
         binding.btnGotoGacha.setOnClickListener {
-            findNavController().navigate(R.id.gachaFragment)
+            findNavController().navigate(R.id.gachaFragment, null, subScreenNavOptions)
         }
 
         binding.btnGoShop.setOnClickListener {
-            findNavController().navigate(R.id.shopFragment)
+            findNavController().navigate(R.id.shopFragment, null, subScreenNavOptions)
         }
 
         binding.btnGoGacha.setOnClickListener {
-            findNavController().navigate(R.id.gachaFragment)
+            findNavController().navigate(R.id.gachaFragment, null, subScreenNavOptions)
         }
 
         binding.ivPetSprite.setOnClickListener {

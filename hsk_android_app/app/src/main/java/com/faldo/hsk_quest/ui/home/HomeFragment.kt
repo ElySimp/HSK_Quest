@@ -170,6 +170,8 @@ class HomeFragment : Fragment() {
         gemAnimator?.stop()
     }
 
+    private var hasPlayedEntranceAnim: Boolean = false
+
     private fun renderState(state: HomeViewModel.UiState) {
         when (state) {
             HomeViewModel.UiState.Loading -> {
@@ -178,7 +180,18 @@ class HomeFragment : Fragment() {
             }
             is HomeViewModel.UiState.Loaded -> {
                 binding.progressHomeLoading.visibility = View.GONE
+                val wasInvisible = binding.layoutHomeContent.visibility != View.VISIBLE
                 binding.layoutHomeContent.visibility = View.VISIBLE
+                if (wasInvisible || !hasPlayedEntranceAnim) {
+                    hasPlayedEntranceAnim = true
+                    binding.layoutHomeContent.alpha = 0f
+                    binding.layoutHomeContent.translationY = 16f
+                    binding.layoutHomeContent.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(240L)
+                        .start()
+                }
                 bindPlayer(state.player, state.isCached)
             }
             is HomeViewModel.UiState.Error -> {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/hq_sky_glow">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#FF1E2634"
+                android:endColor="#FF161A24" />
+            <stroke
+                android:width="1.2dp"
+                android:color="@color/hq_stroke_sky" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+</ripple>

@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="176dp"
-    android:background="@color/hq_surface"
+    android:background="@drawable/bg_toolbar_glow"
     android:gravity="bottom"
+    android:minHeight="172dp"
     android:orientation="vertical"
     android:paddingStart="20dp"
     android:paddingTop="28dp"
@@ -12,28 +12,39 @@
     android:paddingBottom="18dp">
 
     <FrameLayout
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="@drawable/bg_emblem">
+        android:layout_width="64dp"
+        android:layout_height="64dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <View
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_glow_aura" />
+
+        <FrameLayout
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/app_logo_hanzi"
-            android:textColor="@color/hq_gold"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@drawable/bg_emblem">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/app_logo_hanzi"
+                android:textColor="@color/hq_gold"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </FrameLayout>
 
     <TextView
         style="@style/HqText.HeroName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:includeFontPadding="false"
         android:text="@string/app_name" />
 
@@ -41,8 +52,9 @@
         style="@style/HqText.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="3dp"
         android:includeFontPadding="false"
         android:text="@string/nav_header_tagline"
+        android:textColor="@color/hq_text_secondary"
         android:textSize="12sp" />
 </LinearLayout>

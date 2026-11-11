@@ -122,7 +122,7 @@ class CharacterFragment : Fragment() {
 
             tvDiamonds.text = "💎 ${s.diamonds}"
             tvCoins.text = "🪙 ${s.coins}"
-            tvSurvivalHp.text = "❤️ ${s.survivalHp}/${s.maxHp}"
+            tvSurvivalHp.text = "❤️ ${s.hp}/${s.maxHp}"
 
             val pointsAvailable = s.unspentStatPoints
             tvUnspentPoints.text = getString(R.string.stat_points_available, pointsAvailable)

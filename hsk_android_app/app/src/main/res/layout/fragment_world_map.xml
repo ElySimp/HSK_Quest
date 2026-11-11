@@ -8,89 +8,37 @@
     android:background="@drawable/bg_screen"
     android:orientation="vertical">
 
-    <!-- Row 1: Compact Header Bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back"
-            style="@style/HqButton.Outlined"
-            android:layout_width="wrap_content"
-            android:layout_height="34dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="34dp"
-            android:paddingHorizontal="10dp"
-            android:text="‹ Back"
-            android:textSize="12sp" />
-
-        <TextView
-            style="@style/HqText.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="🗺️ World Map"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_area_lock_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:textColor="@color/hq_jade"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="🔓 Realm Open" />
-
-        <TextView
-            android:id="@+id/tv_area_cleared_stars"
-            style="@style/HqText.PixelStat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/hq_gold"
-            android:textSize="12sp"
-            tools:text="⭐ 3/9" />
-    </LinearLayout>
-
-    <!-- Row 2: Slim HSK 1–9 Area Tabs ScrollView -->
+    <!-- Row 1: HSK 1–9 Realm Selector Strip -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="2dp"
+        android:paddingHorizontal="14dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="6dp"
         android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/area_tabs_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="2dp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
-    <!-- Row 3: Ultra-Slim Area Context Strip -->
+    <!-- Row 2: Luminous Realm Context Banner -->
     <LinearLayout
         android:id="@+id/card_area_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginHorizontal="14dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/bg_card_raised"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_card_gold_border"
         android:orientation="vertical"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="6dp">
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,28 +55,72 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/hq_gold"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
-                tools:text="HSK 1: Bamboo Grove (竹林幽径)" />
+                tools:text="HSK 1 · Bamboo Grove (竹林幽径)" />
+
+            <TextView
+                android:id="@+id/tv_area_cleared_stars"
+                style="@style/HqText.PixelStat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/hq_gold"
+                android:textSize="13sp"
+                tools:text="⭐ 3/9" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_area_desc"
+            style="@style/HqText.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/hq_text_secondary"
+            android:textSize="12sp"
+            tools:text="Serene mist hides fledgling wood beasts." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_area_lock_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:textColor="@color/hq_jade"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                tools:text="🔓 Realm Open" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_area_rec_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_stat_box"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
                 android:textColor="@color/hq_jade"
-                android:textSize="12sp"
+                android:textSize="11sp"
+                android:textStyle="bold"
                 tools:text="🛡️ Rec. Lv. 1" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_area_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/hq_text_secondary"
-            android:textSize="12sp"
-            android:visibility="gone"
-            tools:text="Serene mist hides fledgling wood beasts." />
     </LinearLayout>
 
     <!-- Scrollable Stages List -->
@@ -141,13 +133,14 @@
         android:clipToPadding="false"
         android:fillViewport="true"
         android:overScrollMode="never"
-        android:paddingHorizontal="12dp">
+        android:paddingHorizontal="14dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/stages_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="72dp" />
+            android:paddingBottom="24dp" />
     </ScrollView>
 </LinearLayout>

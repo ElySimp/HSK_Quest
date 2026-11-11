@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/hq_surface" />
-    <stroke
-        android:width="1.5dp"
-        android:color="@color/hq_stroke_gold" />
-    <corners android:radius="16dp" />
-</shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/hq_gold_glow">
+    <item>
+        <layer-list>
+            <!-- Outer soft gold halo -->
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#16D4AF6A" />
+                    <corners android:radius="17dp" />
+                </shape>
+            </item>
+            <!-- Inner luminous card surface -->
+            <item
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp">
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:angle="270"
+                        android:startColor="#FF252329"
+                        android:centerColor="#FF1C1C24"
+                        android:endColor="#FF16171E" />
+                    <stroke
+                        android:width="1.5dp"
+                        android:color="@color/hq_stroke_gold" />
+                    <corners android:radius="16dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

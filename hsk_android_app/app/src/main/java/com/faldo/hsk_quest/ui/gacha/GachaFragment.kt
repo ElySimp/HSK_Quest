@@ -89,7 +89,15 @@ class GachaFragment : Fragment() {
         }
 
         binding.btnGoPetSanctuary.setOnClickListener {
-            findNavController().navigate(R.id.petFragment)
+            val navOptions = androidx.navigation.NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setPopUpTo(R.id.homeFragment, false)
+                .setEnterAnim(R.anim.slide_in_left_fade)
+                .setExitAnim(R.anim.slide_out_right_fade)
+                .setPopEnterAnim(R.anim.slide_in_right_fade)
+                .setPopExitAnim(R.anim.slide_out_left_fade)
+                .build()
+            findNavController().navigate(R.id.petFragment, null, navOptions)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -198,8 +206,27 @@ class GachaFragment : Fragment() {
         binding.ivAltarPreview.scaleX = 1.0f
         binding.ivAltarPreview.scaleY = 1.0f
         binding.ivAltarPreview.rotation = 0f
-        binding.viewAltarAura.scaleX = 1.0f
-        binding.viewAltarAura.scaleY = 1.0f
+
+        // Start a gentle ambient breathing glow on the shrine aura ring while idle
+        val idleScaleX = ObjectAnimator.ofFloat(binding.viewAltarAura, View.SCALE_X, 0.96f, 1.05f).apply {
+            duration = 1600L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        val idleScaleY = ObjectAnimator.ofFloat(binding.viewAltarAura, View.SCALE_Y, 0.96f, 1.05f).apply {
+            duration = 1600L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        val idleAlpha = ObjectAnimator.ofFloat(binding.viewAltarAura, View.ALPHA, 0.82f, 1.0f).apply {
+            duration = 1600L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+        }
+        ritualPulseAnimator = AnimatorSet().apply {
+            playTogether(idleScaleX, idleScaleY, idleAlpha)
+            start()
+        }
     }
 
     private fun showSummonRevealDialog(result: GachaPullResponse) {
@@ -435,7 +462,8 @@ class GachaFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        stopRitualPulseAnimation()
+        ritualPulseAnimator?.cancel()
+        ritualPulseAnimator = null
         bannerAnimator?.stop()
         bannerAnimator = null
         activeRevealAnimator?.stop()

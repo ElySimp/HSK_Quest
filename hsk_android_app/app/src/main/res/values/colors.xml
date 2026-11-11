@@ -5,29 +5,37 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
-    <!-- Elegant ink-black theme (soft black, never pitch black) -->
-    <color name="hq_bg">#FF121214</color>
-    <color name="hq_bg_deep">#FF0E0E10</color>
-    <color name="hq_surface">#FF1A1A1E</color>
-    <color name="hq_surface_high">#FF232328</color>
-    <color name="hq_surface_light">#FF2C2C33</color>
-    <color name="hq_stroke">#FF2E2E35</color>
-    <color name="hq_stroke_gold">#66D4AF6A</color>
+    <!-- Elegant ink-black theme (layered dark glass surfaces) -->
+    <color name="hq_bg">#FF101116</color>
+    <color name="hq_bg_deep">#FF0A0B0E</color>
+    <color name="hq_surface">#FF181920</color>
+    <color name="hq_surface_high">#FF21232D</color>
+    <color name="hq_surface_light">#FF2B2E3B</color>
+    <color name="hq_surface_glass">#E6181920</color>
+    <color name="hq_stroke">#FF2D303E</color>
+    <color name="hq_stroke_light">#FF3B3F52</color>
+    <color name="hq_stroke_gold">#80D4AF6A</color>
+    <color name="hq_stroke_jade">#665FBF9F</color>
+    <color name="hq_stroke_sky">#6664B5F6</color>
 
-    <!-- Accent palette: champagne gold, soft jade, muted crimson -->
+    <!-- Accent palette: champagne gold, imperial jade, crimson, celestial sky & violet -->
     <color name="hq_gold">#FFD4AF6A</color>
     <color name="hq_gold_dark">#FFAF8A43</color>
-    <color name="hq_gold_glow">#33D4AF6A</color>
+    <color name="hq_gold_glow">#38D4AF6A</color>
+    <color name="hq_gold_glow_soft">#1AD4AF6A</color>
     <color name="hq_jade">#FF5FBF9F</color>
+    <color name="hq_jade_glow">#335FBF9F</color>
     <color name="hq_crimson">#FFD9534F</color>
     <color name="hq_crimson_glow">#33D9534F</color>
     <color name="hq_sky">#FF64B5F6</color>
+    <color name="hq_sky_glow">#3364B5F6</color>
     <color name="hq_violet">#FFA78BFA</color>
+    <color name="hq_violet_glow">#33A78BFA</color>
     <color name="hq_bronze">#FFCD7F32</color>
     <color name="hq_silver">#FFC0C7D0</color>
 
     <!-- Typography ink tones -->
-    <color name="hq_text_primary">#FFEDEDED</color>
-    <color name="hq_text_secondary">#FFA0A0A8</color>
-    <color name="hq_text_muted">#FF6A6A72</color>
+    <color name="hq_text_primary">#FFF2F3F7</color>
+    <color name="hq_text_secondary">#FFA6AAB8</color>
+    <color name="hq_text_muted">#FF6C7080</color>
 </resources>

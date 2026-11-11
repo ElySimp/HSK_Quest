@@ -73,7 +73,7 @@ ca.pem
 # ============================================
 contexts_&_plans/
 tools/
-
+*.docx
 
 hsk_python_backend/cloudflared.exe
 hsk_python_backend/ngrok.exe

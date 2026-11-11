@@ -24,4 +24,6 @@ data class Monster(
     val dmg: Int,
     val xpReward: Int,
     val coinReward: Int,
+    val variant: Int = 1,
+    val spriteKey: String = "",
 )

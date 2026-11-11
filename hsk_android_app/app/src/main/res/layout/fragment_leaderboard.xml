@@ -7,56 +7,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_screen"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <!-- Top Header -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/HqText.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🏆 Hall of Valor"
-                android:textColor="@color/hq_gold"
-                android:textSize="22sp" />
-
-            <TextView
-                style="@style/HqText.Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Weekly Victorious Damage Standings"
-                android:textColor="@color/hq_text_muted"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_refresh_leaderboard"
-            style="@style/HqButton.Outlined"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:minHeight="36dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="0dp"
-            android:text="↻ Refresh"
-            android:textSize="12sp" />
-    </LinearLayout>
+    android:paddingHorizontal="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
     <!-- Player's League & Weekly Standing Banner Card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:background="@drawable/bg_card_gold_border"
         android:orientation="vertical"
         android:padding="14dp">
@@ -67,25 +25,48 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_my_league_title"
-                style="@style/HqText.Title"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/hq_bronze"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="🥉 Bronze League" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_reset_countdown"
-                style="@style/HqText.Subtitle"
+                <TextView
+                    android:id="@+id/tv_my_league_title"
+                    style="@style/HqText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/hq_bronze"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="🥉 Bronze League" />
+
+                <TextView
+                    android:id="@+id/tv_reset_countdown"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/hq_text_secondary"
+                    android:textSize="11sp"
+                    tools:text="⏳ Resets in 5d 04h 12m" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_refresh_leaderboard"
+                style="@style/HqButton.Outlined"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/hq_text_secondary"
+                android:layout_height="34dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="34dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="0dp"
+                android:text="↻ Refresh"
+                android:textColor="@color/hq_gold"
                 android:textSize="11sp"
-                tools:text="⏳ Resets in 5d 04h 12m" />
+                app:cornerRadius="10dp"
+                app:strokeColor="@color/hq_stroke_gold" />
         </LinearLayout>
 
         <!-- Rank + Weekly Damage Stats Row -->
@@ -178,7 +159,8 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup
@@ -250,7 +232,7 @@
         android:id="@+id/layout_leaderboard_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bg_card"
         android:gravity="center"
         android:orientation="vertical"
@@ -287,7 +269,7 @@
         android:id="@+id/layout_leaderboard_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bg_card"
         android:gravity="center"
         android:orientation="vertical"
@@ -319,10 +301,11 @@
         android:id="@+id/rv_leaderboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingBottom="16dp"
+        android:overScrollMode="never"
+        android:paddingBottom="12dp"
         tools:listitem="@layout/item_leaderboard_rank" />
 
 </LinearLayout>

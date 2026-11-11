@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="270"
-        android:startColor="#FF141417"
-        android:centerColor="@color/hq_bg"
-        android:endColor="@color/hq_bg_deep" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Deep Ink Vertical Gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#FF161822"
+                android:centerColor="@color/hq_bg"
+                android:endColor="@color/hq_bg_deep" />
+        </shape>
+    </item>
+    <!-- Subtle Top Ambient Celestial Gold Glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.5"
+                android:centerY="0.06"
+                android:endColor="@android:color/transparent"
+                android:gradientRadius="320dp"
+                android:startColor="#1CD4AF6A"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

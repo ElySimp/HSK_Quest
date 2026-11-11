@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="140dp"
+    android:layout_width="136dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="10dp"
-    android:background="@drawable/bg_card"
+    android:background="@drawable/bg_card_raised"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="12dp">
 
-    <ImageView
-        android:id="@+id/iv_pet_thumb"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:contentDescription="Pet thumbnail"
-        android:scaleType="fitCenter" />
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_stat_box">
+
+        <View
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_glow_aura" />
+
+        <ImageView
+            android:id="@+id/iv_pet_thumb"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:contentDescription="Pet thumbnail"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_pet_thumb_name"
         style="@style/HqText.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="13sp"
@@ -41,11 +55,16 @@
         android:id="@+id/btn_equip_thumb"
         style="@style/HqButton.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="34dp"
         android:layout_marginTop="8dp"
-        android:minHeight="36dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minHeight="34dp"
         android:padding="0dp"
         android:text="Equip"
-        android:textSize="11sp" />
+        android:textColor="@color/hq_gold"
+        android:textSize="11sp"
+        app:cornerRadius="10dp"
+        app:strokeColor="@color/hq_stroke_gold" />
 
 </LinearLayout>

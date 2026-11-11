@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_nav_home"
         android:title="Home" />
     <item
         android:id="@+id/worldMapFragment"
-        android:icon="@android:drawable/ic_menu_mapmode"
+        android:icon="@drawable/ic_nav_map"
         android:title="World Map" />
     <item
         android:id="@+id/petFragment"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/ic_nav_sanctuary"
         android:title="Sanctuary" />
     <item
         android:id="@+id/characterFragment"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/ic_nav_profile"
         android:title="Profile" />
 </menu>

@@ -24,21 +24,31 @@ COST_SINGLE = 100
 COST_TEN = 900
 
 COMMON_POOL = [
-    {"name": "Wood Rat (木鼠)", "pet_type": "wood_rat", "rarity": "common", "buff_type": "none", "sprite_key": "pet_dummy_1"},
-    {"name": "Stone Rabbit (石兔)", "pet_type": "stone_rabbit", "rarity": "common", "buff_type": "none", "sprite_key": "pet_dummy_1"},
+    {"name": "Wood Rat (木鼠)", "pet_type": "wood_rat", "rarity": "common", "buff_type": "none", "sprite_key": "pet_wood_rat"},
+    {"name": "Stone Rabbit (石兔)", "pet_type": "stone_rabbit", "rarity": "common", "buff_type": "none", "sprite_key": "pet_stone_rabbit"},
+    {"name": "Bamboo Panda (竹熊)", "pet_type": "bamboo_panda", "rarity": "common", "buff_type": "none", "sprite_key": "pet_bamboo_panda"},
+    {"name": "Golden Koi (锦鲤)", "pet_type": "golden_koi", "rarity": "common", "buff_type": "none", "sprite_key": "pet_golden_koi"},
+    {"name": "Cloud Fox Kit (云狐)", "pet_type": "cloud_fox", "rarity": "common", "buff_type": "none", "sprite_key": "pet_cloud_fox"},
+    {"name": "Money Toad (金蟾)", "pet_type": "jade_frog", "rarity": "common", "buff_type": "none", "sprite_key": "pet_jade_frog"},
 ]
 
 RARE_POOL = [
-    {"name": "Fu Dog (福狮 / Guardian Lion)", "pet_type": "fu_dog", "rarity": "rare", "buff_type": "shield", "sprite_key": "pet_dummy_2"},
+    {"name": "Guardian Fu Dog (福狮)", "pet_type": "fu_dog", "rarity": "rare", "buff_type": "shield", "sprite_key": "pet_fu_dog"},
+    {"name": "Celestial Sika Deer (梅花鹿)", "pet_type": "plum_deer", "rarity": "rare", "buff_type": "time_extender", "sprite_key": "pet_plum_deer"},
+    {"name": "White Thunder Tiger (雷虎)", "pet_type": "thunder_tiger", "rarity": "rare", "buff_type": "damage_boost", "sprite_key": "pet_thunder_tiger"},
+    {"name": "Black Tortoise Xuanwu (玄武)", "pet_type": "jade_tortoise", "rarity": "rare", "buff_type": "shield", "sprite_key": "pet_jade_tortoise"},
 ]
 
 EPIC_POOL = [
-    {"name": "Fire Crane (火鹤)", "pet_type": "fire_crane", "rarity": "epic", "buff_type": "damage_boost", "sprite_key": "pet_dummy_1"},
+    {"name": "Immortal Fire Crane (火鹤)", "pet_type": "fire_crane", "rarity": "epic", "buff_type": "damage_boost", "sprite_key": "pet_fire_crane"},
+    {"name": "Nine-Tail Sky Fox (九尾天狐)", "pet_type": "moon_kitsune", "rarity": "epic", "buff_type": "time_extender", "sprite_key": "pet_moon_kitsune"},
+    {"name": "Winged Qiongqi (墨穷奇)", "pet_type": "shadow_panther", "rarity": "epic", "buff_type": "damage_boost", "sprite_key": "pet_shadow_panther"},
 ]
 
 LEGENDARY_POOL = [
-    {"name": "Azure Dragon (青龙)", "pet_type": "azure_dragon", "rarity": "legendary", "buff_type": "time_extender", "sprite_key": "pet_dummy_2"},
-    {"name": "Qilin (麒麟)", "pet_type": "qilin", "rarity": "legendary", "buff_type": "damage_boost", "sprite_key": "pet_dummy_2"},
+    {"name": "Azure Dragon (青龙)", "pet_type": "azure_dragon", "rarity": "legendary", "buff_type": "time_extender", "sprite_key": "pet_azure_dragon"},
+    {"name": "Sacred Qilin (麒麟)", "pet_type": "qilin", "rarity": "legendary", "buff_type": "damage_boost", "sprite_key": "pet_qilin"},
+    {"name": "Vermilion Bird (朱雀)", "pet_type": "vermilion_phoenix", "rarity": "legendary", "buff_type": "shield", "sprite_key": "pet_vermilion_phoenix"},
 ]
 
 

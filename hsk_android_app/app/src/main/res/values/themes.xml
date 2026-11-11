@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme: Elegant Ink-Black -->
+    <!-- Base application theme: Celestial Ink-Black & Gold Glow -->
     <style name="Base.Theme.Hsk_android_app" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/hq_gold</item>
         <item name="colorOnPrimary">@color/hq_bg_deep</item>
@@ -21,11 +21,19 @@
     <style name="Theme.Hsk_android_app" parent="Base.Theme.Hsk_android_app" />
 
     <!-- Typography styles -->
+    <style name="HqText.ToolbarTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/hq_gold</item>
+        <item name="android:fontFamily">@font/google_sans_bold</item>
+        <item name="fontFamily">@font/google_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.03</item>
+    </style>
+
     <style name="HqText.Title" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:textColor">@color/hq_text_primary</item>
         <item name="android:fontFamily">@font/google_sans_bold</item>
         <item name="fontFamily">@font/google_sans_bold</item>
-        <item name="android:letterSpacing">0.02</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <style name="HqText.Subtitle" parent="TextAppearance.Material3.BodyMedium">
@@ -54,25 +62,35 @@
         <item name="fontFamily">@font/ma_shan_zheng</item>
     </style>
 
+    <!-- Bottom Navigation Active Glow Pill -->
+    <style name="HqBottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/hq_gold_glow</item>
+        <item name="android:width">56dp</item>
+        <item name="android:height">30dp</item>
+        <item name="marginHorizontal">4dp</item>
+    </style>
+
     <!-- Buttons -->
     <style name="HqButton.Primary" parent="Widget.Material3.Button">
-        <item name="android:minHeight">54dp</item>
+        <item name="android:minHeight">52dp</item>
         <item name="android:fontFamily">@font/google_sans_bold</item>
         <item name="fontFamily">@font/google_sans_bold</item>
-        <item name="android:letterSpacing">0.05</item>
+        <item name="android:letterSpacing">0.04</item>
         <item name="backgroundTint">@color/hq_gold</item>
         <item name="android:textColor">@color/hq_bg_deep</item>
+        <item name="rippleColor">@color/white</item>
         <item name="cornerRadius">14dp</item>
     </style>
 
     <style name="HqButton.Filled" parent="HqButton.Primary" />
 
     <style name="HqButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:minHeight">50dp</item>
+        <item name="android:minHeight">48dp</item>
         <item name="android:fontFamily">@font/font_google_sans</item>
         <item name="fontFamily">@font/font_google_sans</item>
         <item name="android:textColor">@color/hq_text_primary</item>
-        <item name="strokeColor">@color/hq_stroke</item>
+        <item name="strokeColor">@color/hq_stroke_light</item>
+        <item name="rippleColor">@color/hq_gold_glow</item>
         <item name="cornerRadius">14dp</item>
     </style>
 

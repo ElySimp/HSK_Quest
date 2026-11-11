@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Subtle Bottom Gold Glow Hairline -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:startColor="#10D4AF6A"
+                android:centerColor="#66D4AF6A"
+                android:endColor="#10D4AF6A" />
+        </shape>
+    </item>
+    <!-- Toolbar Surface -->
+    <item android:bottom="1dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#FF1A1C26"
+                android:endColor="#FF13151C" />
+        </shape>
+    </item>
+</layer-list>

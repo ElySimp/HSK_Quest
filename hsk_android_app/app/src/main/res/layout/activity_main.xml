@@ -14,50 +14,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- App Bar / MaterialToolbar with hamburger icon -->
+        <!-- App Bar / MaterialToolbar with luminous bottom hairline -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/hq_bg"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_toolbar_glow"
+            android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:navigationIconTint="@color/hq_gold"
             app:titleCentered="false"
-            app:titleTextAppearance="@style/HqText.Title"
+            app:titleTextAppearance="@style/HqText.ToolbarTitle"
             app:titleTextColor="@color/hq_gold" />
 
-        <!-- Fragment host container -->
+        <!-- Fragment host container (cleanly constrained above bottom_nav so nothing is covered) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:navGraph="@navigation/nav_graph" />
 
-        <!-- 4-Tab Bottom Navigation Bar -->
+        <!-- 4-Tab Bottom Navigation Dock with Gold Glow Active Pill -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:minHeight="60dp"
-            android:background="@color/hq_surface"
-            app:itemActiveIndicatorStyle="@null"
-            app:itemIconSize="20dp"
-            app:itemPaddingTop="6dp"
-            app:itemPaddingBottom="6dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_bottom_nav"
+            android:elevation="8dp"
+            android:minHeight="64dp"
+            app:itemActiveIndicatorStyle="@style/HqBottomNavIndicator"
+            app:itemIconSize="22dp"
             app:itemIconTint="@color/bottom_nav_item_tint"
+            app:itemPaddingBottom="8dp"
+            app:itemPaddingTop="6dp"
+            app:itemRippleColor="@color/hq_gold_glow_soft"
             app:itemTextColor="@color/bottom_nav_item_tint"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_nav_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -70,6 +73,7 @@
         android:background="@color/hq_surface"
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@color/hq_gold"
+        app:itemRippleColor="@color/hq_gold_glow"
         app:itemTextColor="@color/hq_text_primary"
         app:menu="@menu/drawer_menu" />
 

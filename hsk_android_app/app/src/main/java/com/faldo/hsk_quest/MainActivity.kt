@@ -2,7 +2,7 @@ package com.faldo.hsk_quest
 
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -15,21 +15,29 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.faldo.hsk_quest.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 /**
- * Single activity hosting NavHostFragment with DrawerLayout and MaterialToolbar.
- * Controls top-level navigation, hamburger menu, window insets, and immersive screens (battle/auth).
+ * Single activity hosting NavHostFragment with DrawerLayout, MaterialToolbar, and 4-Tab BottomNavigationView.
+ * Controls directional tab transitions, drawer animations, window insets, and immersive screens (battle/auth).
  */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val tabOrder = listOf(
+        R.id.homeFragment,
+        R.id.worldMapFragment,
+        R.id.petFragment,
+        R.id.characterFragment,
+    )
+
+    private var currentTabIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,67 +68,31 @@ class MainActivity : AppCompatActivity() {
         // Setup Toolbar with NavController
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        // Setup NavigationView menu clicks
-        binding.navView.setupWithNavController(navController)
-
-        // Setup 4-Tab BottomNavigationView with custom selection & reselection handling
+        // Setup 4-Tab BottomNavigationView with directional slide + fade animations
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.homeFragment -> {
-                    if (navController.currentDestination?.id != R.id.homeFragment) {
-                        val popped = navController.popBackStack(R.id.homeFragment, false)
-                        if (!popped) {
-                            val navOptions = NavOptions.Builder()
-                                .setPopUpTo(R.id.homeFragment, true)
-                                .setLaunchSingleTop(true)
-                                .build()
-                            navController.navigate(R.id.homeFragment, null, navOptions)
-                        }
-                    }
-                    true
-                }
-                R.id.worldMapFragment,
-                R.id.petFragment,
-                R.id.characterFragment -> {
-                    if (navController.currentDestination?.id != menuItem.itemId) {
-                        val popped = navController.popBackStack(menuItem.itemId, false)
-                        if (!popped) {
-                            val navOptions = NavOptions.Builder()
-                                .setPopUpTo(R.id.homeFragment, false)
-                                .setLaunchSingleTop(true)
-                                .build()
-                            navController.navigate(menuItem.itemId, null, navOptions)
-                        }
-                    }
-                    true
-                }
-                else -> false
+            val targetId = menuItem.itemId
+            if (targetId !in tabOrder) return@setOnItemSelectedListener false
+
+            animateBottomTabSelection(targetId)
+
+            val currentDestId = navController.currentDestination?.id
+            if (currentDestId == targetId) {
+                return@setOnItemSelectedListener true
             }
+
+            navigateToTabWithAnimation(targetId)
+            true
         }
 
         binding.bottomNav.setOnItemReselectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.homeFragment -> {
-                    // Tapping Home while on a secondary screen (Shop, Practice, Gacha, Leaderboard, etc.)
-                    // returns immediately to the HomeFragment root.
-                    if (navController.currentDestination?.id != R.id.homeFragment) {
-                        val popped = navController.popBackStack(R.id.homeFragment, false)
-                        if (!popped) {
-                            navController.navigate(R.id.homeFragment)
-                        }
-                    }
-                }
-                R.id.worldMapFragment,
-                R.id.petFragment,
-                R.id.characterFragment -> {
-                    if (navController.currentDestination?.id != menuItem.itemId) {
-                        navController.popBackStack(menuItem.itemId, false)
-                    }
-                }
+            val targetId = menuItem.itemId
+            animateBottomTabSelection(targetId)
+            if (navController.currentDestination?.id != targetId && targetId in tabOrder) {
+                navigateToTabWithAnimation(targetId)
             }
         }
 
-        // Custom handling for logout item in drawer
+        // Custom handling for drawer items with smooth transition animations
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             when (menuItem.itemId) {
@@ -129,13 +101,31 @@ class MainActivity : AppCompatActivity() {
                         (application as HskQuestApp).container.authRepository.logout()
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.nav_graph, true)
+                            .setEnterAnim(R.anim.screen_enter)
+                            .setExitAnim(R.anim.screen_exit)
                             .build()
                         navController.navigate(R.id.loginFragment, null, navOptions)
                     }
                     true
                 }
+                in tabOrder -> {
+                    if (navController.currentDestination?.id != menuItem.itemId) {
+                        navigateToTabWithAnimation(menuItem.itemId)
+                    }
+                    true
+                }
                 else -> {
-                    NavigationUI.onNavDestinationSelected(menuItem, navController)
+                    if (navController.currentDestination?.id != menuItem.itemId) {
+                        val navOptions = NavOptions.Builder()
+                            .setLaunchSingleTop(true)
+                            .setPopUpTo(R.id.homeFragment, false)
+                            .setEnterAnim(R.anim.screen_enter)
+                            .setExitAnim(R.anim.screen_exit)
+                            .setPopEnterAnim(R.anim.screen_pop_enter)
+                            .setPopExitAnim(R.anim.screen_pop_exit)
+                            .build()
+                        navController.navigate(menuItem.itemId, null, navOptions)
+                    }
                     true
                 }
             }
@@ -158,78 +148,83 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.toolbar.visibility = View.VISIBLE
                 binding.bottomNav.visibility = View.VISIBLE
+                binding.bottomNav.translationY = 0f
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                slideShowBottomNav()
 
-                // Keep checked bottom nav tab in sync with current top-level tab
-                when (destination.id) {
-                    R.id.homeFragment,
-                    R.id.worldMapFragment,
-                    R.id.petFragment,
-                    R.id.characterFragment -> {
-                        binding.bottomNav.menu.findItem(destination.id)?.isChecked = true
-                    }
+                // Keep checked bottom nav tab and drawer item in sync
+                binding.navView.setCheckedItem(destination.id)
+                val tabIdx = tabOrder.indexOf(destination.id)
+                if (tabIdx >= 0) {
+                    currentTabIndex = tabIdx
+                    binding.bottomNav.menu.findItem(destination.id)?.isChecked = true
                 }
             }
         }
     }
 
-    private var isBottomNavSlidDown: Boolean = false
+    /**
+     * Navigates between primary bottom tabs using directional slide + fade + scale animations
+     * determined by the relative tab index (left-to-right vs right-to-left).
+     */
+    private fun navigateToTabWithAnimation(targetId: Int) {
+        val targetIndex = tabOrder.indexOf(targetId).coerceAtLeast(0)
+        val currentDestId = navController.currentDestination?.id
+        val fromIndex = tabOrder.indexOf(currentDestId).takeIf { it >= 0 } ?: currentTabIndex
+
+        val movingRight = targetIndex > fromIndex
+        val enterAnim = if (movingRight) R.anim.slide_in_right_fade else R.anim.slide_in_left_fade
+        val exitAnim = if (movingRight) R.anim.slide_out_left_fade else R.anim.slide_out_right_fade
+
+        currentTabIndex = targetIndex
+
+        val isGoingHome = targetId == R.id.homeFragment
+        val navOptions = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setPopUpTo(R.id.homeFragment, inclusive = isGoingHome)
+            .setEnterAnim(enterAnim)
+            .setExitAnim(exitAnim)
+            .setPopEnterAnim(R.anim.slide_in_left_fade)
+            .setPopExitAnim(R.anim.slide_out_right_fade)
+            .build()
+
+        navController.navigate(targetId, null, navOptions)
+    }
+
+    /**
+     * Plays a tactile spring pop animation on the selected BottomNavigationView tab item.
+     */
+    private fun animateBottomTabSelection(itemId: Int) {
+        val itemView = binding.bottomNav.findViewById<View>(itemId) ?: return
+        itemView.animate().cancel()
+        itemView.scaleX = 0.90f
+        itemView.scaleY = 0.90f
+        itemView.animate()
+            .scaleX(1.0f)
+            .scaleY(1.0f)
+            .setDuration(240L)
+            .setInterpolator(OvershootInterpolator(2.2f))
+            .start()
+    }
 
     fun setBottomNavVisible(visible: Boolean) {
-        if (visible) {
-            isBottomNavSlidDown = false
-            binding.bottomNav.translationY = 0f
-            binding.bottomNav.visibility = View.VISIBLE
-        } else {
-            isBottomNavSlidDown = false
-            binding.bottomNav.translationY = 0f
-            binding.bottomNav.visibility = View.GONE
-        }
+        binding.bottomNav.translationY = 0f
+        binding.bottomNav.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     fun slideHideBottomNav() {
-        if (isBottomNavSlidDown || binding.bottomNav.visibility != View.VISIBLE) return
-        isBottomNavSlidDown = true
-        val slideDistance = binding.bottomNav.height.toFloat() + binding.mainContentContainer.paddingBottom.toFloat()
-        binding.bottomNav.animate()
-            .translationY(slideDistance)
-            .setDuration(220L)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
+        // Bottom nav is cleanly docked below NavHostFragment so it never covers content.
     }
 
     fun slideShowBottomNav() {
-        if (!isBottomNavSlidDown && binding.bottomNav.translationY == 0f) return
-        isBottomNavSlidDown = false
-        binding.bottomNav.animate()
-            .translationY(0f)
-            .setDuration(220L)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
+        binding.bottomNav.translationY = 0f
     }
 
     fun attachScrollListener(scrollView: View) {
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            val dy = scrollY - oldScrollY
-            if (dy > 14) {
-                slideHideBottomNav()
-            } else if (dy < -14 || scrollY <= 10) {
-                slideShowBottomNav()
-            }
-        }
+        // Retained for binary/source compatibility; docked bottom bar does not overlap scroll content.
     }
 
     fun attachRecyclerScrollListener(recyclerView: RecyclerView) {
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 14) {
-                    slideHideBottomNav()
-                } else if (dy < -14 || !recyclerView.canScrollVertically(-1)) {
-                    slideShowBottomNav()
-                }
-            }
-        })
+        // Retained for binary/source compatibility; docked bottom bar does not overlap recycler content.
     }
 
     /**
@@ -237,7 +232,7 @@ class MainActivity : AppCompatActivity() {
      * container and navigation drawer so top/bottom controls never overlap system bars.
      */
     private fun setupWindowInsets() {
-        val extraBufferPx = (resources.displayMetrics.density * 6).toInt()
+        val extraTopBufferPx = (resources.displayMetrics.density * 4).toInt()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainContentContainer) { view, insets ->
             val bars = insets.getInsets(
@@ -247,9 +242,9 @@ class MainActivity : AppCompatActivity() {
             )
             view.updatePadding(
                 left = bars.left,
-                top = bars.top + extraBufferPx,
+                top = bars.top + extraTopBufferPx,
                 right = bars.right,
-                bottom = bars.bottom + extraBufferPx,
+                bottom = bars.bottom,
             )
             insets
         }
@@ -260,8 +255,8 @@ class MainActivity : AppCompatActivity() {
                     WindowInsetsCompat.Type.displayCutout()
             )
             view.updatePadding(
-                top = bars.top + extraBufferPx,
-                bottom = bars.bottom + extraBufferPx,
+                top = bars.top + extraTopBufferPx,
+                bottom = bars.bottom,
             )
             insets
         }

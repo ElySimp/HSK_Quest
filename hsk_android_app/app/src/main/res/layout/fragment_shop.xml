@@ -43,7 +43,7 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/tv_shop_hp"
+                android:id="@+id/tv_shop_diamonds"
                 style="@style/HqText.PixelStat"
                 android:layout_width="0dp"
                 android:layout_height="34dp"
@@ -55,9 +55,9 @@
                 android:maxLines="1"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="4dp"
-                android:textColor="@color/hq_crimson"
+                android:textColor="@color/hq_sky"
                 android:textSize="15sp"
-                tools:text="❤️ 100/100" />
+                tools:text="💎 2,500" />
 
             <TextView
                 android:id="@+id/tv_shop_coins"
@@ -77,7 +77,7 @@
                 tools:text="🪙 1,250" />
 
             <TextView
-                android:id="@+id/tv_shop_diamonds"
+                android:id="@+id/tv_shop_hp"
                 style="@style/HqText.PixelStat"
                 android:layout_width="0dp"
                 android:layout_height="34dp"
@@ -90,9 +90,9 @@
                 android:maxLines="1"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="4dp"
-                android:textColor="@color/hq_sky"
+                android:textColor="@color/hq_crimson"
                 android:textSize="15sp"
-                tools:text="💎 2,500" />
+                tools:text="❤️ 100/100" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_shop_cart"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="72dp">
+                android:paddingBottom="20dp">
 
                 <!-- Animated Lyra (Mage Girl) Shopkeeper Card -->
                 <LinearLayout
@@ -575,7 +575,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
-                    android:paddingBottom="68dp"
+                    android:paddingBottom="16dp"
                     tools:listitem="@layout/item_shop_card" />
 
                 <LinearLayout

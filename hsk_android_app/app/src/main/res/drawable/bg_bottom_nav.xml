@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top Gold Glow Hairline -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:startColor="#15D4AF6A"
+                android:centerColor="#85D4AF6A"
+                android:endColor="#15D4AF6A" />
+        </shape>
+    </item>
+    <!-- Dock Surface -->
+    <item android:top="1dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#FF1E202B"
+                android:endColor="#FF12131A" />
+        </shape>
+    </item>
+</layer-list>
