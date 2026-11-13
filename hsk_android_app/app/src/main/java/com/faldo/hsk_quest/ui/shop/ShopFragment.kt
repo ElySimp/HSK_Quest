@@ -56,6 +56,7 @@ class ShopFragment : Fragment() {
     private var merchantAnimator: SpriteAnimator? = null
     private var detailSheet: BottomSheetDialog? = null
     private var detailAnimator: SpriteAnimator? = null
+    private val checkoutRowAnimators = mutableListOf<SpriteAnimator>()
 
     private val loadingTips = listOf(
         "💡 Economy Tip: Higher-tier dishes like Peking Roast Duck restore 10.0 HP per Coin — 2.5x more efficient than Warm Rice Balls!",
@@ -425,6 +426,9 @@ class ShopFragment : Fragment() {
         cartMap: Map<String, Int>,
         catalogById: Map<String, ShopItem>,
     ) {
+        checkoutRowAnimators.forEach { it.stop() }
+        checkoutRowAnimators.clear()
+
         val container = binding.llCheckoutItems
         container.removeAllViews()
         val ctx = requireContext()
@@ -445,14 +449,40 @@ class ShopFragment : Fragment() {
                 }
             }
 
-            val tvIcon = TextView(ctx).apply {
-                text = item.iconEmoji
-                textSize = 22f
-                gravity = Gravity.CENTER
+            val iconBox = FrameLayout(ctx).apply {
                 setBackgroundResource(R.drawable.bg_stat_box)
                 layoutParams = LinearLayout.LayoutParams(dp(42), dp(42))
             }
-            row.addView(tvIcon)
+            val spriteMeta = SpriteAnimator.resolveShopItemSprite(ctx, item.spriteRes, item.id)
+            if (spriteMeta != null) {
+                val iv = ImageView(ctx).apply {
+                    scaleType = ImageView.ScaleType.FIT_CENTER
+                    layoutParams = FrameLayout.LayoutParams(dp(34), dp(34), Gravity.CENTER)
+                }
+                iconBox.addView(iv)
+                checkoutRowAnimators.add(
+                    SpriteAnimator.startHorizontalStripAnimation(
+                        imageView = iv,
+                        drawableRes = spriteMeta.drawableRes,
+                        cols = spriteMeta.cols,
+                        fps = 8,
+                        scaleFactor = 3,
+                    )
+                )
+            } else {
+                val tvIcon = TextView(ctx).apply {
+                    text = item.iconEmoji
+                    textSize = 22f
+                    gravity = Gravity.CENTER
+                    layoutParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER,
+                    )
+                }
+                iconBox.addView(tvIcon)
+            }
+            row.addView(iconBox)
 
             val infoCol = LinearLayout(ctx).apply {
                 orientation = LinearLayout.VERTICAL
@@ -578,19 +608,9 @@ class ShopFragment : Fragment() {
             layoutParams = LinearLayout.LayoutParams(dp(60), dp(60))
         }
 
-        val potionDrawableAndCols: Pair<Int, Int>? = when {
-            item.spriteRes == "potion_minor_red" || item.id == "minor_healing_potion" ->
-                R.drawable.potion_minor_red to 9
-            item.spriteRes == "potion_regular_red" || item.id == "healing_potion" ->
-                R.drawable.potion_regular_red to 7
-            item.spriteRes == "potion_greater_red" || item.id == "greater_healing_potion" ->
-                R.drawable.potion_greater_red to 8
-            item.spriteRes == "potion_supreme_red" || item.id == "supreme_healing_potion" ->
-                R.drawable.potion_supreme_red to 13
-            else -> null
-        }
+        val spriteMeta = SpriteAnimator.resolveShopItemSprite(ctx, item.spriteRes, item.id)
 
-        if (potionDrawableAndCols != null) {
+        if (spriteMeta != null) {
             val iv = ImageView(ctx).apply {
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 layoutParams = FrameLayout.LayoutParams(dp(46), dp(46), Gravity.CENTER)
@@ -598,8 +618,8 @@ class ShopFragment : Fragment() {
             iconBox.addView(iv)
             detailAnimator = SpriteAnimator.startHorizontalStripAnimation(
                 imageView = iv,
-                drawableRes = potionDrawableAndCols.first,
-                cols = potionDrawableAndCols.second,
+                drawableRes = spriteMeta.drawableRes,
+                cols = spriteMeta.cols,
                 fps = 8,
                 scaleFactor = 3,
             )
@@ -711,8 +731,14 @@ class ShopFragment : Fragment() {
             }
         }
 
+        val potionHealedHp = if (item.hpRestorePct > 0) {
+            ((viewModel.maxHp.value.coerceAtLeast(100) * item.hpRestorePct) / 100.0).toInt().coerceAtLeast(1)
+        } else {
+            0
+        }
+
         val effectStr = buildString {
-            if (item.hpRestorePct > 0) append("+${item.hpRestorePct}% Max HP (Usable Mid-Battle)")
+            if (item.hpRestorePct > 0) append("+${item.hpRestorePct}% Max HP (+$potionHealedHp HP Mid-Battle)")
             if (item.hpRestore > 0) {
                 if (isNotEmpty()) append(" · ")
                 append("+${item.hpRestore} Hero HP (Out-of-Battle Rest)")
@@ -726,8 +752,8 @@ class ShopFragment : Fragment() {
         val valueEfficiencyStr = when {
             item.hpRestore > 0 && item.priceCoins > 0 ->
                 "🔥 ${"%.1f".format(item.hpRestore.toFloat() / item.priceCoins)} HP per Coin"
-            item.hpRestorePct > 0 ->
-                "⚡ Scales with Hero Max HP (Mid-Battle)"
+            item.hpRestorePct > 0 && item.priceCoins > 0 ->
+                "⚡ ${"%.2f".format(potionHealedHp.toFloat() / item.priceCoins)} HP per Coin (In-Battle Emergency Rate)"
             item.affectionBoost > 0 && item.priceCoins > 0 ->
                 "🔥 ${"%.1f".format(item.affectionBoost.toFloat() / item.priceCoins)} ❤️ per Coin"
             else -> "💎 Mythical Celestial Delicacy"
@@ -904,6 +930,8 @@ class ShopFragment : Fragment() {
 
     override fun onDestroyView() {
         (activity as? MainActivity)?.setBottomNavVisible(true)
+        checkoutRowAnimators.forEach { it.stop() }
+        checkoutRowAnimators.clear()
         detailSheet?.dismiss()
         detailSheet = null
         detailAnimator?.stop()

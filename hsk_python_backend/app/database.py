@@ -23,7 +23,13 @@ engine = create_async_engine(
     echo=False,
     pool_size=5,
     max_overflow=10,
-    connect_args={"ssl": ssl_context},
+    pool_pre_ping=True,
+    pool_recycle=240,
+    pool_timeout=15,
+    connect_args={
+        "ssl": ssl_context,
+        "command_timeout": 15,
+    },
 )
 
 # ---------------------------------------------------------------------------

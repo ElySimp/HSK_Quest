@@ -7,6 +7,8 @@ data class GachaRatesResponse(
     @SerializedName("rare_rate") val rareRate: Float,
     @SerializedName("epic_rate") val epicRate: Float,
     @SerializedName("legendary_rate") val legendaryRate: Float,
+    @SerializedName("secret_rate") val secretRate: Float = 0.005f,
+    @SerializedName("active_total_rate") val activeTotalRate: Float = 0.995f,
     @SerializedName("cost_single") val costSingle: Int,
     @SerializedName("cost_ten") val costTen: Int,
 )

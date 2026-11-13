@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Needed in Phase 2D for speaking challenges -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Needed for real-time Pleco-style Camera OCR -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
     <application
         android:name=".HskQuestApp"

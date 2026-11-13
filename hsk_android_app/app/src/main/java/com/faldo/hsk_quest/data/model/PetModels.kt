@@ -8,6 +8,8 @@ data class PetItem(
     @SerializedName("pet_type") val petType: String,
     val rarity: String,
     @SerializedName("buff_type") val buffType: String,
+    @SerializedName("buff_title") val buffTitle: String? = null,
+    @SerializedName("buff_description") val buffDescription: String? = null,
     val affection: Float,
     @SerializedName("is_active") val isActive: Boolean,
     @SerializedName("sprite_key") val spriteKey: String,
@@ -31,6 +33,26 @@ data class RpsResponse(
     @SerializedName("affection_gained") val affectionGained: Float,
     @SerializedName("current_affection") val currentAffection: Float,
     @SerializedName("coins_dropped") val coinsDropped: Int,
+    @SerializedName("remaining_coins") val remainingCoins: Int? = null,
+    val message: String,
+)
+
+data class BlackjackActionRequest(
+    @SerializedName("game_token") val gameToken: String,
+)
+
+data class BlackjackStateResponse(
+    @SerializedName("game_token") val gameToken: String? = null,
+    val status: String,
+    @SerializedName("player_cards") val playerCards: List<String>,
+    @SerializedName("dealer_cards") val dealerCards: List<String>,
+    @SerializedName("player_score") val playerScore: Int,
+    @SerializedName("dealer_score") val dealerScore: Int,
+    @SerializedName("bet_coins") val betCoins: Int,
+    @SerializedName("coins_delta") val coinsDelta: Int,
+    @SerializedName("remaining_coins") val remainingCoins: Int,
+    @SerializedName("affection_gained") val affectionGained: Float,
+    @SerializedName("current_affection") val currentAffection: Float,
     val message: String,
 )
 

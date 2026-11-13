@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
@@ -44,6 +45,31 @@ class TokenManager(context: Context) {
         dataStore.edit {
             it[KEY_USERNAME] = username
         }
+    }
+
+    /**
+     * Mutes speaking challenge questions for the specified user for [durationMs] (default 15 minutes).
+     */
+    suspend fun setSpeakingMutedUntil(
+        username: String,
+        durationMs: Long = 15L * 60L * 1000L,
+    ) {
+        val cleanUser = username.trim().lowercase().ifEmpty { "guest" }
+        val muteUntil = System.currentTimeMillis() + durationMs
+        val key = longPreferencesKey("speaking_mute_until_$cleanUser")
+        dataStore.edit {
+            it[key] = muteUntil
+        }
+    }
+
+    /**
+     * Checks if speaking challenge questions are currently muted for the specified user.
+     */
+    suspend fun isSpeakingMuted(username: String): Boolean {
+        val cleanUser = username.trim().lowercase().ifEmpty { "guest" }
+        val key = longPreferencesKey("speaking_mute_until_$cleanUser")
+        val muteUntil = dataStore.data.map { it[key] ?: 0L }.first()
+        return System.currentTimeMillis() < muteUntil
     }
 
     suspend fun clear() {

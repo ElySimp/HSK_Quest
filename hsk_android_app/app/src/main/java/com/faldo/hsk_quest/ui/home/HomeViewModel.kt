@@ -77,8 +77,14 @@ class HomeViewModel(
         }
     }
 
+    private val useItemMutex = kotlinx.coroutines.sync.Mutex()
+    private var pendingUseOps: Int = 0
+    private var optimisticDailyClaimedToday: Boolean = false
+
     fun refresh() {
-        playerRepository.cachedDailyStatus?.let { _dailyStatus.value = it }
+        if (!optimisticDailyClaimedToday) {
+            playerRepository.cachedDailyStatus?.let { _dailyStatus.value = it }
+        }
         if (petRepository.hasLoadedActivePet) {
             _petState.value = PetState.Loaded(petRepository.cachedActivePet)
         }
@@ -110,7 +116,11 @@ class HomeViewModel(
         // 2. Fetch daily reward status in parallel
         viewModelScope.launch {
             when (val daily = playerRepository.getDailyStatus()) {
-                is Resource.Success -> _dailyStatus.value = daily.data
+                is Resource.Success -> {
+                    if (!optimisticDailyClaimedToday || !daily.data.canClaim) {
+                        _dailyStatus.value = daily.data
+                    }
+                }
                 else -> {}
             }
         }
@@ -118,10 +128,12 @@ class HomeViewModel(
         // 3. Fetch equipped companion pet in parallel so starter pet appears immediately
         retryPetLoad()
 
-        // 4. Fetch player inventory bag in parallel
+        // 4. Fetch player inventory bag in parallel (skip overwriting mid-optimistic use)
         viewModelScope.launch {
             shopRepository.getInventory().onSuccess { items ->
-                _inventoryItems.value = items
+                if (pendingUseOps == 0) {
+                    _inventoryItems.value = items
+                }
             }
         }
     }
@@ -132,21 +144,96 @@ class HomeViewModel(
                 _homeMessage.emit("🐾 Pet Treats are fed to your companion in the Pet Sanctuary!")
                 return@launch
             }
-            shopRepository.useItem(item.itemId).onSuccess { resp ->
-                val current = (_state.value as? UiState.Loaded)?.player
-                if (current != null) {
-                    val updated = current.copy(
-                        stats = current.stats.copy(hp = resp.currentHp, maxHp = resp.maxHp)
+
+            val currentLoaded = _state.value as? UiState.Loaded
+            val currentPlayer = currentLoaded?.player
+            val currentStats = currentPlayer?.stats
+            val prevInventory = _inventoryItems.value
+
+            val currentInBag = prevInventory.firstOrNull { it.itemId == item.itemId }
+            if (currentInBag == null || currentInBag.quantity <= 0) return@launch
+
+            val nextHp: Int
+            val healedAmt: Int
+            if (currentStats != null) {
+                val targetHeal = if (item.hpRestorePct > 0) {
+                    maxOf(1, kotlin.math.round(currentStats.maxHp * item.hpRestorePct / 100.0).toInt())
+                } else {
+                    item.hpRestore
+                }
+                nextHp = (currentStats.hp + targetHeal).coerceAtMost(currentStats.maxHp)
+                healedAmt = (nextHp - currentStats.hp).coerceAtLeast(0)
+            } else {
+                nextHp = 0
+                healedAmt = 0
+            }
+
+            // Optimistic UI & local Room update for 0ms perceived latency
+            _inventoryItems.value = prevInventory.mapNotNull {
+                when {
+                    it.itemId != item.itemId -> it
+                    it.quantity > 1 -> it.copy(quantity = it.quantity - 1)
+                    else -> null
+                }
+            }
+            if (currentPlayer != null && currentStats != null) {
+                val optimisticPlayer = currentPlayer.copy(
+                    stats = currentStats.copy(
+                        hp = nextHp,
+                        survivalHp = nextHp,
                     )
-                    _state.value = UiState.Loaded(updated, isCached = false)
+                )
+                _state.value = UiState.Loaded(optimisticPlayer, isCached = false)
+                playerRepository.applyLocalStatsPatch(hp = nextHp, maxHp = currentStats.maxHp)
+            }
+            val instantMsg = buildString {
+                append("🍲 Used ${item.name}.")
+                if (healedAmt > 0) append(" Restored $healedAmt HP!")
+            }
+            _homeMessage.emit(instantMsg)
+
+            pendingUseOps++
+            try {
+                useItemMutex.lock()
+                val res = shopRepository.useItem(item.itemId)
+                res.onSuccess { resp ->
+                    if (pendingUseOps <= 1) {
+                        val latest = (_state.value as? UiState.Loaded)?.player
+                        if (latest != null) {
+                            _state.value = UiState.Loaded(
+                                latest.copy(
+                                    stats = latest.stats.copy(
+                                        hp = resp.currentHp,
+                                        maxHp = resp.maxHp,
+                                        survivalHp = resp.currentHp,
+                                    )
+                                ),
+                                isCached = false,
+                            )
+                        }
+                        playerRepository.applyLocalStatsPatch(hp = resp.currentHp, maxHp = resp.maxHp)
+                        _inventoryItems.value = if (resp.remainingQuantity <= 0) {
+                            _inventoryItems.value.filterNot { it.itemId == item.itemId }
+                        } else {
+                            _inventoryItems.value.map {
+                                if (it.itemId == item.itemId) it.copy(quantity = resp.remainingQuantity) else it
+                            }
+                        }
+                    }
+                }.onFailure { err ->
+                    // Rollback local state on rejection/failure
+                    _inventoryItems.value = prevInventory
+                    if (currentPlayer != null && currentStats != null) {
+                        _state.value = UiState.Loaded(currentPlayer, isCached = currentLoaded.isCached)
+                        playerRepository.applyLocalStatsPatch(hp = currentStats.hp, maxHp = currentStats.maxHp)
+                    }
+                    _homeMessage.emit("❌ ${err.message ?: "Failed to use item"}")
                 }
-                shopRepository.getInventory().onSuccess { items ->
-                    _inventoryItems.value = items
+            } finally {
+                pendingUseOps = (pendingUseOps - 1).coerceAtLeast(0)
+                if (useItemMutex.isLocked) {
+                    useItemMutex.unlock()
                 }
-                playerRepository.fetchProfile()
-                _homeMessage.emit("🍲 ${resp.message}")
-            }.onFailure { err ->
-                _homeMessage.emit("❌ ${err.message ?: "Failed to use item"}")
             }
         }
     }
@@ -171,8 +258,33 @@ class HomeViewModel(
 
     fun claimDaily() {
         if (_isClaimingDaily.value) return
+        val prevDaily = _dailyStatus.value ?: return
+        if (!prevDaily.canClaim) return
+
+        val prevState = _state.value
+        val prevPlayer = (prevState as? UiState.Loaded)?.player
+        val rewardCoins = prevDaily.coinsReward
+        val nextStreak = prevDaily.streak
+
         _isClaimingDaily.value = true
+        optimisticDailyClaimedToday = true
+        _dailyStatus.value = DailyStatusResponse(
+            canClaim = false,
+            streak = nextStreak,
+            coinsReward = rewardCoins,
+        )
+
         viewModelScope.launch {
+            if (prevPlayer != null) {
+                val optimisticCoins = prevPlayer.stats.coins + rewardCoins
+                val optimisticPlayer = prevPlayer.copy(
+                    stats = prevPlayer.stats.copy(coins = optimisticCoins)
+                )
+                _state.value = UiState.Loaded(optimisticPlayer, isCached = false)
+                playerRepository.applyLocalStatsPatch(coins = optimisticCoins)
+            }
+            _homeMessage.emit("🎁 Claimed Daily Reward! +$rewardCoins Coins")
+
             when (val r = playerRepository.claimDaily()) {
                 is Resource.Success -> {
                     _dailyStatus.value = DailyStatusResponse(
@@ -180,18 +292,22 @@ class HomeViewModel(
                         streak = r.data.streak,
                         coinsReward = r.data.coinsAwarded,
                     )
-                    // Update coins in current loaded state
-                    val current = (_state.value as? UiState.Loaded)?.player
-                    if (current != null) {
-                        val updated = current.copy(
-                            stats = current.stats.copy(coins = r.data.totalCoins)
+                    val latest = (_state.value as? UiState.Loaded)?.player
+                    if (latest != null && latest.stats.coins != r.data.totalCoins) {
+                        _state.value = UiState.Loaded(
+                            latest.copy(stats = latest.stats.copy(coins = r.data.totalCoins)),
+                            isCached = false,
                         )
-                        _state.value = UiState.Loaded(updated, isCached = false)
                     }
-                    _homeMessage.emit("🎁 Claimed Daily Reward! +${r.data.coinsAwarded} Coins")
                 }
                 is Resource.Error -> {
-                    _homeMessage.emit(r.message)
+                    optimisticDailyClaimedToday = false
+                    _dailyStatus.value = prevDaily
+                    if (prevPlayer != null) {
+                        _state.value = prevState
+                        playerRepository.applyLocalStatsPatch(coins = prevPlayer.stats.coins)
+                    }
+                    _homeMessage.emit("❌ ${r.message}")
                 }
                 Resource.Loading -> {}
             }

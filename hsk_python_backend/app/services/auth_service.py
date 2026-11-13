@@ -68,7 +68,7 @@ async def register_user(
         name="Wood Rat (木鼠)",
         pet_type="wood_rat",
         rarity="common",
-        buff_type="none",
+        buff_type="scavenger_nose",
         affection=60.0,
         is_active=True,
         sprite_key="pet_wood_rat",

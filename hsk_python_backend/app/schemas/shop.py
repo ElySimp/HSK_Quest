@@ -71,3 +71,21 @@ class UseItemResponse(BaseModel):
     affection_gained: int
     current_affection: Optional[int] = None
     remaining_quantity: int
+
+
+class BuyBatchItem(BaseModel):
+    item_id: str
+    quantity: int = Field(default=1, ge=1, le=99)
+
+
+class BuyBatchRequest(BaseModel):
+    items: List[BuyBatchItem] = Field(..., min_length=1, max_length=30)
+
+
+class BuyBatchResponse(BaseModel):
+    success: bool
+    message: str
+    total_items_bought: int
+    purchased_quantities: dict[str, int]
+    remaining_coins: int
+    remaining_diamonds: int

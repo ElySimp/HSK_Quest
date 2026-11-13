@@ -4,7 +4,7 @@
     android:id="@+id/reveal_dialog_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_card_raised"
+    android:background="@drawable/bg_card_gold_border"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -22,12 +22,12 @@
 
             <TextView
                 android:id="@+id/tv_reveal_icon"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:background="@drawable/bg_emblem"
                 android:gravity="center"
                 android:text="✨"
-                android:textSize="26sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tv_reveal_title"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="SUMMON SUCCESSFUL!"
+                android:text="SPIRIT AWAKENED!"
                 android:textColor="@color/hq_gold"
                 android:textSize="19sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_stat_box"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:textColor="@color/hq_jade"
@@ -55,23 +55,29 @@
                 tools:text="✨ NEW COMPANION!" />
 
             <FrameLayout
-                android:layout_width="128dp"
-                android:layout_height="128dp"
+                android:layout_width="136dp"
+                android:layout_height="136dp"
                 android:layout_marginVertical="10dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
                 <View
+                    android:layout_width="136dp"
+                    android:layout_height="136dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_glow_aura" />
+
+                <View
                     android:id="@+id/view_reveal_aura"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="118dp"
+                    android:layout_height="118dp"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_emblem" />
 
                 <ImageView
                     android:id="@+id/iv_reveal_pet_sprite"
-                    android:layout_width="112dp"
-                    android:layout_height="112dp"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
                     android:layout_gravity="center"
                     android:contentDescription="Summoned pet preview"
                     android:scaleType="fitCenter" />
@@ -83,7 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="19sp"
                 tools:text="Azure Dragon (青龙)" />
 
             <TextView
@@ -91,36 +98,39 @@
                 style="@style/HqText.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_card"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_stat_box"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:textColor="@color/hq_gold"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:text="LEGENDARY 🟡" />
+                tools:text="🟡 LEGENDARY" />
 
             <TextView
                 android:id="@+id/tv_reveal_buff"
                 style="@style/HqText.Subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_stat_box"
                 android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="9dp"
                 android:textColor="@color/hq_jade"
-                android:textSize="13sp"
-                tools:text="Combat Buff: ⏳ Time Extender (+3s Crit Window)" />
+                android:textSize="12.5sp"
+                tools:text="Dragon Scale — +25% DMG, +25% Crit DMG, +2.5s Timer" />
 
             <TextView
                 android:id="@+id/tv_reveal_subtext"
                 style="@style/HqText.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:textColor="@color/hq_text_secondary"
                 android:textSize="12sp"
-                tools:text="Equipped as your active adventure companion!" />
+                tools:text="Added to your Companion Sanctuary!" />
 
         </LinearLayout>
     </ScrollView>

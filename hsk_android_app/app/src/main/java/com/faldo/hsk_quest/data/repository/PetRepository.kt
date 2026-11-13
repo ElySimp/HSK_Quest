@@ -1,5 +1,7 @@
 package com.faldo.hsk_quest.data.repository
 
+import com.faldo.hsk_quest.data.model.BlackjackActionRequest
+import com.faldo.hsk_quest.data.model.BlackjackStateResponse
 import com.faldo.hsk_quest.data.model.FeedPetRequest
 import com.faldo.hsk_quest.data.model.FeedPetResponse
 import com.faldo.hsk_quest.data.model.PetItem
@@ -32,6 +34,21 @@ class PetRepository(
         cachedActivePet = null
         hasLoadedActivePet = false
         cachedPetList = null
+    }
+
+    fun updateActivePetAffectionLocal(affection: Float) {
+        val clamped = affection.coerceIn(0f, 100f)
+        val currentActive = cachedActivePet?.copy(affection = clamped)
+        cachedActivePet = currentActive
+        cachedPetList = cachedPetList?.let { listResp ->
+            val updatedPets = listResp.pets.map { p ->
+                if (p.isActive || p.id == currentActive?.id) p.copy(affection = clamped) else p
+            }
+            listResp.copy(
+                pets = updatedPets,
+                activePet = currentActive ?: updatedPets.firstOrNull { it.isActive },
+            )
+        }
     }
 
     suspend fun getActivePet(): Resource<PetItem?> = withContext(Dispatchers.IO) {
@@ -94,7 +111,7 @@ class PetRepository(
             val response = api.playRps(RpsRequest(choice = choice))
             if (response.isSuccessful && response.body() != null) {
                 val body = response.body()!!
-                cachedActivePet = cachedActivePet?.copy(affection = body.currentAffection)
+                updateActivePetAffectionLocal(body.currentAffection)
                 Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
@@ -104,12 +121,61 @@ class PetRepository(
         }
     }
 
+    suspend fun startBlackjack(): Resource<BlackjackStateResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.startBlackjack()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                if (body.status != "playing") {
+                    updateActivePetAffectionLocal(body.currentAffection)
+                }
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to start Blackjack")
+        }
+    }
+
+    suspend fun hitBlackjack(gameToken: String): Resource<BlackjackStateResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.hitBlackjack(BlackjackActionRequest(gameToken = gameToken))
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                if (body.status != "playing") {
+                    updateActivePetAffectionLocal(body.currentAffection)
+                }
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to hit card")
+        }
+    }
+
+    suspend fun standBlackjack(gameToken: String): Resource<BlackjackStateResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.standBlackjack(BlackjackActionRequest(gameToken = gameToken))
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                updateActivePetAffectionLocal(body.currentAffection)
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to stand")
+        }
+    }
+
     suspend fun feedPet(foodId: String? = null): Resource<FeedPetResponse> = withContext(Dispatchers.IO) {
         try {
             val response = api.feedPet(FeedPetRequest(foodId = foodId))
             if (response.isSuccessful && response.body() != null) {
                 val body = response.body()!!
-                cachedActivePet = cachedActivePet?.copy(affection = body.currentAffection)
+                updateActivePetAffectionLocal(body.currentAffection)
                 Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))

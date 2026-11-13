@@ -53,6 +53,67 @@ class SpriteAnimator(
         private val frameCache = mutableMapOf<String, Bitmap>()
         private val sheetCache = mutableMapOf<Int, Bitmap>()
 
+        data class ShopItemSpriteMeta(
+            @param:DrawableRes val drawableRes: Int,
+            val cols: Int,
+        )
+
+        private val ITEM_ID_TO_SPRITE_RES = mapOf(
+            "rice_ball_hsk1" to "food_rice_ball",
+            "dumpling_hsk2" to "food_dumpling",
+            "noodle_hsk3" to "food_beef_noodles",
+            "hotpot_hsk4" to "food_hotpot",
+            "roast_duck_hsk5" to "food_roast_duck",
+            "pet_bone_snack" to "treat_spirit_bone",
+            "pet_honey_cookie" to "treat_honey_cookie",
+            "pet_dried_koi" to "treat_dried_koi",
+            "pet_jade_bamboo" to "treat_jade_bamboo",
+            "mooncake_hsk5" to "treat_spirit_peach",
+        )
+
+        /**
+         * Resolves the horizontal-strip spritesheet metadata (drawableRes & frame column count)
+         * for any Shop item (Red Potions, Human Culinary Dishes, and Companion Pet Treats).
+         * Dynamically checks `res/drawable/` so newly installed pixel-art strips work automatically
+         * and gracefully fall back to `null` (emoji) if a drawable is not yet present.
+         */
+        fun resolveShopItemSprite(
+            context: Context,
+            spriteRes: String?,
+            itemId: String,
+        ): ShopItemSpriteMeta? {
+            return when {
+                spriteRes == "potion_minor_red" || itemId == "minor_healing_potion" || itemId == "salve_elixir" ->
+                    ShopItemSpriteMeta(R.drawable.potion_minor_red, cols = 9)
+                spriteRes == "potion_regular_red" || itemId == "healing_potion" || itemId == "vitality_elixir" ->
+                    ShopItemSpriteMeta(R.drawable.potion_regular_red, cols = 7)
+                spriteRes == "potion_greater_red" || itemId == "greater_healing_potion" ->
+                    ShopItemSpriteMeta(R.drawable.potion_greater_red, cols = 8)
+                spriteRes == "potion_supreme_red" || itemId == "supreme_healing_potion" ->
+                    ShopItemSpriteMeta(R.drawable.potion_supreme_red, cols = 13)
+                else -> {
+                    val candidateName = spriteRes
+                        ?.trim()
+                        ?.lowercase()
+                        ?.replace('-', '_')
+                        ?.takeIf { it.isNotEmpty() }
+                        ?: ITEM_ID_TO_SPRITE_RES[itemId]
+                        ?: return null
+
+                    val resId = context.resources.getIdentifier(
+                        candidateName,
+                        "drawable",
+                        context.packageName,
+                    )
+                    if (resId != 0) {
+                        ShopItemSpriteMeta(resId, cols = 4)
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
+
         /**
          * Resolves the best drawable resource for a companion pet.
          * Prioritizes custom `pet_<petType>` drawables (e.g., `pet_azure_dragon`)

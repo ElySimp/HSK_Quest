@@ -17,46 +17,68 @@
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingTop="14dp"
-        android:paddingBottom="24dp">
+        android:paddingBottom="28dp">
 
-        <!-- Top Status & Quick Sanctuary Bar -->
+        <!-- Top Celestial Wallet & Quick Sanctuary Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/HqText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Celestial Shrine"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="20sp" />
+
+                <TextView
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mythical Spirit Summoning"
+                    android:textColor="@color/hq_text_secondary"
+                    android:textSize="11.5sp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_gacha_diamonds"
                 style="@style/HqText.PixelStat"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
                 android:layout_marginEnd="8dp"
-                android:layout_weight="1"
                 android:background="@drawable/bg_stat_box"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="14dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
                 android:textColor="@color/hq_sky"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 tools:text="💎 500" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_go_pet_sanctuary"
                 style="@style/HqButton.Outlined"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="38dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="40dp"
-                android:paddingHorizontal="14dp"
-                android:text="🐾 My Sanctuary ›"
+                android:minHeight="38dp"
+                android:paddingHorizontal="12dp"
+                android:text="🐾 Sanctuary ›"
                 android:textColor="@color/hq_gold"
-                android:textSize="12sp"
+                android:textSize="11.5sp"
                 app:cornerRadius="10dp"
                 app:strokeColor="@color/hq_stroke_gold" />
         </LinearLayout>
 
-        <!-- Celestial Shrine Altar Card -->
+        <!-- Celestial Shrine Featured Altar Card -->
         <LinearLayout
             android:id="@+id/card_featured_banner"
             android:layout_width="match_parent"
@@ -65,66 +87,171 @@
             android:background="@drawable/bg_card_gold_border"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="18dp">
+            android:padding="16dp">
 
-            <TextView
-                style="@style/HqText.Subtitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_stat_box"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="✨ CELESTIAL SUMMONING SHRINE ✨"
-                android:textColor="@color/hq_gold"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_stat_box"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="✨ FEATURED SPIRIT"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_featured_rarity_pill"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_raised"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    tools:text="🟡 LEGENDARY · 2.5%" />
+            </LinearLayout>
+
+            <!-- Interactive Showcase Carousel Stage -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_prev_featured"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:padding="0dp"
+                    android:text="‹"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/hq_stroke_light" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                    <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_glow_aura" />
+
+                    <View
+                        android:id="@+id/view_altar_aura"
+                        android:layout_width="126dp"
+                        android:layout_height="126dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_emblem" />
+
+                    <ImageView
+                        android:id="@+id/iv_altar_preview"
+                        android:layout_width="108dp"
+                        android:layout_height="108dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Featured celestial altar spirit"
+                        android:scaleType="fitCenter" />
+                </FrameLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_next_featured"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:padding="0dp"
+                    android:text="›"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/hq_stroke_light" />
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_featured_name"
                 style="@style/HqText.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:gravity="center"
-                android:text="Azure Dragon &amp; Guardian Fu Dog"
                 android:textColor="@color/hq_text_primary"
-                android:textSize="18sp" />
+                android:textSize="19sp"
+                tools:text="Azure Dragon • 青龙" />
 
-            <!-- Summoning Altar Centerpiece with Radial Glow Aura Ring -->
-            <FrameLayout
-                android:layout_width="164dp"
-                android:layout_height="164dp"
-                android:layout_marginVertical="10dp"
-                android:clipChildren="false"
-                android:clipToPadding="false">
+            <TextView
+                android:id="@+id/tv_featured_buff_title"
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textColor="@color/hq_jade"
+                android:textSize="12.5sp"
+                android:textStyle="bold"
+                tools:text="Blessing: Dragon Scale" />
 
-                <View
-                    android:layout_width="164dp"
-                    android:layout_height="164dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_glow_aura" />
+            <TextView
+                android:id="@+id/tv_featured_buff_summary"
+                style="@style/HqText.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_stat_box"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/hq_text_secondary"
+                android:textSize="12sp"
+                tools:text="+25% DMG, +25% Crit DMG, +2.5s Timer, +0.5s Crit Window &amp; 15% Crit Heal" />
 
-                <View
-                    android:id="@+id/view_altar_aura"
-                    android:layout_width="132dp"
-                    android:layout_height="132dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_emblem" />
-
-                <ImageView
-                    android:id="@+id/iv_altar_preview"
-                    android:layout_width="106dp"
-                    android:layout_height="106dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="Featured celestial altar spirit"
-                    android:scaleType="fitCenter" />
-            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/layout_featured_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
 
             <!-- Active Summoning Ritual Status Container -->
             <LinearLayout
                 android:id="@+id/layout_summon_ritual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_stat_box"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
@@ -155,18 +282,6 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <TextView
-                style="@style/HqText.Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_stat_box"
-                android:gravity="center"
-                android:lineSpacingExtra="3dp"
-                android:padding="10dp"
-                android:text="🐉 Azure Dragon: +3s to Critical Window\n🔥 Fire Crane: +10% Bonus Attack Power\n🛡️ Fu Dog: Absorbs 1 Mistake in Battle"
-                android:textColor="@color/hq_text_secondary"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Pull Action Buttons -->
@@ -186,6 +301,7 @@
                 android:text="✨ 1x Summon\n100 💎"
                 android:textColor="@color/hq_gold"
                 android:textSize="13sp"
+                app:cornerRadius="14dp"
                 app:strokeColor="@color/hq_stroke_gold" />
 
             <com.google.android.material.button.MaterialButton
@@ -196,10 +312,11 @@
                 android:layout_marginStart="6dp"
                 android:layout_weight="1"
                 android:text="🌟 10x Summon\n900 💎 (Save 100!)"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                app:cornerRadius="14dp" />
         </LinearLayout>
 
-        <!-- Drop Rates Info Card -->
+        <!-- Live Summon Rates & Companion Directory Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,24 +325,135 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                style="@style/HqText.Title"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Celestial Probability &amp; Duplicate Rewards"
-                android:textColor="@color/hq_gold"
-                android:textSize="14sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/HqText.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Celestial Drop Rates"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_active_pool_badge"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_stat_box"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:textColor="@color/hq_jade"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    tools:text="Active Pool 99.5%" />
+            </LinearLayout>
+
+            <!-- Structured Rate Badges Grid -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_rate_common"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="@color/hq_jade"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="🟢 Common\n75.0%" />
+
+                <TextView
+                    android:id="@+id/tv_rate_rare"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="@color/hq_sky"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="🔵 Rare\n15.0%" />
+
+                <TextView
+                    android:id="@+id/tv_rate_epic"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="@color/hq_violet"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="🟣 Epic\n7.0%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_rate_legendary"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="🟡 Legendary\n2.5%" />
+
+                <TextView
+                    android:id="@+id/tv_rate_secret"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="@color/hq_crimson"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="🔮 Secret · Soon\n0.5%" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_rates_detail"
                 style="@style/HqText.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:lineSpacingExtra="4dp"
-                android:text="🟡 Legendary (1.0%): Azure Dragon, Sacred Qilin, Vermilion Bird\n🟣 Epic (2.0%): Immortal Fire Crane, Nine-Tail Sky Fox, Winged Qiongqi\n🔵 Rare (12.0%): Guardian Fu Dog, Celestial Sika Deer, White Thunder Tiger, Black Tortoise Xuanwu\n🟢 Common (85.0%): Wood Rat, Stone Rabbit, Bamboo Panda, Golden Koi, Cloud Fox Kit, Money Toad\n🔄 Duplicate Spirit Bonus: +15 ❤️ Affection &amp; +40 🪙 Coins"
                 android:textColor="@color/hq_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="11.5sp"
+                tools:text="Species pool and duplicate bonus details" />
         </LinearLayout>
 
     </LinearLayout>

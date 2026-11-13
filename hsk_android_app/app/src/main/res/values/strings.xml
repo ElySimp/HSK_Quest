@@ -6,6 +6,7 @@
     <!-- Navigation Drawer -->
     <string name="nav_home">Home Base</string>
     <string name="nav_world_map">World Map</string>
+    <string name="nav_quest">Daily Quests</string>
     <string name="nav_character">Character &amp; Stats</string>
     <string name="nav_pet">Companion Pet</string>
     <string name="nav_shop">Merchant Shop</string>

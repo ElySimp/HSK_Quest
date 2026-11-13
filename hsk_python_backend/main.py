@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.database import engine, Base, async_session
-from app.routers import auth, player, battle, leaderboard, shop, gacha, pet, admin
+from app.routers import auth, player, battle, leaderboard, shop, gacha, pet, admin, quest
 from app.services.maintenance_service import prune_battle_history
 
 
@@ -97,6 +97,7 @@ app.include_router(leaderboard.router)
 app.include_router(shop.router)
 app.include_router(gacha.router)
 app.include_router(pet.router)
+app.include_router(quest.router)
 app.include_router(admin.admin_ui_router)
 app.include_router(admin.router)
 

@@ -12,13 +12,15 @@ object Constants {
     const val SPLASH_MIN_DURATION_MS = 1200L
 
     // Combat
-    const val BASE_DAMAGE = 10
+    const val BASE_DAMAGE = 15
     const val DAMAGE_PER_STR = 2
     const val BASE_CRIT_MULTIPLIER = 1.50
     const val CRIT_PER_DEX = 0.0025
     const val DEF_REDUCTION_PER_POINT = 0.5
     const val BASE_MAX_HP = 100
+    const val HP_PER_LEVEL = 5
     const val HP_PER_VIT = 5
+    const val MONSTER_DAMAGE_NERF_MULTIPLIER = 0.40
 
     // Critical-hit answer window
     const val CRIT_WINDOW_MS = 2_000L

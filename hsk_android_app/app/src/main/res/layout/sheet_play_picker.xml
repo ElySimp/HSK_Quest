@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/play_picker_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_raised"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/bg_card" />
+
+    <TextView
+        style="@style/HqText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Mini-Game"
+        android:textColor="@color/hq_gold"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/tv_play_picker_subtitle"
+        style="@style/HqText.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="Bond with your spirit beast through friendly sanctuary games!"
+        android:textColor="@color/hq_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Option 1: Rock-Paper-Scissors -->
+    <LinearLayout
+        android:id="@+id/card_pick_rps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_card_rare_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_stat_box"
+            android:gravity="center"
+            android:text="✊"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rock · Paper · Scissors"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Free · +2 to +10 ❤️ Affection · Win 1–5 🪙"
+                android:textColor="@color/hq_sky"
+                android:textSize="11.5sp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="@color/hq_sky"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <!-- Option 2: Blackjack 21 -->
+    <LinearLayout
+        android:id="@+id/card_pick_blackjack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_card_gold_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_stat_box"
+            android:gravity="center"
+            android:text="🃏"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/HqText.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lucky Blackjack 21"
+                android:textColor="@color/hq_gold"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/HqText.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="5 🪙 Stake · Win +5 🪙 &amp; +8 ❤️ · Lose -5 🪙"
+                android:textColor="@color/hq_jade"
+                android:textSize="11.5sp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="@color/hq_gold"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_close_play_picker"
+        style="@style/HqButton.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cancel"
+        app:cornerRadius="12dp" />
+
+</LinearLayout>

@@ -39,6 +39,9 @@ import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.databinding.FragmentBattleBinding
 import com.faldo.hsk_quest.databinding.SheetBattleResultBinding
 import com.faldo.hsk_quest.engine.BattleQuestion
+import com.faldo.hsk_quest.engine.DamageCalculator
+import com.faldo.hsk_quest.engine.PetBuffCatalog
+import com.faldo.hsk_quest.engine.QuestionType
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
@@ -74,6 +77,7 @@ class BattleFragment : Fragment() {
     private var spriteAnimator: SpriteAnimator? = null
     private var currentMonsterSpriteKey: String? = null
     private var petSpriteAnimator: SpriteAnimator? = null
+    private var petAttackResetRunnable: Runnable? = null
     private val bagPotionAnimators = mutableListOf<SpriteAnimator>()
     private var didDrinkInBagSession: Boolean = false
     private var isLoadingOverlayActive: Boolean = false
@@ -137,7 +141,7 @@ class BattleFragment : Fragment() {
 
         showBattleLoadingOverlay(stageLabel)
         initTextToSpeech()
-        setupMonsterVisuals(areaId, monsterTypeStr)
+        binding.ivMonsterSprite.setImageDrawable(null)
         setupOptionButtons()
         setupMultimodalAndElixirControls()
         setupFleeButton()
@@ -146,11 +150,16 @@ class BattleFragment : Fragment() {
         viewModel.startBattle(areaId, monsterTypeStr, monsterIndex)
     }
 
+    private var isMinimumLoadingElapsed: Boolean = false
+    private var hasDismissedInitialOverlay: Boolean = false
+
     private fun showBattleLoadingOverlay(stageLabel: String) {
         val b = _binding ?: return
         loadingDismissRunnable?.let { b.layoutBattleLoading.removeCallbacks(it) }
 
         isLoadingOverlayActive = true
+        isMinimumLoadingElapsed = false
+        hasDismissedInitialOverlay = false
         viewModel.pauseTimerForSpeech()
         applyBattleArenaBlur(enabled = true)
 
@@ -161,14 +170,29 @@ class BattleFragment : Fragment() {
         b.layoutBattleLoading.visibility = View.VISIBLE
 
         b.layoutBattleLoading.setOnClickListener {
-            dismissBattleLoadingOverlay()
+            if (!viewModel.isSubmittingResult.value &&
+                viewModel.battleState.value != null &&
+                viewModel.currentQuestion.value != null
+            ) {
+                hasDismissedInitialOverlay = true
+                dismissBattleLoadingOverlay()
+            }
         }
 
         val runnable = Runnable {
-            dismissBattleLoadingOverlay()
+            isMinimumLoadingElapsed = true
+            maybeDismissInitialLoadingOverlay()
         }
         loadingDismissRunnable = runnable
-        b.layoutBattleLoading.postDelayed(runnable, 2_400L)
+        b.layoutBattleLoading.postDelayed(runnable, 450L)
+    }
+
+    private fun maybeDismissInitialLoadingOverlay() {
+        if (hasDismissedInitialOverlay || viewModel.isSubmittingResult.value) return
+        if (!isMinimumLoadingElapsed) return
+        if (viewModel.battleState.value == null || viewModel.currentQuestion.value == null) return
+        hasDismissedInitialOverlay = true
+        dismissBattleLoadingOverlay()
     }
 
     private fun dismissBattleLoadingOverlay() {
@@ -299,9 +323,102 @@ class BattleFragment : Fragment() {
             currentQuestion?.let { speakMandarin(it.targetTerm.simplified) }
         }
 
+        binding.btnShowPinyinHint.setOnClickListener {
+            val q = currentQuestion ?: return@setOnClickListener
+            val hint = q.pinyinHint ?: return@setOnClickListener
+            viewModel.activatePinyinHintForCurrentQuestion()
+            if (q.type.isWriting) {
+                val activeSlot = viewModel.writingCharIndex.value
+                val slotGuide = q.targetTerm.simplified.trim().getOrNull(activeSlot)?.toString()
+                    ?: q.targetTerm.simplified
+                binding.canvasBattleWriting.setGuideText(slotGuide)
+                binding.tvPromptSub.text = "Trace guide active (${q.targetTerm.pinyin})"
+                binding.tvPromptSub.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.hq_gold)
+                )
+                binding.btnShowPinyinHint.text = "💡 Trace Active (-50% DMG)"
+            } else {
+                binding.tvPromptSub.text = hint
+                binding.tvPromptSub.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.hq_gold)
+                )
+                binding.btnShowPinyinHint.text = "💡 Pinyin Active (-50% DMG)"
+            }
+            binding.btnShowPinyinHint.isEnabled = false
+        }
+
+        binding.canvasBattleWriting.onStrokeCountChanged = { count ->
+            val wordLen = currentQuestion?.targetTerm?.simplified?.trim()?.length ?: 1
+            val slotIdx = viewModel.writingCharIndex.value.coerceIn(0, (wordLen - 1).coerceAtLeast(0))
+            val prefix = if (wordLen > 1) "Char ${slotIdx + 1}/$wordLen · " else ""
+            binding.tvWritingStatus.text = if (count > 0) {
+                "🖌️ ${prefix}Strokes: $count · Tap Submit when ready"
+            } else {
+                "🖌️ ${prefix}Draw Hanzi strokes in the box below"
+            }
+            binding.btnWritingSubmit.isEnabled = count > 0 && !isAnswerLocked
+        }
+
+        binding.btnWritingUndo.setOnClickListener {
+            if (isAnswerLocked) return@setOnClickListener
+            binding.canvasBattleWriting.undoLastStroke()
+        }
+
+        binding.btnWritingClear.setOnClickListener {
+            if (isAnswerLocked) return@setOnClickListener
+            binding.canvasBattleWriting.clearCanvas()
+        }
+
+        binding.btnWritingSubmit.setOnClickListener {
+            if (isAnswerLocked) return@setOnClickListener
+            val strokes = binding.canvasBattleWriting.getStrokeVectors()
+            if (strokes.isEmpty()) {
+                binding.tvWritingStatus.text = "⚠️ Draw at least 1 stroke before submitting"
+                return@setOnClickListener
+            }
+            isAnswerLocked = true
+            binding.btnWritingSubmit.isEnabled = false
+            binding.btnWritingUndo.isEnabled = false
+            binding.btnWritingClear.isEnabled = false
+
+            viewModel.submitWritingStrokes(strokes) { matched, hasMoreChars, charIdx, totalChars, recognizedHanzi, engineId, latencyMs ->
+                val b = _binding ?: return@submitWritingStrokes
+                if (matched && hasMoreChars) {
+                    appContainer.soundPlayer.play(Sfx.CORRECT)
+                    isAnswerLocked = false
+                    b.canvasBattleWriting.clearCanvas()
+                    if (viewModel.isPinyinHintActive.value) {
+                        val nextGuide = currentQuestion?.targetTerm?.simplified?.trim()
+                            ?.getOrNull(charIdx)?.toString()
+                        b.canvasBattleWriting.setGuideText(nextGuide)
+                    }
+                    b.btnWritingUndo.isEnabled = true
+                    b.btnWritingClear.isEnabled = true
+                    b.btnWritingSubmit.isEnabled = false
+                    b.tvWritingStatus.text = "🖌️ Char ${charIdx + 1}/$totalChars · Draw next Hanzi"
+                    b.tvSpeechFeedback.text =
+                        "✅ '$recognizedHanzi' matched! Now draw char ${charIdx + 1}/$totalChars ($engineId · ${latencyMs}ms)"
+                } else if (matched) {
+                    appContainer.soundPlayer.play(Sfx.CORRECT)
+                    b.tvSpeechFeedback.text =
+                        "✅ Matched $recognizedHanzi! ($engineId · ${latencyMs}ms)"
+                } else {
+                    appContainer.soundPlayer.play(Sfx.WRONG)
+                    val targetWord = currentQuestion?.targetTerm
+                    val expectedStr = targetWord?.simplified.orEmpty()
+                    val detected = recognizedHanzi.ifBlank { "?" }
+                    b.tvSpeechFeedback.text = if (targetWord != null) {
+                        "❌ Detected '$detected' — Expected: $expectedStr (${targetWord.pinyin} · ${targetWord.english})"
+                    } else {
+                        "❌ Detected '$detected', expected '$expectedStr'"
+                    }
+                }
+            }
+        }
+
         binding.btnCantSpeak.setOnClickListener {
             stopSpeechRecognizer()
-            viewModel.disableSpeakingForBattle()
+            viewModel.skipSpeakingFor15Minutes()
         }
 
         binding.btnSpeakMandarin.setOnClickListener {
@@ -482,16 +599,16 @@ class BattleFragment : Fragment() {
 
             override fun onError(error: Int) {
                 val b = _binding ?: return
-                b.btnSpeakMandarin.text = "🎙️ Tap to Speak"
+                b.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
                 b.btnSpeakMandarin.isEnabled = true
                 b.tvSpeechFeedback.text =
-                    "⚠️ Mic didn't catch that. Tap 🎙️ to retry or select the answer below."
+                    "⚠️ Mic didn't catch that. Tap 'Tap to Speak Mandarin' to retry or 'Can't Speak Now' to skip."
                 viewModel.resumeTimerAfterSpeech()
             }
 
             override fun onResults(results: Bundle?) {
                 val b = _binding ?: return
-                b.btnSpeakMandarin.text = "🎙️ Tap to Speak"
+                b.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
                 b.btnSpeakMandarin.isEnabled = true
 
                 val matches = results
@@ -500,20 +617,6 @@ class BattleFragment : Fragment() {
                 val eval = viewModel.submitSpeechResult(matches) ?: return
                 isAnswerLocked = true
                 b.tvSpeechFeedback.text = eval.feedback
-
-                val correctIdx = currentQuestion?.correctIndex ?: -1
-                val optionButtons = listOf(
-                    b.btnOption0,
-                    b.btnOption1,
-                    b.btnOption2,
-                    b.btnOption3,
-                )
-                if (correctIdx in optionButtons.indices) {
-                    optionButtons[correctIdx].setBackgroundResource(R.drawable.bg_option_correct)
-                    optionButtons[correctIdx].setTextColor(
-                        ContextCompat.getColor(requireContext(), R.color.hq_jade)
-                    )
-                }
             }
 
             override fun onPartialResults(partialResults: Bundle?) {}
@@ -529,7 +632,7 @@ class BattleFragment : Fragment() {
         runCatching {
             recognizer.startListening(intent)
         }.onFailure {
-            binding.btnSpeakMandarin.text = "🎙️ Tap to Speak"
+            binding.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
             binding.btnSpeakMandarin.isEnabled = true
             viewModel.resumeTimerAfterSpeech()
         }
@@ -554,43 +657,17 @@ class BattleFragment : Fragment() {
 
         optionButtons.forEachIndexed { index, textView ->
             textView.setOnClickListener {
-                if (isAnswerLocked) return@setOnClickListener
-                isAnswerLocked = true
-                stopSpeechRecognizer()
                 handleOptionSelection(index, textView)
             }
         }
     }
 
     private fun handleOptionSelection(selectedIndex: Int, selectedView: TextView) {
+        if (isAnswerLocked) return
         val q = currentQuestion ?: return
-        val isCorrect = q.isCorrect(selectedIndex)
-
-        if (isCorrect) {
-            appContainer.soundPlayer.play(Sfx.CORRECT)
-            selectedView.setBackgroundResource(R.drawable.bg_option_correct)
-            selectedView.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_jade))
-        } else {
-            appContainer.soundPlayer.play(Sfx.WRONG)
-            selectedView.setBackgroundResource(R.drawable.bg_option_wrong)
-            selectedView.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_crimson))
-
-            // Highlight the correct answer for player learning
-            val correctIdx = q.correctIndex
-            val optionButtons = listOf(
-                binding.btnOption0,
-                binding.btnOption1,
-                binding.btnOption2,
-                binding.btnOption3,
-            )
-            if (correctIdx in optionButtons.indices) {
-                optionButtons[correctIdx].setBackgroundResource(R.drawable.bg_option_correct)
-                optionButtons[correctIdx].setTextColor(
-                    ContextCompat.getColor(requireContext(), R.color.hq_jade)
-                )
-            }
-        }
-
+        if (q.type.isSpeaking || q.type.isWriting) return
+        isAnswerLocked = true
+        stopSpeechRecognizer()
         viewModel.submitAnswer(selectedIndex)
     }
 
@@ -608,24 +685,45 @@ class BattleFragment : Fragment() {
         }
     }
 
+    private var isShowingSubmissionOverlay: Boolean = false
+
     private fun observeViewModel(areaId: Int, monsterTypeStr: String, monsterIndex: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.battleState.collect { state ->
-                        state?.let { renderBattleState(it) }
+                        state?.let {
+                            renderBattleState(it)
+                            maybeDismissInitialLoadingOverlay()
+                        }
                     }
                 }
 
                 launch {
                     viewModel.currentQuestion.collect { question ->
-                        question?.let { renderQuestion(it) }
+                        question?.let {
+                            resetUiBeforeQuestion(it)
+                            renderQuestion(it)
+                            maybeDismissInitialLoadingOverlay()
+                        }
                     }
                 }
 
                 launch {
                     viewModel.timerProgressMs.collect { remainingMs ->
                         renderTimer(remainingMs)
+                    }
+                }
+
+                launch {
+                    viewModel.nextQuestionDelay.collect { delayState ->
+                        renderNextQuestionDelay(delayState)
+                    }
+                }
+
+                launch {
+                    viewModel.answerFeedback.collect { event ->
+                        renderAnswerFeedback(event)
                     }
                 }
 
@@ -661,7 +759,14 @@ class BattleFragment : Fragment() {
                 }
 
                 launch {
+                    viewModel.isSubmittingResult.collect { submitting ->
+                        renderSubmittingOverlay(submitting)
+                    }
+                }
+
+                launch {
                     viewModel.serverResult.collect { result ->
+                        renderSubmittingOverlay(false)
                         showResultBottomSheet(result, areaId, monsterTypeStr, monsterIndex)
                     }
                 }
@@ -669,23 +774,207 @@ class BattleFragment : Fragment() {
         }
     }
 
+    private fun resetUiBeforeQuestion(question: BattleQuestion) {
+        val b = _binding ?: return
+        isAnswerLocked = false
+        b.progressTimer.visibility = View.VISIBLE
+        b.progressTimer.setIndicatorColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
+        b.tvSpeechFeedback.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
+        b.tvSpeechFeedback.visibility = View.GONE
+        b.btnCantSpeak.isEnabled = true
+        b.btnWritingSubmit.isEnabled = true
+
+        val optionButtons = listOf(b.btnOption0, b.btnOption1, b.btnOption2, b.btnOption3)
+        optionButtons.forEach { btn ->
+            btn.maxLines = 2
+            btn.isEnabled = true
+            btn.alpha = 1f
+        }
+    }
+
+    private fun renderAnswerFeedback(event: AnswerFeedbackEvent) {
+        val b = _binding ?: return
+        isAnswerLocked = true
+        b.btnSpeakMandarin.isEnabled = false
+        b.btnCantSpeak.isEnabled = false
+        b.btnWritingSubmit.isEnabled = false
+        b.btnShowPinyinHint.isEnabled = false
+
+        appContainer.soundPlayer.play(if (event.isCorrect) Sfx.CORRECT else Sfx.WRONG)
+
+        val q = event.question
+        val jade = ContextCompat.getColor(requireContext(), R.color.hq_jade)
+        val crimson = ContextCompat.getColor(requireContext(), R.color.hq_crimson)
+        val primary = ContextCompat.getColor(requireContext(), R.color.hq_text_primary)
+        val muted = ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
+
+        // Reveal the answer cue under the prompt in muted gray (matching Show Pinyin slot)
+        val promptReveal = formatPromptAnswerReveal(q)
+        if (!promptReveal.isNullOrBlank()) {
+            b.tvPromptSub.text = promptReveal
+            b.tvPromptSub.setTextColor(muted)
+        }
+
+        if (!q.type.isSpeaking && !q.type.isWriting) {
+            val optionButtons = listOf(b.btnOption0, b.btnOption1, b.btnOption2, b.btnOption3)
+            optionButtons.forEachIndexed { idx, btn ->
+                btn.isEnabled = false
+                btn.maxLines = 2
+                btn.alpha = 1f
+                btn.text = formatOptionRevealText(q, idx)
+                when {
+                    idx == q.correctIndex -> {
+                        btn.setBackgroundResource(R.drawable.bg_option_correct)
+                        btn.setTextColor(jade)
+                    }
+                    !event.isCorrect && idx == event.selectedIndex -> {
+                        btn.setBackgroundResource(R.drawable.bg_option_wrong)
+                        btn.setTextColor(crimson)
+                    }
+                    else -> {
+                        btn.setTextColor(primary)
+                    }
+                }
+            }
+            b.tvSpeechFeedback.visibility = View.GONE
+        } else {
+            val explanation = buildAnswerExplanation(event)
+            b.tvSpeechFeedback.visibility = View.VISIBLE
+            b.tvSpeechFeedback.text = explanation
+            b.tvSpeechFeedback.setTextColor(if (event.isCorrect) jade else crimson)
+        }
+    }
+
+    private fun formatPromptAnswerReveal(question: BattleQuestion): String? {
+        val target = question.targetTerm
+        return when (question.type) {
+            QuestionType.HANZI_TO_PINYIN,
+            QuestionType.HANZI_TO_ENGLISH,
+            QuestionType.SPEAKING_CHALLENGE -> "Pinyin: ${target.pinyin}"
+            QuestionType.CLOZE_SENTENCE ->
+                question.pinyinHint?.replace("[ ___ ]", target.pinyin) ?: "Pinyin: ${target.pinyin}"
+            QuestionType.ENGLISH_TO_HANZI,
+            QuestionType.WRITING_CHALLENGE,
+            QuestionType.LISTENING_TO_ENGLISH,
+            QuestionType.LISTENING_TO_HANZI -> "${target.simplified} • ${target.pinyin}"
+        }
+    }
+
+    private fun formatOptionRevealText(question: BattleQuestion, index: Int): String {
+        val raw = question.options.getOrNull(index).orEmpty()
+        val term = question.optionTerms.getOrNull(index) ?: return raw
+        return when (question.type) {
+            QuestionType.ENGLISH_TO_HANZI,
+            QuestionType.LISTENING_TO_HANZI,
+            QuestionType.CLOZE_SENTENCE,
+            QuestionType.HANZI_TO_PINYIN -> "${term.simplified} • ${term.pinyin}"
+            else -> raw
+        }
+    }
+
+    private fun buildAnswerExplanation(event: AnswerFeedbackEvent): String {
+        event.customFeedback?.let { custom ->
+            if (custom.isNotBlank()) return custom
+        }
+        val target = event.question.targetTerm
+        val targetSummary = "${target.simplified} (${target.pinyin}) — ${conciseGloss(target.english, maxLen = 48)}"
+        return when {
+            event.isCorrect -> "✓ $targetSummary"
+            event.isTimeout -> "⏰ Time's up! Answer: $targetSummary"
+            else -> {
+                val chosen = event.question.optionTerms.getOrNull(event.selectedIndex)
+                if (chosen != null && chosen.simplified != target.simplified) {
+                    "✕ ${chosen.simplified} (${chosen.pinyin}) = ${conciseGloss(chosen.english, maxLen = 28)} · ✓ $targetSummary"
+                } else {
+                    "✕ Correct: $targetSummary"
+                }
+            }
+        }
+    }
+
+    private fun conciseGloss(english: String, maxLen: Int = 34): String {
+        val primary = english.split(";", "/").firstOrNull()?.trim().orEmpty().ifBlank { english.trim() }
+        return if (primary.length > maxLen) "${primary.take(maxLen - 1)}…" else primary
+    }
+
+    private fun renderNextQuestionDelay(delayState: NextQuestionDelayState?) {
+        val b = _binding ?: return
+        if (delayState == null || delayState.totalMs <= 0L) {
+            return
+        }
+        val color = ContextCompat.getColor(
+            requireContext(),
+            if (delayState.isCorrect) R.color.hq_jade else R.color.hq_crimson,
+        )
+        b.progressTimer.visibility = View.VISIBLE
+        b.progressTimer.setIndicatorColor(color)
+        b.progressTimer.progress =
+            ((delayState.remainingMs.toFloat() / delayState.totalMs) * 1000f).toInt().coerceIn(0, 1000)
+    }
+
+    private fun renderSubmittingOverlay(submitting: Boolean) {
+        val b = _binding ?: return
+        if (submitting) {
+            isShowingSubmissionOverlay = true
+            isLoadingOverlayActive = true
+            loadingDismissRunnable?.let { b.layoutBattleLoading.removeCallbacks(it) }
+            val phase = viewModel.battleState.value?.phase
+            b.tvLoadingStageTitle.text = when (phase) {
+                BattleState.Phase.FLED -> "🏃 Retreating Safely..."
+                BattleState.Phase.VICTORY -> "🏆 Recording Victory..."
+                BattleState.Phase.DEFEAT -> "💀 Recording Battle Result..."
+                else -> "⚔️ Syncing Battle Result..."
+            }
+            b.tvBattleTip.text = "Syncing XP, Coins & Vocab Mastery..."
+            b.layoutBattleLoading.setBackgroundColor(Color.argb(215, 14, 14, 18))
+            b.layoutBattleLoading.alpha = 1f
+            b.layoutBattleLoading.visibility = View.VISIBLE
+            b.layoutBattleLoading.setOnClickListener { }
+            applyBattleArenaBlur(enabled = true)
+        } else if (isShowingSubmissionOverlay) {
+            isShowingSubmissionOverlay = false
+            isLoadingOverlayActive = false
+            b.layoutBattleLoading.visibility = View.GONE
+            applyBattleArenaBlur(enabled = false)
+        }
+    }
+
     private fun renderActivePet(pet: PetItem?) {
+        val b = _binding ?: return
+        petAttackResetRunnable?.let { b.ivBattlePetSprite.removeCallbacks(it) }
+        petAttackResetRunnable = null
         petSpriteAnimator?.stop()
         petSpriteAnimator = null
 
+        b.layoutBattlePetBox.visibility = View.VISIBLE
         if (pet == null) {
-            binding.layoutBattlePetBox.visibility = View.GONE
+            val fallbackDrawable = SpriteAnimator.resolvePetDrawable(
+                requireContext(),
+                "wood_rat",
+                "pet_wood_rat",
+            )
+            petSpriteAnimator = SpriteAnimator.startAnimation(
+                imageView = b.ivBattlePetSprite,
+                drawableRes = fallbackDrawable,
+                rows = 3,
+                cols = 4,
+                targetRow = 0,
+                frameCount = 4,
+                fps = 6,
+            )
+            b.tvBattlePetName.text = "Spirit Beast"
+            b.tvBattlePetBuff.text = "🐾 Ready"
+            b.ivPetShieldVfx.alpha = 0f
             return
         }
 
-        binding.layoutBattlePetBox.visibility = View.VISIBLE
         val petDrawable = SpriteAnimator.resolvePetDrawable(
             requireContext(),
             pet.petType,
             pet.spriteKey,
         )
         petSpriteAnimator = SpriteAnimator.startAnimation(
-            imageView = binding.ivBattlePetSprite,
+            imageView = b.ivBattlePetSprite,
             drawableRes = petDrawable,
             rows = 3,
             cols = 4,
@@ -694,16 +983,17 @@ class BattleFragment : Fragment() {
             fps = if (pet.isSleeping) 4 else 6,
         )
 
-        binding.tvBattlePetBuff.text = if (pet.isSleeping) {
+        b.tvBattlePetName.text = pet.name.substringBefore(" (").ifBlank { pet.name }
+        val spec = PetBuffCatalog.resolveSpec(pet)
+        b.tvBattlePetBuff.text = if (pet.isSleeping) {
             "💤 Asleep"
         } else {
-            when (pet.buffType) {
-                "shield" -> "🛡️ Shield"
-                "time_extender" -> "⏳ +3s"
-                "damage_boost" -> "⚔️ +15%"
-                else -> "🐾 Awake"
-            }
+            "✦ ${spec.shortBadge}"
         }
+
+        val shieldsLeft = viewModel.battleState.value?.shieldsRemaining ?: spec.shieldCharges
+        val shieldReady = !pet.isSleeping && spec.shieldCharges > 0 && shieldsLeft > 0
+        b.ivPetShieldVfx.alpha = if (shieldReady) 0.28f else 0f
     }
 
     private fun renderBattleState(state: BattleState) {
@@ -714,12 +1004,22 @@ class BattleFragment : Fragment() {
             preferredSpriteKey = state.monster.spriteKey,
         )
         binding.tvMonsterName.text = state.monster.name
-        binding.tvMonsterHpNumeric.text = "${state.monsterHp}/${state.monster.maxHp}"
+        binding.tvMonsterHpNumeric.text = "${DamageCalculator.formatDecimal(state.monsterHp)}/${state.monster.maxHp}"
         binding.progressMonsterHp.progress = state.monsterHpPercent
         binding.tvBossEnrage.visibility = if (state.isBossEnraged) View.VISIBLE else View.GONE
+        binding.tvMonsterRoleTag.text = when (state.monster.type.apiName.lowercase()) {
+            "boss" -> "👑 Gatekeeper Boss"
+            "elite" -> "⚔️ Elite Guardian"
+            else -> "👹 Realm Fiend"
+        }
+
+        // Update ambient shield aura when shield is active and not mid-burst
+        if (!state.wasShieldBlocked) {
+            binding.ivPetShieldVfx.alpha = if (state.shieldAvailable) 0.28f else 0f
+        }
 
         // Player HP & Buff label
-        binding.tvPlayerHpNumeric.text = "❤️ ${state.playerHp}/${state.playerMaxHp} (${state.playerHpPercent}%)"
+        binding.tvPlayerHpNumeric.text = "❤️ ${DamageCalculator.formatDecimal(state.playerHp)}/${state.playerMaxHp} (${state.playerHpPercent}%)"
         binding.progressPlayerHp.progress = state.playerHpPercent
 
         val hpColorRes = when {
@@ -731,15 +1031,21 @@ class BattleFragment : Fragment() {
         binding.progressPlayerHp.setIndicatorColor(hpColor)
         binding.tvPlayerHpNumeric.setTextColor(hpColor)
 
+        binding.btnFlee.isEnabled = !state.isFinished
+        binding.btnQuickElixir.isEnabled = !state.isFinished
+        if (state.isFinished) {
+            closeBattleInventoryPanel()
+        }
+
         if (!state.activeBuffLabel.isNullOrBlank()) {
             binding.tvPlayerLabel.text = state.activeBuffLabel
         } else {
-            binding.tvPlayerLabel.text = "🛡️ Hero Vitality"
+            binding.tvPlayerLabel.text = "🛡️ Spirit Bond Vitality"
         }
 
         if (didDrinkInBagSession &&
             binding.layoutBattleInventoryPanel.visibility == View.VISIBLE &&
-            state.playerHp >= state.playerMaxHp
+            state.playerHp >= state.playerMaxHp.toDouble()
         ) {
             closeBattleInventoryPanel()
         }
@@ -757,14 +1063,42 @@ class BattleFragment : Fragment() {
             binding.tvCombo.visibility = View.INVISIBLE
         }
 
-        // Damage popups & hit/slash animations
-        if (state.lastDamageDealt > 0) {
+        val currentPet = viewModel.activePet.value
+        val currentPetSpec = currentPet?.let { PetBuffCatalog.resolveSpec(it) }
+        val hasShieldAura = currentPet != null &&
+            !currentPet.isSleeping &&
+            (currentPetSpec?.shieldCharges ?: 0) > 0 &&
+            state.shieldsRemaining > 0
+        binding.ivPetShieldVfx.alpha = if (hasShieldAura) 0.28f else 0f
+
+        // Pokémon-style Duel Turn Animations: Pet Lunge vs Monster Counter
+        if (state.lastDamageDealt > 0.0) {
             appContainer.soundPlayer.play(if (state.wasCritical) Sfx.CRIT else Sfx.HIT)
+            triggerPetAttackLunge(state.wasCritical)
             triggerDamagePopup(state.lastDamageDealt, state.wasCritical)
             triggerMonsterHitAndSlash(state.wasCritical)
         }
-        if (state.lastDamageTaken > 0) {
+        if (state.wasShieldBlocked) {
+            appContainer.soundPlayer.play(Sfx.CORRECT)
+            triggerMonsterCounterAndPetShieldBlock()
+        } else if (state.lastDamageTaken > 0.0) {
+            triggerMonsterCounterAndPetHit(state.lastDamageTaken)
             triggerPlayerDamageShake()
+        }
+        if (state.lastRebirthTriggered) {
+            binding.tvPetDamagePopup.animate().cancel()
+            binding.tvPetDamagePopup.text = "🔥 PHOENIX REVIVE!"
+            binding.tvPetDamagePopup.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
+            binding.tvPetDamagePopup.alpha = 1f
+            binding.tvPetDamagePopup.translationY = 0f
+            binding.tvPetDamagePopup.animate().alpha(0f).translationY(-32f).setDuration(1100L).start()
+        } else if (state.lastPetHeal > 0.0 && state.lastDamageTaken == 0.0 && !state.wasShieldBlocked) {
+            binding.tvPetDamagePopup.animate().cancel()
+            binding.tvPetDamagePopup.text = "+${DamageCalculator.formatDecimal(state.lastPetHeal)} HP 💚"
+            binding.tvPetDamagePopup.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_jade))
+            binding.tvPetDamagePopup.alpha = 1f
+            binding.tvPetDamagePopup.translationY = 0f
+            binding.tvPetDamagePopup.animate().alpha(0f).translationY(-26f).setDuration(900L).start()
         }
 
         // Low HP Warning Dialog (< 20% HP)
@@ -784,24 +1118,27 @@ class BattleFragment : Fragment() {
         binding.tvQuestionType.text = question.type.displayLabel.uppercase()
         binding.tvPromptPrimary.text = question.prompt
         binding.tvPromptSub.text = question.subPrompt.orEmpty()
+        binding.tvPromptSub.setTextColor(
+            ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
+        )
+
+        // Reset per-question Pinyin/Trace hint button (-50% DMG for 1 question)
+        if (!question.pinyinHint.isNullOrBlank()) {
+            binding.btnShowPinyinHint.visibility = View.VISIBLE
+            binding.btnShowPinyinHint.text = if (question.type.isWriting) {
+                "💡 Show Trace (-50% DMG)"
+            } else {
+                "💡 Show Pinyin (-50% DMG)"
+            }
+            binding.btnShowPinyinHint.isEnabled = true
+        } else {
+            binding.btnShowPinyinHint.visibility = View.GONE
+        }
 
         binding.btnReplayAudio.visibility =
-            if (question.type.isListening || question.type.isSpeaking) View.VISIBLE else View.GONE
-        binding.btnSpeakMandarin.visibility =
-            if (question.type.isSpeaking) View.VISIBLE else View.GONE
-        binding.btnCantSpeak.visibility =
-            if (question.type.isSpeaking) View.VISIBLE else View.GONE
+            if (question.type.isListening) View.VISIBLE else View.GONE
         binding.tvSpeechFeedback.visibility =
-            if (question.type.isSpeaking) View.VISIBLE else View.GONE
-
-        if (question.type.isSpeaking) {
-            binding.btnSpeakMandarin.text = "🎙️ Tap to Speak"
-            binding.btnSpeakMandarin.isEnabled = true
-            binding.tvSpeechFeedback.text =
-                "🎙️ Tap 'Tap to Speak' and pronounce ${question.targetTerm.simplified} aloud — or select its Pinyin below"
-        } else if (question.type.isListening) {
-            speakMandarin(question.targetTerm.simplified)
-        }
+            if (question.type.isSpeaking || question.type.isWriting) View.VISIBLE else View.GONE
 
         val optionViews = listOf(
             binding.btnOption0,
@@ -810,27 +1147,214 @@ class BattleFragment : Fragment() {
             binding.btnOption3,
         )
 
-        optionViews.forEachIndexed { i, view ->
-            view.setBackgroundResource(R.drawable.bg_option_idle)
-            view.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_text_primary))
-            view.text = question.options.getOrElse(i) { "" }
-            view.isEnabled = true
+        if (question.type.isSpeaking) {
+            optionViews.forEach { it.visibility = View.GONE }
+            binding.layoutWritingActions.visibility = View.GONE
+            binding.canvasBattleWriting.setGuideText(null)
+            binding.canvasBattleWriting.clearCanvas()
+            binding.layoutSpeakingActions.visibility = View.VISIBLE
+            binding.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
+            binding.btnSpeakMandarin.isEnabled = true
+            binding.tvSpeechFeedback.text =
+                "🎙️ Tap 'Tap to Speak Mandarin' below and pronounce ${question.targetTerm.simplified} aloud"
+        } else if (question.type.isWriting) {
+            optionViews.forEach { it.visibility = View.GONE }
+            binding.layoutSpeakingActions.visibility = View.GONE
+            binding.layoutWritingActions.visibility = View.VISIBLE
+            binding.canvasBattleWriting.setGuideText(null)
+            binding.canvasBattleWriting.clearCanvas()
+            val totalChars = question.targetTerm.simplified.trim().length.coerceAtLeast(1)
+            val prefix = if (totalChars > 1) "Char 1/$totalChars · " else ""
+            binding.tvWritingStatus.text = "🖌️ ${prefix}Draw Hanzi strokes in the box below"
+            binding.btnWritingUndo.isEnabled = true
+            binding.btnWritingClear.isEnabled = true
+            binding.btnWritingSubmit.isEnabled = false
+            binding.tvSpeechFeedback.text = if (totalChars > 1) {
+                "✍️ Word has $totalChars characters — draw Char 1/$totalChars cleanly, then tap Submit"
+            } else {
+                "✍️ Draw the character cleanly, then tap Submit"
+            }
+        } else {
+            binding.layoutSpeakingActions.visibility = View.GONE
+            binding.layoutWritingActions.visibility = View.GONE
+            binding.canvasBattleWriting.setGuideText(null)
+            binding.canvasBattleWriting.clearCanvas()
+            if (question.type.isListening) {
+                speakMandarin(question.targetTerm.simplified)
+            }
+            optionViews.forEachIndexed { i, view ->
+                view.visibility = View.VISIBLE
+                view.setBackgroundResource(R.drawable.bg_option_idle)
+                view.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_text_primary))
+                view.text = question.options.getOrElse(i) { "" }
+                view.alpha = 1f
+                view.isEnabled = true
+            }
         }
     }
 
     private fun renderTimer(remainingMs: Long) {
+        if (viewModel.nextQuestionDelay.value != null) return
         val limitMs = viewModel.currentQuestionLimitMs.value.coerceAtLeast(1L)
         val progress = ((remainingMs * 1000L) / limitMs).toInt().coerceIn(0, 1000)
         binding.progressTimer.progress = progress
+        binding.progressTimer.setIndicatorColor(
+            ContextCompat.getColor(requireContext(), R.color.hq_gold)
+        )
+    }
 
-        if (remainingMs < 2000L) {
-            binding.progressTimer.setIndicatorColor(
-                ContextCompat.getColor(requireContext(), R.color.hq_crimson)
+    private fun triggerPetAttackLunge(isCrit: Boolean) {
+        val b = _binding ?: return
+        val pet = viewModel.activePet.value
+
+        // Switch awake pet to Row 1 (Attack / Happy pose) during the lunge
+        if (pet == null || !pet.isSleeping) {
+            val petDrawable = SpriteAnimator.resolvePetDrawable(
+                requireContext(),
+                pet?.petType ?: "wood_rat",
+                pet?.spriteKey ?: "pet_wood_rat",
             )
-        } else {
-            binding.progressTimer.setIndicatorColor(
-                ContextCompat.getColor(requireContext(), R.color.hq_gold)
+            petAttackResetRunnable?.let { b.ivBattlePetSprite.removeCallbacks(it) }
+            petSpriteAnimator?.stop()
+            petSpriteAnimator = SpriteAnimator.startAnimation(
+                imageView = b.ivBattlePetSprite,
+                drawableRes = petDrawable,
+                rows = 3,
+                cols = 4,
+                targetRow = 1,
+                frameCount = 4,
+                fps = 10,
             )
+
+            val resetRun = Runnable {
+                val curBinding = _binding ?: return@Runnable
+                val curPet = viewModel.activePet.value
+                petSpriteAnimator?.stop()
+                petSpriteAnimator = SpriteAnimator.startAnimation(
+                    imageView = curBinding.ivBattlePetSprite,
+                    drawableRes = SpriteAnimator.resolvePetDrawable(
+                        curBinding.root.context,
+                        curPet?.petType ?: "wood_rat",
+                        curPet?.spriteKey ?: "pet_wood_rat",
+                    ),
+                    rows = 3,
+                    cols = 4,
+                    targetRow = if (curPet?.isSleeping == true) 2 else 0,
+                    frameCount = 4,
+                    fps = if (curPet?.isSleeping == true) 4 else 6,
+                )
+            }
+            petAttackResetRunnable = resetRun
+            b.ivBattlePetSprite.postDelayed(resetRun, 550L)
+        }
+
+        // Lunge pet right across the arena toward the monster
+        val lungeDistance = if (isCrit) 46f else 36f
+        val pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f, lungeDistance, -6f, 0f)
+        val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, -12f, 0f)
+        val pvhScaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, if (isCrit) 1.2f else 1.12f, 1f)
+        val pvhScaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, if (isCrit) 1.2f else 1.12f, 1f)
+        ObjectAnimator.ofPropertyValuesHolder(
+            b.ivBattlePetSprite,
+            pvhX,
+            pvhY,
+            pvhScaleX,
+            pvhScaleY,
+        ).apply {
+            duration = 360
+            interpolator = OvershootInterpolator(1.1f)
+            start()
+        }
+    }
+
+    private fun triggerMonsterCounterAndPetShieldBlock() {
+        val b = _binding ?: return
+
+        // Monster lunges left toward the frontline pet
+        ObjectAnimator.ofFloat(
+            b.ivMonsterSprite,
+            View.TRANSLATION_X,
+            0f, -38f, 6f, 0f,
+        ).apply {
+            duration = 340
+            start()
+        }
+
+        // Pet shield aura flares brightly and absorbs the blow
+        b.ivPetShieldVfx.apply {
+            alpha = 1f
+            scaleX = 0.65f
+            scaleY = 0.65f
+        }
+        val pvhScaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.65f, 1.3f, 1.0f)
+        val pvhScaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.65f, 1.3f, 1.0f)
+        val pvhAlpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0.9f, 0f)
+        ObjectAnimator.ofPropertyValuesHolder(
+            b.ivPetShieldVfx,
+            pvhScaleX,
+            pvhScaleY,
+            pvhAlpha,
+        ).apply {
+            duration = 620
+            start()
+        }
+
+        // Floating "🛡️ BLOCKED!" popup above the pet
+        b.tvPetDamagePopup.text = "🛡️ BLOCKED!"
+        b.tvPetDamagePopup.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
+        b.tvPetDamagePopup.alpha = 1f
+        b.tvPetDamagePopup.translationY = 0f
+        ObjectAnimator.ofPropertyValuesHolder(
+            b.tvPetDamagePopup,
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, -64f),
+            PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f),
+        ).apply {
+            duration = 750
+            interpolator = OvershootInterpolator(1.2f)
+            start()
+        }
+    }
+
+    private fun triggerMonsterCounterAndPetHit(damageTaken: Double) {
+        val b = _binding ?: return
+
+        // Monster lunges left toward the frontline pet
+        ObjectAnimator.ofFloat(
+            b.ivMonsterSprite,
+            View.TRANSLATION_X,
+            0f, -38f, 6f, 0f,
+        ).apply {
+            duration = 340
+            start()
+        }
+
+        // Frontline pet shakes and flashes crimson on impact
+        ObjectAnimator.ofFloat(
+            b.ivBattlePetSprite,
+            View.TRANSLATION_X,
+            0f, -16f, 16f, -12f, 12f, -6f, 6f, 0f,
+        ).apply {
+            duration = 380
+            start()
+        }
+        b.ivBattlePetSprite.setColorFilter(Color.argb(140, 255, 50, 50))
+        b.ivBattlePetSprite.postDelayed({
+            _binding?.ivBattlePetSprite?.clearColorFilter()
+        }, 190)
+
+        // Floating "-X HP" popup above the pet
+        b.tvPetDamagePopup.text = "-${DamageCalculator.formatDecimal(damageTaken)} HP"
+        b.tvPetDamagePopup.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_crimson))
+        b.tvPetDamagePopup.alpha = 1f
+        b.tvPetDamagePopup.translationY = 0f
+        ObjectAnimator.ofPropertyValuesHolder(
+            b.tvPetDamagePopup,
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, -64f),
+            PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f),
+        ).apply {
+            duration = 750
+            interpolator = OvershootInterpolator(1.2f)
+            start()
         }
     }
 
@@ -872,8 +1396,8 @@ class BattleFragment : Fragment() {
         }
     }
 
-    private fun triggerDamagePopup(damage: Int, isCrit: Boolean) {
-        binding.tvDamagePopup.text = "-$damage${if (isCrit) " CRIT!" else ""}"
+    private fun triggerDamagePopup(damage: Double, isCrit: Boolean) {
+        binding.tvDamagePopup.text = "-${DamageCalculator.formatDecimal(damage)}${if (isCrit) " CRIT!" else ""}"
         binding.tvDamagePopup.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -906,7 +1430,7 @@ class BattleFragment : Fragment() {
     private fun showLowHpWarningDialog() {
         lowHpDialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("⚠️ Critical Health Warning!")
-            .setMessage("Your HP has dropped below 20%! If you are defeated, you will lose 10% Coins and your Pet will lose 10 Affection. Would you like to flee safely now?")
+            .setMessage("Your HP has dropped below 20%! If you are defeated, you will lose 10% Coins and your Pet will lose 15 Affection (plus 1.5 per wrong answer). Would you like to flee safely now?")
             .setCancelable(false)
             .setPositiveButton("Flee Safely") { dialog, _ ->
                 dialog.dismiss()
@@ -969,7 +1493,7 @@ class BattleFragment : Fragment() {
         sheetBinding.tvResultMessage.text = result.message
         sheetBinding.tvXpReward.text = "+${result.xpEarned}"
         sheetBinding.tvCoinsReward.text = "+${result.coinsEarned}"
-        sheetBinding.tvDamageDealtStat.text = "${result.damageDealt}"
+        sheetBinding.tvDamageDealtStat.text = DamageCalculator.formatDecimal(result.damageDealt)
 
         // Level up banner
         if (result.levelUp) {
@@ -1017,6 +1541,8 @@ class BattleFragment : Fragment() {
         spriteAnimator?.stop()
         spriteAnimator = null
         currentMonsterSpriteKey = null
+        petAttackResetRunnable?.let { _binding?.ivBattlePetSprite?.removeCallbacks(it) }
+        petAttackResetRunnable = null
         petSpriteAnimator?.stop()
         petSpriteAnimator = null
         bagPotionAnimators.forEach { it.stop() }
@@ -1035,10 +1561,10 @@ class BattleFragment : Fragment() {
 
         private val BATTLE_TIPS = listOf(
             "💡 Tip: Eat Human Food from your Inventory outside battle for cheap 2x HP recovery! Save Red Potions for emergency % Max HP healing mid-battle!",
-            "💡 Tip: Red Healing Potions restore 25% to 100% of your Max HP instantly during combat. Tap the 🧪 button on your HP bar to drink one!",
+            "💡 Tip: Red Healing Potions restore 25% to 100% of your Max HP instantly during combat. Tap the 🎒 Bag button on your HP bar to drink one!",
             "💡 Tip: Normal monsters test pure Flashwords (Reading), while Elites & Bosses test Listening, Speaking, and Fill-in-the-Blank sentences with extra time!",
             "💡 Tip: Feed Pet Treats (Bones, Biscuits, Dried Koi) in the Sanctuary so your companion stays above 25% Affection and keeps its combat buff active!",
-            "💡 Tip: Words you miss in battle are automatically saved to '🎯 Kata Sulit (Mistakes)' in the HSK Dictionary for focused review & Hanzi writing practice!",
+            "💡 Tip: Words you miss in battle are automatically saved to '🎯 Weak Words (Mistakes)' in the HSK Dictionary for focused review & Hanzi writing practice!",
             "💡 Tip: Bosses Enrage below 30% HP (+35% DMG)! Save a Greater or Supreme Healing Potion for the final phase of a Boss fight!",
         )
     }

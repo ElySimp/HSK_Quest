@@ -11,8 +11,8 @@ def xp_to_next_level(current_level: int) -> int:
 
 
 def calculate_base_damage(stat_str: int) -> int:
-    """Base damage = 10 + (STR × 2)"""
-    return 10 + (stat_str * 2)
+    """Base damage = 15 + (STR × 2)"""
+    return 15 + (stat_str * 2)
 
 
 def calculate_critical_multiplier(stat_dex: int) -> float:
@@ -31,25 +31,33 @@ def calculate_final_damage(
     monster_def: int,
     is_critical: bool,
     has_damage_boost: bool = False,
+    damage_bonus_pct: int = 0,
+    crit_damage_bonus_pct: int = 0,
+    first_strike_bonus_pct: int = 0,
 ) -> int:
     """
     Full damage calculation:
-    Final = max(1, BaseDmg - DefReduction) × CritMultiplier × PetDamageMultiplier
+    Final = max(1, BaseDmg - DefReduction) * CritMultiplier * PetDamageMultiplier * OpenerMultiplier
     """
     base = calculate_base_damage(stat_str)
     def_reduction = calculate_defense_reduction(monster_def, 0)  # Player attacks monster
     raw = max(1, base - def_reduction)
 
-    mult = calculate_critical_multiplier(stat_dex) if is_critical else 1.0
-    if has_damage_boost:
-        mult *= 1.15
+    crit_mult = calculate_critical_multiplier(stat_dex) if is_critical else 1.0
+    if is_critical and crit_damage_bonus_pct > 0:
+        crit_mult += crit_damage_bonus_pct / 100.0
 
-    return int(raw * mult)
+    effective_dmg_pct = damage_bonus_pct if damage_bonus_pct > 0 else (15 if has_damage_boost else 0)
+    pet_mult = 1.0 + (effective_dmg_pct / 100.0)
+    if first_strike_bonus_pct > 0:
+        pet_mult *= 1.0 + (first_strike_bonus_pct / 100.0)
+
+    return int(raw * crit_mult * pet_mult)
 
 
-def calculate_max_hp(stat_vit: int) -> int:
-    """Max HP = 100 + (VIT × 5)"""
-    return 100 + (stat_vit * 5)
+def calculate_max_hp(stat_vit: int, level: int = 1) -> int:
+    """Max HP = 100 + ((Level - 1) × 5) + (VIT × 5)"""
+    return 100 + (max(0, level - 1) * 5) + (stat_vit * 5)
 
 
 def calculate_monster_damage(
@@ -82,9 +90,12 @@ ELITE_DMG_MULT = 2.5
 ELITE_REWARD_MULT = 2.5
 
 # Boss multipliers
-BOSS_HP_MULT = 7.0
+BOSS_HP_MULT = 4.5
 BOSS_DMG_MULT = 4.2
 BOSS_REWARD_MULT = 6.0
+
+# Global 60% monster damage nerf (monsters deal 40% of template damage)
+MONSTER_DAMAGE_NERF_MULTIPLIER = 0.40
 
 
 def stage_step_multiplier(stage_index: int) -> float:
@@ -103,17 +114,17 @@ def get_monster_stats(area_id: int, monster_type: str, stage_index: int = 1) -> 
 
     if monster_type == "elite":
         base["hp"] = int(base["hp"] * ELITE_HP_MULT * step_mult)
-        base["dmg"] = int(base["dmg"] * ELITE_DMG_MULT * step_mult)
+        base["dmg"] = max(1, int(base["dmg"] * ELITE_DMG_MULT * step_mult * MONSTER_DAMAGE_NERF_MULTIPLIER))
         base["xp_reward"] = int(base["xp_reward"] * ELITE_REWARD_MULT * step_mult)
         base["coin_reward"] = int(base["coin_reward"] * ELITE_REWARD_MULT * step_mult)
     elif monster_type == "boss":
         base["hp"] = int(base["hp"] * BOSS_HP_MULT)
-        base["dmg"] = int(base["dmg"] * BOSS_DMG_MULT)
+        base["dmg"] = max(1, int(base["dmg"] * BOSS_DMG_MULT * MONSTER_DAMAGE_NERF_MULTIPLIER))
         base["xp_reward"] = int(base["xp_reward"] * BOSS_REWARD_MULT)
         base["coin_reward"] = int(base["coin_reward"] * BOSS_REWARD_MULT)
     else:
         base["hp"] = int(base["hp"] * step_mult)
-        base["dmg"] = int(base["dmg"] * step_mult)
+        base["dmg"] = max(1, int(base["dmg"] * step_mult * MONSTER_DAMAGE_NERF_MULTIPLIER))
         base["xp_reward"] = int(base["xp_reward"] * step_mult)
         base["coin_reward"] = int(base["coin_reward"] * step_mult)
 

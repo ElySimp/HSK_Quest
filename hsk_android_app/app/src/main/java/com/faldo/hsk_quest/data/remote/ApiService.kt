@@ -62,8 +62,26 @@ interface ApiService {
     @POST("api/pet/interact/rps")
     suspend fun playRps(@Body body: com.faldo.hsk_quest.data.model.RpsRequest): Response<com.faldo.hsk_quest.data.model.RpsResponse>
 
+    @POST("api/pet/interact/blackjack/start")
+    suspend fun startBlackjack(): Response<com.faldo.hsk_quest.data.model.BlackjackStateResponse>
+
+    @POST("api/pet/interact/blackjack/hit")
+    suspend fun hitBlackjack(@Body body: com.faldo.hsk_quest.data.model.BlackjackActionRequest): Response<com.faldo.hsk_quest.data.model.BlackjackStateResponse>
+
+    @POST("api/pet/interact/blackjack/stand")
+    suspend fun standBlackjack(@Body body: com.faldo.hsk_quest.data.model.BlackjackActionRequest): Response<com.faldo.hsk_quest.data.model.BlackjackStateResponse>
+
     @POST("api/pet/feed")
     suspend fun feedPet(@Body body: com.faldo.hsk_quest.data.model.FeedPetRequest): Response<com.faldo.hsk_quest.data.model.FeedPetResponse>
+
+    @GET("api/quest/daily")
+    suspend fun getDailyQuests(): Response<com.faldo.hsk_quest.data.model.DailyQuestListResponse>
+
+    @POST("api/quest/claim/{quest_key}")
+    suspend fun claimDailyQuest(@retrofit2.http.Path("quest_key") questKey: String): Response<com.faldo.hsk_quest.data.model.ClaimQuestResponse>
+
+    @POST("api/quest/claim-all")
+    suspend fun claimAllDailyQuests(): Response<com.faldo.hsk_quest.data.model.ClaimQuestResponse>
 
     @GET("api/gacha/rates")
     suspend fun getGachaRates(): Response<com.faldo.hsk_quest.data.model.GachaRatesResponse>
@@ -79,6 +97,9 @@ interface ApiService {
 
     @POST("api/shop/buy")
     suspend fun buyShopItem(@Body body: com.faldo.hsk_quest.data.model.BuyItemRequest): Response<com.faldo.hsk_quest.data.model.BuyItemResponse>
+
+    @POST("api/shop/buy-batch")
+    suspend fun buyShopItemsBatch(@Body body: com.faldo.hsk_quest.data.model.BuyBatchRequest): Response<com.faldo.hsk_quest.data.model.BuyBatchResponse>
 
     @GET("api/shop/inventory")
     suspend fun getInventory(): Response<com.faldo.hsk_quest.data.model.InventoryListResponse>

@@ -159,6 +159,35 @@ class PlayerRepository(
         }
     }
 
+    suspend fun getLocalPlayerSnapshot(): Player? {
+        cachedMemoryPlayer?.let { return it }
+        val username = tokenManager.getUsername() ?: return null
+        return playerDao.getByUsername(username)?.toModel()?.also {
+            cachedMemoryPlayer = it
+        }
+    }
+
+    suspend fun applyLocalStatsPatch(
+        coins: Int? = null,
+        diamonds: Int? = null,
+        hp: Int? = null,
+        maxHp: Int? = null,
+    ) {
+        val current = getLocalPlayerSnapshot() ?: return
+        val nextHp = hp ?: current.stats.hp
+        val patched = current.copy(
+            stats = current.stats.copy(
+                coins = coins ?: current.stats.coins,
+                diamonds = diamonds ?: current.stats.diamonds,
+                hp = nextHp,
+                maxHp = maxHp ?: current.stats.maxHp,
+                survivalHp = if (hp != null) nextHp else current.stats.survivalHp,
+            )
+        )
+        cachedMemoryPlayer = patched
+        playerDao.upsert(PlayerEntity.fromModel(patched))
+    }
+
     private suspend fun cachedOr(message: String): ProfileResult {
         val username = tokenManager.getUsername() ?: return ProfileResult.Failure(message)
         val cached = playerDao.getByUsername(username)

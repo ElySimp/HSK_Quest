@@ -53,7 +53,7 @@
         tools:text="3 COMBO"
         tools:visibility="visible" />
 
-    <!-- Monster Zone Card -->
+    <!-- Pokémon-Style Dual-Combatant Duel Arena Card -->
     <LinearLayout
         android:id="@+id/card_monster"
         android:layout_width="match_parent"
@@ -62,7 +62,8 @@
         android:background="@drawable/bg_card_raised"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
         app:layout_constraintTop_toBottomOf="@id/btn_flee">
 
         <LinearLayout
@@ -77,8 +78,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                tools:text="HSK 1 Normal #1" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="15sp"
+                tools:text="Bamboo Slime (竹灵)" />
 
             <TextView
                 android:id="@+id/tv_monster_hp_numeric"
@@ -86,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/hq_crimson"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 tools:text="50/50" />
         </LinearLayout>
 
@@ -94,7 +98,7 @@
             android:id="@+id/progress_monster_hp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:max="100"
             android:progress="100"
             app:indicatorColor="@color/hq_crimson"
@@ -114,46 +118,182 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <!-- Monster Animated Sprite -->
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <!-- Dual Combatant Stage: Left (Player's Spirit Beast) vs Right (Enemy Monster) -->
+        <LinearLayout
+            android:id="@+id/layout_duel_stage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="4dp"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/iv_monster_sprite"
-                android:layout_width="84dp"
-                android:layout_height="68dp"
-                android:contentDescription="Monster Sprite"
-                android:scaleType="fitCenter" />
+            <!-- Left Combatant: Player's Equipped Spirit Beast -->
+            <LinearLayout
+                android:id="@+id/layout_battle_pet_box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_slash_vfx"
-                android:layout_width="84dp"
-                android:layout_height="68dp"
-                android:layout_gravity="center"
-                android:alpha="0"
-                android:contentDescription="Slash VFX"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_vfx_slash" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
 
-            <!-- Floating Damage Text Popup -->
+                    <ImageView
+                        android:id="@+id/iv_battle_pet_sprite"
+                        android:layout_width="76dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Equipped Spirit Beast"
+                        android:scaleType="fitCenter" />
+
+                    <ImageView
+                        android:id="@+id/iv_pet_shield_vfx"
+                        android:layout_width="76dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:alpha="0"
+                        android:contentDescription="Pet Shield Aura VFX"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_vfx_shield_aura" />
+
+                    <TextView
+                        android:id="@+id/tv_pet_damage_popup"
+                        style="@style/HqText.PixelStat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:alpha="0"
+                        android:textColor="@color/hq_crimson"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:alpha="1"
+                        tools:text="🛡️ BLOCKED!" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/bg_stat_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="2dp">
+
+                    <TextView
+                        android:id="@+id/tv_battle_pet_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:maxWidth="88dp"
+                        android:singleLine="true"
+                        android:text="Wood Rat"
+                        android:textColor="@color/hq_text_primary"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_battle_pet_buff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/hq_gold"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:text="🛡️ Shield" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Center VS Indicator -->
             <TextView
-                android:id="@+id/tv_damage_popup"
+                android:id="@+id/tv_duel_vs"
                 style="@style/HqText.PixelStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:alpha="0"
+                android:layout_marginHorizontal="4dp"
+                android:alpha="0.8"
+                android:text="⚡ VS"
                 android:textColor="@color/hq_gold"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                tools:alpha="1"
-                tools:text="-15 CRIT!" />
-        </FrameLayout>
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- Right Combatant: Enemy Monster -->
+            <LinearLayout
+                android:id="@+id/layout_monster_fighter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+
+                    <ImageView
+                        android:id="@+id/iv_monster_sprite"
+                        android:layout_width="84dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Monster Sprite"
+                        android:scaleType="fitCenter" />
+
+                    <ImageView
+                        android:id="@+id/iv_slash_vfx"
+                        android:layout_width="84dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:alpha="0"
+                        android:contentDescription="Slash VFX"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_vfx_slash" />
+
+                    <!-- Floating Damage Text Popup -->
+                    <TextView
+                        android:id="@+id/tv_damage_popup"
+                        style="@style/HqText.PixelStat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:alpha="0"
+                        android:textColor="@color/hq_gold"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        tools:alpha="1"
+                        tools:text="-15 CRIT!" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_monster_role_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/bg_stat_box"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="2dp"
+                    android:singleLine="true"
+                    android:text="👹 Realm Fiend"
+                    android:textColor="@color/hq_crimson"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Player Status & Companion Pet Combat Bar -->
+    <!-- Scholar & Spirit Bond Status Bar -->
     <LinearLayout
         android:id="@+id/card_player_status"
         android:layout_width="match_parent"
@@ -166,7 +306,7 @@
         android:paddingVertical="8dp"
         app:layout_constraintTop_toBottomOf="@id/card_monster">
 
-        <!-- Left Section: Hero Vitality Bar -->
+        <!-- Left Section: Shared Spirit Bond Vitality Bar -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -186,7 +326,8 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="🛡️ Hero Vitality"
+                    android:singleLine="true"
+                    android:text="🛡️ Spirit Bond Vitality"
                     android:textColor="@color/hq_text_primary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -214,45 +355,13 @@
                 app:trackThickness="10dp" />
         </LinearLayout>
 
-        <!-- Middle Section: Equipped Companion Pet Visual Box -->
-        <LinearLayout
-            android:id="@+id/layout_battle_pet_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_stat_box"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/iv_battle_pet_sprite"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:contentDescription="Equipped Pet"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:id="@+id/tv_battle_pet_buff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/hq_gold"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                tools:text="🛡️ Shield" />
-        </LinearLayout>
-
         <!-- Right Section: In-Battle Inventory Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_quick_elixir"
             style="@style/HqButton.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:minHeight="36dp"
             android:paddingHorizontal="10dp"
             android:text="🎒 Bag (0)"
@@ -328,48 +437,38 @@
                 tools:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_speak_mandarin"
-                style="@style/HqButton.Primary"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:layout_marginStart="6dp"
-                android:minHeight="34dp"
-                android:paddingHorizontal="12dp"
-                android:text="🎙️ Tap to Speak"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_cant_speak"
+                android:id="@+id/btn_show_pinyin_hint"
                 style="@style/HqButton.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
                 android:layout_marginStart="6dp"
                 android:minHeight="34dp"
-                android:paddingHorizontal="10dp"
-                android:text="🔇 Can't Speak"
-                android:textColor="@color/hq_text_muted"
+                android:paddingHorizontal="12dp"
+                android:text="💡 Show Pinyin (-50% DMG)"
+                android:textColor="@color/hq_gold"
                 android:textSize="11sp"
                 android:visibility="gone"
-                app:strokeColor="@color/hq_text_muted"
+                app:strokeColor="@color/hq_gold"
                 tools:visibility="visible" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_speech_feedback"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="4"
+            android:paddingHorizontal="8dp"
             android:textColor="@color/hq_gold"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:visibility="gone"
-            tools:text="🎙️ Tap 'Tap to Speak' and pronounce 爱 aloud — or select its Pinyin below"
+            tools:text="🎙️ Tap 'Tap to Speak' below and pronounce 爱 aloud"
             tools:visibility="visible" />
     </LinearLayout>
 
-    <!-- Timer Countdown Bar -->
+    <!-- Timer Countdown Bar (Gold during question, Jade on correct delay, Crimson on wrong delay) -->
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_timer"
         android:layout_width="match_parent"
@@ -383,7 +482,7 @@
         app:trackCornerRadius="2dp"
         app:trackThickness="6dp" />
 
-    <!-- 4x1 Full-Width Vertical Answer Stack -->
+    <!-- Bottom Answer Zone: 4x1 Option Stack OR Speaking Controls -->
     <LinearLayout
         android:id="@+id/grid_options"
         android:layout_width="match_parent"
@@ -461,6 +560,109 @@
             android:paddingVertical="8dp"
             android:textSize="14sp"
             tools:text="吧" />
+
+        <!-- Speaking Challenge Controls (Replaces the 4 option buttons during Speaking) -->
+        <LinearLayout
+            android:id="@+id/layout_speaking_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_speak_mandarin"
+                style="@style/HqButton.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:minHeight="72dp"
+                android:text="🎙️ Tap to Speak Mandarin"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cant_speak"
+                style="@style/HqButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="46dp"
+                android:text="🔇 Can't Speak Now (Skip &amp; Mute 15m)"
+                android:textColor="@color/hq_text_secondary"
+                android:textSize="13sp"
+                app:strokeColor="@color/hq_stroke_gold" />
+        </LinearLayout>
+
+        <!-- Writing Challenge Controls (Replaces the 4 option buttons during Elite/Boss Writing) -->
+        <LinearLayout
+            android:id="@+id/layout_writing_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_writing_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:gravity="center"
+                android:text="🖌️ Draw Hanzi strokes in the box below"
+                android:textColor="@color/hq_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.faldo.hsk_quest.ui.battle.CanvasWritingView
+                android:id="@+id/canvas_battle_writing"
+                android:layout_width="210dp"
+                android:layout_height="175dp"
+                android:background="@drawable/bg_card_gold_border" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_writing_undo"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="↩ Undo"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/hq_stroke_gold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_writing_clear"
+                    style="@style/HqButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:minHeight="44dp"
+                    android:text="🗑️ Clear"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/hq_stroke_gold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_writing_submit"
+                    style="@style/HqButton.Primary"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1.5"
+                    android:minHeight="44dp"
+                    android:text="✓ Submit"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <!-- In-Battle Inventory Overlay (Covers Question Box & Answer Stack) -->

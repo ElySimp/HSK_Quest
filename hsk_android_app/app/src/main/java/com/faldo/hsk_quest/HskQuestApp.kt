@@ -11,6 +11,8 @@ import com.faldo.hsk_quest.data.repository.AuthRepository
 import com.faldo.hsk_quest.data.repository.BattleRepository
 import com.faldo.hsk_quest.data.repository.LeaderboardRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
+import com.faldo.hsk_quest.engine.CustomTfliteHandwritingRecognizer
+import com.faldo.hsk_quest.engine.HandwritingEngineRegistry
 import com.faldo.hsk_quest.util.SoundPlayer
 
 /**
@@ -24,6 +26,9 @@ class HskQuestApp : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
+        container.tfliteRecognizer?.let { tflite ->
+            HandwritingEngineRegistry.activeRecognizer = tflite
+        }
     }
 }
 
@@ -40,6 +45,9 @@ class AppContainer(context: Context) {
     val apiService: ApiService by lazy { RetrofitClient.create(tokenManager) }
     val hskJsonLoader: HskJsonLoader by lazy { HskJsonLoader(appContext) }
     val soundPlayer: SoundPlayer by lazy { SoundPlayer(appContext) }
+    val tfliteRecognizer: CustomTfliteHandwritingRecognizer? by lazy {
+        CustomTfliteHandwritingRecognizer.createOrNull(appContext)
+    }
 
     val authRepository: AuthRepository by lazy {
         AuthRepository(apiService, tokenManager, database.playerDao())
@@ -52,6 +60,9 @@ class AppContainer(context: Context) {
     }
     val petRepository: com.faldo.hsk_quest.data.repository.PetRepository by lazy {
         com.faldo.hsk_quest.data.repository.PetRepository(apiService)
+    }
+    val questRepository: com.faldo.hsk_quest.data.repository.QuestRepository by lazy {
+        com.faldo.hsk_quest.data.repository.QuestRepository(apiService, playerRepository)
     }
     val gachaRepository: com.faldo.hsk_quest.data.repository.GachaRepository by lazy {
         com.faldo.hsk_quest.data.repository.GachaRepository(apiService)

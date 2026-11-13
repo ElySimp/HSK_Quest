@@ -12,9 +12,8 @@ import argparse
 import asyncio
 from sqlalchemy import select
 
-from app.database import AsyncSessionLocal
-from app.models.user import User
-from app.models.player import PlayerStats
+from app.database import async_session, engine
+from app.models import User, PlayerStats
 
 
 async def grant_resources(
@@ -23,9 +22,10 @@ async def grant_resources(
     coins: int,
     hp: int | None,
     level: int | None,
+    area: int | None,
     is_set_mode: bool,
 ):
-    async with AsyncSessionLocal() as db:
+    async with async_session() as db:
         # Find user
         result = await db.execute(
             select(User).where(User.username.ilike(username.strip()))
@@ -63,6 +63,9 @@ async def grant_resources(
         if level is not None:
             stats.level = level
 
+        if area is not None:
+            stats.highest_area_cleared = area
+
         await db.commit()
         await db.refresh(stats)
 
@@ -73,7 +76,10 @@ async def grant_resources(
         print(f"🪙 Coins    : {stats.coins} ({'+' if not is_set_mode else 'set '}{coins})")
         print(f"❤️ HP       : {stats.hp}/{stats.max_hp}")
         print(f"⭐ Level    : {stats.level}")
+        print(f"🗺️ Area     : {stats.highest_area_cleared}")
         print("=" * 50 + "\n")
+
+    await engine.dispose()
 
 
 def main():
@@ -83,6 +89,7 @@ def main():
     parser.add_argument("--coins", type=int, default=0, help="Amount of coins to add")
     parser.add_argument("--hp", type=int, default=None, help="Set HP")
     parser.add_argument("--level", type=int, default=None, help="Set Level")
+    parser.add_argument("--area", "--highest-area-cleared", dest="area", type=int, default=None, help="Set highest_area_cleared (0-9)")
     parser.add_argument("--set", action="store_true", help="Set exact amount instead of adding")
 
     args = parser.parse_args()
@@ -90,7 +97,7 @@ def main():
     # Default to 10000 diamonds if no amounts specified
     diamonds = args.diamonds
     coins = args.coins
-    if diamonds == 0 and coins == 0 and args.hp is None and args.level is None:
+    if diamonds == 0 and coins == 0 and args.hp is None and args.level is None and args.area is None:
         diamonds = 10000
 
     asyncio.run(
@@ -100,6 +107,7 @@ def main():
             coins=coins,
             hp=args.hp,
             level=args.level,
+            area=args.area,
             is_set_mode=args.set,
         )
     )

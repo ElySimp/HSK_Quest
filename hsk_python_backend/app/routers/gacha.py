@@ -16,6 +16,7 @@ from app.schemas.gacha import (
     GachaMultiPullResponse,
 )
 from app.schemas.pet import PetResponse
+from app.services.pet_buffs import build_pet_response
 from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/gacha", tags=["Gacha"])
@@ -24,41 +25,43 @@ COST_SINGLE = 100
 COST_TEN = 900
 
 COMMON_POOL = [
-    {"name": "Wood Rat (木鼠)", "pet_type": "wood_rat", "rarity": "common", "buff_type": "none", "sprite_key": "pet_wood_rat"},
-    {"name": "Stone Rabbit (石兔)", "pet_type": "stone_rabbit", "rarity": "common", "buff_type": "none", "sprite_key": "pet_stone_rabbit"},
-    {"name": "Bamboo Panda (竹熊)", "pet_type": "bamboo_panda", "rarity": "common", "buff_type": "none", "sprite_key": "pet_bamboo_panda"},
-    {"name": "Golden Koi (锦鲤)", "pet_type": "golden_koi", "rarity": "common", "buff_type": "none", "sprite_key": "pet_golden_koi"},
-    {"name": "Cloud Fox Kit (云狐)", "pet_type": "cloud_fox", "rarity": "common", "buff_type": "none", "sprite_key": "pet_cloud_fox"},
-    {"name": "Money Toad (金蟾)", "pet_type": "jade_frog", "rarity": "common", "buff_type": "none", "sprite_key": "pet_jade_frog"},
+    {"name": "Wood Rat (木鼠)", "pet_type": "wood_rat", "rarity": "common", "buff_type": "scavenger_nose", "sprite_key": "pet_wood_rat"},
+    {"name": "Stone Rabbit (石兔)", "pet_type": "stone_rabbit", "rarity": "common", "buff_type": "earthen_guard", "sprite_key": "pet_stone_rabbit"},
+    {"name": "Bamboo Panda (竹熊)", "pet_type": "bamboo_panda", "rarity": "common", "buff_type": "bamboo_vitality", "sprite_key": "pet_bamboo_panda"},
+    {"name": "Golden Koi (锦鲤)", "pet_type": "golden_koi", "rarity": "common", "buff_type": "lucky_scales", "sprite_key": "pet_golden_koi"},
+    {"name": "Cloud Fox Kit (云狐)", "pet_type": "cloud_fox", "rarity": "common", "buff_type": "swift_breeze", "sprite_key": "pet_cloud_fox"},
+    {"name": "Money Toad (金蟾)", "pet_type": "jade_frog", "rarity": "common", "buff_type": "scholars_croak", "sprite_key": "pet_jade_frog"},
 ]
 
 RARE_POOL = [
-    {"name": "Guardian Fu Dog (福狮)", "pet_type": "fu_dog", "rarity": "rare", "buff_type": "shield", "sprite_key": "pet_fu_dog"},
-    {"name": "Celestial Sika Deer (梅花鹿)", "pet_type": "plum_deer", "rarity": "rare", "buff_type": "time_extender", "sprite_key": "pet_plum_deer"},
-    {"name": "White Thunder Tiger (雷虎)", "pet_type": "thunder_tiger", "rarity": "rare", "buff_type": "damage_boost", "sprite_key": "pet_thunder_tiger"},
-    {"name": "Black Tortoise Xuanwu (玄武)", "pet_type": "jade_tortoise", "rarity": "rare", "buff_type": "shield", "sprite_key": "pet_jade_tortoise"},
+    {"name": "Guardian Fu Dog (福狮)", "pet_type": "fu_dog", "rarity": "rare", "buff_type": "temple_ward", "sprite_key": "pet_fu_dog"},
+    {"name": "Celestial Sika Deer (梅花鹿)", "pet_type": "plum_deer", "rarity": "rare", "buff_type": "blossom_grace", "sprite_key": "pet_plum_deer"},
+    {"name": "White Thunder Tiger (雷虎)", "pet_type": "thunder_tiger", "rarity": "rare", "buff_type": "thunder_claw", "sprite_key": "pet_thunder_tiger"},
+    {"name": "Black Tortoise Xuanwu (玄武)", "pet_type": "jade_tortoise", "rarity": "rare", "buff_type": "abyssal_shell", "sprite_key": "pet_jade_tortoise"},
 ]
 
 EPIC_POOL = [
-    {"name": "Immortal Fire Crane (火鹤)", "pet_type": "fire_crane", "rarity": "epic", "buff_type": "damage_boost", "sprite_key": "pet_fire_crane"},
-    {"name": "Nine-Tail Sky Fox (九尾天狐)", "pet_type": "moon_kitsune", "rarity": "epic", "buff_type": "time_extender", "sprite_key": "pet_moon_kitsune"},
-    {"name": "Winged Qiongqi (墨穷奇)", "pet_type": "shadow_panther", "rarity": "epic", "buff_type": "damage_boost", "sprite_key": "pet_shadow_panther"},
+    {"name": "Immortal Fire Crane (火鹤)", "pet_type": "fire_crane", "rarity": "epic", "buff_type": "crimson_inferno", "sprite_key": "pet_fire_crane"},
+    {"name": "Nine-Tail Sky Fox (九尾天狐)", "pet_type": "moon_kitsune", "rarity": "epic", "buff_type": "lunar_illusion", "sprite_key": "pet_moon_kitsune"},
+    {"name": "Winged Qiongqi (墨穷奇)", "pet_type": "shadow_panther", "rarity": "epic", "buff_type": "phantom_ambush", "sprite_key": "pet_shadow_panther"},
 ]
 
 LEGENDARY_POOL = [
-    {"name": "Azure Dragon (青龙)", "pet_type": "azure_dragon", "rarity": "legendary", "buff_type": "time_extender", "sprite_key": "pet_azure_dragon"},
-    {"name": "Sacred Qilin (麒麟)", "pet_type": "qilin", "rarity": "legendary", "buff_type": "damage_boost", "sprite_key": "pet_qilin"},
-    {"name": "Vermilion Bird (朱雀)", "pet_type": "vermilion_phoenix", "rarity": "legendary", "buff_type": "shield", "sprite_key": "pet_vermilion_phoenix"},
+    {"name": "Azure Dragon (青龙)", "pet_type": "azure_dragon", "rarity": "legendary", "buff_type": "storm_sovereign", "sprite_key": "pet_azure_dragon"},
+    {"name": "Sacred Qilin (麒麟)", "pet_type": "qilin", "rarity": "legendary", "buff_type": "auspicious_mandate", "sprite_key": "pet_qilin"},
+    {"name": "Vermilion Bird (朱雀)", "pet_type": "vermilion_phoenix", "rarity": "legendary", "buff_type": "nirvana_rebirth", "sprite_key": "pet_vermilion_phoenix"},
 ]
 
 
 def _roll_single_pet() -> dict:
-    roll = random.random()
-    if roll < 0.01:
+    # Active summoning pool sums to 99.5% (2.5% Legendary, 7% Epic, 15% Rare, 75% Common)
+    # while the remaining 0.5% Secret tier awaits future Secret beasts.
+    roll = random.uniform(0.0, 0.995)
+    if roll < 0.025:
         return random.choice(LEGENDARY_POOL)
-    elif roll < 0.03:
+    elif roll < 0.095:
         return random.choice(EPIC_POOL)
-    elif roll < 0.15:
+    elif roll < 0.245:
         return random.choice(RARE_POOL)
     else:
         return random.choice(COMMON_POOL)
@@ -107,13 +110,10 @@ async def pull_single_gacha(
         # Duplicate handling: boost affection and award bonus coins
         existing_pet.affection = min(100.0, existing_pet.affection + 15.0)
         stats.coins += 40
-        await db.commit()
-        await db.refresh(existing_pet)
-        await db.refresh(stats)
 
         return GachaPullResponse(
             success=True,
-            pet=PetResponse.model_validate(existing_pet),
+            pet=build_pet_response(existing_pet),
             remaining_diamonds=stats.diamonds,
             is_new_companion=False,
             message=f"Duplicate {existing_pet.name}! Affection +15, +40 Bonus Coins awarded!",
@@ -136,15 +136,13 @@ async def pull_single_gacha(
         sprite_key=template["sprite_key"],
     )
     db.add(new_pet)
-    await db.commit()
-    await db.refresh(new_pet)
-    await db.refresh(stats)
+    await db.flush()
 
     return GachaPullResponse(
         success=True,
-        pet=PetResponse.model_validate(new_pet),
+        pet=build_pet_response(new_pet),
         remaining_diamonds=stats.diamonds,
-        is_new_companion=not has_active_pet,
+        is_new_companion=True,
         message=f"Summoned {new_pet.name} ({new_pet.rarity.upper()})!",
     )
 
@@ -185,6 +183,7 @@ async def pull_ten_gacha(
     rarity_ranks = {"common": 1, "rare": 2, "epic": 3, "legendary": 4}
     highest_rank = 1
     duplicate_count = 0
+    added_new_pet = False
 
     for i in range(10):
         template = _roll_single_pet()
@@ -216,12 +215,11 @@ async def pull_ten_gacha(
             owned_pets_map[pet_type] = p
             if is_first:
                 has_active_pet = True
+            added_new_pet = True
             result_pets.append(p)
 
-    await db.commit()
-    for p in result_pets:
-        await db.refresh(p)
-    await db.refresh(stats)
+    if added_new_pet:
+        await db.flush()
 
     inv_rarities = {1: "common", 2: "rare", 3: "epic", 4: "legendary"}
     highest_rarity_str = inv_rarities[highest_rank]
@@ -232,7 +230,7 @@ async def pull_ten_gacha(
 
     return GachaMultiPullResponse(
         success=True,
-        pets=[PetResponse.model_validate(p) for p in result_pets],
+        pets=[build_pet_response(p) for p in result_pets],
         remaining_diamonds=stats.diamonds,
         highest_rarity=highest_rarity_str,
         message=msg,

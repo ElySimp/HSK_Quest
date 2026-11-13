@@ -6,6 +6,7 @@ from app.models.battle import BattleHistory, WeaknessLog, UserVocabMastery
 from app.models.inventory import Inventory
 from app.models.leaderboard import Leaderboard
 from app.models.daily import DailyClaim
+from app.models.quest import DailyQuestRecord
 
 __all__ = [
     "User",
@@ -17,4 +18,5 @@ __all__ = [
     "Inventory",
     "Leaderboard",
     "DailyClaim",
+    "DailyQuestRecord",
 ]

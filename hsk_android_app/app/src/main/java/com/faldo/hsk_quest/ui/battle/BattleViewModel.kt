@@ -1,10 +1,12 @@
 package com.faldo.hsk_quest.ui.battle
 
+import android.graphics.PointF
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.faldo.hsk_quest.data.local.DictionaryEntry
 import com.faldo.hsk_quest.data.local.HskJsonLoader
 import com.faldo.hsk_quest.data.local.TokenManager
 import com.faldo.hsk_quest.data.local.dao.VocabMasteryDao
@@ -23,11 +25,13 @@ import com.faldo.hsk_quest.data.repository.StageRepository
 import com.faldo.hsk_quest.engine.BattleEngine
 import com.faldo.hsk_quest.engine.BattleQuestion
 import com.faldo.hsk_quest.engine.DamageCalculator
+import com.faldo.hsk_quest.engine.HandwritingEngineRegistry
 import com.faldo.hsk_quest.engine.MonsterStats
+import com.faldo.hsk_quest.engine.PetBuffCatalog
+import com.faldo.hsk_quest.engine.PetBuffSpec
 import com.faldo.hsk_quest.engine.QuestionGenerator
 import com.faldo.hsk_quest.engine.SpeechEvalResult
 import com.faldo.hsk_quest.engine.SpeechGrade
-import com.faldo.hsk_quest.util.Constants
 import com.faldo.hsk_quest.util.Resource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -46,6 +50,23 @@ data class OwnedPotion(
     val quantity: Int,
 )
 
+data class NextQuestionDelayState(
+    val totalMs: Long,
+    val remainingMs: Long,
+    val isCorrect: Boolean,
+    val isBattleEnding: Boolean = false,
+)
+
+data class AnswerFeedbackEvent(
+    val question: BattleQuestion,
+    val selectedIndex: Int,
+    val isCorrect: Boolean,
+    val isTimeout: Boolean,
+    val petHeal: Double = 0.0,
+    val rebirthTriggered: Boolean = false,
+    val customFeedback: String? = null,
+)
+
 class BattleViewModel(
     private val hskJsonLoader: HskJsonLoader,
     private val battleRepository: BattleRepository,
@@ -61,6 +82,7 @@ class BattleViewModel(
     private var monsterType: MonsterType = MonsterType.NORMAL
     private var monsterIndex: Int = 1
     private var terms: List<HskTerm> = emptyList()
+    private var allDictionaryEntries: List<DictionaryEntry> = emptyList()
 
     private var mistakeWeights: MutableMap<String, Int> = mutableMapOf()
     private val battleVocabDeltas: MutableMap<String, VocabDeltaDto> = mutableMapOf()
@@ -72,6 +94,7 @@ class BattleViewModel(
     private var statVit: Int = 0
     private var hasTimeExtender: Boolean = false
     private var hasDamageBoost: Boolean = false
+    private var activePetBuff: PetBuffSpec? = null
     private var isUnderleveledBoss: Boolean = false
 
     private val _battleState = MutableStateFlow<BattleState?>(null)
@@ -83,12 +106,24 @@ class BattleViewModel(
     private val _currentQuestion = MutableStateFlow<BattleQuestion?>(null)
     val currentQuestion: StateFlow<BattleQuestion?> = _currentQuestion.asStateFlow()
 
+    private val _isPinyinHintActive = MutableStateFlow(false)
+    val isPinyinHintActive: StateFlow<Boolean> = _isPinyinHintActive.asStateFlow()
+
+    private val _writingCharIndex = MutableStateFlow(0)
+    val writingCharIndex: StateFlow<Int> = _writingCharIndex.asStateFlow()
+
     // Timer: 0 to limitMs remaining
     private val _timerProgressMs = MutableStateFlow<Long>(BattleEngine.DEFAULT_ANSWER_LIMIT_MS)
     val timerProgressMs: StateFlow<Long> = _timerProgressMs.asStateFlow()
 
     private val _currentQuestionLimitMs = MutableStateFlow<Long>(BattleEngine.DEFAULT_ANSWER_LIMIT_MS)
     val currentQuestionLimitMs: StateFlow<Long> = _currentQuestionLimitMs.asStateFlow()
+
+    private val _nextQuestionDelay = MutableStateFlow<NextQuestionDelayState?>(null)
+    val nextQuestionDelay: StateFlow<NextQuestionDelayState?> = _nextQuestionDelay.asStateFlow()
+
+    private val _answerFeedback = MutableSharedFlow<AnswerFeedbackEvent>(extraBufferCapacity = 4)
+    val answerFeedback: SharedFlow<AnswerFeedbackEvent> = _answerFeedback.asSharedFlow()
 
     private val _ownedPotions = MutableStateFlow<List<OwnedPotion>>(emptyList())
     val ownedPotions: StateFlow<List<OwnedPotion>> = _ownedPotions.asStateFlow()
@@ -106,6 +141,7 @@ class BattleViewModel(
     val isSubmittingResult: StateFlow<Boolean> = _isSubmittingResult.asStateFlow()
 
     private var timerJob: Job? = null
+    private var interQuestionJob: Job? = null
     private var questionStartTime: Long = 0L
     private var pauseTimestamp: Long = 0L
 
@@ -117,11 +153,17 @@ class BattleViewModel(
         _activePet.value = petRepository.cachedActivePet
 
         viewModelScope.launch {
-            // Load vocabulary
+            // Load vocabulary for the selected stage first
             terms = runCatching { hskJsonLoader.loadLevel(areaId) }.getOrDefault(emptyList())
+            launch {
+                allDictionaryEntries = runCatching {
+                    hskJsonLoader.loadDictionaryEntries(null)
+                }.getOrDefault(emptyList())
+            }
 
             // Load adaptive mistake weights for this user and HSK level
             val username = tokenManager.getUsername() ?: "guest"
+            allowSpeaking = !runCatching { tokenManager.isSpeakingMuted(username) }.getOrDefault(false)
             val masteryEntries = runCatching {
                 vocabMasteryDao.getForLevel(username, areaId)
             }.getOrDefault(emptyList())
@@ -132,104 +174,193 @@ class BattleViewModel(
 
             // Fetch owned battle healing potions asynchronously so battle start is never blocked
             launch {
-                shopRepository.getInventory().onSuccess { items ->
-                    val potions = items
-                        .filter { it.quantity > 0 }
-                        .mapNotNull { inv ->
-                            when (inv.itemId) {
-                                "minor_healing_potion", "salve_elixir" -> OwnedPotion(
-                                    itemId = inv.itemId,
-                                    name = "Minor Healing Potion (+25% HP)",
-                                    healPct = 25,
-                                    quantity = inv.quantity,
-                                )
-                                "healing_potion", "vitality_elixir" -> OwnedPotion(
-                                    itemId = inv.itemId,
-                                    name = "Healing Potion (+50% HP)",
-                                    healPct = 50,
-                                    quantity = inv.quantity,
-                                )
-                                "greater_healing_potion" -> OwnedPotion(
-                                    itemId = inv.itemId,
-                                    name = "Greater Healing Potion (+75% HP)",
-                                    healPct = 75,
-                                    quantity = inv.quantity,
-                                )
-                                "supreme_healing_potion" -> OwnedPotion(
-                                    itemId = inv.itemId,
-                                    name = "Supreme Healing Potion (+100% HP)",
-                                    healPct = 100,
-                                    quantity = inv.quantity,
-                                )
-                                else -> null
-                            }
-                        }
-                        .sortedBy { it.healPct }
-                    _ownedPotions.value = potions
-                    _elixirCount.value = potions.sumOf { it.quantity }
-                }
+                refreshBattleInventory()
             }
 
-            // Load player profile
-            val playerResult = playerRepository.fetchProfile()
-            val player = when (playerResult) {
+            // Start immediately from RAM / Room cache if available instead of waiting on WAN DB RTT
+            val cachedPlayer = playerRepository.getLocalPlayerSnapshot()
+            val player = cachedPlayer ?: when (val playerResult = playerRepository.fetchProfile()) {
                 is PlayerRepository.ProfileResult.Fresh -> playerResult.player
                 is PlayerRepository.ProfileResult.Cached -> playerResult.player
                 else -> null
             }
 
-            statStr = player?.stats?.statStr ?: 0
-            statDex = player?.stats?.statDex ?: 0
-            statDef = player?.stats?.statDef ?: 0
-            statVit = player?.stats?.statVit ?: 0
-            val maxHp = player?.stats?.maxHp ?: DamageCalculator.maxHp(statVit)
-            val currentHp = player?.stats?.hp ?: maxHp
-
-            val monster = MonsterStats.create(areaId, monsterType, monsterIndex)
-
-            // Check equipped companion pet buffs (only active if awake: affection >= 25)
-            val petRes = petRepository.getActivePet()
-            val activePet = if (petRes is Resource.Success) petRes.data else petRepository.cachedActivePet
-            _activePet.value = activePet
-            val isPetAwake = activePet != null && activePet.affection >= Constants.PET_AFFECTION_AWAKE_THRESHOLD
-            val hasShield = isPetAwake && (activePet?.buffType == "shield")
-            hasTimeExtender = isPetAwake && (activePet?.buffType == "time_extender")
-            hasDamageBoost = isPetAwake && (activePet?.buffType == "damage_boost")
-
-            val buffLabel = when {
-                activePet != null && !isPetAwake -> "💤 ${activePet.name} is Sleeping (Affection < 25%)"
-                hasShield -> "🛡️ Pet Shield Active (Blocks 1 Hit)"
-                hasTimeExtender -> "⏳ Pet Time Extender (+3s Crit)"
-                hasDamageBoost -> "⚔️ Pet Damage Boost (+15% Dmg)"
-                else -> null
-            }
-
             val recLevel = stageRepository.getRecommendedLevel(areaId)
-            isUnderleveledBoss = (monsterType == MonsterType.BOSS && (player?.stats?.level ?: 1) < recLevel)
-
-            val initial = BattleState(
+            val monster = MonsterStats.create(areaId, monsterType, monsterIndex)
+            initializeBattleFromPlayerAndPet(
+                player = player,
+                activePet = petRepository.cachedActivePet,
+                recLevel = recLevel,
                 monster = monster,
-                monsterHp = monster.maxHp,
-                playerHp = currentHp,
-                playerMaxHp = maxHp,
-                shieldAvailable = hasShield,
-                activeBuffLabel = buffLabel,
-                isGatekeeperPenaltyActive = isUnderleveledBoss,
             )
-            _battleState.value = initial
 
-            nextQuestion()
+            // Refresh player stats and equipped pet in the background without blocking question 1
+            if (cachedPlayer != null) {
+                launch {
+                    val freshRes = playerRepository.fetchProfile()
+                    val freshPlayer = (freshRes as? PlayerRepository.ProfileResult.Fresh)?.player
+                    if (freshPlayer != null) {
+                        syncFreshPlayerIntoBattle(freshPlayer, recLevel)
+                    }
+                }
+            }
+            launch {
+                val petRes = petRepository.getActivePet()
+                val syncedPet = if (petRes is Resource.Success) petRes.data else petRepository.cachedActivePet
+                syncPetIntoBattle(syncedPet)
+            }
         }
     }
 
-    fun submitAnswer(selectedIndex: Int) {
+    private suspend fun refreshBattleInventory() {
+        shopRepository.getInventory().onSuccess { items ->
+            val potions = items
+                .filter { it.quantity > 0 }
+                .mapNotNull { inv ->
+                    when (inv.itemId) {
+                        "minor_healing_potion", "salve_elixir" -> OwnedPotion(
+                            itemId = inv.itemId,
+                            name = "Minor Healing Potion (+25% HP)",
+                            healPct = 25,
+                            quantity = inv.quantity,
+                        )
+                        "healing_potion", "vitality_elixir" -> OwnedPotion(
+                            itemId = inv.itemId,
+                            name = "Healing Potion (+50% HP)",
+                            healPct = 50,
+                            quantity = inv.quantity,
+                        )
+                        "greater_healing_potion" -> OwnedPotion(
+                            itemId = inv.itemId,
+                            name = "Greater Healing Potion (+75% HP)",
+                            healPct = 75,
+                            quantity = inv.quantity,
+                        )
+                        "supreme_healing_potion" -> OwnedPotion(
+                            itemId = inv.itemId,
+                            name = "Supreme Healing Potion (+100% HP)",
+                            healPct = 100,
+                            quantity = inv.quantity,
+                        )
+                        else -> null
+                    }
+                }
+                .sortedBy { it.healPct }
+            _ownedPotions.value = potions
+            _elixirCount.value = potions.sumOf { it.quantity }
+        }
+    }
+
+    private fun initializeBattleFromPlayerAndPet(
+        player: com.faldo.hsk_quest.data.model.Player?,
+        activePet: PetItem?,
+        recLevel: Int,
+        monster: com.faldo.hsk_quest.data.model.Monster,
+    ) {
+        statStr = player?.stats?.statStr ?: 0
+        statDex = player?.stats?.statDex ?: 0
+        statDef = player?.stats?.statDef ?: 0
+        statVit = player?.stats?.statVit ?: 0
+        val playerLevel = player?.stats?.level ?: 1
+        val maxHp = player?.stats?.maxHp ?: DamageCalculator.maxHp(statVit, playerLevel)
+        val currentHp = player?.stats?.hp ?: maxHp
+
+        _activePet.value = activePet
+        activePetBuff = PetBuffCatalog.resolveActiveSpec(activePet)
+        hasTimeExtender = (activePetBuff?.critWindowBonusMs ?: 0L) > 0L
+        hasDamageBoost = (activePetBuff?.damageBonusPct ?: 0) > 0
+        val initialShields = activePetBuff?.shieldCharges ?: 0
+        val canRebirth = (activePetBuff?.rebirthHpPct ?: 0) > 0
+        val buffLabel = if (activePet != null) {
+            PetBuffCatalog.formatBattleBanner(activePet)
+        } else {
+            null
+        }
+
+        isUnderleveledBoss = (monsterType == MonsterType.BOSS && playerLevel < recLevel)
+
+        val initial = BattleState(
+            monster = monster,
+            monsterHp = monster.maxHp.toDouble(),
+            playerHp = currentHp.toDouble(),
+            playerMaxHp = maxHp,
+            shieldAvailable = initialShields > 0,
+            shieldsRemaining = initialShields,
+            rebirthAvailable = canRebirth,
+            activeBuffLabel = buffLabel,
+            isGatekeeperPenaltyActive = isUnderleveledBoss,
+        )
+        _nextQuestionDelay.value = null
+        _battleState.value = initial
+
+        nextQuestion()
+    }
+
+    private fun syncFreshPlayerIntoBattle(
+        freshPlayer: com.faldo.hsk_quest.data.model.Player,
+        recLevel: Int,
+    ) {
+        val current = _battleState.value ?: return
+        if (current.isFinished) return
+
+        statStr = freshPlayer.stats.statStr
+        statDex = freshPlayer.stats.statDex
+        statDef = freshPlayer.stats.statDef
+        statVit = freshPlayer.stats.statVit
+        isUnderleveledBoss = (monsterType == MonsterType.BOSS && freshPlayer.stats.level < recLevel)
+
+        if (current.totalQuestionsAnswered == 0 && current.totalPetHealing == 0.0) {
+            _battleState.value = current.copy(
+                playerHp = freshPlayer.stats.hp.toDouble(),
+                playerMaxHp = freshPlayer.stats.maxHp,
+                isGatekeeperPenaltyActive = isUnderleveledBoss,
+            )
+        } else {
+            _battleState.value = current.copy(
+                playerMaxHp = freshPlayer.stats.maxHp,
+                isGatekeeperPenaltyActive = isUnderleveledBoss,
+            )
+        }
+    }
+
+    private fun syncPetIntoBattle(syncedPet: PetItem?) {
+        _activePet.value = syncedPet
+        activePetBuff = PetBuffCatalog.resolveActiveSpec(syncedPet)
+        hasTimeExtender = (activePetBuff?.critWindowBonusMs ?: 0L) > 0L
+        hasDamageBoost = (activePetBuff?.damageBonusPct ?: 0) > 0
+        val buffLabel = if (syncedPet != null) {
+            PetBuffCatalog.formatBattleBanner(syncedPet)
+        } else {
+            null
+        }
+        val current = _battleState.value ?: return
+        if (current.isFinished) return
+
+        if (current.totalQuestionsAnswered == 0) {
+            val shields = activePetBuff?.shieldCharges ?: 0
+            val canRebirth = (activePetBuff?.rebirthHpPct ?: 0) > 0
+            _battleState.value = current.copy(
+                shieldAvailable = shields > 0,
+                shieldsRemaining = shields,
+                rebirthAvailable = canRebirth,
+                activeBuffLabel = buffLabel,
+            )
+        } else {
+            _battleState.value = current.copy(activeBuffLabel = buffLabel)
+        }
+    }
+
+    fun submitAnswer(selectedIndex: Int, customFeedback: String? = null) {
         val currentQ = _currentQuestion.value ?: return
         val current = _battleState.value ?: return
         if (current.isFinished) return
 
         stopTimer()
+        interQuestionJob?.cancel()
+        interQuestionJob = null
 
         val elapsedMs = System.currentTimeMillis() - questionStartTime
+        val isTimeout = selectedIndex < 0 && customFeedback == null
         val isCorrect = selectedIndex >= 0 && currentQ.isCorrect(selectedIndex)
 
         // Record vocabulary attempt for adaptive spaced repetition and Kamus HSK Weak Words
@@ -262,7 +393,7 @@ class BattleViewModel(
         }
 
         val adjustedElapsedMs = if (
-            currentQ.type.isListening || currentQ.type.isSpeaking || currentQ.type.isCloze
+            currentQ.type.isListening || currentQ.type.isSpeaking || currentQ.type.isCloze || currentQ.type.isWriting
         ) {
             (elapsedMs - 3_000L).coerceAtLeast(0L)
         } else {
@@ -279,18 +410,52 @@ class BattleViewModel(
             hasTimeExtender = hasTimeExtender,
             hasDamageBoost = hasDamageBoost,
             isUnderleveledBoss = isUnderleveledBoss,
+            usedPinyinHint = _isPinyinHintActive.value,
+            petBuff = activePetBuff,
         )
         _battleState.value = updated
+        _answerFeedback.tryEmit(
+            AnswerFeedbackEvent(
+                question = currentQ,
+                selectedIndex = selectedIndex,
+                isCorrect = isCorrect,
+                isTimeout = isTimeout,
+                petHeal = updated.lastPetHeal,
+                rebirthTriggered = updated.lastRebirthTriggered,
+                customFeedback = customFeedback,
+            )
+        )
 
-        if (updated.isFinished) {
-            finalizeBattle(updated)
-        } else {
-            // Delay slightly for damage animations before next question
-            viewModelScope.launch {
-                delay(750)
-                if (!(_battleState.value?.isFinished ?: true)) {
-                    nextQuestion()
+        val isBattleEnding = updated.isFinished
+        val delayDurationMs = if (isCorrect) CORRECT_ANSWER_DELAY_MS else WRONG_ANSWER_DELAY_MS
+        interQuestionJob = viewModelScope.launch {
+            var remaining = delayDurationMs
+            while (remaining > 0L) {
+                val latest = _battleState.value
+                if (latest == null ||
+                    latest.phase == BattleState.Phase.FLED ||
+                    (!isBattleEnding && latest.isFinished)
+                ) {
+                    _nextQuestionDelay.value = null
+                    return@launch
                 }
+                _nextQuestionDelay.value = NextQuestionDelayState(
+                    totalMs = delayDurationMs,
+                    remainingMs = remaining,
+                    isCorrect = isCorrect,
+                    isBattleEnding = isBattleEnding,
+                )
+                delay(50L)
+                remaining = (remaining - 50L).coerceAtLeast(0L)
+            }
+            _nextQuestionDelay.value = null
+            val latest = _battleState.value ?: return@launch
+            if (isBattleEnding) {
+                if (latest.phase != BattleState.Phase.FLED) {
+                    finalizeBattle(updated)
+                }
+            } else if (!latest.isFinished) {
+                nextQuestion()
             }
         }
     }
@@ -310,18 +475,76 @@ class BattleViewModel(
             SpeechGrade.EXACT_MATCH -> {
                 // Reward exact Mandarin pronunciation with Critical Hit timing
                 questionStartTime = System.currentTimeMillis() - 500L
-                submitAnswer(currentQ.correctIndex)
+                submitAnswer(currentQ.correctIndex, customFeedback = eval.feedback)
             }
             SpeechGrade.TONE_LENIENT_MATCH -> {
                 // Reward tone-lenient syllable match with standard hit damage
                 questionStartTime = System.currentTimeMillis() - 4_000L
-                submitAnswer(currentQ.correctIndex)
+                submitAnswer(currentQ.correctIndex, customFeedback = eval.feedback)
             }
             SpeechGrade.NO_MATCH -> {
-                submitAnswer(-1)
+                submitAnswer(-1, customFeedback = eval.feedback)
             }
         }
         return eval
+    }
+
+    fun submitWritingStrokes(
+        strokes: List<List<PointF>>,
+        onEvaluated: (
+            matched: Boolean,
+            hasMoreChars: Boolean,
+            nextCharIndex: Int,
+            totalChars: Int,
+            recognizedHanzi: String,
+            engineId: String,
+            latencyMs: Long,
+        ) -> Unit,
+    ) {
+        val currentQ = _currentQuestion.value ?: return
+        val current = _battleState.value ?: return
+        if (current.isFinished) return
+
+        val targetWord = currentQ.targetTerm.simplified.trim()
+        val totalChars = targetWord.length.coerceAtLeast(1)
+        val charIdx = _writingCharIndex.value.coerceIn(0, totalChars - 1)
+
+        viewModelScope.launch {
+            val entries = allDictionaryEntries.ifEmpty {
+                runCatching { hskJsonLoader.loadDictionaryEntries(null) }.getOrDefault(emptyList())
+                    .also { allDictionaryEntries = it }
+            }
+            val result = HandwritingEngineRegistry.activeRecognizer.recognize(
+                strokes = strokes,
+                allEntries = entries,
+                limit = 5,
+            )
+
+            val expectedSimp = targetWord.getOrNull(charIdx)?.toString()
+            val expectedTrad = currentQ.targetTerm.traditional?.trim()?.getOrNull(charIdx)?.toString()
+            val expectedChars = setOfNotNull(expectedSimp, expectedTrad)
+
+            val topCandidates = result.candidates.take(3).map { it.hanzi }
+            val isMatch = topCandidates.any { it in expectedChars || (totalChars == 1 && it == targetWord) }
+            val topRecognized = result.candidates.firstOrNull()?.hanzi ?: "?"
+
+            if (isMatch && charIdx + 1 < totalChars) {
+                val nextIdx = charIdx + 1
+                _writingCharIndex.value = nextIdx
+                onEvaluated(true, true, nextIdx, totalChars, topRecognized, result.engineId, result.inferenceLatencyMs)
+                return@launch
+            }
+
+            stopTimer()
+            onEvaluated(isMatch, false, charIdx, totalChars, topRecognized, result.engineId, result.inferenceLatencyMs)
+            val term = currentQ.targetTerm
+            val writeFeedback = if (isMatch) {
+                "✅ Matched $topRecognized — ${term.simplified} (${term.pinyin} · ${term.english})"
+            } else {
+                "❌ Detected '$topRecognized' — Expected: ${term.simplified} (${term.pinyin} · ${term.english})"
+            }
+            submitAnswer(if (isMatch) currentQ.correctIndex else -1, customFeedback = writeFeedback)
+        }
     }
 
     fun pauseTimerForSpeech() {
@@ -343,19 +566,36 @@ class BattleViewModel(
         startTimer(durationMs = remaining, resetStartTime = false)
     }
 
-    fun disableSpeakingForBattle() {
+    fun activatePinyinHintForCurrentQuestion() {
+        if (_currentQuestion.value?.pinyinHint != null && !_isPinyinHintActive.value) {
+            _isPinyinHintActive.value = true
+        }
+    }
+
+    fun skipSpeakingFor15Minutes() {
         allowSpeaking = false
+        viewModelScope.launch {
+            val username = tokenManager.getUsername() ?: "guest"
+            runCatching {
+                tokenManager.setSpeakingMutedUntil(username, durationMs = 15L * 60L * 1000L)
+            }
+            _battleToast.emit("🔇 Speaking muted for 15 minutes. Skipping question...")
+        }
         if (_currentQuestion.value?.type?.isSpeaking == true) {
             stopTimer()
             nextQuestion()
         }
     }
 
+    fun disableSpeakingForBattle() {
+        skipSpeakingFor15Minutes()
+    }
+
     fun useQuickElixir() {
         val current = _battleState.value ?: return
         if (current.isFinished) return
 
-        if (current.playerHp >= current.playerMaxHp) {
+        if (current.playerHp >= current.playerMaxHp.toDouble()) {
             viewModelScope.launch {
                 _battleToast.emit("HP is already full!")
             }
@@ -370,16 +610,19 @@ class BattleViewModel(
             return
         }
 
-        val missingPct = ((current.playerMaxHp - current.playerHp) * 100) / current.playerMaxHp.coerceAtLeast(1)
+        val missingPct = (((current.playerMaxHp.toDouble() - current.playerHp) * 100.0) / current.playerMaxHp.coerceAtLeast(1)).toInt()
         val bestPotion = potions.firstOrNull { it.healPct >= missingPct } ?: potions.last()
         usePotionById(bestPotion.itemId)
     }
+
+    private val usePotionMutex = kotlinx.coroutines.sync.Mutex()
+    private var pendingPotionOps: Int = 0
 
     fun usePotionById(itemId: String) {
         val current = _battleState.value ?: return
         if (current.isFinished) return
 
-        if (current.playerHp >= current.playerMaxHp) {
+        if (current.playerHp >= current.playerMaxHp.toDouble()) {
             viewModelScope.launch {
                 _battleToast.emit("HP is already full!")
             }
@@ -395,21 +638,84 @@ class BattleViewModel(
         }
 
         val healAmount = ((current.playerMaxHp * potion.healPct) / 100.0).toInt().coerceAtLeast(1)
+        val healedState = BattleEngine.applyElixirHeal(current, healAmount)
+        val actualAppliedHeal = DamageCalculator.roundTenth(
+            (healedState.playerHp - current.playerHp).coerceAtLeast(0.0)
+        )
 
+        // Optimistic update: deduct potion and heal HP immediately without blocking on network RTT
+        val updatedList = _ownedPotions.value
+            .map {
+                if (it.itemId == itemId) it.copy(quantity = (it.quantity - 1).coerceAtLeast(0)) else it
+            }
+            .filter { it.quantity > 0 }
+        _ownedPotions.value = updatedList
+        _elixirCount.value = updatedList.sumOf { it.quantity }
+        _battleState.value = healedState
+
+        pendingPotionOps++
         viewModelScope.launch {
-            shopRepository.useItem(itemId)
-            val updatedList = _ownedPotions.value
-                .map {
-                    if (it.itemId == itemId) it.copy(quantity = (it.quantity - 1).coerceAtLeast(0)) else it
-                }
-                .filter { it.quantity > 0 }
-            _ownedPotions.value = updatedList
-            _elixirCount.value = updatedList.sumOf { it.quantity }
+            playerRepository.applyLocalStatsPatch(
+                hp = healedState.roundedUpPlayerHp,
+                maxHp = healedState.playerMaxHp,
+            )
+            _battleToast.emit(
+                "🧪 Used ${potion.name}! +${DamageCalculator.formatDecimal(actualAppliedHeal)} HP (${potion.healPct}%)"
+            )
 
-            val latestState = _battleState.value ?: return@launch
-            if (!latestState.isFinished) {
-                _battleState.value = BattleEngine.applyElixirHeal(latestState, healAmount)
-                _battleToast.emit("🧪 Used ${potion.name}! +$healAmount HP (${potion.healPct}%)")
+            var lockAcquired = false
+            try {
+                usePotionMutex.lock()
+                lockAcquired = true
+                val res = shopRepository.useItem(itemId)
+                res.onSuccess { useResp ->
+                    if (pendingPotionOps <= 1) {
+                        val currentList = _ownedPotions.value.toMutableList()
+                        val idx = currentList.indexOfFirst { it.itemId == itemId }
+                        if (useResp.remainingQuantity <= 0) {
+                            if (idx >= 0) currentList.removeAt(idx)
+                        } else if (idx >= 0) {
+                            currentList[idx] = currentList[idx].copy(quantity = useResp.remainingQuantity)
+                        }
+                        _ownedPotions.value = currentList
+                        _elixirCount.value = currentList.sumOf { it.quantity }
+                    }
+                }.onFailure { err ->
+                    val restoredList = _ownedPotions.value.toMutableList()
+                    val existingIdx = restoredList.indexOfFirst { it.itemId == itemId }
+                    if (existingIdx >= 0) {
+                        restoredList[existingIdx] = restoredList[existingIdx].copy(
+                            quantity = restoredList[existingIdx].quantity + 1
+                        )
+                    } else {
+                        restoredList.add(potion.copy(quantity = 1))
+                        restoredList.sortBy { it.healPct }
+                    }
+                    _ownedPotions.value = restoredList
+                    _elixirCount.value = restoredList.sumOf { it.quantity }
+
+                    val latestState = _battleState.value
+                    if (latestState != null && !latestState.isFinished && actualAppliedHeal > 0.0) {
+                        val rolledBackHp = DamageCalculator.roundTenth(
+                            (latestState.playerHp - actualAppliedHeal).coerceAtLeast(1.0)
+                        )
+                        val rolledBackState = latestState.copy(
+                            playerHp = rolledBackHp,
+                            totalDamageTaken = DamageCalculator.roundTenth(latestState.totalDamageTaken + actualAppliedHeal),
+                        )
+                        _battleState.value = rolledBackState
+                        playerRepository.applyLocalStatsPatch(
+                            hp = rolledBackState.roundedUpPlayerHp,
+                            maxHp = latestState.playerMaxHp,
+                        )
+                    }
+                    _battleToast.emit("❌ ${err.message ?: "Failed to use potion"}")
+                }
+            } finally {
+                pendingPotionOps = (pendingPotionOps - 1).coerceAtLeast(0)
+                if (lockAcquired) {
+                    usePotionMutex.unlock()
+                }
             }
         }
     }
@@ -418,6 +724,9 @@ class BattleViewModel(
         val current = _battleState.value ?: return
         if (current.isFinished) return
         stopTimer()
+        interQuestionJob?.cancel()
+        interQuestionJob = null
+        _nextQuestionDelay.value = null
 
         val fledState = BattleEngine.flee(current)
         _battleState.value = fledState
@@ -431,6 +740,12 @@ class BattleViewModel(
 
     private fun nextQuestion() {
         if (terms.isEmpty()) return
+        interQuestionJob?.cancel()
+        interQuestionJob = null
+        _nextQuestionDelay.value = null
+        _isPinyinHintActive.value = false
+        _writingCharIndex.value = 0
+
         val q = QuestionGenerator.generateQuestion(
             terms = terms,
             monsterType = monsterType,
@@ -439,11 +754,15 @@ class BattleViewModel(
         ) ?: return
         _currentQuestion.value = q
 
-        val limitMs = if (q.type.isListening || q.type.isSpeaking || q.type.isCloze) {
-            if (hasTimeExtender) 13_000L else 10_000L
-        } else {
-            BattleEngine.DEFAULT_ANSWER_LIMIT_MS
+        val baseLimitMs = when {
+            q.type.isWriting -> BattleEngine.ELITE_WRITING_LIMIT_MS
+            q.type.isCloze -> BattleEngine.ELITE_READING_LIMIT_MS
+            q.type.isListening || q.type.isSpeaking -> BattleEngine.LISTENING_SPEAKING_LIMIT_MS
+            else -> BattleEngine.DEFAULT_ANSWER_LIMIT_MS
         }
+        val extraTimerMs = activePetBuff?.timerBonusMs
+            ?: if (hasTimeExtender) 3_000L else 0L
+        val limitMs = baseLimitMs + extraTimerMs
         _currentQuestionLimitMs.value = limitMs
         startTimer(limitMs)
     }
@@ -478,6 +797,9 @@ class BattleViewModel(
 
     private fun finalizeBattle(state: BattleState) {
         stopTimer()
+        interQuestionJob?.cancel()
+        interQuestionJob = null
+        _nextQuestionDelay.value = null
         _isSubmittingResult.value = true
 
         val resultStr = when (state.phase) {
@@ -500,6 +822,7 @@ class BattleViewModel(
             questionsAnswered = state.totalQuestionsAnswered,
             correctAnswers = state.correctAnswers,
             skillType = "reading",
+            hpHealedByPet = state.totalPetHealing,
             vocabDeltas = battleVocabDeltas.values.toList(),
         )
 
@@ -516,28 +839,37 @@ class BattleViewModel(
                     monsterTypeStr = monsterType.apiName,
                     stageIndex = monsterIndex,
                     stars = stars,
-                    highestDamage = state.totalDamageDealt,
+                    highestDamage = state.totalDamageDealt.toInt(),
                 )
             }
 
             when (val r = battleRepository.submitBattleResult(request)) {
                 is Resource.Success -> {
+                    r.data.petAffection?.let { nextAff ->
+                        petRepository.updateActivePetAffectionLocal(nextAff.toFloat())
+                    }
                     _serverResult.emit(r.data)
                 }
                 is Resource.Error -> {
+                    val xpMult = 1.0 + ((activePetBuff?.xpBonusPct ?: 0) / 100.0)
+                    val coinMult = 1.0 + ((activePetBuff?.coinBonusPct ?: 0) / 100.0)
                     // Fallback local response if network error
                     _serverResult.emit(
                         BattleResultResponse(
                             result = resultStr,
-                            xpEarned = if (resultStr == "win") state.monster.xpReward else 0,
-                            coinsEarned = if (resultStr == "win") state.monster.coinReward else 0,
+                            xpEarned = if (resultStr == "win") (state.monster.xpReward * xpMult).toInt() else 0,
+                            coinsEarned = if (resultStr == "win") (state.monster.coinReward * coinMult).toInt() else 0,
                             damageDealt = state.totalDamageDealt,
                             levelUp = false,
                             newLevel = null,
                             statPointsAvailable = 0,
-                            survivalHp = state.playerHp,
+                            survivalHp = state.roundedUpPlayerHp,
                             lostItem = null,
-                            message = if (resultStr == "win") "Victory!" else "Defeated offline.",
+                            message = when (resultStr) {
+                                "win" -> "Victory!"
+                                "flee" -> "Tactical retreat offline."
+                                else -> "Defeated offline."
+                            },
                         )
                     )
                 }
@@ -550,9 +882,13 @@ class BattleViewModel(
     override fun onCleared() {
         super.onCleared()
         stopTimer()
+        interQuestionJob?.cancel()
     }
 
     companion object {
+        const val CORRECT_ANSWER_DELAY_MS = 2_000L
+        const val WRONG_ANSWER_DELAY_MS = 6_000L
+
         fun factory(
             hskJsonLoader: HskJsonLoader,
             battleRepository: BattleRepository,

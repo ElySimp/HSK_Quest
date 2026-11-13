@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.faldo.hsk_quest.MainActivity
@@ -31,8 +32,10 @@ import com.faldo.hsk_quest.data.local.DictionaryEntry
 import com.faldo.hsk_quest.data.local.HskJsonLoader
 import com.faldo.hsk_quest.data.model.HskTerm
 import com.faldo.hsk_quest.databinding.FragmentPracticeBinding
+import com.faldo.hsk_quest.engine.HandwritingEngineRegistry
 import com.faldo.hsk_quest.ui.battle.AudioRecorderHelper
 import com.faldo.hsk_quest.ui.battle.CanvasWritingView
+import com.faldo.hsk_quest.ui.ocr.CameraOcrFragment
 import com.faldo.hsk_quest.util.appContainer
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -116,8 +119,25 @@ class PracticeFragment : Fragment() {
         setupRecyclerView()
         setupSearchAndFilters()
         setupHandwritingPanel()
+        setupCameraOcrResultListener()
         executeSearch(immediate = true)
         (activity as? MainActivity)?.attachRecyclerScrollListener(binding.rvDictionary)
+    }
+
+    private fun setupCameraOcrResultListener() {
+        parentFragmentManager.setFragmentResultListener(
+            CameraOcrFragment.RESULT_KEY_OCR,
+            viewLifecycleOwner,
+        ) { _, bundle ->
+            val detected = bundle.getString(CameraOcrFragment.EXTRA_DETECTED_HANZI)?.trim().orEmpty()
+            if (detected.isNotEmpty()) {
+                binding.chipLevelAll.isChecked = true
+                selectedLevelFilter = null
+                binding.etDictSearch.setText(detected)
+                binding.etDictSearch.setSelection(detected.length)
+                executeSearch(immediate = true)
+            }
+        }
     }
 
     private fun initTextToSpeech() {
@@ -200,6 +220,11 @@ class PracticeFragment : Fragment() {
      * and tappable candidate chips below the drawing canvas.
      */
     private fun setupHandwritingPanel() {
+        binding.btnOpenCameraOcr.setOnClickListener {
+            hideKeyboard()
+            findNavController().navigate(R.id.action_practice_to_camera_ocr)
+        }
+
         binding.btnToggleHandwriting.setOnClickListener {
             isHandwritingPanelOpen = !isHandwritingPanelOpen
             if (isHandwritingPanelOpen) {
@@ -240,7 +265,7 @@ class PracticeFragment : Fragment() {
         val b = _binding ?: return
 
         if (strokes.isEmpty()) {
-            b.tvHwStatus.text = "🖌️ Handwriting Input · Draw 1 Hanzi at a time"
+            b.tvHwStatus.text = "🖌️ Handwriting Input · Draw 1+ Hanzi"
             b.tvHwCandidateHint.text = "Draw strokes above — matching Hanzi suggestions will appear below:"
             b.llHwCandidates.removeAllViews()
             return
@@ -249,11 +274,12 @@ class PracticeFragment : Fragment() {
         b.tvHwStatus.text = "🖌️ Strokes: ${strokes.size} · Matching Hanzi..."
         handwritingJob = viewLifecycleOwner.lifecycleScope.launch {
             val allEntries = appContainer.hskJsonLoader.loadDictionaryEntries(null)
-            val candidates = HanziHandwritingMatcher.recognizeCandidates(
+            val result = HandwritingEngineRegistry.activeRecognizer.recognizeWithMultiCharSupport(
                 strokes = strokes,
                 allEntries = allEntries,
                 limit = 14,
             )
+            val candidates = result.candidates
             val bindingNow = _binding ?: return@launch
             bindingNow.llHwCandidates.removeAllViews()
 
@@ -262,7 +288,8 @@ class PracticeFragment : Fragment() {
                 return@launch
             }
 
-            bindingNow.tvHwStatus.text = "🖌️ Strokes: ${strokes.size} · Top matches ready"
+            bindingNow.tvHwStatus.text =
+                "🖌️ Strokes: ${strokes.size} · Ready (${result.inferenceLatencyMs}ms TFLite)"
             bindingNow.tvHwCandidateHint.text = "Tap a suggested Hanzi below to insert into search:"
 
             val ctx = requireContext()
@@ -719,6 +746,7 @@ class PracticeFragment : Fragment() {
             }
         }
 
+        var traceEvalJob: Job? = null
         canvasView.onStrokeCountChanged = { count ->
             tvStrokeCounter.text = "Strokes drawn: $count"
             tvStrokeCounter.setTextColor(
@@ -728,12 +756,45 @@ class PracticeFragment : Fragment() {
                 ),
             )
         }
+        canvasView.onStrokesChanged = { strokes ->
+            traceEvalJob?.cancel()
+            if (strokes.isEmpty()) {
+                tvStrokeCounter.text = "Strokes drawn: 0"
+            } else {
+                traceEvalJob = viewLifecycleOwner.lifecycleScope.launch {
+                    delay(140L)
+                    val entries = appContainer.hskJsonLoader.loadDictionaryEntries(null)
+                    val result = HandwritingEngineRegistry.activeRecognizer.recognizeWithMultiCharSupport(
+                        strokes = strokes,
+                        allEntries = entries,
+                        limit = 5,
+                    )
+                    val top = result.candidates.firstOrNull()
+                    val matched = result.candidates.take(3).any { cand ->
+                        cand.hanzi == entry.term.simplified ||
+                            (entry.term.simplified.length > 1 && cand.hanzi == entry.term.simplified.take(1))
+                    }
+                    tvStrokeCounter.text = when {
+                        matched -> "Strokes: ${strokes.size} · ✅ Matched ${entry.term.simplified}!"
+                        top != null -> "Strokes: ${strokes.size} · AI reads: ${top.hanzi}"
+                        else -> "Strokes drawn: ${strokes.size}"
+                    }
+                    tvStrokeCounter.setTextColor(
+                        ContextCompat.getColor(
+                            ctx,
+                            if (matched) R.color.hq_jade else R.color.hq_gold,
+                        ),
+                    )
+                }
+            }
+        }
 
         traceFooter.addView(tvStrokeCounter)
         traceFooter.addView(btnClearCanvas)
         container.addView(traceFooter)
 
         sheet.setOnDismissListener {
+            traceEvalJob?.cancel()
             audioHelper.releaseAll()
             if (activePracticeSheet === sheet) {
                 activePracticeSheet = null

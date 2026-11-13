@@ -21,6 +21,7 @@ from app.schemas.player import (
     DailyClaimResponse,
 )
 from app.services.combat import xp_to_next_level, calculate_max_hp
+from app.services.quest_service import record_quest_progress
 from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/player", tags=["Player"])
@@ -38,18 +39,25 @@ async def get_profile(
 ):
     """Get current player profile with stats."""
     result = await db.execute(
-        select(User).where(User.id == user_id)
+        select(User, PlayerStats)
+        .outerjoin(PlayerStats, PlayerStats.user_id == User.id)
+        .where(User.id == user_id)
     )
-    user = result.scalar_one_or_none()
-    if not user:
+    row = result.first()
+    if not row:
         raise HTTPException(status_code=404, detail="User not found")
-
-    result = await db.execute(
-        select(PlayerStats).where(PlayerStats.user_id == user_id)
-    )
-    stats = result.scalar_one_or_none()
+    user, stats = row
     if not stats:
         raise HTTPException(status_code=404, detail="Player stats not found")
+
+    # Sync level-based Max HP bonus (+5 per level) for existing accounts
+    expected_max_hp = calculate_max_hp(stats.stat_vit, stats.level)
+    if stats.max_hp < expected_max_hp:
+        hp_delta = expected_max_hp - stats.max_hp
+        stats.max_hp = expected_max_hp
+        stats.hp = min(stats.max_hp, stats.hp + hp_delta)
+        stats.survival_hp = stats.hp
+        await db.flush()
 
     return PlayerProfileResponse(
         user_id=user.id,
@@ -172,6 +180,15 @@ async def allocate_stat(
     if not stats:
         raise HTTPException(status_code=404, detail="Player stats not found")
 
+    # Sync level-based Max HP bonus (+5 per level) for existing accounts
+    expected_max_hp = calculate_max_hp(stats.stat_vit, stats.level)
+    if stats.max_hp < expected_max_hp:
+        hp_delta = expected_max_hp - stats.max_hp
+        stats.max_hp = expected_max_hp
+        stats.hp = min(stats.max_hp, stats.hp + hp_delta)
+        stats.survival_hp = stats.hp
+        await db.flush()
+
     if stats.unspent_stat_points <= 0:
         raise HTTPException(
             status_code=400, detail="No unspent stat points available"
@@ -185,7 +202,7 @@ async def allocate_stat(
 
     # Recalculate max HP if VIT changed and heal proportionally
     if request.stat_name == "vit":
-        stats.max_hp = calculate_max_hp(stats.stat_vit)
+        stats.max_hp = calculate_max_hp(stats.stat_vit, stats.level)
         stats.hp = min(stats.max_hp, stats.hp + 5)
 
     stats.survival_hp = stats.hp
@@ -258,20 +275,27 @@ async def claim_daily(
 ):
     """Claim today's login reward. One claim per calendar day (server date)."""
     today = date.today()
-    latest = await _latest_claim(db, user_id)
+    row = (
+        await db.execute(
+            select(PlayerStats, DailyClaim)
+            .outerjoin(DailyClaim, DailyClaim.user_id == PlayerStats.user_id)
+            .where(PlayerStats.user_id == user_id)
+            .order_by(DailyClaim.claim_date.desc())
+            .limit(1)
+        )
+    ).first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Player stats not found")
+
+    stats, latest = row[0], row[1]
     if latest is not None and latest.claim_date == today:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Daily reward already claimed today")
-
-    row = await db.execute(select(PlayerStats).where(PlayerStats.user_id == user_id))
-    stats = row.scalar_one_or_none()
-    if not stats:
-        raise HTTPException(status_code=404, detail="Player stats not found")
 
     streak = _next_streak(latest, today)
     coins = _daily_coins(streak)
     stats.coins += coins
     db.add(DailyClaim(user_id=user_id, claim_date=today, streak=streak, coins_awarded=coins))
-    await db.flush()
+    await record_quest_progress(db, user_id, {"daily_bounty": 1})
 
     return DailyClaimResponse(coins_awarded=coins, streak=streak, total_coins=stats.coins)
 

@@ -15,6 +15,8 @@ data class HskTerm(
     val partOfSpeech: String?,
     val sense: Int? = null,
     val alsoLevels: List<String>? = null,
+    val frequency: Long? = null,
+    val handwritten: Boolean = false,
 )
 
 /**

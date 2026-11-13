@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_nav_map"
             android:title="@string/nav_world_map" />
         <item
+            android:id="@+id/questFragment"
+            android:icon="@drawable/ic_nav_quest"
+            android:title="@string/nav_quest" />
+        <item
             android:id="@+id/characterFragment"
             android:icon="@drawable/ic_nav_profile"
             android:title="@string/nav_character" />

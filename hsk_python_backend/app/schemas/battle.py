@@ -22,11 +22,12 @@ class BattleResultRequest(BaseModel):
     monster_type: str = Field(default="normal", pattern=r"^(normal|elite|boss)$")
     # "flee" = player retreated voluntarily: no rewards, no penalty
     result: str = Field(..., pattern=r"^(win|lose|flee)$")
-    damage_dealt: int = Field(..., ge=0)
-    damage_taken: int = Field(..., ge=0)
+    damage_dealt: float = Field(..., ge=0)
+    damage_taken: float = Field(..., ge=0)
     questions_answered: int = Field(..., ge=0)
     correct_answers: int = Field(..., ge=0)
     skill_type: str = Field(default="reading", pattern=r"^(reading|writing|listening|speaking|mixed)$")
+    hp_healed_by_pet: float = Field(default=0.0, ge=0)
     vocab_deltas: list[VocabDeltaItem] = Field(default_factory=list)
 
 
@@ -35,11 +36,13 @@ class BattleResultResponse(BaseModel):
     result: str
     xp_earned: int
     coins_earned: int
-    damage_dealt: int
+    damage_dealt: float
     level_up: bool = False
     new_level: int | None = None
     stat_points_available: int = 0
     survival_hp: int = 0
     # item_id of the equipment lost on defeat, if any
     lost_item: str | None = None
+    pet_affection_delta: float = 0.0
+    pet_affection: float | None = None
     message: str = ""

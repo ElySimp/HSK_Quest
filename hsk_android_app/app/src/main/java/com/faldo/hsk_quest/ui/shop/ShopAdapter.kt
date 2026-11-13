@@ -25,11 +25,6 @@ sealed class ShopUiItem {
     ) : ShopUiItem()
 }
 
-private data class PotionSpriteMeta(
-    @DrawableRes val drawableRes: Int,
-    val cols: Int,
-)
-
 class ShopAdapter(
     private val onBuyClicked: (ShopItem) -> Unit = {},
     private val onUseClicked: (InventoryItem) -> Unit = {},
@@ -65,29 +60,19 @@ class ShopAdapter(
             spriteAnimator = null
         }
 
-        private fun resolvePotionSprite(spriteRes: String?, itemId: String): PotionSpriteMeta? {
-            return when {
-                spriteRes == "potion_minor_red" || itemId == "minor_healing_potion" || itemId == "salve_elixir" ->
-                    PotionSpriteMeta(R.drawable.potion_minor_red, cols = 9)
-                spriteRes == "potion_regular_red" || itemId == "healing_potion" || itemId == "vitality_elixir" ->
-                    PotionSpriteMeta(R.drawable.potion_regular_red, cols = 7)
-                spriteRes == "potion_greater_red" || itemId == "greater_healing_potion" ->
-                    PotionSpriteMeta(R.drawable.potion_greater_red, cols = 8)
-                spriteRes == "potion_supreme_red" || itemId == "supreme_healing_potion" ->
-                    PotionSpriteMeta(R.drawable.potion_supreme_red, cols = 13)
-                else -> null
-            }
-        }
-
         private fun bindIconOrSprite(spriteRes: String?, itemId: String, iconEmoji: String) {
-            val potionMeta = resolvePotionSprite(spriteRes, itemId)
-            if (potionMeta != null) {
+            val spriteMeta = SpriteAnimator.resolveShopItemSprite(
+                binding.root.context,
+                spriteRes,
+                itemId,
+            )
+            if (spriteMeta != null) {
                 binding.tvItemIcon.visibility = View.GONE
                 binding.ivItemSprite.visibility = View.VISIBLE
                 spriteAnimator = SpriteAnimator.startHorizontalStripAnimation(
                     imageView = binding.ivItemSprite,
-                    drawableRes = potionMeta.drawableRes,
-                    cols = potionMeta.cols,
+                    drawableRes = spriteMeta.drawableRes,
+                    cols = spriteMeta.cols,
                     fps = 8,
                     scaleFactor = 3,
                 )

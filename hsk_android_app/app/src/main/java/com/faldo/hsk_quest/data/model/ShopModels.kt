@@ -39,6 +39,24 @@ data class BuyItemResponse(
     @SerializedName("remaining_diamonds") val remainingDiamonds: Int,
 )
 
+data class BuyBatchItem(
+    @SerializedName("item_id") val itemId: String,
+    @SerializedName("quantity") val quantity: Int,
+)
+
+data class BuyBatchRequest(
+    @SerializedName("items") val items: List<BuyBatchItem>,
+)
+
+data class BuyBatchResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: String,
+    @SerializedName("total_items_bought") val totalItemsBought: Int,
+    @SerializedName("purchased_quantities") val purchasedQuantities: Map<String, Int>,
+    @SerializedName("remaining_coins") val remainingCoins: Int,
+    @SerializedName("remaining_diamonds") val remainingDiamonds: Int,
+)
+
 /**
  * Consumable item held in player inventory bag.
  */

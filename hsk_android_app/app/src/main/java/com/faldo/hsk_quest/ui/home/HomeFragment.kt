@@ -21,9 +21,11 @@ import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.Player
 import com.faldo.hsk_quest.databinding.FragmentHomeBinding
 import com.faldo.hsk_quest.databinding.SheetHomeInventoryBinding
+import com.faldo.hsk_quest.engine.PetBuffCatalog
 import com.faldo.hsk_quest.engine.XpCalculator
 import com.faldo.hsk_quest.ui.shop.ShopAdapter
 import com.faldo.hsk_quest.ui.shop.ShopUiItem
+import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
 import com.faldo.hsk_quest.util.readableError
@@ -74,6 +76,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnClaimDaily.setOnClickListener {
+            appContainer.soundPlayer.play(Sfx.COIN)
             viewModel.claimDaily()
         }
 
@@ -318,13 +321,8 @@ class HomeFragment : Fragment() {
                 fps = 4,
             )
         } else {
-            val buffLabel = when (pet.buffType) {
-                "shield" -> "🛡️ Shield Active"
-                "time_extender" -> "⏳ +3s Crit Active"
-                "damage_boost" -> "⚔️ +15% Dmg Active"
-                else -> "✨ Energetic & Happy!"
-            }
-            binding.tvPetMood.text = buffLabel
+            val spec = PetBuffCatalog.resolveSpec(pet)
+            binding.tvPetMood.text = "✨ ${spec.title} • ${spec.shortBadge}"
             binding.tvPetMood.setTextColor(
                 ContextCompat.getColor(requireContext(), R.color.hq_jade)
             )
@@ -392,7 +390,10 @@ class HomeFragment : Fragment() {
         val sheetBinding = SheetHomeInventoryBinding.inflate(layoutInflater)
         val bagAdapter = ShopAdapter(
             onBuyClicked = {},
-            onUseClicked = { item -> viewModel.useInventoryItem(item) },
+            onUseClicked = { item ->
+                appContainer.soundPlayer.play(Sfx.POTION)
+                viewModel.useInventoryItem(item)
+            },
         )
 
         sheetBinding.rvHomeInventory.layoutManager = LinearLayoutManager(ctx)

@@ -11,6 +11,8 @@ from app.models.inventory import Inventory
 from app.models.pet import Pet
 from app.models.player import PlayerStats
 from app.schemas.shop import (
+    BuyBatchRequest,
+    BuyBatchResponse,
     BuyItemRequest,
     BuyItemResponse,
     InventoryItemResponse,
@@ -100,7 +102,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 15,
         "price_diamonds": 0,
         "icon_emoji": "🍙",
-        "sprite_res": None,
+        "sprite_res": "food_rice_ball",
     },
     "dumpling_hsk2": {
         "id": "dumpling_hsk2",
@@ -114,7 +116,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 35,
         "price_diamonds": 0,
         "icon_emoji": "🥟",
-        "sprite_res": None,
+        "sprite_res": "food_dumpling",
     },
     "noodle_hsk3": {
         "id": "noodle_hsk3",
@@ -128,7 +130,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 70,
         "price_diamonds": 0,
         "icon_emoji": "🍜",
-        "sprite_res": None,
+        "sprite_res": "food_beef_noodles",
     },
     "hotpot_hsk4": {
         "id": "hotpot_hsk4",
@@ -142,7 +144,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 130,
         "price_diamonds": 0,
         "icon_emoji": "🍲",
-        "sprite_res": None,
+        "sprite_res": "food_hotpot",
     },
     "roast_duck_hsk5": {
         "id": "roast_duck_hsk5",
@@ -156,7 +158,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 220,
         "price_diamonds": 0,
         "icon_emoji": "🦆",
-        "sprite_res": None,
+        "sprite_res": "food_roast_duck",
     },
     # ------------------------------------------------------------------
     # PET FOOD (Escalating Affection/Coin Efficiency for Pet Sanctuary)
@@ -173,7 +175,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 15,
         "price_diamonds": 0,
         "icon_emoji": "🦴",
-        "sprite_res": None,
+        "sprite_res": "treat_spirit_bone",
     },
     "pet_honey_cookie": {
         "id": "pet_honey_cookie",
@@ -187,7 +189,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 30,
         "price_diamonds": 0,
         "icon_emoji": "🍪",
-        "sprite_res": None,
+        "sprite_res": "treat_honey_cookie",
     },
     "pet_dried_koi": {
         "id": "pet_dried_koi",
@@ -201,7 +203,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 50,
         "price_diamonds": 0,
         "icon_emoji": "🐟",
-        "sprite_res": None,
+        "sprite_res": "treat_dried_koi",
     },
     "pet_jade_bamboo": {
         "id": "pet_jade_bamboo",
@@ -215,7 +217,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 70,
         "price_diamonds": 0,
         "icon_emoji": "🎋",
-        "sprite_res": None,
+        "sprite_res": "treat_jade_bamboo",
     },
     "mooncake_hsk5": {
         "id": "mooncake_hsk5",
@@ -229,7 +231,7 @@ SHOP_ITEMS: dict[str, dict] = {
         "price_coins": 0,
         "price_diamonds": 20,
         "icon_emoji": "🍑",
-        "sprite_res": None,
+        "sprite_res": "treat_spirit_peach",
     },
 }
 
@@ -271,14 +273,28 @@ def get_item_meta(item_id: str) -> dict | None:
     return SHOP_ITEMS.get(item_id) or LEGACY_SHOP_ITEMS.get(item_id)
 
 
-def compute_scaled_coin_price(item_meta: dict, player_level: int) -> int:
+def compute_scaled_coin_price(item_meta: dict, player_max_hp: int) -> int:
     """
     Compute coin price for an item.
-    Elixirs (% Max HP potions) scale dynamically with the player's current level.
+    Elixirs (% Max HP potions) are priced directly proportional to the exact HP they restore
+    for the player's current Max HP (healed_hp = player_max_hp * hp_restore_pct / 100),
+    using an in-battle alchemy rate (1.8 to 2.4 Coins per 1 HP healed = 0.42 to 0.56 HP/Coin)
+    that is ~8x to 20x more expensive per HP than out-of-battle Human Culinary Food (4.0 to 10.0 HP/Coin).
     """
     base_coins = item_meta.get("price_coins", 0)
-    if item_meta.get("category") == "elixir" and base_coins > 0:
-        return int(round(base_coins * (1.0 + max(0, player_level - 1) * 0.25)))
+    hp_pct = item_meta.get("hp_restore_pct", 0)
+    if item_meta.get("category") == "elixir" and hp_pct > 0:
+        safe_max_hp = max(100, player_max_hp)
+        healed_hp = max(1, round(safe_max_hp * (hp_pct / 100.0)))
+        if hp_pct <= 25:
+            coins_per_hp = 2.4
+        elif hp_pct <= 50:
+            coins_per_hp = 2.2
+        elif hp_pct <= 75:
+            coins_per_hp = 2.0
+        else:
+            coins_per_hp = 1.8
+        return int(round(healed_hp * coins_per_hp))
     return base_coins
 
 
@@ -289,18 +305,18 @@ async def get_shop_catalog(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    Get full list of items available in the shop with level-scaled potion pricing and stat buffs.
+    Get full list of items available in the shop with HP-healed relative potion pricing.
     """
     stats_res = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
     )
     stats = stats_res.scalar_one_or_none()
-    player_level = stats.level if stats else 1
+    player_max_hp = stats.max_hp if stats else 100
 
     items = []
     for item_data in SHOP_ITEMS.values():
         scaled_data = dict(item_data)
-        scaled_data["price_coins"] = compute_scaled_coin_price(item_data, player_level)
+        scaled_data["price_coins"] = compute_scaled_coin_price(item_data, player_max_hp)
         items.append(ShopItem(**scaled_data))
     return ShopCatalogResponse(items=items)
 
@@ -332,7 +348,7 @@ async def buy_item(
         )
 
     quantity = request.quantity
-    unit_coin_price = compute_scaled_coin_price(item_meta, stats.level)
+    unit_coin_price = compute_scaled_coin_price(item_meta, stats.max_hp)
     total_coins = unit_coin_price * quantity
     total_diamonds = item_meta["price_diamonds"] * quantity
 
@@ -374,14 +390,98 @@ async def buy_item(
         db.add(new_inv)
         total_owned = quantity
 
-    await db.commit()
-
     return BuyItemResponse(
         success=True,
         message=f"Successfully purchased {quantity}x {item_meta['name']}!",
         item_id=request.item_id,
         quantity_bought=quantity,
         total_owned=total_owned,
+        remaining_coins=stats.coins,
+        remaining_diamonds=stats.diamonds,
+    )
+
+
+@router.post("/buy-batch", response_model=BuyBatchResponse)
+async def buy_items_batch(
+    request: BuyBatchRequest,
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Atomically purchase multiple shop items in a single database transaction.
+    Eliminates sequential cart checkout network roundtrips.
+    """
+    merged_quantities: dict[str, int] = {}
+    for entry in request.items:
+        meta = get_item_meta(entry.item_id)
+        if not meta:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Item '{entry.item_id}' does not exist in the shop catalog.",
+            )
+        merged_quantities[entry.item_id] = merged_quantities.get(entry.item_id, 0) + entry.quantity
+
+    stats_res = await db.execute(
+        select(PlayerStats).where(PlayerStats.user_id == user_id)
+    )
+    stats = stats_res.scalar_one_or_none()
+    if not stats:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Player stats not found.",
+        )
+
+    total_coins = 0
+    total_diamonds = 0
+    total_count = 0
+    for item_id, qty in merged_quantities.items():
+        meta = get_item_meta(item_id)
+        total_coins += compute_scaled_coin_price(meta, stats.max_hp) * qty
+        total_diamonds += meta["price_diamonds"] * qty
+        total_count += qty
+
+    if total_coins > 0 and stats.coins < total_coins:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Not enough coins. Required: {total_coins}, Current: {stats.coins}",
+        )
+    if total_diamonds > 0 and stats.diamonds < total_diamonds:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Not enough diamonds. Required: {total_diamonds}, Current: {stats.diamonds}",
+        )
+
+    stats.coins -= total_coins
+    stats.diamonds -= total_diamonds
+
+    inv_res = await db.execute(
+        select(Inventory).where(
+            Inventory.user_id == user_id,
+            Inventory.item_id.in_(list(merged_quantities.keys())),
+        )
+    )
+    existing_map = {row.item_id: row for row in inv_res.scalars().all()}
+
+    for item_id, qty in merged_quantities.items():
+        meta = get_item_meta(item_id)
+        existing_row = existing_map.get(item_id)
+        if existing_row:
+            existing_row.quantity += qty
+        else:
+            db.add(
+                Inventory(
+                    user_id=user_id,
+                    item_type=meta["category"],
+                    item_id=item_id,
+                    quantity=qty,
+                )
+            )
+
+    return BuyBatchResponse(
+        success=True,
+        message=f"Successfully purchased {total_count} item(s)!",
+        total_items_bought=total_count,
+        purchased_quantities=merged_quantities,
         remaining_coins=stats.coins,
         remaining_diamonds=stats.diamonds,
     )
@@ -435,20 +535,6 @@ async def use_inventory_item(
     """
     Consume an item from inventory to heal player HP and/or increase equipped pet Affection.
     """
-    inv_res = await db.execute(
-        select(Inventory).where(
-            Inventory.user_id == user_id,
-            Inventory.item_id == request.item_id,
-            Inventory.quantity > 0,
-        )
-    )
-    inventory_item = inv_res.scalar_one_or_none()
-    if not inventory_item:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Item '{request.item_id}' not found in your inventory.",
-        )
-
     item_meta = get_item_meta(request.item_id)
     if not item_meta:
         raise HTTPException(
@@ -456,21 +542,38 @@ async def use_inventory_item(
             detail="Item specifications not found in catalog.",
         )
 
-    stats_res = await db.execute(
-        select(PlayerStats).where(PlayerStats.user_id == user_id)
+    stmt = (
+        select(PlayerStats, Inventory)
+        .outerjoin(
+            Inventory,
+            (Inventory.user_id == PlayerStats.user_id)
+            & (Inventory.item_id == request.item_id)
+            & (Inventory.quantity > 0),
+        )
+        .where(PlayerStats.user_id == user_id)
     )
-    stats = stats_res.scalar_one_or_none()
+    row = (await db.execute(stmt)).first()
+    stats = row[0] if row else None
+    inventory_item = row[1] if row else None
     if not stats:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Player stats not found.",
         )
+    if not inventory_item:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Item '{request.item_id}' not found in your inventory.",
+        )
 
-    # Fetch active companion pet (if any)
-    pet_res = await db.execute(
-        select(Pet).where(Pet.user_id == user_id, Pet.is_active == True)
-    )
-    active_pet = pet_res.scalar_one_or_none()
+    # Only query active pet when consuming pet food / affection items
+    affection_boost = item_meta.get("affection_boost", 0)
+    active_pet = None
+    if affection_boost > 0:
+        pet_res = await db.execute(
+            select(Pet).where(Pet.user_id == user_id, Pet.is_active == True)
+        )
+        active_pet = pet_res.scalar_one_or_none()
 
     # Decrement inventory quantity
     inventory_item.quantity -= 1
@@ -498,10 +601,8 @@ async def use_inventory_item(
         old_affection = active_pet.affection
         active_pet.affection = min(100, active_pet.affection + affection_boost)
         active_pet.last_interaction = datetime.utcnow()
-        affection_gained = active_pet.affection - old_affection
-        current_affection = active_pet.affection
-
-    await db.commit()
+        affection_gained = int(round(active_pet.affection - old_affection))
+        current_affection = int(round(active_pet.affection))
 
     msg = f"Used {item_meta['name']}."
     if hp_restored > 0:

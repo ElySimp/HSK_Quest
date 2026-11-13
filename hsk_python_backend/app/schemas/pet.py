@@ -11,6 +11,8 @@ class PetResponse(BaseModel):
     pet_type: str
     rarity: str
     buff_type: str
+    buff_title: str | None = None
+    buff_description: str | None = None
     affection: float
     is_active: bool
     sprite_key: str
@@ -35,6 +37,26 @@ class RpsResponse(BaseModel):
     affection_gained: float
     current_affection: float
     coins_dropped: int
+    remaining_coins: Optional[int] = None
+    message: str
+
+
+class BlackjackActionRequest(BaseModel):
+    game_token: str
+
+
+class BlackjackStateResponse(BaseModel):
+    game_token: Optional[str] = None
+    status: str  # "playing", "player_win", "pet_win", "push", "player_bust"
+    player_cards: list[str]
+    dealer_cards: list[str]
+    player_score: int
+    dealer_score: int
+    bet_coins: int
+    coins_delta: int
+    remaining_coins: int
+    affection_gained: float
+    current_affection: float
     message: str
 
 

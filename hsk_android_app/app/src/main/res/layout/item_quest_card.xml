@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_quest_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="14dp">
+
+    <!-- Quest Icon -->
+    <TextView
+        android:id="@+id/tv_quest_icon"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:background="@drawable/bg_stat_box"
+        android:gravity="center"
+        android:textSize="22sp"
+        tools:text="⚔️" />
+
+    <!-- Quest Details & Progress -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_quest_title"
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hq_text_primary"
+            android:textSize="14.5sp"
+            tools:text="Arena Victor" />
+
+        <TextView
+            android:id="@+id/tv_quest_desc"
+            style="@style/HqText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/hq_text_secondary"
+            android:textSize="11.5sp"
+            tools:text="Win 2 battles today" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_quest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:max="10"
+                android:progress="5"
+                app:indicatorColor="@color/hq_sky"
+                app:trackColor="@color/hq_bg_deep"
+                app:trackCornerRadius="3dp"
+                app:trackThickness="6dp" />
+
+            <TextView
+                android:id="@+id/tv_quest_progress"
+                style="@style/HqText.PixelStat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hq_text_primary"
+                android:textSize="12sp"
+                tools:text="1 / 2" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_quest_rewards"
+            style="@style/HqText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/hq_sky"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            tools:text="+25 💎   +20 🪙" />
+    </LinearLayout>
+
+    <!-- Claim Action Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quest_claim"
+        style="@style/HqButton.Primary"
+        android:layout_width="86dp"
+        android:layout_height="40dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minHeight="40dp"
+        android:paddingHorizontal="6dp"
+        android:text="Claim"
+        android:textSize="11.5sp"
+        app:cornerRadius="12dp" />
+
+</LinearLayout>

@@ -67,6 +67,21 @@
             android:text="🖌️"
             android:textColor="@color/hq_gold"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_open_camera_ocr"
+            style="@style/HqText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_stat_box"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="📷"
+            android:textColor="@color/hq_jade"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <!-- Pleco-Style Collapsible Handwriting Input Panel -->

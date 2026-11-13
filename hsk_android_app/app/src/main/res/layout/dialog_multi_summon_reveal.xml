@@ -4,11 +4,11 @@
     android:id="@+id/multi_reveal_dialog_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_card_raised"
+    android:background="@drawable/bg_card_gold_border"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Top Emblem / Icon & Title Header -->
+    <!-- Top Emblem & Summary Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="10x CELESTIAL SUMMON! 🎊"
+            android:text="10x CELESTIAL CONVERGENCE"
             android:textColor="@color/hq_gold"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_multi_status_pill"
@@ -41,13 +41,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:background="@drawable/bg_card"
+            android:background="@drawable/bg_stat_box"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="3dp"
+            android:paddingVertical="4dp"
             android:textColor="@color/hq_gold"
             android:textSize="11sp"
             android:textStyle="bold"
-            tools:text="✨ 1 LEGENDARY · 1 EPIC · 8 COMMON" />
+            tools:text="1 LEGENDARY 🟡 · 2 EPIC 🟣 · 7 COMMON 🟢" />
 
         <TextView
             android:id="@+id/tv_multi_subtext"
@@ -65,9 +65,9 @@
     <ScrollView
         android:id="@+id/scroll_units_container"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="332dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_card"
+        android:background="@drawable/bg_stat_box"
         android:fadeScrollbars="false"
         android:padding="6dp">
 
@@ -78,7 +78,7 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <!-- Bottom Pinned Action Button (Guaranteed Visible) -->
+    <!-- Bottom Pinned Action Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_multi_confirm"
         style="@style/HqButton.Primary"

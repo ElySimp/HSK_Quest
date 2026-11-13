@@ -32,7 +32,7 @@ class PlayerStats(Base):
 
     # --- HP ---
     hp: Mapped[int] = mapped_column(Integer, default=100)  # Current HP
-    max_hp: Mapped[int] = mapped_column(Integer, default=100)  # Base 100 + VIT*5
+    max_hp: Mapped[int] = mapped_column(Integer, default=100)  # Base 100 + (level-1)*5 + VIT*5
     survival_hp: Mapped[int] = mapped_column(Integer, default=100)  # Account survival HP
 
     # --- Currency ---

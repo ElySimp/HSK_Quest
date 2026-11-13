@@ -164,6 +164,12 @@
         tools:layout="@layout/fragment_character" />
 
     <fragment
+        android:id="@+id/questFragment"
+        android:name="com.faldo.hsk_quest.ui.quest.QuestFragment"
+        android:label="@string/nav_quest"
+        tools:layout="@layout/fragment_quest" />
+
+    <fragment
         android:id="@+id/petFragment"
         android:name="com.faldo.hsk_quest.ui.pet.PetFragment"
         android:label="@string/nav_pet"
@@ -191,5 +197,19 @@
         android:id="@+id/practiceFragment"
         android:name="com.faldo.hsk_quest.ui.practice.PracticeFragment"
         android:label="HSK Dictionary &amp; Lab"
-        tools:layout="@layout/fragment_practice" />
+        tools:layout="@layout/fragment_practice">
+        <action
+            android:id="@+id/action_practice_to_camera_ocr"
+            app:destination="@id/cameraOcrFragment"
+            app:enterAnim="@anim/screen_enter"
+            app:exitAnim="@anim/screen_exit"
+            app:popEnterAnim="@anim/screen_pop_enter"
+            app:popExitAnim="@anim/screen_pop_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraOcrFragment"
+        android:name="com.faldo.hsk_quest.ui.ocr.CameraOcrFragment"
+        android:label="Live Hanzi Camera OCR"
+        tools:layout="@layout/fragment_camera_ocr" />
 </navigation>

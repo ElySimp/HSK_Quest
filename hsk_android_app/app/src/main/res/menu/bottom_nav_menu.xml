@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_nav_map"
         android:title="World Map" />
     <item
+        android:id="@+id/questFragment"
+        android:icon="@drawable/ic_nav_quest"
+        android:title="Quest" />
+    <item
         android:id="@+id/petFragment"
         android:icon="@drawable/ic_nav_sanctuary"
         android:title="Sanctuary" />

@@ -21,7 +21,7 @@ import com.faldo.hsk_quest.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 /**
- * Single activity hosting NavHostFragment with DrawerLayout, MaterialToolbar, and 4-Tab BottomNavigationView.
+ * Single activity hosting NavHostFragment with DrawerLayout, MaterialToolbar, and 5-Tab BottomNavigationView.
  * Controls directional tab transitions, drawer animations, window insets, and immersive screens (battle/auth).
  */
 class MainActivity : AppCompatActivity() {
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val tabOrder = listOf(
         R.id.homeFragment,
         R.id.worldMapFragment,
+        R.id.questFragment,
         R.id.petFragment,
         R.id.characterFragment,
     )
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         val topLevelDestinations = setOf(
             R.id.homeFragment,
             R.id.worldMapFragment,
+            R.id.questFragment,
             R.id.characterFragment,
             R.id.petFragment,
             R.id.shopFragment,
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         // Setup Toolbar with NavController
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        // Setup 4-Tab BottomNavigationView with directional slide + fade animations
+        // Setup 5-Tab BottomNavigationView with directional slide + fade animations
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             val targetId = menuItem.itemId
             if (targetId !in tabOrder) return@setOnItemSelectedListener false
@@ -98,7 +100,9 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_logout -> {
                     lifecycleScope.launch {
-                        (application as HskQuestApp).container.authRepository.logout()
+                        val container = (application as HskQuestApp).container
+                        container.authRepository.logout()
+                        container.questRepository.clearMemoryCache()
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.nav_graph, true)
                             .setEnterAnim(R.anim.screen_enter)

@@ -6,28 +6,28 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:layout_weight="1"
-    android:background="@drawable/bg_card"
+    android:background="@drawable/bg_card_common_border"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="10dp">
 
-    <!-- Pet Sprite with subtle aura / background frame -->
+    <!-- Pet Sprite with Emblem Frame -->
     <FrameLayout
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="2dp">
 
         <View
             android:id="@+id/view_unit_aura"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_emblem" />
 
         <ImageView
             android:id="@+id/iv_unit_sprite"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
             android:contentDescription="Companion Sprite"
             android:scaleType="fitCenter" />
@@ -39,7 +39,7 @@
         style="@style/HqText.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -53,9 +53,9 @@
         style="@style/HqText.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/bg_card_raised"
-        android:paddingHorizontal="6dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/bg_stat_box"
+        android:paddingHorizontal="7dp"
         android:paddingVertical="2dp"
         android:textColor="@color/hq_gold"
         android:textSize="9.5sp"
@@ -66,14 +66,14 @@
     <TextView
         android:id="@+id/tv_unit_buff"
         style="@style/HqText.Subtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="1"
+        android:maxLines="2"
         android:textColor="@color/hq_jade"
         android:textSize="9.5sp"
-        tools:text="⏳ Time +3s" />
+        tools:text="Dragon Scale • +25% DMG" />
 
 </LinearLayout>

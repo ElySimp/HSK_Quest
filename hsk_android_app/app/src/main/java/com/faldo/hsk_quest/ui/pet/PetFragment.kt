@@ -1,6 +1,7 @@
 package com.faldo.hsk_quest.ui.pet
 
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -8,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -19,12 +22,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.faldo.hsk_quest.MainActivity
 import com.faldo.hsk_quest.R
+import com.faldo.hsk_quest.data.model.BlackjackStateResponse
 import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.RpsResponse
 import com.faldo.hsk_quest.databinding.FragmentPetBinding
+import com.faldo.hsk_quest.databinding.SheetBlackjackGameBinding
+import com.faldo.hsk_quest.databinding.SheetPlayPickerBinding
 import com.faldo.hsk_quest.databinding.SheetRpsGameBinding
+import com.faldo.hsk_quest.engine.PetBuffCatalog
+import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -36,7 +45,8 @@ import kotlinx.coroutines.launch
 /**
  * Companion Pet Sanctuary.
  * Handles Tamagotchi care, multi-frame sprite looping, tap-to-pet reactions,
- * food inventory bag feeding, Rock-Paper-Scissors minigames, and collection equipping.
+ * food inventory bag feeding, Rock-Paper-Scissors & Blackjack mini-games,
+ * and rarity-sorted companion equipping.
  */
 class PetFragment : Fragment() {
 
@@ -53,8 +63,11 @@ class PetFragment : Fragment() {
 
     private var petAdapter: PetAdapter? = null
     private var spriteAnimator: SpriteAnimator? = null
+    private var playPickerBottomSheet: BottomSheetDialog? = null
     private var rpsBottomSheet: BottomSheetDialog? = null
+    private var blackjackBottomSheet: BottomSheetDialog? = null
     private var feedBottomSheet: BottomSheetDialog? = null
+    private val feedSheetAnimators = mutableListOf<SpriteAnimator>()
     private var actionAnimJob: Job? = null
     private var isPlayingActionRow: Boolean = false
     private var tapSpeechIndex: Int = 0
@@ -96,6 +109,7 @@ class PetFragment : Fragment() {
         petAdapter = PetAdapter { selectedPet ->
             viewModel.equipPet(selectedPet.id)
         }
+        binding.rvPetCollection.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvPetCollection.adapter = petAdapter
     }
 
@@ -122,11 +136,12 @@ class PetFragment : Fragment() {
         binding.ivPetSprite.setOnClickListener {
             val speech = tapSpeeches[tapSpeechIndex % tapSpeeches.size]
             tapSpeechIndex++
+            appContainer.soundPlayer.play(Sfx.HIT)
             playPetActionReaction(speech, durationMs = 2200L)
         }
 
-        binding.btnPlayRps.setOnClickListener {
-            showRpsDialog()
+        binding.btnPlayPet.setOnClickListener {
+            showPlayPickerSheet()
         }
 
         binding.btnFeedPet.setOnClickListener {
@@ -152,6 +167,9 @@ class PetFragment : Fragment() {
                 launch {
                     viewModel.petList.collect { list ->
                         petAdapter?.submitList(list)
+                        val count = list.size
+                        binding.tvRosterCount.text =
+                            "$count Spirit${if (count == 1) "" else "s"} · Rarity"
                     }
                 }
 
@@ -169,19 +187,20 @@ class PetFragment : Fragment() {
                     viewModel.foodBag.collect { bag ->
                         val totalDishes = bag.sumOf { it.quantity }
                         if (totalDishes > 0) {
-                            binding.btnFeedPet.text = "🦴 Feed Companion (Bag: $totalDishes)"
+                            binding.btnFeedPet.text = "🦴 Feed ($totalDishes)"
                             binding.tvFoodBagSubtitle.text =
-                                "🎒 Bag: $totalDishes treat(s) ready to serve!"
+                                "🎮 RPS or Blackjack · 🎒 Bag: $totalDishes treat(s) ready!"
                         } else {
-                            binding.btnFeedPet.text = "🦴 Feed Companion (Choose Treat)"
+                            binding.btnFeedPet.text = "🦴 Feed Companion"
                             binding.tvFoodBagSubtitle.text =
-                                "🎒 Bag: 0 treats · Or quick-buy Crispy Spirit Bone (15 🪙)"
+                                "🎮 RPS or Blackjack · 🎒 Bag: 0 treats (Quick-buy bone 15 🪙)"
                         }
                     }
                 }
 
                 launch {
                     viewModel.reactionEvent.collect { reactionText ->
+                        appContainer.soundPlayer.play(Sfx.POTION)
                         playPetActionReaction(reactionText, durationMs = 2500L)
                     }
                 }
@@ -212,7 +231,6 @@ class PetFragment : Fragment() {
 
         binding.tvPetSpeech.text = speech
 
-        // Play celebratory bounce + hop on the sprite ImageView
         binding.ivPetSprite.animate().cancel()
         binding.ivPetSprite.scaleX = 0.85f
         binding.ivPetSprite.scaleY = 0.85f
@@ -244,7 +262,6 @@ class PetFragment : Fragment() {
         actionAnimJob?.cancel()
         isPlayingActionRow = true
         spriteAnimator?.stop()
-        // Row 1 = Excited / Action animation, 4 frames
         spriteAnimator = SpriteAnimator.startAnimation(
             imageView = binding.ivPetSprite,
             drawableRes = drawableRes,
@@ -280,30 +297,38 @@ class PetFragment : Fragment() {
 
         binding.tvPetName.text = pet.name
 
-        val rarityStr = when (pet.rarity.lowercase()) {
-            "legendary" -> "🟡 Legendary"
-            "epic" -> "🟣 Epic"
-            "rare" -> "🔵 Rare"
-            else -> "🟢 Common"
+        val (rarityStr, rarityColorRes, stageBorderRes) = when (pet.rarity.lowercase()) {
+            "secret" -> Triple("🔮 Secret", R.color.hq_crimson, R.drawable.bg_card_gold_border)
+            "legendary" -> Triple("🟡 Legendary", R.color.hq_gold, R.drawable.bg_card_gold_border)
+            "epic" -> Triple("🟣 Epic", R.color.hq_violet, R.drawable.bg_card_epic_border)
+            "rare" -> Triple("🔵 Rare", R.color.hq_sky, R.drawable.bg_card_rare_border)
+            else -> Triple("🟢 Common", R.color.hq_jade, R.drawable.bg_card_common_border)
         }
         binding.tvPetRarity.text = rarityStr
+        binding.tvPetRarity.setTextColor(ContextCompat.getColor(requireContext(), rarityColorRes))
+        binding.cardPetStage.setBackgroundResource(stageBorderRes)
 
-        val buffDesc = when (pet.buffType) {
-            "shield" -> "Buff: 🛡️ Shield (Absorbs 1 monster attack on wrong answer)"
-            "time_extender" -> "Buff: ⏳ Time Extender (+3s to Critical Hit window)"
-            "damage_boost" -> "Buff: ⚔️ Damage Boost (+10% base damage)"
-            else -> "Buff: None"
+        val buffSpec = PetBuffCatalog.resolveSpec(pet)
+        binding.tvPetBuff.text = if (pet.isSleeping) {
+            "💤 Buff Resting (Feed ≥ 25 ❤️): ${buffSpec.title} — ${buffSpec.summary}"
+        } else {
+            "✨ ${buffSpec.title}: ${buffSpec.summary}"
         }
-        binding.tvPetBuff.text = buffDesc
+        binding.tvPetBuff.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (pet.isSleeping) R.color.hq_crimson else R.color.hq_jade,
+            )
+        )
 
         val affVal = pet.affection.toInt().coerceIn(0, 100)
         binding.tvAffectionVal.text = "$affVal / 100"
         binding.progressAffection.progress = affVal
 
         if (pet.isSleeping) {
-            binding.tvPetMood.text = "💤 Sleeping soundly... (Affection is low)"
+            binding.tvPetMood.text = "💤 Sleeping soundly... (Feed ≥ 25 Affection to awaken buff)"
             binding.tvPetMood.setTextColor(
-                ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
+                ContextCompat.getColor(requireContext(), R.color.hq_crimson)
             )
         } else {
             binding.tvPetMood.text = "✨ Feeling energetic and happy!"
@@ -312,7 +337,6 @@ class PetFragment : Fragment() {
             )
         }
 
-        // Only reset sprite animation to idle/sleep if not currently playing an action reaction
         if (!isPlayingActionRow) {
             startIdleOrSleepSprite(pet)
         }
@@ -328,7 +352,6 @@ class PetFragment : Fragment() {
 
         spriteAnimator?.stop()
         if (pet.isSleeping) {
-            // Row 2 = Sleep animation, 4 frames
             spriteAnimator = SpriteAnimator.startAnimation(
                 imageView = binding.ivPetSprite,
                 drawableRes = drawableRes,
@@ -339,7 +362,6 @@ class PetFragment : Fragment() {
                 fps = 4,
             )
         } else {
-            // Row 0 = Idle animation, 4 frames
             spriteAnimator = SpriteAnimator.startAnimation(
                 imageView = binding.ivPetSprite,
                 drawableRes = drawableRes,
@@ -352,8 +374,200 @@ class PetFragment : Fragment() {
         }
     }
 
+    private fun showPlayPickerSheet() {
+        playPickerBottomSheet?.dismiss()
+        val sheet = BottomSheetDialog(requireContext())
+        val pickerBinding = SheetPlayPickerBinding.inflate(layoutInflater)
+        sheet.setContentView(pickerBinding.root)
+
+        val petName = viewModel.activePet.value?.name ?: "your companion"
+        pickerBinding.tvPlayPickerSubtitle.text =
+            "Choose a mini-game to play with $petName!"
+
+        pickerBinding.cardPickRps.setOnClickListener {
+            sheet.dismiss()
+            showRpsDialog()
+        }
+
+        pickerBinding.cardPickBlackjack.setOnClickListener {
+            val coins = viewModel.player.value?.stats?.coins ?: 0
+            if (coins < 5) {
+                Toast.makeText(
+                    requireContext(),
+                    "Need 5 Coins to play Lucky Blackjack!",
+                    Toast.LENGTH_SHORT,
+                ).show()
+                return@setOnClickListener
+            }
+            sheet.dismiss()
+            showBlackjackDialog()
+        }
+
+        pickerBinding.btnClosePlayPicker.setOnClickListener {
+            sheet.dismiss()
+        }
+
+        sheet.setOnDismissListener {
+            if (playPickerBottomSheet === sheet) {
+                playPickerBottomSheet = null
+            }
+        }
+        playPickerBottomSheet = sheet
+        sheet.show()
+    }
+
+    private fun showBlackjackDialog() {
+        blackjackBottomSheet?.dismiss()
+        viewModel.resetBlackjack()
+
+        val sheet = BottomSheetDialog(requireContext())
+        val bjBinding = SheetBlackjackGameBinding.inflate(layoutInflater)
+        sheet.setContentView(bjBinding.root)
+
+        val petName = viewModel.activePet.value?.name ?: "Companion"
+        bjBinding.tvBjDealerLabel.text = "$petName's Hand"
+
+        var lastSettledTokenOrStatus: String? = null
+
+        val collectJob = viewLifecycleOwner.lifecycleScope.launch {
+            launch {
+                viewModel.player.collect { player ->
+                    val coins = player?.stats?.coins ?: 0
+                    bjBinding.tvBjCoins.text = "🪙 %,d".format(coins)
+                }
+            }
+            launch {
+                viewModel.isBlackjackBusy.collect { busy ->
+                    bjBinding.btnBjHit.isEnabled = !busy
+                    bjBinding.btnBjStand.isEnabled = !busy
+                    bjBinding.btnBjPlayAgain.isEnabled = !busy
+                }
+            }
+            launch {
+                viewModel.blackjackState.collect { state ->
+                    if (state != null) {
+                        renderBlackjackState(bjBinding, state, lastSettledTokenOrStatus) { soundKey ->
+                            lastSettledTokenOrStatus = soundKey
+                        }
+                    } else {
+                        bjBinding.tvBjDealerScore.text = "Dealing..."
+                        bjBinding.tvBjPlayerScore.text = "Dealing..."
+                        bjBinding.tvBjMessage.text = "Shuffling celestial deck..."
+                        bjBinding.layoutBjPlayActions.visibility = View.GONE
+                        bjBinding.btnBjPlayAgain.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        sheet.setOnDismissListener {
+            collectJob.cancel()
+            viewModel.resetBlackjack()
+            if (blackjackBottomSheet === sheet) {
+                blackjackBottomSheet = null
+            }
+        }
+
+        bjBinding.btnBjHit.setOnClickListener { viewModel.hitBlackjack() }
+        bjBinding.btnBjStand.setOnClickListener { viewModel.standBlackjack() }
+        bjBinding.btnBjPlayAgain.setOnClickListener {
+            lastSettledTokenOrStatus = null
+            viewModel.startBlackjack()
+        }
+        bjBinding.btnBjClose.setOnClickListener { sheet.dismiss() }
+
+        blackjackBottomSheet = sheet
+        sheet.show()
+        viewModel.startBlackjack()
+    }
+
+    private fun renderBlackjackState(
+        bjBinding: SheetBlackjackGameBinding,
+        state: BlackjackStateResponse,
+        lastSoundKey: String?,
+        markSoundKey: (String) -> Unit,
+    ) {
+        val ctx = requireContext()
+        bjBinding.tvBjCoins.text = "🪙 %,d".format(state.remainingCoins)
+        bjBinding.tvBjPlayerScore.text = "Score: ${state.playerScore}"
+        val dealerHasHidden = state.dealerCards.any { it == "??" }
+        bjBinding.tvBjDealerScore.text = if (dealerHasHidden) {
+            "Showing: ${state.dealerScore} + ?"
+        } else {
+            "Score: ${state.dealerScore}"
+        }
+
+        renderBlackjackCardsRow(bjBinding.layoutBjDealerCards, state.dealerCards)
+        renderBlackjackCardsRow(bjBinding.layoutBjPlayerCards, state.playerCards)
+
+        bjBinding.tvBjMessage.text = state.message
+        val isPlaying = state.status == "playing"
+        bjBinding.layoutBjPlayActions.visibility = if (isPlaying) View.VISIBLE else View.GONE
+        bjBinding.btnBjPlayAgain.visibility = if (isPlaying) View.GONE else View.VISIBLE
+
+        val msgColorRes = when (state.status) {
+            "player_win" -> R.color.hq_gold
+            "push" -> R.color.hq_sky
+            "pet_win", "player_bust" -> R.color.hq_crimson
+            else -> R.color.hq_text_primary
+        }
+        bjBinding.tvBjMessage.setTextColor(ContextCompat.getColor(ctx, msgColorRes))
+
+        if (!isPlaying) {
+            val soundKey = "${state.status}_${state.playerCards.joinToString()}_${state.dealerCards.joinToString()}"
+            if (lastSoundKey != soundKey) {
+                markSoundKey(soundKey)
+                val sfx = when (state.status) {
+                    "player_win" -> Sfx.COIN
+                    "push" -> Sfx.CORRECT
+                    else -> Sfx.WRONG
+                }
+                appContainer.soundPlayer.play(sfx)
+            }
+        }
+    }
+
+    private fun renderBlackjackCardsRow(container: LinearLayout, cards: List<String>) {
+        val ctx = requireContext()
+        val density = resources.displayMetrics.density
+        container.removeAllViews()
+        cards.forEachIndexed { index, cardLabel ->
+            val isHidden = cardLabel == "??"
+            val isRed = cardLabel.contains("♥") || cardLabel.contains("♦")
+            val cardView = TextView(ctx).apply {
+                text = if (isHidden) "?" else cardLabel
+                gravity = Gravity.CENTER
+                typeface = Typeface.DEFAULT_BOLD
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                setTextColor(
+                    ContextCompat.getColor(
+                        ctx,
+                        when {
+                            isHidden -> R.color.hq_gold
+                            isRed -> R.color.hq_crimson
+                            else -> R.color.hq_text_primary
+                        }
+                    )
+                )
+                setBackgroundResource(
+                    if (isHidden) R.drawable.bg_stat_box else R.drawable.bg_card_raised
+                )
+                layoutParams = LinearLayout.LayoutParams(
+                    (46 * density).toInt(),
+                    (62 * density).toInt(),
+                ).apply {
+                    marginEnd = if (index < cards.size - 1) (8 * density).toInt() else 0
+                }
+            }
+            container.addView(cardView)
+        }
+    }
+
     private fun showFeedPickerSheet() {
         feedBottomSheet?.dismiss()
+        feedSheetAnimators.forEach { it.stop() }
+        feedSheetAnimators.clear()
+
         val ctx = requireContext()
         val sheet = BottomSheetDialog(ctx)
 
@@ -379,7 +593,6 @@ class PetFragment : Fragment() {
             setPadding(dp(20), dp(20), dp(20), dp(24))
         }
 
-        // Handle bar
         val handle = View(ctx).apply {
             layoutParams = LinearLayout.LayoutParams(dp(40), dp(4)).apply {
                 bottomMargin = dp(14)
@@ -388,17 +601,15 @@ class PetFragment : Fragment() {
         }
         container.addView(handle)
 
-        // Header title
         val tvTitle = TextView(ctx).apply {
             text = "🦴 Choose Treat for $petName"
             setTextColor(ContextCompat.getColor(ctx, R.color.hq_gold))
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 19f)
             gravity = Gravity.CENTER
-            typeface = android.graphics.Typeface.DEFAULT_BOLD
+            typeface = Typeface.DEFAULT_BOLD
         }
         container.addView(tvTitle)
 
-        // Subtitle
         val tvSub = TextView(ctx).apply {
             text = "🎒 Treats in Bag: $totalDishes · Boosts Companion Pet Affection ❤️"
             setTextColor(ContextCompat.getColor(ctx, R.color.hq_text_secondary))
@@ -438,18 +649,12 @@ class PetFragment : Fragment() {
                 val hp = if (item.hpRestore > 0) item.hpRestore else (cat?.hpRestore ?: 0)
                 val statSummary = if (hp > 0) "+$aff ❤️ · +$hp HP" else "+$aff ❤️ Affection"
 
-                val dishBtn = MaterialButton(ctx).apply {
-                    isAllCaps = false
-                    text = "$icon ${item.name} (x${item.quantity}) — $statSummary"
-                    setTextColor(ContextCompat.getColor(ctx, R.color.hq_text_primary))
-                    backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(ctx, R.color.hq_surface_high)
-                    )
-                    strokeColor = ColorStateList.valueOf(
-                        ContextCompat.getColor(ctx, R.color.hq_stroke_gold)
-                    )
-                    strokeWidth = dp(1)
-                    cornerRadius = dp(12)
+                val row = LinearLayout(ctx).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    gravity = Gravity.CENTER_VERTICAL
+                    setBackgroundResource(R.drawable.bg_card)
+                    val pad = dp(10)
+                    setPadding(pad, pad, pad, pad)
                     layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -461,11 +666,95 @@ class PetFragment : Fragment() {
                         viewModel.feedPet(item.itemId)
                     }
                 }
-                container.addView(dishBtn)
+
+                val iconBox = FrameLayout(ctx).apply {
+                    setBackgroundResource(R.drawable.bg_stat_box)
+                    layoutParams = LinearLayout.LayoutParams(dp(44), dp(44))
+                }
+                val spriteMeta = SpriteAnimator.resolveShopItemSprite(
+                    ctx,
+                    item.spriteRes ?: cat?.spriteRes,
+                    item.itemId,
+                )
+                if (spriteMeta != null) {
+                    val iv = ImageView(ctx).apply {
+                        scaleType = ImageView.ScaleType.FIT_CENTER
+                        layoutParams = FrameLayout.LayoutParams(dp(36), dp(36), Gravity.CENTER)
+                    }
+                    iconBox.addView(iv)
+                    feedSheetAnimators.add(
+                        SpriteAnimator.startHorizontalStripAnimation(
+                            imageView = iv,
+                            drawableRes = spriteMeta.drawableRes,
+                            cols = spriteMeta.cols,
+                            fps = 8,
+                            scaleFactor = 3,
+                        )
+                    )
+                } else {
+                    val tvEmoji = TextView(ctx).apply {
+                        text = icon
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+                        gravity = Gravity.CENTER
+                        layoutParams = FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            Gravity.CENTER,
+                        )
+                    }
+                    iconBox.addView(tvEmoji)
+                }
+                row.addView(iconBox)
+
+                val infoCol = LinearLayout(ctx).apply {
+                    orientation = LinearLayout.VERTICAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        1f,
+                    ).apply {
+                        marginStart = dp(10)
+                    }
+                }
+                val tvTreatName = TextView(ctx).apply {
+                    text = "${item.name} (x${item.quantity})"
+                    setTextColor(ContextCompat.getColor(ctx, R.color.hq_text_primary))
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                    typeface = Typeface.DEFAULT_BOLD
+                }
+                val tvTreatStat = TextView(ctx).apply {
+                    text = statSummary
+                    setTextColor(ContextCompat.getColor(ctx, R.color.hq_gold))
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                }
+                infoCol.addView(tvTreatName)
+                infoCol.addView(tvTreatStat)
+                row.addView(infoCol)
+
+                val btnFeedRow = MaterialButton(ctx).apply {
+                    isAllCaps = false
+                    text = "Feed"
+                    setTextColor(ContextCompat.getColor(ctx, R.color.hq_bg_deep))
+                    backgroundTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(ctx, R.color.hq_gold)
+                    )
+                    cornerRadius = dp(10)
+                    minHeight = dp(34)
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        dp(36),
+                    )
+                    setOnClickListener {
+                        sheet.dismiss()
+                        viewModel.feedPet(item.itemId)
+                    }
+                }
+                row.addView(btnFeedRow)
+
+                container.addView(row)
             }
         }
 
-        // Footer button 1: Quick Buy & Feed Crispy Spirit Bone
         val btnQuickSnack = MaterialButton(ctx).apply {
             isAllCaps = false
             text = "🦴 Quick Buy & Feed Crispy Spirit Bone (15 🪙 · +15 ❤️)"
@@ -487,7 +776,6 @@ class PetFragment : Fragment() {
         }
         container.addView(btnQuickSnack)
 
-        // Footer button 2: Visit Merchant Shop
         val btnVisitShop = MaterialButton(ctx).apply {
             isAllCaps = false
             text = "🛒 Visit Merchant Shop"
@@ -515,6 +803,10 @@ class PetFragment : Fragment() {
 
         rootScroll.addView(container)
         sheet.setContentView(rootScroll)
+        sheet.setOnDismissListener {
+            feedSheetAnimators.forEach { it.stop() }
+            feedSheetAnimators.clear()
+        }
         feedBottomSheet = sheet
         sheet.show()
     }
@@ -525,7 +817,6 @@ class PetFragment : Fragment() {
         val sheetBinding = SheetRpsGameBinding.inflate(layoutInflater)
         sheet.setContentView(sheetBinding.root)
 
-        // Single collector tied to the BottomSheetDialog lifecycle to prevent coroutine leaks
         val rpsCollectJob = viewLifecycleOwner.lifecycleScope.launch {
             viewModel.rpsResult.collect { result ->
                 renderRpsResult(sheetBinding, result)
@@ -534,6 +825,9 @@ class PetFragment : Fragment() {
 
         sheet.setOnDismissListener {
             rpsCollectJob.cancel()
+            if (rpsBottomSheet === sheet) {
+                rpsBottomSheet = null
+            }
         }
 
         fun onPick(choice: String) {
@@ -581,6 +875,7 @@ class PetFragment : Fragment() {
 
         when (result.outcome) {
             "win" -> {
+                appContainer.soundPlayer.play(if (result.coinsDropped > 0) Sfx.COIN else Sfx.CORRECT)
                 sheetBinding.tvRpsTitle.text = "VICTORY! 🎉"
                 sheetBinding.tvRpsTitle.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.hq_gold)
@@ -588,6 +883,7 @@ class PetFragment : Fragment() {
                 playPetActionReaction("🎉 好棒! You won! +${result.affectionGained.toInt()} ❤️", 2200L)
             }
             "tie" -> {
+                appContainer.soundPlayer.play(Sfx.CORRECT)
                 sheetBinding.tvRpsTitle.text = "DRAW! 🤝"
                 sheetBinding.tvRpsTitle.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.hq_text_primary)
@@ -595,6 +891,7 @@ class PetFragment : Fragment() {
                 playPetActionReaction("🤝 平局! Great minds think alike! +${result.affectionGained.toInt()} ❤️", 2200L)
             }
             else -> {
+                appContainer.soundPlayer.play(Sfx.WRONG)
                 sheetBinding.tvRpsTitle.text = "PET WON! 🐾"
                 sheetBinding.tvRpsTitle.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.hq_text_muted)
@@ -614,8 +911,14 @@ class PetFragment : Fragment() {
         isPlayingActionRow = false
         spriteAnimator?.stop()
         spriteAnimator = null
+        playPickerBottomSheet?.dismiss()
+        playPickerBottomSheet = null
+        blackjackBottomSheet?.dismiss()
+        blackjackBottomSheet = null
         rpsBottomSheet?.dismiss()
         rpsBottomSheet = null
+        feedSheetAnimators.forEach { it.stop() }
+        feedSheetAnimators.clear()
         feedBottomSheet?.dismiss()
         feedBottomSheet = null
         petAdapter = null

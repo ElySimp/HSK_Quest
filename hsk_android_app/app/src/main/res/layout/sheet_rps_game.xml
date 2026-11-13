@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="Play against your pet! Wins increase affection and can drop bonus coins."
+        android:text="Play against your pet! Wins boost affection (+10 ❤️) and drop 1–5 bonus coins."
         android:textSize="12sp" />
 
     <!-- 3 Choice Buttons -->

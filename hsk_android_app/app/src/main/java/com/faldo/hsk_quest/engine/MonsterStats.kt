@@ -28,7 +28,7 @@ object MonsterStats {
     private const val ELITE_DMG_MULT = 2.5
     private const val ELITE_REWARD_MULT = 2.5
 
-    private const val BOSS_HP_MULT = 7.0
+    private const val BOSS_HP_MULT = 4.5
     private const val BOSS_DMG_MULT = 4.2
     private const val BOSS_REWARD_MULT = 6.0
 
@@ -141,7 +141,7 @@ object MonsterStats {
             type = type,
             maxHp = (base.hp * hpMult * stepMult).toInt(),
             def = base.def,
-            dmg = (base.dmg * dmgMult * stepMult).toInt(),
+            dmg = maxOf(1, (base.dmg * dmgMult * stepMult * Constants.MONSTER_DAMAGE_NERF_MULTIPLIER).toInt()),
             xpReward = (base.xp * rewardMult * stepMult).toInt(),
             coinReward = (base.coins * rewardMult * stepMult).toInt(),
             variant = v,
