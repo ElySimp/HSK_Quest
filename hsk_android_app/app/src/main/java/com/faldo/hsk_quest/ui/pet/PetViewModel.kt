@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.faldo.hsk_quest.data.model.BlackjackSettleRequest
 import com.faldo.hsk_quest.data.model.BlackjackStateResponse
 import com.faldo.hsk_quest.data.model.InventoryItem
 import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.Player
 import com.faldo.hsk_quest.data.model.RpsResponse
+import com.faldo.hsk_quest.data.model.RpsSettleRequest
 import com.faldo.hsk_quest.data.model.ShopItem
 import com.faldo.hsk_quest.data.repository.PetRepository
 import com.faldo.hsk_quest.data.repository.PlayerRepository
@@ -22,11 +24,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import java.util.UUID
+import kotlin.random.Random
 
 /**
  * ViewModel for the Companion Pet Sanctuary, handling Tamagotchi care,
- * food inventory bag feeding, Rock-Paper-Scissors & Blackjack mini-games,
- * and rarity-sorted companion equipping.
+ * food inventory bag feeding, local-first Rock-Paper-Scissors & Blackjack mini-games
+ * with background verification, and rarity-sorted companion equipping.
  */
 class PetViewModel(
     private val petRepository: PetRepository,
@@ -52,10 +58,18 @@ class PetViewModel(
     )
     val isInitialHydrated: StateFlow<Boolean> = _isInitialHydrated.asStateFlow()
 
-    private val _foodBag = MutableStateFlow<List<InventoryItem>>(emptyList())
+    private val _foodBag = MutableStateFlow(
+        shopRepository.cachedInventory.orEmpty().filter {
+            it.quantity > 0 && (it.itemType == "pet_food" || it.affectionBoost > 0)
+        }
+    )
     val foodBag: StateFlow<List<InventoryItem>> = _foodBag.asStateFlow()
 
-    private val _foodCatalog = MutableStateFlow<List<ShopItem>>(emptyList())
+    private val _foodCatalog = MutableStateFlow(
+        shopRepository.cachedCatalog.orEmpty().filter {
+            it.category == "pet_food" || it.affectionBoost > 0
+        }
+    )
     val foodCatalog: StateFlow<List<ShopItem>> = _foodCatalog.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
@@ -76,6 +90,13 @@ class PetViewModel(
     private val _rpsResult = MutableSharedFlow<RpsResponse>()
     val rpsResult: SharedFlow<RpsResponse> = _rpsResult.asSharedFlow()
 
+    private val miniGameSettleMutex = Mutex()
+    private var pendingMiniGameSettles: Int = 0
+    private var activeBjRoundId: String? = null
+    private var localBjDeck: MutableList<String> = mutableListOf()
+    private var localBjPlayerCards: MutableList<String> = mutableListOf()
+    private var localBjDealerCards: MutableList<String> = mutableListOf()
+
     init {
         viewModelScope.launch {
             playerRepository.observeLocalPlayer().collect { localPlayer ->
@@ -88,7 +109,7 @@ class PetViewModel(
 
     fun loadPetData() {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isLoading.value = !_isInitialHydrated.value
             launch { refreshPlayerProfile() }
             launch { loadFoodBag() }
             when (val res = petRepository.getPets()) {
@@ -154,97 +175,355 @@ class PetViewModel(
     }
 
     fun playRps(choice: String) {
+        val pet = _activePet.value ?: run {
+            viewModelScope.launch {
+                _actionFeedback.emit("You must have an active pet equipped to play mini-games")
+            }
+            return
+        }
+        val playerChoice = choice.lowercase().trim()
+        val choices = listOf("rock", "paper", "scissors")
+        val petChoice = choices[Random.nextInt(choices.size)]
+        val winPairs = setOf("rock" to "scissors", "scissors" to "paper", "paper" to "rock")
+
+        val outcome: String
+        val affectionGained: Float
+        var coinsDropped = 0
+        var msg: String
+        when {
+            playerChoice == petChoice -> {
+                outcome = "tie"
+                affectionGained = 3f
+                msg = "It's a draw! Both chose $playerChoice. Your pet enjoyed playing!"
+            }
+            (playerChoice to petChoice) in winPairs -> {
+                outcome = "win"
+                affectionGained = 10f
+                if (Random.nextFloat() < 0.5f) {
+                    coinsDropped = Random.nextInt(1, 6)
+                }
+                msg = "Victory! Your $playerChoice beats $petChoice! Your pet is super happy!"
+            }
+            else -> {
+                outcome = "lose"
+                affectionGained = 1f
+                msg = "Your pet's $petChoice beats $playerChoice! Your pet looks proud!"
+            }
+        }
+        if (coinsDropped > 0) {
+            msg += " Found $coinsDropped coin${if (coinsDropped != 1) "s" else ""} on the floor!"
+        }
+
+        val newAffection = ((pet.affection + affectionGained).coerceIn(0f, 100f) * 10f).toInt() / 10f
+        val currentCoins = _player.value?.stats?.coins ?: playerRepository.cachedMemoryPlayer?.stats?.coins
+        val newCoins = currentCoins?.let { it + coinsDropped }
+        val roundId = UUID.randomUUID().toString().replace("-", "").take(24)
+
+        updateActiveAffectionState(newAffection)
+        petRepository.updateActivePetAffectionLocal(newAffection)
+
         viewModelScope.launch {
-            when (val res = petRepository.playRps(choice)) {
-                is Resource.Success -> {
-                    val response = res.data
-                    _rpsResult.emit(response)
-                    updateActiveAffectionState(response.currentAffection)
-                    val remaining = response.remainingCoins
-                    if (remaining != null) {
-                        playerRepository.applyLocalStatsPatch(coins = remaining)
-                    } else if (response.coinsDropped > 0) {
-                        val existingCoins = _player.value?.stats?.coins
-                        if (existingCoins != null) {
-                            playerRepository.applyLocalStatsPatch(coins = existingCoins + response.coinsDropped)
-                        } else {
-                            launch { refreshPlayerProfile() }
+            if (newCoins != null) {
+                playerRepository.applyLocalStatsPatch(coins = newCoins)
+                playerRepository.cachedMemoryPlayer?.let { _player.value = it }
+            }
+            _rpsResult.emit(
+                RpsResponse(
+                    playerChoice = playerChoice,
+                    petChoice = petChoice,
+                    outcome = outcome,
+                    affectionGained = affectionGained,
+                    currentAffection = newAffection,
+                    coinsDropped = coinsDropped,
+                    remainingCoins = newCoins,
+                    message = msg,
+                )
+            )
+
+            // Verify and settle the completed round once in a sequential background queue
+            pendingMiniGameSettles++
+            try {
+                miniGameSettleMutex.withLock {
+                    val res = petRepository.settleRps(
+                        RpsSettleRequest(
+                            roundId = roundId,
+                            playerChoice = playerChoice,
+                            petChoice = petChoice,
+                            outcome = outcome,
+                            coinsDropped = coinsDropped,
+                        )
+                    )
+                    if (res is Resource.Success && pendingMiniGameSettles <= 1) {
+                        updateActiveAffectionState(res.data.currentAffection)
+                        res.data.remainingCoins?.let {
+                            playerRepository.applyLocalStatsPatch(coins = it)
+                            playerRepository.cachedMemoryPlayer?.let { p -> _player.value = p }
                         }
+                    } else if (res is Resource.Error) {
+                        _actionFeedback.emit(res.message)
+                        refreshPlayerProfile()
                     }
                 }
-                is Resource.Error -> {
-                    _actionFeedback.emit(res.message)
-                }
-                Resource.Loading -> {}
+            } finally {
+                pendingMiniGameSettles = (pendingMiniGameSettles - 1).coerceAtLeast(0)
             }
         }
     }
 
     fun startBlackjack() {
-        if (_isBlackjackBusy.value) return
-        val coins = _player.value?.stats?.coins ?: 0
+        val pet = _activePet.value ?: run {
+            viewModelScope.launch {
+                _actionFeedback.emit("You must have an active pet equipped to play mini-games!")
+            }
+            return
+        }
+        val coins = _player.value?.stats?.coins ?: playerRepository.cachedMemoryPlayer?.stats?.coins ?: 0
         if (coins < 5) {
             viewModelScope.launch {
                 _actionFeedback.emit("Need 5 Coins to play Blackjack!")
             }
             return
         }
-        viewModelScope.launch {
-            _isBlackjackBusy.value = true
-            when (val res = petRepository.startBlackjack()) {
-                is Resource.Success -> applyBlackjackResponse(res.data)
-                is Resource.Error -> _actionFeedback.emit(res.message)
-                Resource.Loading -> {}
+
+        val deck = buildShuffledDeck()
+        val pCards = mutableListOf(deck.removeAt(deck.lastIndex), deck.removeAt(deck.lastIndex))
+        val dCards = mutableListOf(deck.removeAt(deck.lastIndex), deck.removeAt(deck.lastIndex))
+        val roundId = UUID.randomUUID().toString().replace("-", "").take(24)
+
+        localBjDeck = deck
+        localBjPlayerCards = pCards
+        localBjDealerCards = dCards
+        activeBjRoundId = roundId
+
+        val pScore = handScore(pCards)
+        if (pScore == 21) {
+            while (handScore(localBjDealerCards) < 17 && localBjDeck.isNotEmpty()) {
+                localBjDealerCards.add(localBjDeck.removeAt(localBjDeck.lastIndex))
             }
-            _isBlackjackBusy.value = false
+            viewModelScope.launch {
+                finishLocalBlackjack(roundId, pet, localBjPlayerCards.toList(), localBjDealerCards.toList())
+            }
+            return
         }
+
+        _blackjackState.value = BlackjackStateResponse(
+            gameToken = roundId,
+            status = "playing",
+            playerCards = pCards.toList(),
+            dealerCards = listOf(dCards[0], "??"),
+            playerScore = pScore,
+            dealerScore = handScore(listOf(dCards[0])),
+            betCoins = 5,
+            coinsDelta = -5,
+            remainingCoins = coins - 5,
+            affectionGained = 0f,
+            currentAffection = pet.affection,
+            message = "Your turn! Hit or Stand against ${pet.name}.",
+        )
     }
 
     fun hitBlackjack() {
         val current = _blackjackState.value ?: return
-        val token = current.gameToken ?: return
-        if (_isBlackjackBusy.value || current.status != "playing") return
-        viewModelScope.launch {
-            _isBlackjackBusy.value = true
-            when (val res = petRepository.hitBlackjack(token)) {
-                is Resource.Success -> applyBlackjackResponse(res.data)
-                is Resource.Error -> _actionFeedback.emit(res.message)
-                Resource.Loading -> {}
+        val roundId = activeBjRoundId ?: return
+        val pet = _activePet.value ?: return
+        if (current.status != "playing" || localBjDeck.isEmpty()) return
+
+        localBjPlayerCards.add(localBjDeck.removeAt(localBjDeck.lastIndex))
+        val pScore = handScore(localBjPlayerCards)
+        if (pScore > 21) {
+            viewModelScope.launch {
+                finishLocalBlackjack(roundId, pet, localBjPlayerCards.toList(), localBjDealerCards.toList())
             }
-            _isBlackjackBusy.value = false
+            return
         }
+        if (pScore == 21) {
+            while (handScore(localBjDealerCards) < 17 && localBjDeck.isNotEmpty()) {
+                localBjDealerCards.add(localBjDeck.removeAt(localBjDeck.lastIndex))
+            }
+            viewModelScope.launch {
+                finishLocalBlackjack(roundId, pet, localBjPlayerCards.toList(), localBjDealerCards.toList())
+            }
+            return
+        }
+
+        val currentCoins = _player.value?.stats?.coins ?: playerRepository.cachedMemoryPlayer?.stats?.coins ?: 5
+        _blackjackState.value = BlackjackStateResponse(
+            gameToken = roundId,
+            status = "playing",
+            playerCards = localBjPlayerCards.toList(),
+            dealerCards = listOf(localBjDealerCards[0], "??"),
+            playerScore = pScore,
+            dealerScore = handScore(listOf(localBjDealerCards[0])),
+            betCoins = 5,
+            coinsDelta = -5,
+            remainingCoins = (currentCoins - 5).coerceAtLeast(0),
+            affectionGained = 0f,
+            currentAffection = pet.affection,
+            message = "Drew a card! Hit again or Stand?",
+        )
     }
 
     fun standBlackjack() {
         val current = _blackjackState.value ?: return
-        val token = current.gameToken ?: return
-        if (_isBlackjackBusy.value || current.status != "playing") return
+        val roundId = activeBjRoundId ?: return
+        val pet = _activePet.value ?: return
+        if (current.status != "playing") return
+
+        while (handScore(localBjDealerCards) < 17 && localBjDeck.isNotEmpty()) {
+            localBjDealerCards.add(localBjDeck.removeAt(localBjDeck.lastIndex))
+        }
         viewModelScope.launch {
-            _isBlackjackBusy.value = true
-            when (val res = petRepository.standBlackjack(token)) {
-                is Resource.Success -> applyBlackjackResponse(res.data)
-                is Resource.Error -> _actionFeedback.emit(res.message)
-                Resource.Loading -> {}
-            }
-            _isBlackjackBusy.value = false
+            finishLocalBlackjack(roundId, pet, localBjPlayerCards.toList(), localBjDealerCards.toList())
         }
     }
 
     fun resetBlackjack() {
+        activeBjRoundId = null
+        localBjDeck.clear()
+        localBjPlayerCards.clear()
+        localBjDealerCards.clear()
         _blackjackState.value = null
     }
 
-    private suspend fun applyBlackjackResponse(state: BlackjackStateResponse) {
-        _blackjackState.value = state
-        playerRepository.applyLocalStatsPatch(coins = state.remainingCoins)
-        if (state.status != "playing") {
-            updateActiveAffectionState(state.currentAffection)
-            when (state.status) {
-                "player_win" -> _reactionEvent.emit("🃏 21! You beat your companion! +5 🪙 & +${state.affectionGained.toInt()} ❤️!")
-                "push" -> _reactionEvent.emit("🤝 Push! 5 🪙 refunded & +${state.affectionGained.toInt()} ❤️!")
-                "pet_win", "player_bust" -> _reactionEvent.emit("🐾 Companion takes the round! +${state.affectionGained.toInt()} ❤️")
+    private suspend fun finishLocalBlackjack(
+        roundId: String,
+        pet: PetItem,
+        playerCards: List<String>,
+        dealerCards: List<String>,
+    ) {
+        activeBjRoundId = null
+        localBjDeck.clear()
+
+        val pScore = handScore(playerCards)
+        val dScore = handScore(dealerCards)
+        val roundStatus: String
+        val coinsDelta: Int
+        val affectionGained: Float
+        val msg: String
+
+        when {
+            pScore > 21 -> {
+                roundStatus = "player_bust"
+                coinsDelta = -5
+                affectionGained = 1f
+                msg = "Bust ($pScore)! Lost 5 Coins. ${pet.name} cheered you on (+1 Affection)."
+            }
+            dScore > 21 || pScore > dScore -> {
+                roundStatus = "player_win"
+                coinsDelta = 5
+                affectionGained = 8f
+                msg = if (dScore <= 21) {
+                    "You win ($pScore vs $dScore)! +5 Coins & +8 Affection!"
+                } else {
+                    "${pet.name} busted ($dScore)! +5 Coins & +8 Affection!"
+                }
+            }
+            pScore == dScore -> {
+                roundStatus = "push"
+                coinsDelta = 0
+                affectionGained = 3f
+                msg = "Push ($pScore vs $dScore)! Your 5 Coins were returned (+3 Affection)."
+            }
+            else -> {
+                roundStatus = "pet_win"
+                coinsDelta = -5
+                affectionGained = 1f
+                msg = "${pet.name} wins ($dScore vs $pScore)! Lost 5 Coins (+1 Affection)."
             }
         }
+
+        val preBetCoins = _player.value?.stats?.coins ?: playerRepository.cachedMemoryPlayer?.stats?.coins ?: 5
+        val finalCoins = (preBetCoins + coinsDelta).coerceAtLeast(0)
+        val newAffection = ((pet.affection + affectionGained).coerceIn(0f, 100f) * 10f).toInt() / 10f
+
+        updateActiveAffectionState(newAffection)
+        petRepository.updateActivePetAffectionLocal(newAffection)
+        playerRepository.applyLocalStatsPatch(coins = finalCoins)
+        playerRepository.cachedMemoryPlayer?.let { _player.value = it }
+
+        _blackjackState.value = BlackjackStateResponse(
+            gameToken = null,
+            status = roundStatus,
+            playerCards = playerCards,
+            dealerCards = dealerCards,
+            playerScore = pScore,
+            dealerScore = dScore,
+            betCoins = 5,
+            coinsDelta = coinsDelta,
+            remainingCoins = finalCoins,
+            affectionGained = affectionGained,
+            currentAffection = newAffection,
+            message = msg,
+        )
+
+        when (roundStatus) {
+            "player_win" -> _reactionEvent.emit("🃏 21! You beat your companion! +5 🪙 & +${affectionGained.toInt()} ❤️!")
+            "push" -> _reactionEvent.emit("🤝 Push! 5 🪙 refunded & +${affectionGained.toInt()} ❤️!")
+            "pet_win", "player_bust" -> _reactionEvent.emit("🐾 Companion takes the round! +${affectionGained.toInt()} ❤️")
+        }
+
+        // Verify and persist completed hand once on backend
+        pendingMiniGameSettles++
+        try {
+            miniGameSettleMutex.withLock {
+                val res = petRepository.settleBlackjack(
+                    BlackjackSettleRequest(
+                        roundId = roundId,
+                        playerCards = playerCards,
+                        dealerCards = dealerCards,
+                        outcome = roundStatus,
+                    )
+                )
+                if (res is Resource.Success && pendingMiniGameSettles <= 1) {
+                    val settled = res.data
+                    if (activeBjRoundId == null && _blackjackState.value != null) {
+                        _blackjackState.value = settled
+                    }
+                    updateActiveAffectionState(settled.currentAffection)
+                    playerRepository.applyLocalStatsPatch(coins = settled.remainingCoins)
+                    playerRepository.cachedMemoryPlayer?.let { _player.value = it }
+                } else if (res is Resource.Error) {
+                    _actionFeedback.emit(res.message)
+                    refreshPlayerProfile()
+                }
+            }
+        } finally {
+            pendingMiniGameSettles = (pendingMiniGameSettles - 1).coerceAtLeast(0)
+        }
+    }
+
+    private fun buildShuffledDeck(): MutableList<String> {
+        val ranks = listOf("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K")
+        val suits = listOf("♠", "♥", "♦", "♣")
+        val deck = mutableListOf<String>()
+        for (rank in ranks) {
+            for (suit in suits) {
+                deck.add("$rank$suit")
+            }
+        }
+        deck.shuffle(Random)
+        return deck
+    }
+
+    private fun handScore(cards: List<String>): Int {
+        var total = 0
+        var aces = 0
+        for (card in cards) {
+            val rank = card.dropLast(1)
+            when (rank) {
+                "A" -> {
+                    aces++
+                    total += 11
+                }
+                "K", "Q", "J" -> total += 10
+                else -> total += rank.toIntOrNull() ?: 0
+            }
+        }
+        while (total > 21 && aces > 0) {
+            total -= 10
+            aces--
+        }
+        return total
     }
 
     private fun updateActiveAffectionState(newAffection: Float) {
@@ -281,6 +560,7 @@ class PetViewModel(
                                     null
                                 }
                             }
+                            shopRepository.decrementItemQuantityLocal(foodId)
                         }
                         foodId == "quick_snack" -> {
                             val currentCoins = _player.value?.stats?.coins

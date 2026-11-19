@@ -29,6 +29,7 @@ import com.faldo.hsk_quest.engine.PetBuffCatalog
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -153,7 +154,7 @@ class GachaFragment : Fragment() {
 
                 launch {
                     viewModel.feedbackMessage.collect { msg ->
-                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                        showHqToast(msg)
                     }
                 }
             }

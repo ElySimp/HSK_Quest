@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.faldo.hsk_quest.data.local.DictionaryEntry
+import com.faldo.hsk_quest.data.local.EngineSettingsManager
 import com.faldo.hsk_quest.data.local.HskJsonLoader
 import com.faldo.hsk_quest.data.local.TokenManager
 import com.faldo.hsk_quest.data.local.dao.VocabMasteryDao
@@ -26,13 +27,19 @@ import com.faldo.hsk_quest.engine.BattleEngine
 import com.faldo.hsk_quest.engine.BattleQuestion
 import com.faldo.hsk_quest.engine.DamageCalculator
 import com.faldo.hsk_quest.engine.HandwritingEngineRegistry
+import com.faldo.hsk_quest.engine.MandarinAudioFeatureExtractor
 import com.faldo.hsk_quest.engine.MonsterStats
 import com.faldo.hsk_quest.engine.PetBuffCatalog
 import com.faldo.hsk_quest.engine.PetBuffSpec
+import com.faldo.hsk_quest.engine.QuestionEngineMode
 import com.faldo.hsk_quest.engine.QuestionGenerator
+import com.faldo.hsk_quest.engine.ResolvedQuestionEngine
 import com.faldo.hsk_quest.engine.SpeechEvalResult
 import com.faldo.hsk_quest.engine.SpeechGrade
+import com.faldo.hsk_quest.engine.TfliteMandarinToneEvaluator
+import com.faldo.hsk_quest.engine.ToneEvaluationResult
 import com.faldo.hsk_quest.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -42,6 +49,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class OwnedPotion(
     val itemId: String,
@@ -76,13 +84,18 @@ class BattleViewModel(
     private val shopRepository: ShopRepository,
     private val vocabMasteryDao: VocabMasteryDao,
     private val tokenManager: TokenManager,
+    private val toneEvaluator: TfliteMandarinToneEvaluator? = null,
+    private val questionDeckManager: com.faldo.hsk_quest.engine.QuestionDeckManager? = null,
+    private val engineSettingsManager: EngineSettingsManager? = null,
 ) : ViewModel() {
 
     private var areaId: Int = 1
     private var monsterType: MonsterType = MonsterType.NORMAL
     private var monsterIndex: Int = 1
     private var terms: List<HskTerm> = emptyList()
+    private var levelClozeMap: Map<String, List<com.faldo.hsk_quest.data.local.ClozeJsonEntry>> = emptyMap()
     private var allDictionaryEntries: List<DictionaryEntry> = emptyList()
+    private var activeUsername: String = "guest"
 
     private var mistakeWeights: MutableMap<String, Int> = mutableMapOf()
     private val battleVocabDeltas: MutableMap<String, VocabDeltaDto> = mutableMapOf()
@@ -140,6 +153,12 @@ class BattleViewModel(
     private val _isSubmittingResult = MutableStateFlow(false)
     val isSubmittingResult: StateFlow<Boolean> = _isSubmittingResult.asStateFlow()
 
+    private val _activeQuestionEngine = MutableStateFlow(
+        engineSettingsManager?.resolveActiveEngine()
+            ?: ResolvedQuestionEngine.resolve(QuestionEngineMode.RULE_BASED, isMlModelReady = false)
+    )
+    val activeQuestionEngine: StateFlow<ResolvedQuestionEngine> = _activeQuestionEngine.asStateFlow()
+
     private var timerJob: Job? = null
     private var interQuestionJob: Job? = null
     private var questionStartTime: Long = 0L
@@ -151,10 +170,14 @@ class BattleViewModel(
         this.monsterIndex = monsterIndex
         battleVocabDeltas.clear()
         _activePet.value = petRepository.cachedActivePet
+        engineSettingsManager?.resolveActiveEngine()?.let { resolved ->
+            _activeQuestionEngine.value = resolved
+        }
 
         viewModelScope.launch {
-            // Load vocabulary for the selected stage first
+            // Load vocabulary and level-strict cloze sentences for the selected stage first
             terms = runCatching { hskJsonLoader.loadLevel(areaId) }.getOrDefault(emptyList())
+            levelClozeMap = runCatching { hskJsonLoader.loadClozeMap(areaId) }.getOrDefault(emptyMap())
             launch {
                 allDictionaryEntries = runCatching {
                     hskJsonLoader.loadDictionaryEntries(null)
@@ -163,6 +186,7 @@ class BattleViewModel(
 
             // Load adaptive mistake weights for this user and HSK level
             val username = tokenManager.getUsername() ?: "guest"
+            activeUsername = username
             allowSpeaking = !runCatching { tokenManager.isSpeakingMuted(username) }.getOrDefault(false)
             val masteryEntries = runCatching {
                 vocabMasteryDao.getForLevel(username, areaId)
@@ -213,42 +237,49 @@ class BattleViewModel(
     }
 
     private suspend fun refreshBattleInventory() {
+        shopRepository.cachedInventory?.let { applyBattlePotionsFromItems(it) }
         shopRepository.getInventory().onSuccess { items ->
-            val potions = items
-                .filter { it.quantity > 0 }
-                .mapNotNull { inv ->
-                    when (inv.itemId) {
-                        "minor_healing_potion", "salve_elixir" -> OwnedPotion(
-                            itemId = inv.itemId,
-                            name = "Minor Healing Potion (+25% HP)",
-                            healPct = 25,
-                            quantity = inv.quantity,
-                        )
-                        "healing_potion", "vitality_elixir" -> OwnedPotion(
-                            itemId = inv.itemId,
-                            name = "Healing Potion (+50% HP)",
-                            healPct = 50,
-                            quantity = inv.quantity,
-                        )
-                        "greater_healing_potion" -> OwnedPotion(
-                            itemId = inv.itemId,
-                            name = "Greater Healing Potion (+75% HP)",
-                            healPct = 75,
-                            quantity = inv.quantity,
-                        )
-                        "supreme_healing_potion" -> OwnedPotion(
-                            itemId = inv.itemId,
-                            name = "Supreme Healing Potion (+100% HP)",
-                            healPct = 100,
-                            quantity = inv.quantity,
-                        )
-                        else -> null
-                    }
-                }
-                .sortedBy { it.healPct }
-            _ownedPotions.value = potions
-            _elixirCount.value = potions.sumOf { it.quantity }
+            if (pendingPotionOps == 0) {
+                applyBattlePotionsFromItems(items)
+            }
         }
+    }
+
+    private fun applyBattlePotionsFromItems(items: List<com.faldo.hsk_quest.data.model.InventoryItem>) {
+        val potions = items
+            .filter { it.quantity > 0 }
+            .mapNotNull { inv ->
+                when (inv.itemId) {
+                    "minor_healing_potion", "salve_elixir" -> OwnedPotion(
+                        itemId = inv.itemId,
+                        name = "Minor Healing Potion (+25% HP)",
+                        healPct = 25,
+                        quantity = inv.quantity,
+                    )
+                    "healing_potion", "vitality_elixir" -> OwnedPotion(
+                        itemId = inv.itemId,
+                        name = "Healing Potion (+50% HP)",
+                        healPct = 50,
+                        quantity = inv.quantity,
+                    )
+                    "greater_healing_potion" -> OwnedPotion(
+                        itemId = inv.itemId,
+                        name = "Greater Healing Potion (+75% HP)",
+                        healPct = 75,
+                        quantity = inv.quantity,
+                    )
+                    "supreme_healing_potion" -> OwnedPotion(
+                        itemId = inv.itemId,
+                        name = "Supreme Healing Potion (+100% HP)",
+                        healPct = 100,
+                        quantity = inv.quantity,
+                    )
+                    else -> null
+                }
+            }
+            .sortedBy { it.healPct }
+        _ownedPotions.value = potions
+        _elixirCount.value = potions.sumOf { it.quantity }
     }
 
     private fun initializeBattleFromPlayerAndPet(
@@ -350,7 +381,12 @@ class BattleViewModel(
         }
     }
 
-    fun submitAnswer(selectedIndex: Int, customFeedback: String? = null) {
+    fun submitAnswer(
+        selectedIndex: Int,
+        customFeedback: String? = null,
+        forceCritical: Boolean? = null,
+        damageMultiplierOverride: Double? = null,
+    ) {
         val currentQ = _currentQuestion.value ?: return
         val current = _battleState.value ?: return
         if (current.isFinished) return
@@ -368,6 +404,12 @@ class BattleViewModel(
         if (!isCorrect) {
             mistakeWeights[term.simplified] = (mistakeWeights[term.simplified] ?: 0) + 1
         }
+        questionDeckManager?.recordOutcome(
+            username = activeUsername,
+            areaId = areaId,
+            hanzi = term.simplified,
+            isCorrect = isCorrect,
+        )
         val existingDelta = battleVocabDeltas[term.simplified] ?: VocabDeltaDto(
             hanzi = term.simplified,
             hskLevel = areaId,
@@ -412,6 +454,8 @@ class BattleViewModel(
             isUnderleveledBoss = isUnderleveledBoss,
             usedPinyinHint = _isPinyinHintActive.value,
             petBuff = activePetBuff,
+            forceCritical = forceCritical,
+            damageMultiplierOverride = damageMultiplierOverride,
         )
         _battleState.value = updated
         _answerFeedback.tryEmit(
@@ -460,6 +504,79 @@ class BattleViewModel(
         }
     }
 
+    fun shouldUseToneNetForCurrentQuestion(): Boolean {
+        val evaluator = toneEvaluator ?: return false
+        val q = _currentQuestion.value ?: return false
+        return q.type.isSpeaking && evaluator.isTermSupported(q.targetTerm.pinyin)
+    }
+
+    fun submitToneAudio(
+        wav16k: FloatArray,
+        onNoSpeechDetected: () -> Unit = {},
+        onFallbackRequired: () -> Unit = {},
+        onEvaluated: (ToneEvaluationResult) -> Unit = {},
+    ) {
+        val evaluator = toneEvaluator
+        val currentQ = _currentQuestion.value
+        val current = _battleState.value
+        if (evaluator == null || currentQ == null || current == null || current.isFinished) {
+            onFallbackRequired()
+            return
+        }
+
+        if (!MandarinAudioFeatureExtractor.hasAudibleSpeech(wav16k)) {
+            resumeTimerAfterSpeech()
+            onNoSpeechDetected()
+            return
+        }
+
+        viewModelScope.launch {
+            val eval = withContext(Dispatchers.Default) {
+                evaluator.evaluateAudio(
+                    wav16k = wav16k,
+                    targetPinyin = currentQ.targetTerm.pinyin,
+                    hanzi = currentQ.targetTerm.simplified,
+                )
+            }
+
+            val latestState = _battleState.value
+            if (latestState == null || latestState.isFinished || _currentQuestion.value !== currentQ) {
+                return@launch
+            }
+
+            if (eval == null) {
+                onFallbackRequired()
+                return@launch
+            }
+
+            onEvaluated(eval)
+            when (eval.grade) {
+                SpeechGrade.EXACT_MATCH -> {
+                    submitAnswer(
+                        selectedIndex = currentQ.correctIndex,
+                        customFeedback = eval.feedback,
+                        forceCritical = false,
+                        damageMultiplierOverride = evaluator.meta.exactDamagePct / 100.0,
+                    )
+                }
+                SpeechGrade.TONE_LENIENT_MATCH -> {
+                    submitAnswer(
+                        selectedIndex = currentQ.correctIndex,
+                        customFeedback = eval.feedback,
+                        forceCritical = false,
+                        damageMultiplierOverride = evaluator.meta.lenientDamagePct / 100.0,
+                    )
+                }
+                SpeechGrade.NO_MATCH -> {
+                    submitAnswer(
+                        selectedIndex = -1,
+                        customFeedback = eval.feedback,
+                    )
+                }
+            }
+        }
+    }
+
     fun submitSpeechResult(candidates: List<String>): SpeechEvalResult? {
         val currentQ = _currentQuestion.value ?: return null
         val current = _battleState.value ?: return null
@@ -473,14 +590,20 @@ class BattleViewModel(
 
         when (eval.grade) {
             SpeechGrade.EXACT_MATCH -> {
-                // Reward exact Mandarin pronunciation with Critical Hit timing
-                questionStartTime = System.currentTimeMillis() - 500L
-                submitAnswer(currentQ.correctIndex, customFeedback = eval.feedback)
+                submitAnswer(
+                    selectedIndex = currentQ.correctIndex,
+                    customFeedback = eval.feedback,
+                    forceCritical = false,
+                    damageMultiplierOverride = 1.2,
+                )
             }
             SpeechGrade.TONE_LENIENT_MATCH -> {
-                // Reward tone-lenient syllable match with standard hit damage
-                questionStartTime = System.currentTimeMillis() - 4_000L
-                submitAnswer(currentQ.correctIndex, customFeedback = eval.feedback)
+                submitAnswer(
+                    selectedIndex = currentQ.correctIndex,
+                    customFeedback = eval.feedback,
+                    forceCritical = false,
+                    damageMultiplierOverride = 0.5,
+                )
             }
             SpeechGrade.NO_MATCH -> {
                 submitAnswer(-1, customFeedback = eval.feedback)
@@ -652,6 +775,7 @@ class BattleViewModel(
         _ownedPotions.value = updatedList
         _elixirCount.value = updatedList.sumOf { it.quantity }
         _battleState.value = healedState
+        shopRepository.decrementItemQuantityLocal(itemId)
 
         pendingPotionOps++
         viewModelScope.launch {
@@ -751,6 +875,12 @@ class BattleViewModel(
             monsterType = monsterType,
             mistakeWeights = mistakeWeights,
             allowSpeaking = allowSpeaking,
+            toneEvaluator = toneEvaluator,
+            deckManager = questionDeckManager,
+            username = activeUsername,
+            areaId = areaId,
+            levelClozeMap = levelClozeMap,
+            engineMode = _activeQuestionEngine.value.effectiveMode,
         ) ?: return
         _currentQuestion.value = q
 
@@ -898,6 +1028,9 @@ class BattleViewModel(
             shopRepository: ShopRepository,
             vocabMasteryDao: VocabMasteryDao,
             tokenManager: TokenManager,
+            toneEvaluator: TfliteMandarinToneEvaluator? = null,
+            questionDeckManager: com.faldo.hsk_quest.engine.QuestionDeckManager? = null,
+            engineSettingsManager: EngineSettingsManager? = null,
         ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 BattleViewModel(
@@ -909,6 +1042,9 @@ class BattleViewModel(
                     shopRepository,
                     vocabMasteryDao,
                     tokenManager,
+                    toneEvaluator,
+                    questionDeckManager,
+                    engineSettingsManager,
                 )
             }
         }

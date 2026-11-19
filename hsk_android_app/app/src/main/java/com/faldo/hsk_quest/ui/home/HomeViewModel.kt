@@ -60,7 +60,7 @@ class HomeViewModel(
     )
     val petState: StateFlow<PetState> = _petState.asStateFlow()
 
-    private val _inventoryItems = MutableStateFlow<List<InventoryItem>>(emptyList())
+    private val _inventoryItems = MutableStateFlow<List<InventoryItem>>(shopRepository.cachedInventory.orEmpty())
     val inventoryItems: StateFlow<List<InventoryItem>> = _inventoryItems.asStateFlow()
 
     private val _homeMessage = MutableSharedFlow<String>()
@@ -72,6 +72,13 @@ class HomeViewModel(
                 if (localPlayer != null) {
                     val wasCached = (_state.value as? UiState.Loaded)?.isCached ?: false
                     _state.value = UiState.Loaded(localPlayer, isCached = wasCached)
+                }
+            }
+        }
+        viewModelScope.launch {
+            shopRepository.inventoryFlow.collect { cachedBag ->
+                if (pendingUseOps == 0) {
+                    _inventoryItems.value = cachedBag
                 }
             }
         }
@@ -87,6 +94,9 @@ class HomeViewModel(
         }
         if (petRepository.hasLoadedActivePet) {
             _petState.value = PetState.Loaded(petRepository.cachedActivePet)
+        }
+        if (pendingUseOps == 0) {
+            shopRepository.cachedInventory?.let { _inventoryItems.value = it }
         }
 
         // 1. Fetch player profile silently if already hydrated from Room
@@ -169,13 +179,15 @@ class HomeViewModel(
             }
 
             // Optimistic UI & local Room update for 0ms perceived latency
-            _inventoryItems.value = prevInventory.mapNotNull {
+            val nextBag = prevInventory.mapNotNull {
                 when {
                     it.itemId != item.itemId -> it
                     it.quantity > 1 -> it.copy(quantity = it.quantity - 1)
                     else -> null
                 }
             }
+            _inventoryItems.value = nextBag
+            shopRepository.updateInventoryCache(nextBag)
             if (currentPlayer != null && currentStats != null) {
                 val optimisticPlayer = currentPlayer.copy(
                     stats = currentStats.copy(
@@ -212,17 +224,20 @@ class HomeViewModel(
                             )
                         }
                         playerRepository.applyLocalStatsPatch(hp = resp.currentHp, maxHp = resp.maxHp)
-                        _inventoryItems.value = if (resp.remainingQuantity <= 0) {
+                        val settledBag = if (resp.remainingQuantity <= 0) {
                             _inventoryItems.value.filterNot { it.itemId == item.itemId }
                         } else {
                             _inventoryItems.value.map {
                                 if (it.itemId == item.itemId) it.copy(quantity = resp.remainingQuantity) else it
                             }
                         }
+                        _inventoryItems.value = settledBag
+                        shopRepository.updateInventoryCache(settledBag)
                     }
                 }.onFailure { err ->
                     // Rollback local state on rejection/failure
                     _inventoryItems.value = prevInventory
+                    shopRepository.updateInventoryCache(prevInventory)
                     if (currentPlayer != null && currentStats != null) {
                         _state.value = UiState.Loaded(currentPlayer, isCached = currentLoaded.isCached)
                         playerRepository.applyLocalStatsPatch(hp = currentStats.hp, maxHp = currentStats.maxHp)

@@ -16,11 +16,20 @@ class GachaRepository(
     private val api: ApiService,
 ) {
 
+    @Volatile
+    var cachedRates: GachaRatesResponse? = null
+
+    fun clearMemoryCache() {
+        cachedRates = null
+    }
+
     suspend fun getRates(): Resource<GachaRatesResponse> = withContext(Dispatchers.IO) {
         try {
             val response = api.getGachaRates()
             if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!)
+                val body = response.body()!!
+                cachedRates = body
+                Resource.Success(body)
             } else {
                 Resource.Error(ApiErrorParser.parse(response))
             }

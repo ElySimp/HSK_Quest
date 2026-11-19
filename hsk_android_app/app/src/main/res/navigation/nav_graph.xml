@@ -161,7 +161,15 @@
         android:id="@+id/characterFragment"
         android:name="com.faldo.hsk_quest.ui.character.CharacterFragment"
         android:label="@string/nav_character"
-        tools:layout="@layout/fragment_character" />
+        tools:layout="@layout/fragment_character">
+        <action
+            android:id="@+id/action_character_to_settings"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/screen_enter"
+            app:exitAnim="@anim/screen_exit"
+            app:popEnterAnim="@anim/screen_pop_enter"
+            app:popExitAnim="@anim/screen_pop_exit" />
+    </fragment>
 
     <fragment
         android:id="@+id/questFragment"
@@ -212,4 +220,10 @@
         android:name="com.faldo.hsk_quest.ui.ocr.CameraOcrFragment"
         android:label="Live Hanzi Camera OCR"
         tools:layout="@layout/fragment_camera_ocr" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.faldo.hsk_quest.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

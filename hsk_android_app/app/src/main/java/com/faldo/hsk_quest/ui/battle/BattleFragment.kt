@@ -45,6 +45,7 @@ import com.faldo.hsk_quest.engine.QuestionType
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -71,6 +72,9 @@ class BattleFragment : Fragment() {
             appContainer.shopRepository,
             appContainer.vocabMasteryDao,
             appContainer.tokenManager,
+            appContainer.mandarinToneEvaluator,
+            appContainer.questionDeckManager,
+            appContainer.engineSettingsManager,
         )
     }
 
@@ -90,6 +94,8 @@ class BattleFragment : Fragment() {
     private var isTtsReady: Boolean = false
     private var pendingTtsText: String? = null
     private var speechRecognizer: SpeechRecognizer? = null
+    private val pcmAudioRecorder = Pcm16kAudioRecorder()
+    private var isToneEvaluating: Boolean = false
 
     private var currentQuestion: BattleQuestion? = null
     private var isAnswerLocked: Boolean = false
@@ -98,13 +104,9 @@ class BattleFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
-            startListeningWithSpeechRecognizer()
+            startSpeakingCapture()
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Microphone permission declined. Switched to Listening mode.",
-                Toast.LENGTH_SHORT,
-            ).show()
+            showHqToast("Microphone permission declined. Switched to Listening mode.")
             viewModel.disableSpeakingForBattle()
         }
     }
@@ -417,19 +419,19 @@ class BattleFragment : Fragment() {
         }
 
         binding.btnCantSpeak.setOnClickListener {
-            stopSpeechRecognizer()
+            stopSpeechCapture()
             viewModel.skipSpeakingFor15Minutes()
         }
 
         binding.btnSpeakMandarin.setOnClickListener {
-            if (isAnswerLocked) return@setOnClickListener
+            if (isAnswerLocked || isToneEvaluating) return@setOnClickListener
             val hasPermission = ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.RECORD_AUDIO,
             ) == PackageManager.PERMISSION_GRANTED
 
             if (hasPermission) {
-                startListeningWithSpeechRecognizer()
+                startSpeakingCapture()
             } else {
                 audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             }
@@ -438,7 +440,7 @@ class BattleFragment : Fragment() {
 
     private fun openBattleInventoryPanel() {
         didDrinkInBagSession = false
-        stopSpeechRecognizer()
+        stopSpeechCapture()
         viewModel.pauseTimerForSpeech()
         binding.layoutBattleInventoryPanel.visibility = View.VISIBLE
         renderBattleInventoryItems(viewModel.ownedPotions.value)
@@ -566,13 +568,90 @@ class BattleFragment : Fragment() {
         }
     }
 
+    private fun startSpeakingCapture() {
+        if (pcmAudioRecorder.isRecording) {
+            pcmAudioRecorder.stop()
+            return
+        }
+        if (viewModel.shouldUseToneNetForCurrentQuestion()) {
+            startToneNetRecording()
+        } else {
+            startListeningWithSpeechRecognizer()
+        }
+    }
+
+    private fun startToneNetRecording() {
+        val question = currentQuestion ?: return
+        stopSpeechCapture()
+        viewModel.pauseTimerForSpeech()
+
+        binding.btnSpeakMandarin.text = "⏹️ Tap to Stop (Listening...)"
+        binding.btnSpeakMandarin.isEnabled = true
+        binding.tvSpeechFeedback.visibility = View.VISIBLE
+        binding.tvSpeechFeedback.setTextColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
+        binding.tvSpeechFeedback.text =
+            "🎙️ Speak '${question.targetTerm.simplified}' clearly now (ToneNet listening)..."
+
+        pcmAudioRecorder.start(object : Pcm16kAudioRecorder.Listener {
+            override fun onRecordingStarted() {
+                val b = _binding ?: return
+                b.btnSpeakMandarin.text = "⏹️ Tap to Stop (Listening...)"
+            }
+
+            override fun onAmplitude(rmsNormalized: Float) {
+                // Keep UI steady while recording without layout jitter
+            }
+
+            override fun onRecordingCompleted(samples: FloatArray) {
+                val b = _binding ?: return
+                isToneEvaluating = true
+                b.btnSpeakMandarin.text = "⏳ Analyzing tones..."
+                b.btnSpeakMandarin.isEnabled = false
+
+                viewModel.submitToneAudio(
+                    wav16k = samples,
+                    onNoSpeechDetected = {
+                        isToneEvaluating = false
+                        val innerBinding = _binding ?: return@submitToneAudio
+                        innerBinding.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
+                        innerBinding.btnSpeakMandarin.isEnabled = true
+                        innerBinding.tvSpeechFeedback.visibility = View.VISIBLE
+                        innerBinding.tvSpeechFeedback.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.hq_gold)
+                        )
+                        innerBinding.tvSpeechFeedback.text =
+                            "⚠️ Mic didn't catch clear speech. Tap to try again or 'Can't Speak Now' to skip."
+                    },
+                    onFallbackRequired = {
+                        isToneEvaluating = false
+                        if (_binding != null && !isAnswerLocked) {
+                            startListeningWithSpeechRecognizer()
+                        }
+                    },
+                    onEvaluated = { eval ->
+                        isToneEvaluating = false
+                        isAnswerLocked = true
+                        val innerBinding = _binding ?: return@submitToneAudio
+                        innerBinding.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
+                        innerBinding.btnSpeakMandarin.isEnabled = false
+                        innerBinding.tvSpeechFeedback.visibility = View.VISIBLE
+                        innerBinding.tvSpeechFeedback.text = eval.feedback
+                    },
+                )
+            }
+
+            override fun onRecordingError(message: String) {
+                isToneEvaluating = false
+                if (_binding != null && !isAnswerLocked) {
+                    startListeningWithSpeechRecognizer()
+                }
+            }
+        })
+    }
+
     private fun startListeningWithSpeechRecognizer() {
         if (!SpeechRecognizer.isRecognitionAvailable(requireContext())) {
-            Toast.makeText(
-                requireContext(),
-                "Speech recognition unavailable on this device. Switched to Listening mode.",
-                Toast.LENGTH_SHORT,
-            ).show()
+            showHqToast("Speech recognition unavailable on this device. Switched to Listening mode.")
             viewModel.disableSpeakingForBattle()
             return
         }
@@ -638,6 +717,12 @@ class BattleFragment : Fragment() {
         }
     }
 
+    private fun stopSpeechCapture() {
+        isToneEvaluating = false
+        pcmAudioRecorder.cancel()
+        stopSpeechRecognizer()
+    }
+
     private fun stopSpeechRecognizer() {
         runCatching {
             speechRecognizer?.stopListening()
@@ -671,18 +756,66 @@ class BattleFragment : Fragment() {
         viewModel.submitAnswer(selectedIndex)
     }
 
+    private var fleeDialog: androidx.appcompat.app.AlertDialog? = null
+
+    private fun showFleeConfirmDialog() {
+        val ctx = context ?: return
+        if (fleeDialog?.isShowing == true) return
+        val dialog = MaterialAlertDialogBuilder(ctx)
+            .setTitle("Flee Battle?")
+            .setMessage("Are you sure you want to retreat? You will forfeit rewards but protect your coins and pet affection.")
+            .setPositiveButton("Flee") { _, _ ->
+                stopSpeechRecognizer()
+                viewModel.flee()
+            }
+            .setNegativeButton("Keep Fighting", null)
+            .create()
+        dialog.setOnDismissListener {
+            if (fleeDialog === dialog) {
+                fleeDialog = null
+            }
+        }
+        fleeDialog = dialog
+        dialog.show()
+    }
+
     private fun setupFleeButton() {
         binding.btnFlee.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Flee Battle?")
-                .setMessage("Are you sure you want to retreat? You will forfeit rewards but protect your coins and pet affection.")
-                .setPositiveButton("Flee") { _, _ ->
-                    stopSpeechRecognizer()
-                    viewModel.flee()
-                }
-                .setNegativeButton("Keep Fighting", null)
-                .show()
+            showFleeConfirmDialog()
         }
+
+        // Ensure dialog is dismissed cleanly if the view is destroyed while open
+        viewLifecycleOwner.lifecycle.addObserver(
+            androidx.lifecycle.LifecycleEventObserver { _, event ->
+                if (event == androidx.lifecycle.Lifecycle.Event.ON_DESTROY) {
+                    fleeDialog?.dismiss()
+                    fleeDialog = null
+                }
+            },
+        )
+
+        // Intercept system Back press so retreating submits damage/HP instead of resetting HP
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : androidx.activity.OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val b = _binding ?: return
+                    if (b.layoutBattleInventoryPanel.visibility == View.VISIBLE) {
+                        bagPotionAnimators.forEach { it.stop() }
+                        bagPotionAnimators.clear()
+                        b.layoutBattleInventoryPanel.visibility = View.GONE
+                        if (!isAnswerLocked && !isLoadingOverlayActive) {
+                            viewModel.resumeTimerAfterSpeech()
+                        }
+                        return
+                    }
+                    if (isLoadingOverlayActive || isShowingSubmissionOverlay || resultBottomSheet?.isShowing == true) {
+                        return
+                    }
+                    showFleeConfirmDialog()
+                }
+            },
+        )
     }
 
     private var isShowingSubmissionOverlay: Boolean = false
@@ -754,7 +887,7 @@ class BattleFragment : Fragment() {
 
                 launch {
                     viewModel.battleToast.collect { msg ->
-                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                        showHqToast(msg)
                     }
                 }
 
@@ -776,6 +909,7 @@ class BattleFragment : Fragment() {
 
     private fun resetUiBeforeQuestion(question: BattleQuestion) {
         val b = _binding ?: return
+        stopSpeechCapture()
         isAnswerLocked = false
         b.progressTimer.visibility = View.VISIBLE
         b.progressTimer.setIndicatorColor(ContextCompat.getColor(requireContext(), R.color.hq_gold))
@@ -1155,8 +1289,12 @@ class BattleFragment : Fragment() {
             binding.layoutSpeakingActions.visibility = View.VISIBLE
             binding.btnSpeakMandarin.text = "🎙️ Tap to Speak Mandarin"
             binding.btnSpeakMandarin.isEnabled = true
-            binding.tvSpeechFeedback.text =
+            binding.tvSpeechFeedback.visibility = View.VISIBLE
+            binding.tvSpeechFeedback.text = if (viewModel.shouldUseToneNetForCurrentQuestion()) {
+                "🎙️ Tap 'Tap to Speak Mandarin' and pronounce ${question.targetTerm.simplified} with clear tones"
+            } else {
                 "🎙️ Tap 'Tap to Speak Mandarin' below and pronounce ${question.targetTerm.simplified} aloud"
+            }
         } else if (question.type.isWriting) {
             optionViews.forEach { it.visibility = View.GONE }
             binding.layoutSpeakingActions.visibility = View.GONE
@@ -1531,7 +1669,7 @@ class BattleFragment : Fragment() {
         super.onDestroyView()
         loadingDismissRunnable?.let { _binding?.layoutBattleLoading?.removeCallbacks(it) }
         loadingDismissRunnable = null
-        stopSpeechRecognizer()
+        stopSpeechCapture()
         tts?.stop()
         tts?.shutdown()
         tts = null

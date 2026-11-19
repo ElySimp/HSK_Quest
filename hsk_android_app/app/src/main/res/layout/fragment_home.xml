@@ -55,9 +55,12 @@
                         style="@style/HqText.PixelStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/hq_sky"
-                        android:textSize="17sp"
+                        android:textSize="16sp"
                         tools:text="100" />
                 </LinearLayout>
 
@@ -70,7 +73,7 @@
                     android:background="@drawable/bg_stat_box"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:paddingHorizontal="8dp">
 
                     <ImageView
                         android:id="@+id/iv_currency_coin"
@@ -84,9 +87,12 @@
                         style="@style/HqText.PixelStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/hq_gold"
-                        android:textSize="17sp"
+                        android:textSize="16sp"
                         tools:text="350" />
                 </LinearLayout>
 
@@ -99,7 +105,7 @@
                     android:background="@drawable/bg_stat_box"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:paddingHorizontal="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -112,9 +118,12 @@
                         style="@style/HqText.PixelStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/hq_crimson"
-                        android:textSize="17sp"
+                        android:textSize="16sp"
                         tools:text="100/100" />
                 </LinearLayout>
             </LinearLayout>

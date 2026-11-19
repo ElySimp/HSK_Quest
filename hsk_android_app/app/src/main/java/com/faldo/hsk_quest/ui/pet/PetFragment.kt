@@ -30,12 +30,14 @@ import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.RpsResponse
 import com.faldo.hsk_quest.databinding.FragmentPetBinding
 import com.faldo.hsk_quest.databinding.SheetBlackjackGameBinding
+import com.faldo.hsk_quest.databinding.SheetPetInventoryBinding
 import com.faldo.hsk_quest.databinding.SheetPlayPickerBinding
 import com.faldo.hsk_quest.databinding.SheetRpsGameBinding
 import com.faldo.hsk_quest.engine.PetBuffCatalog
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Job
@@ -46,7 +48,7 @@ import kotlinx.coroutines.launch
  * Companion Pet Sanctuary.
  * Handles Tamagotchi care, multi-frame sprite looping, tap-to-pet reactions,
  * food inventory bag feeding, Rock-Paper-Scissors & Blackjack mini-games,
- * and rarity-sorted companion equipping.
+ * and a rarity-sorted Pet Inventory overlay.
  */
 class PetFragment : Fragment() {
 
@@ -61,7 +63,9 @@ class PetFragment : Fragment() {
         )
     }
 
-    private var petAdapter: PetAdapter? = null
+    private var inventorySheetAdapter: PetAdapter? = null
+    private var inventorySheetCountView: TextView? = null
+    private var petInventoryBottomSheet: BottomSheetDialog? = null
     private var spriteAnimator: SpriteAnimator? = null
     private var playPickerBottomSheet: BottomSheetDialog? = null
     private var rpsBottomSheet: BottomSheetDialog? = null
@@ -92,7 +96,6 @@ class PetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
         setupButtons()
         observeViewModel()
         (activity as? MainActivity)?.attachScrollListener(binding.petRoot)
@@ -103,14 +106,6 @@ class PetFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.loadPetData()
-    }
-
-    private fun setupRecyclerView() {
-        petAdapter = PetAdapter { selectedPet ->
-            viewModel.equipPet(selectedPet.id)
-        }
-        binding.rvPetCollection.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvPetCollection.adapter = petAdapter
     }
 
     private fun setupButtons() {
@@ -147,6 +142,14 @@ class PetFragment : Fragment() {
         binding.btnFeedPet.setOnClickListener {
             showFeedPickerSheet()
         }
+
+        binding.cardPetInventory.setOnClickListener {
+            showPetInventorySheet()
+        }
+
+        binding.btnOpenPetInventory.setOnClickListener {
+            showPetInventorySheet()
+        }
     }
 
     private fun observeViewModel() {
@@ -166,10 +169,17 @@ class PetFragment : Fragment() {
 
                 launch {
                     viewModel.petList.collect { list ->
-                        petAdapter?.submitList(list)
                         val count = list.size
-                        binding.tvRosterCount.text =
-                            "$count Spirit${if (count == 1) "" else "s"} · Rarity"
+                        val countLabel = "$count Spirit${if (count == 1) "" else "s"}"
+                        binding.tvRosterCount.text = countLabel
+                        val topPet = list.firstOrNull()
+                        binding.tvInventorySummary.text = if (topPet != null) {
+                            "Highest rarity: ${topPet.rarity.replaceFirstChar { it.uppercase() }} (${topPet.name}) · Tap to equip."
+                        } else {
+                            "View all owned companions sorted by rarity and swap active buffs."
+                        }
+                        inventorySheetAdapter?.submitList(list)
+                        inventorySheetCountView?.text = countLabel
                     }
                 }
 
@@ -191,7 +201,7 @@ class PetFragment : Fragment() {
                             binding.tvFoodBagSubtitle.text =
                                 "🎮 RPS or Blackjack · 🎒 Bag: $totalDishes treat(s) ready!"
                         } else {
-                            binding.btnFeedPet.text = "🦴 Feed Companion"
+                            binding.btnFeedPet.text = "🦴 Feed"
                             binding.tvFoodBagSubtitle.text =
                                 "🎮 RPS or Blackjack · 🎒 Bag: 0 treats (Quick-buy bone 15 🪙)"
                         }
@@ -207,7 +217,7 @@ class PetFragment : Fragment() {
 
                 launch {
                     viewModel.actionFeedback.collect { message ->
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        showHqToast(message)
                     }
                 }
             }
@@ -904,6 +914,51 @@ class PetFragment : Fragment() {
         sheetBinding.btnCloseRps.text = "Close"
     }
 
+    private fun showPetInventorySheet() {
+        petInventoryBottomSheet?.dismiss()
+        val sheet = BottomSheetDialog(requireContext())
+        val sheetBinding = SheetPetInventoryBinding.inflate(layoutInflater)
+        sheet.setContentView(sheetBinding.root)
+
+        val adapter = PetAdapter { selectedPet ->
+            viewModel.equipPet(selectedPet.id)
+            sheet.dismiss()
+        }
+        sheetBinding.rvInventoryPets.layoutManager = GridLayoutManager(requireContext(), 2)
+        sheetBinding.rvInventoryPets.adapter = adapter
+
+        val currentPets = viewModel.petList.value
+        val count = currentPets.size
+        val countLabel = "$count Spirit${if (count == 1) "" else "s"}"
+        sheetBinding.tvSheetInventoryCount.text = countLabel
+        sheetBinding.tvSheetInventoryEmpty.visibility =
+            if (currentPets.isEmpty()) View.VISIBLE else View.GONE
+        sheetBinding.rvInventoryPets.visibility =
+            if (currentPets.isEmpty()) View.GONE else View.VISIBLE
+        adapter.submitList(currentPets)
+
+        inventorySheetAdapter = adapter
+        inventorySheetCountView = sheetBinding.tvSheetInventoryCount
+
+        sheetBinding.btnClosePetInventory.setOnClickListener {
+            sheet.dismiss()
+        }
+        sheet.setOnDismissListener {
+            if (inventorySheetAdapter === adapter) {
+                inventorySheetAdapter = null
+            }
+            if (inventorySheetCountView === sheetBinding.tvSheetInventoryCount) {
+                inventorySheetCountView = null
+            }
+            if (petInventoryBottomSheet === sheet) {
+                petInventoryBottomSheet = null
+            }
+        }
+
+        petInventoryBottomSheet = sheet
+        sheet.show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         actionAnimJob?.cancel()
@@ -911,6 +966,10 @@ class PetFragment : Fragment() {
         isPlayingActionRow = false
         spriteAnimator?.stop()
         spriteAnimator = null
+        petInventoryBottomSheet?.dismiss()
+        petInventoryBottomSheet = null
+        inventorySheetAdapter = null
+        inventorySheetCountView = null
         playPickerBottomSheet?.dismiss()
         playPickerBottomSheet = null
         blackjackBottomSheet?.dismiss()
@@ -921,7 +980,6 @@ class PetFragment : Fragment() {
         feedSheetAnimators.clear()
         feedBottomSheet?.dismiss()
         feedBottomSheet = null
-        petAdapter = null
         _binding = null
     }
 }

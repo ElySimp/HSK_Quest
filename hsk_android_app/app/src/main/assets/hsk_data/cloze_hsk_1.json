@@ -1,0 +1,1812 @@
+{
+  "level": 1,
+  "totalEntries": 301,
+  "entries": [
+    {
+      "target": "的",
+      "sentence": "这是我新买 [ ___ ] 汉语书。",
+      "pinyin": "Zhè shì wǒ xīn mǎi [ ___ ] Hànyǔ shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "了",
+      "sentence": "我昨天去商店买 [ ___ ] 两个苹果。",
+      "pinyin": "Wǒ zuótiān qù shāngdiàn mǎi [ ___ ] liǎng gè píngguǒ.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "在",
+      "sentence": "我的朋友 [ ___ ] 学校看书。",
+      "pinyin": "Wǒ de péngyou [ ___ ] xuéxiào kànshū.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "是",
+      "sentence": "这本新书 [ ___ ] 我朋友的。",
+      "pinyin": "Zhè běn xīn shū [ ___ ] wǒ péngyou de.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "我",
+      "sentence": "妈妈和爸爸都很爱 [ ___ ]。",
+      "pinyin": "Māma hé bàba dōu hěn ài [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "和",
+      "sentence": "妈妈 [ ___ ] 爸爸都很高兴。",
+      "pinyin": "Māma [ ___ ] bàba dōu hěn gāoxìng.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "有",
+      "sentence": "今天我 [ ___ ] 一点事，不能回家。",
+      "pinyin": "Jīntiān wǒ [ ___ ] yìdiǎn shì, bù néng huí jiā.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "你",
+      "sentence": "老师和同学们都很喜欢 [ ___ ]。",
+      "pinyin": "Lǎoshī hé tóngxuémen dōu hěn xǐhuan [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "个",
+      "sentence": "我家有四 [ ___ ] 人。",
+      "pinyin": "Wǒ jiā yǒu sì [ ___ ] rén.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "也",
+      "sentence": "爸爸喜欢喝茶，妈妈 [ ___ ] 喜欢喝茶。",
+      "pinyin": "Bàba xǐhuan hē chá, māma [ ___ ] xǐhuan hē chá.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "这",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "不",
+      "sentence": "明天上午我 [ ___ ] 去学校。",
+      "pinyin": "Míngtiān shàngwǔ wǒ [ ___ ] qù xuéxiào.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "他",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "上",
+      "sentence": "桌子 [ ___ ] 有三本新书。",
+      "pinyin": "Zhuōzi [ ___ ] yǒu sān běn xīn shū.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "人",
+      "sentence": "昨天下午家里来了两个 [ ___ ]。",
+      "pinyin": "Zuótiān xiàwǔ jiālǐ lái le liǎng gè [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "年",
+      "sentence": "这是我今 [ ___ ] 买的新书。",
+      "pinyin": "Zhè shì wǒ jīn [ ___ ] mǎi de xīn shū.",
+      "slot": "TIME"
+    },
+    {
+      "target": "对",
+      "sentence": "你今天说的很 [ ___ ]。",
+      "pinyin": "Nǐ jīntiān shuō de hěn [ ___ ].",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "说",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "都",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "要",
+      "sentence": "明天上午我 [ ___ ] 去学校学汉语。",
+      "pinyin": "Míngtiān shàngwǔ wǒ [ ___ ] qù xuéxiào xué Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "到",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "日",
+      "sentence": "今天是几月几 [ ___ ]？",
+      "pinyin": "Jīntiān shì jǐ yuè jǐ [ ___ ]?",
+      "slot": "TIME"
+    },
+    {
+      "target": "我们",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "好",
+      "sentence": "今天天气很 [ ___ ]，我们都很高兴。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], wǒmen dōu hěn gāoxìng.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "月",
+      "sentence": "九 [ ___ ] 的天气不太冷，也不太热。",
+      "pinyin": "Jiǔ [ ___ ] de tiānqì bú tài lěng, yě bú tài rè.",
+      "slot": "TIME"
+    },
+    {
+      "target": "会",
+      "sentence": "明天下午他 [ ___ ] 来我家看书。",
+      "pinyin": "Míngtiān xiàwǔ tā [ ___ ] lái wǒ jiā kànshū.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "大",
+      "sentence": "妈妈买了一个很 [ ___ ] 的苹果。",
+      "pinyin": "Māma mǎi le yí gè hěn [ ___ ] de píngguǒ.",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "来",
+      "sentence": "明天我的好朋友会 [ ___ ] 我家玩。",
+      "pinyin": "Míngtiān wǒ de hǎo péngyou huì [ ___ ] wǒ jiā wán.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "还",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "后",
+      "sentence": "下午五点 [ ___ ] 我再回家。",
+      "pinyin": "Xiàwǔ wǔ diǎn [ ___ ] wǒ zài huí jiā.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "两",
+      "sentence": "我在商店买了 [ ___ ] 本汉语书。",
+      "pinyin": "Wǒ zài shāngdiàn mǎi le [ ___ ] běn Hànyǔ shū.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "没有",
+      "sentence": "今天早上我 [ ___ ] 吃早饭。",
+      "pinyin": "Jīntiān zǎoshang wǒ [ ___ ] chī zǎofàn.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "去",
+      "sentence": "明天上午我想 [ ___ ] 学校看朋友。",
+      "pinyin": "Míngtiān shàngwǔ wǒ xiǎng [ ___ ] xuéxiào kàn péngyou.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "很",
+      "sentence": "这件新衣服 [ ___ ] 好看。",
+      "pinyin": "Zhè jiàn xīn yīfu [ ___ ] hǎokàn.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "给",
+      "sentence": "妈妈 [ ___ ] 我买了两本书。",
+      "pinyin": "Māma [ ___ ] wǒ mǎi le liǎng běn shū.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "中国",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "元",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "看",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "下",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "她",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "可以",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "这个",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "能",
+      "sentence": "明天我 [ ___ ] 去学校看老师和朋友。",
+      "pinyin": "Míngtiān wǒ [ ___ ] qù xuéxiào kàn lǎoshī hé péngyou.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "他们",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "做",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "想",
+      "sentence": "今天中午我 [ ___ ] 吃一点米饭和菜。",
+      "pinyin": "Jīntiān zhōngwǔ wǒ [ ___ ] chī yìdiǎn mǐfàn hé cài.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "那",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "新",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "小",
+      "sentence": "爸爸买了一只很可爱的 [ ___ ] 猫。",
+      "pinyin": "Bàba mǎi le yì zhī hěn kě'ài de [ ___ ] māo.",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "天",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "工作",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "里",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "前",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "公司",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "问题",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "家",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "吧",
+      "sentence": "这是我今天上午买 [ ___ ] 新书。",
+      "pinyin": "Zhè shì wǒ jīntiān shàngwǔ mǎi [ ___ ] xīn shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "什么",
+      "sentence": "明天上午你想买 [ ___ ] 东西？",
+      "pinyin": "Míngtiān shàngwǔ nǐ xiǎng mǎi [ ___ ] dōngxi?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "没",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "现在",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "真",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "本",
+      "sentence": "桌子上有一 [ ___ ] 新书。",
+      "pinyin": "Zhuōzi shàng yǒu yì [ ___ ] xīn shū.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "太",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "再",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "时间",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "爱",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "吃",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_CONSUMPTION"
+    },
+    {
+      "target": "时候",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "呢",
+      "sentence": "我的手机在这里，你的 [ ___ ]？",
+      "pinyin": "Wǒ de shǒujī zài zhèlǐ, nǐ de [ ___ ]?",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "只",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "今天",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "它",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "分",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "一些",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "这些",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "大家",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "吗",
+      "sentence": "请问，你明天上午有时间 [ ___ ]？",
+      "pinyin": "Qǐngwèn, nǐ míngtiān shàngwǔ yǒu shíjiān [ ___ ]?",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "几",
+      "sentence": "现在是下午 [ ___ ] 点？",
+      "pinyin": "Xiànzài shì xiàwǔ [ ___ ] diǎn?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "事",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "今年",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "喜欢",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "知道",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "车",
+      "sentence": "他今天坐 [ ___ ] 回老家。",
+      "pinyin": "Tā jīntiān zuò [ ___ ] huí lǎojiā.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "怎么",
+      "sentence": "请问这个字 [ ___ ] 写？",
+      "pinyin": "Qǐngwèn zhège zì [ ___ ] xiě?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "外",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "谁",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "你们",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "见",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "找",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "岁",
+      "sentence": "我妹妹今年八 [ ___ ] 了。",
+      "pinyin": "Wǒ mèimei jīnnián bā [ ___ ] le.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "水",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "非常",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "买",
+      "sentence": "下午去商店的时候，我想 [ ___ ] 几个苹果。",
+      "pinyin": "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.",
+      "slot": "VERB_PURCHASE"
+    },
+    {
+      "target": "开",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "觉得",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "不要",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "号",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "叫",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "学生",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "钱",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "请",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "问",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "孩子",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "听",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "回",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "女",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "一下",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "东西",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "正在",
+      "sentence": "妈妈 [ ___ ] 家里做饭。",
+      "pinyin": "Māma [ ___ ] jiālǐ zuòfàn.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "这里",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "住",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "学习",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "件",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "朋友",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "去年",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "那个",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "有些",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "昨天",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "学校",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "写",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "少",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "国",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "小时",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "您",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "那些",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "电话",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "睡",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "学",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "口",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "下午",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "玩",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "明天",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "穿",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "喝",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_CONSUMPTION"
+    },
+    {
+      "target": "块",
+      "sentence": "这本汉语书只要五 [ ___ ] 钱。",
+      "pinyin": "Zhè běn Hànyǔ shū zhǐyào wǔ [ ___ ] qián.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "早",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "男",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "医院",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "分钟",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "坐",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "电影",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "晚上",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "书",
+      "sentence": "晚上回家后我喜欢看一会儿 [ ___ ]。",
+      "pinyin": "Wǎnshang huí jiā hòu wǒ xǐhuan kàn yíhuìr [ ___ ].",
+      "slot": "OBJECT_READ"
+    },
+    {
+      "target": "认识",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "晚",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "字",
+      "sentence": "晚上回家后我喜欢看一会儿 [ ___ ]。",
+      "pinyin": "Wǎnshang huí jiā hòu wǒ xǐhuan kàn yíhuìr [ ___ ].",
+      "slot": "OBJECT_READ"
+    },
+    {
+      "target": "边",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "多少",
+      "sentence": "你们学校有 [ ___ ] 个老师？",
+      "pinyin": "Nǐmen xuéxiào yǒu [ ___ ] gè lǎoshī?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "店",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "卖",
+      "sentence": "下午去商店的时候，我想 [ ___ ] 几个苹果。",
+      "pinyin": "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.",
+      "slot": "VERB_PURCHASE"
+    },
+    {
+      "target": "有的",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "老师",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "们",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "冷",
+      "sentence": "今天天气很 [ ___ ]，大家都在家里。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu zài jiālǐ.",
+      "slot": "ADJ_WEATHER_TEMP"
+    },
+    {
+      "target": "病",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "上午",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "半",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "歌",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "热",
+      "sentence": "今天天气很 [ ___ ]，大家都在家里。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu zài jiālǐ.",
+      "slot": "ADJ_WEATHER_TEMP"
+    },
+    {
+      "target": "妈妈",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "电视",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "大学",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "哪",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "电脑",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "狗",
+      "sentence": "弟弟很喜欢那只小 [ ___ ]。",
+      "pinyin": "Dìdi hěn xǐhuan nà zhī xiǎo [ ___ ].",
+      "slot": "ANIMAL"
+    },
+    {
+      "target": "谢谢",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "儿子",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "些",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "先生",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "唱",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "睡觉",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "它们",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "哪里",
+      "sentence": "请问老师现在在 [ ___ ]？",
+      "pinyin": "Qǐngwèn lǎoshī xiànzài zài [ ___ ]?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "同学",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "她们",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "忙",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "那里",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "天气",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "WEATHER"
+    },
+    {
+      "target": "读",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "女儿",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "说话",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "名字",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "医生",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "猫",
+      "sentence": "弟弟很喜欢那只小 [ ___ ]。",
+      "pinyin": "Dìdi hěn xǐhuan nà zhī xiǎo [ ___ ].",
+      "slot": "ANIMAL"
+    },
+    {
+      "target": "看见",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "第",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "雪",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "WEATHER"
+    },
+    {
+      "target": "菜",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "飞机",
+      "sentence": "他今天坐 [ ___ ] 回老家。",
+      "pinyin": "Tā jīntiān zuò [ ___ ] huí lǎojiā.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "漂亮",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "早上",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "明年",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "高兴",
+      "sentence": "今天能见到好朋友，我真 [ ___ ]。",
+      "pinyin": "Jīntiān néng jiàndào hǎo péngyou, wǒ zhēn [ ___ ].",
+      "slot": "ADJ_EMOTION"
+    },
+    {
+      "target": "爸爸",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "休息",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "上班",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "课",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "好看",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "茶",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "中午",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "雨",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "WEATHER"
+    },
+    {
+      "target": "姐姐",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "贵",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "一半",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "家人",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "打电话",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "苹果",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "大学生",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "房间",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "喂",
+      "sentence": "弟弟很喜欢那只小 [ ___ ]。",
+      "pinyin": "Dìdi hěn xǐhuan nà zhī xiǎo [ ___ ].",
+      "slot": "ANIMAL"
+    },
+    {
+      "target": "小学",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "哪个",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "起床",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "哥哥",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "衣服",
+      "sentence": "爸爸在商店里买了一件新 [ ___ ]。",
+      "pinyin": "Bàba zài shāngdiàn lǐ mǎi le yí jiàn xīn [ ___ ].",
+      "slot": "OBJECT_WEAR"
+    },
+    {
+      "target": "怎么样",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "好吃",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "便宜",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "对不起",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "水果",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "星期",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "读书",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "妹妹",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "中学",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "上课",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "牛奶",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "没事",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "你好",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "中文",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "哪些",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "出租车",
+      "sentence": "他今天坐 [ ___ ] 回老家。",
+      "pinyin": "Tā jīntiān zuò [ ___ ] huí lǎojiā.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "下班",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "白天",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "火车",
+      "sentence": "他今天坐 [ ___ ] 回老家。",
+      "pinyin": "Tā jīntiān zuò [ ___ ] huí lǎojiā.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "开车",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "上学",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "鸡蛋",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "弟弟",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "女士",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "好听",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "那边",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "再见",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "饭店",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "小朋友",
+      "sentence": "明天下午我要去看我的 [ ___ ]。",
+      "pinyin": "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].",
+      "slot": "PERSON"
+    },
+    {
+      "target": "下雨",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "WEATHER"
+    },
+    {
+      "target": "哪儿",
+      "sentence": "请问你的朋友去 [ ___ ] 了？",
+      "pinyin": "Qǐngwèn nǐ de péngyou qù [ ___ ] le?",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "这边",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "这儿",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "女朋友",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "商店",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "请问",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "听见",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "男朋友",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "汉语",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "桌子",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "晚饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "生病",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "面包",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "看病",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "没关系",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "那儿",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "椅子",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "做饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "饺子",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "小学生",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "书店",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "中学生",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "午饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "杯子",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "下课",
+      "sentence": "今天下午他想在家 [ ___ ]。",
+      "pinyin": "Jīntiān xiàwǔ tā xiǎng zài jiā [ ___ ].",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "电影院",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "包子",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "早饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "汉字",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "星期天",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "有点儿",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "米饭",
+      "sentence": "今天我买了很多好吃的 [ ___ ]。",
+      "pinyin": "Jīntiān wǒ mǎi le hěn duō hǎochī de [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "一点儿",
+      "sentence": "朋友晚上九点 [ ___ ] 到我家来了。",
+      "pinyin": "Péngyou wǎnshang jiǔ diǎn [ ___ ] dào wǒ jiā lái le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "星期日",
+      "sentence": "在这个 [ ___ ]，大家都很高兴。",
+      "pinyin": "Zài zhège [ ___ ], dàjiā dōu hěn gāoxìng.",
+      "slot": "TIME"
+    },
+    {
+      "target": "外边",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不客气",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "好玩儿",
+      "sentence": "妈妈买的苹果看起来很 [ ___ ]。",
+      "pinyin": "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "八",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "百",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "超市",
+      "sentence": "明天上午我要去 [ ___ ] 看老师。",
+      "pinyin": "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "点",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "多",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "二",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "九",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "零",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "六",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "面条儿",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "七",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "千",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "三",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "十",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "手机",
+      "sentence": "爸爸在家里买了一个 [ ___ ]。",
+      "pinyin": "Bàba zài jiālǐ mǎi le yí gè [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "四",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "五",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "一",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    }
+  ]
+}

@@ -383,89 +383,113 @@
         app:layout_constraintBottom_toTopOf="@id/progress_timer"
         app:layout_constraintTop_toBottomOf="@id/card_player_status">
 
-        <TextView
-            android:id="@+id/tv_question_type"
-            style="@style/HqText.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/hq_gold"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="TRANSLATE TO HANZI" />
-
-        <TextView
-            android:id="@+id/tv_prompt_primary"
-            style="@style/HqText.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:textSize="21sp"
-            tools:text="to love; to be fond of" />
-
-        <TextView
-            android:id="@+id/tv_prompt_sub"
-            style="@style/HqText.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:gravity="center"
-            android:textColor="@color/hq_text_muted"
-            android:textSize="13sp"
-            tools:text="Select the matching Hanzi character / word" />
-
-        <LinearLayout
-            android:id="@+id/layout_multimodal_controls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_replay_audio"
-                style="@style/HqButton.Outlined"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:minHeight="34dp"
-                android:paddingHorizontal="12dp"
-                android:text="🔊 Listen"
-                android:textColor="@color/hq_gold"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:strokeColor="@color/hq_gold"
-                tools:visibility="visible" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_show_pinyin_hint"
-                style="@style/HqButton.Outlined"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:layout_marginStart="6dp"
-                android:minHeight="34dp"
-                android:paddingHorizontal="12dp"
-                android:text="💡 Show Pinyin (-50% DMG)"
-                android:textColor="@color/hq_gold"
-                android:textSize="11sp"
-                android:visibility="gone"
-                app:strokeColor="@color/hq_gold"
-                tools:visibility="visible" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_speech_feedback"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="4"
-            android:paddingHorizontal="8dp"
-            android:textColor="@color/hq_gold"
-            android:textSize="12sp"
-            android:visibility="gone"
-            tools:text="🎙️ Tap 'Tap to Speak' below and pronounce 爱 aloud"
-            tools:visibility="visible" />
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_question_type"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="TRANSLATE TO HANZI" />
+
+                <TextView
+                    android:id="@+id/tv_prompt_primary"
+                    style="@style/HqText.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textSize="21sp"
+                    tools:text="to love; to be fond of" />
+
+                <TextView
+                    android:id="@+id/tv_prompt_sub"
+                    style="@style/HqText.Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:textColor="@color/hq_text_muted"
+                    android:textSize="13sp"
+                    tools:text="Select the matching Hanzi character / word" />
+
+                <LinearLayout
+                    android:id="@+id/layout_multimodal_controls"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_replay_audio"
+                        style="@style/HqButton.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:minHeight="34dp"
+                        android:paddingHorizontal="12dp"
+                        android:singleLine="true"
+                        android:text="🔊 Listen"
+                        android:textColor="@color/hq_gold"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        app:strokeColor="@color/hq_gold"
+                        tools:visibility="visible" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_show_pinyin_hint"
+                        style="@style/HqButton.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:layout_marginStart="6dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:minHeight="34dp"
+                        android:paddingHorizontal="12dp"
+                        android:singleLine="true"
+                        android:text="💡 Show Pinyin (-50% DMG)"
+                        android:textColor="@color/hq_gold"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        app:strokeColor="@color/hq_gold"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_speech_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="4"
+                    android:paddingHorizontal="8dp"
+                    android:textColor="@color/hq_gold"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="🎙️ Tap 'Tap to Speak' below and pronounce 爱 aloud"
+                    tools:visibility="visible" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <!-- Timer Countdown Bar (Gold during question, Jade on correct delay, Crimson on wrong delay) -->
@@ -492,7 +516,7 @@
 
         <TextView
             android:id="@+id/btn_option_0"
-            style="@style/HqText.Title"
+            style="@style/HqText.BattleOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_option_idle"
@@ -509,7 +533,7 @@
 
         <TextView
             android:id="@+id/btn_option_1"
-            style="@style/HqText.Title"
+            style="@style/HqText.BattleOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -527,7 +551,7 @@
 
         <TextView
             android:id="@+id/btn_option_2"
-            style="@style/HqText.Title"
+            style="@style/HqText.BattleOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -545,7 +569,7 @@
 
         <TextView
             android:id="@+id/btn_option_3"
-            style="@style/HqText.Title"
+            style="@style/HqText.BattleOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"

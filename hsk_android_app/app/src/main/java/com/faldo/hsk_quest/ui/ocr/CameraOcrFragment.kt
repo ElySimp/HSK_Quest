@@ -39,6 +39,7 @@ import com.faldo.hsk_quest.engine.OcrPolarityMode
 import com.faldo.hsk_quest.engine.OcrScanMode
 import com.faldo.hsk_quest.ui.practice.HanziCandidate
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -105,11 +106,7 @@ class CameraOcrFragment : Fragment() {
                 startCamera()
             } else {
                 binding.layoutOcrPermissionDenied.visibility = View.VISIBLE
-                Toast.makeText(
-                    requireContext(),
-                    "Camera permission is required for live Hanzi OCR.",
-                    Toast.LENGTH_SHORT,
-                ).show()
+                showHqToast("Camera permission is required for live Hanzi OCR.")
             }
         }
 

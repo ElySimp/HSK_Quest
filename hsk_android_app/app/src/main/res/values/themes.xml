@@ -36,6 +36,14 @@
         <item name="android:letterSpacing">0.01</item>
     </style>
 
+    <style name="HqText.BattleOption" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/hq_text_primary</item>
+        <item name="android:fontFamily">@font/google_sans_bold</item>
+        <item name="fontFamily">@font/google_sans_bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
     <style name="HqText.Subtitle" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/hq_text_secondary</item>
         <item name="android:fontFamily">@font/font_google_sans</item>
@@ -68,6 +76,12 @@
         <item name="android:width">56dp</item>
         <item name="android:height">30dp</item>
         <item name="marginHorizontal">4dp</item>
+    </style>
+
+    <style name="HqBottomNavText" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/font_google_sans</item>
+        <item name="fontFamily">@font/font_google_sans</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <!-- Buttons -->

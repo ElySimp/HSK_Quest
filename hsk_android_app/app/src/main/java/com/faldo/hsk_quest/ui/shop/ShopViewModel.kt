@@ -37,10 +37,10 @@ class ShopViewModel(
     private val playerRepository: PlayerRepository,
 ) : ViewModel() {
 
-    private val _catalog = MutableStateFlow<List<ShopItem>>(emptyList())
+    private val _catalog = MutableStateFlow<List<ShopItem>>(shopRepository.cachedCatalog.orEmpty())
     val catalogItems: StateFlow<List<ShopItem>> = _catalog.asStateFlow()
 
-    private val _inventory = MutableStateFlow<List<InventoryItem>>(emptyList())
+    private val _inventory = MutableStateFlow<List<InventoryItem>>(shopRepository.cachedInventory.orEmpty())
     val inventoryItems: StateFlow<List<InventoryItem>> = _inventory.asStateFlow()
 
     private val _screenMode = MutableStateFlow(ShopScreenMode.HUB)
@@ -82,6 +82,9 @@ class ShopViewModel(
     private var isLoadInFlight: Boolean = false
 
     init {
+        if (_catalog.value.isNotEmpty() || _inventory.value.isNotEmpty()) {
+            updateUiItems()
+        }
         loadData()
     }
 
@@ -283,6 +286,7 @@ class ShopViewModel(
             }
         }
         _inventory.value = updated.values.toList()
+        shopRepository.updateInventoryCache(_inventory.value)
     }
 
     private fun updateInventoryExactQuantity(itemId: String, exactQty: Int, fallbackCatalogItem: ShopItem? = null) {
@@ -311,6 +315,7 @@ class ShopViewModel(
             )
         }
         _inventory.value = mutable
+        shopRepository.updateInventoryCache(mutable)
     }
 
     private fun updateUiItems() {

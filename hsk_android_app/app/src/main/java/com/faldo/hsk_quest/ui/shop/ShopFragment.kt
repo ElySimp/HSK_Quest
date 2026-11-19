@@ -31,6 +31,7 @@ import com.faldo.hsk_quest.data.model.ShopItem
 import com.faldo.hsk_quest.databinding.FragmentShopBinding
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -274,7 +275,7 @@ class ShopFragment : Fragment() {
 
                 launch {
                     viewModel.message.collect { msg ->
-                        Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+                        showHqToast(msg)
                     }
                 }
             }

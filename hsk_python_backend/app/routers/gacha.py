@@ -54,14 +54,14 @@ LEGENDARY_POOL = [
 
 
 def _roll_single_pet() -> dict:
-    # Active summoning pool sums to 99.5% (2.5% Legendary, 7% Epic, 15% Rare, 75% Common)
-    # while the remaining 0.5% Secret tier awaits future Secret beasts.
-    roll = random.uniform(0.0, 0.995)
-    if roll < 0.025:
+    # Active summoning pool sums to 99.9% (1.0% Legendary, 4.9% Epic, 16.5% Rare, 77.5% Common)
+    # while the remaining 0.1% Secret tier awaits future Secret beasts.
+    roll = random.uniform(0.0, 0.999)
+    if roll < 0.010:
         return random.choice(LEGENDARY_POOL)
-    elif roll < 0.095:
+    elif roll < 0.059:
         return random.choice(EPIC_POOL)
-    elif roll < 0.245:
+    elif roll < 0.224:
         return random.choice(RARE_POOL)
     else:
         return random.choice(COMMON_POOL)

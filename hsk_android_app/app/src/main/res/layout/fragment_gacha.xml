@@ -123,7 +123,7 @@
                     android:textColor="@color/hq_gold"
                     android:textSize="10.5sp"
                     android:textStyle="bold"
-                    tools:text="🟡 LEGENDARY · 2.5%" />
+                    tools:text="🟡 LEGENDARY · 1.0%" />
             </LinearLayout>
 
             <!-- Interactive Showcase Carousel Stage -->
@@ -351,7 +351,7 @@
                     android:textColor="@color/hq_jade"
                     android:textSize="10.5sp"
                     android:textStyle="bold"
-                    tools:text="Active Pool 99.5%" />
+                    tools:text="Active Pool 99.9%" />
             </LinearLayout>
 
             <!-- Structured Rate Badges Grid -->
@@ -374,7 +374,7 @@
                     android:textColor="@color/hq_jade"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:text="🟢 Common\n75.0%" />
+                    tools:text="🟢 Common\n77.5%" />
 
                 <TextView
                     android:id="@+id/tv_rate_rare"
@@ -389,7 +389,7 @@
                     android:textColor="@color/hq_sky"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:text="🔵 Rare\n15.0%" />
+                    tools:text="🔵 Rare\n16.5%" />
 
                 <TextView
                     android:id="@+id/tv_rate_epic"
@@ -404,7 +404,7 @@
                     android:textColor="@color/hq_violet"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:text="🟣 Epic\n7.0%" />
+                    tools:text="🟣 Epic\n4.9%" />
             </LinearLayout>
 
             <LinearLayout
@@ -426,7 +426,7 @@
                     android:textColor="@color/hq_gold"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:text="🟡 Legendary\n2.5%" />
+                    tools:text="🟡 Legendary\n1.0%" />
 
                 <TextView
                     android:id="@+id/tv_rate_secret"
@@ -441,7 +441,7 @@
                     android:textColor="@color/hq_crimson"
                     android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:text="🔮 Secret · Soon\n0.5%" />
+                    tools:text="🔮 Secret · Soon\n0.1%" />
             </LinearLayout>
 
             <TextView

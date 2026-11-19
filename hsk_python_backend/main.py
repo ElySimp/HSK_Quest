@@ -1,5 +1,5 @@
 """
-HSK Quest — FastAPI Backend Entry Point
+MaoCAT — FastAPI Backend Entry Point
 
 Brain Server (Python FastAPI) - AI Academic Core
 Handles: Auth, Player Stats, Battle Validation, Leaderboard, Shop, Gacha, AI Engines.
@@ -66,9 +66,9 @@ async def lifespan(app: FastAPI):
 # FastAPI App
 # ---------------------------------------------------------------------------
 app = FastAPI(
-    title="HSK Quest API",
+    title="MaoCAT API",
     description=(
-        "🐉 HSK Quest Brain Server — Gamified Adaptive Chinese Learning\n\n"
+        "🐱 MaoCAT Brain Server — Gamified Adaptive Chinese Learning\n\n"
         "RPG × Tamagotchi backend for combat validation, player progression, "
         "leaderboards, gacha, and AI-powered writing/speaking evaluation."
     ),
@@ -109,7 +109,7 @@ app.include_router(admin.router)
 async def root():
     return {
         "status": "online",
-        "app": "HSK Quest Brain Server",
+        "app": "MaoCAT Brain Server",
         "version": "0.1.0",
         "message": "The Dragon awaits your challenge!",
     }

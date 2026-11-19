@@ -6,12 +6,12 @@ from app.schemas.pet import PetResponse
 
 
 class GachaRatesResponse(BaseModel):
-    common_rate: float = 0.75
-    rare_rate: float = 0.15
-    epic_rate: float = 0.07
-    legendary_rate: float = 0.025
-    secret_rate: float = 0.005
-    active_total_rate: float = 0.995
+    common_rate: float = 0.775
+    rare_rate: float = 0.165
+    epic_rate: float = 0.049
+    legendary_rate: float = 0.01
+    secret_rate: float = 0.001
+    active_total_rate: float = 0.999
     cost_single: int = 100
     cost_ten: int = 900
 

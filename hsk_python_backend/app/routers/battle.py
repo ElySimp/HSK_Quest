@@ -317,8 +317,20 @@ async def submit_battle_result(
     quest_increments: dict[str, int] = {}
     if request.correct_answers > 0:
         quest_increments["correct_answers"] = request.correct_answers
+    if request.questions_answered > 0:
+        quest_increments["questions_answered"] = request.questions_answered
+    if request.damage_dealt > 0:
+        quest_increments["damage_dealt"] = int(round(request.damage_dealt))
+    if request.result in ("win", "lose"):
+        quest_increments["battles_completed"] = 1
     if request.result == "win":
         quest_increments["battle_wins"] = 1
+        if request.monster_type in ("elite", "boss"):
+            quest_increments["boss_wins"] = 1
+        if request.questions_answered > 0 and request.correct_answers >= request.questions_answered:
+            quest_increments["flawless_wins"] = 1
+        if coins_earned > 0:
+            quest_increments["coins_earned"] = coins_earned
     if quest_increments:
         await record_quest_progress(db, user_id, quest_increments)
 

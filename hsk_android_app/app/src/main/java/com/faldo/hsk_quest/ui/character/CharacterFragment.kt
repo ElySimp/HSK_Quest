@@ -20,9 +20,11 @@ import com.faldo.hsk_quest.MainActivity
 import com.faldo.hsk_quest.R
 import com.faldo.hsk_quest.data.model.Player
 import com.faldo.hsk_quest.databinding.FragmentCharacterBinding
+import com.faldo.hsk_quest.engine.ResolvedQuestionEngine
 import com.faldo.hsk_quest.util.Constants
 import com.faldo.hsk_quest.util.appContainer
 import com.faldo.hsk_quest.util.readableError
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -65,9 +67,17 @@ class CharacterFragment : Fragment() {
             }
         }
 
+        binding.cardOpenSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_character_to_settings)
+        }
+
         binding.btnLogout.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 appContainer.authRepository.logout()
+                appContainer.questRepository.clearMemoryCache()
+                appContainer.petRepository.clearMemoryCache()
+                appContainer.shopRepository.clearMemoryCache()
+                appContainer.gachaRepository.clearMemoryCache()
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(R.id.nav_graph, true)
                     .build()
@@ -88,9 +98,19 @@ class CharacterFragment : Fragment() {
                 launch {
                     viewModel.toastMessage.collect { msg ->
                         if (msg != null) {
-                            Toast.makeText(requireContext(), readableError(msg), Toast.LENGTH_SHORT).show()
+                            showHqToast(readableError(msg))
                             viewModel.clearToastMessage()
                         }
+                    }
+                }
+                launch {
+                    val settingsManager = appContainer.engineSettingsManager
+                    settingsManager.selectedMode.collect { mode ->
+                        val resolved = ResolvedQuestionEngine.resolve(
+                            configuredMode = mode,
+                            isMlModelReady = settingsManager.isMlCatModelAvailable,
+                        )
+                        binding.tvActiveQuestionEngine.text = resolved.formatCompactBadge()
                     }
                 }
             }
@@ -107,7 +127,7 @@ class CharacterFragment : Fragment() {
             CharacterViewModel.UiState.Loading -> {}
             is CharacterViewModel.UiState.Loaded -> bindPlayer(state.player)
             is CharacterViewModel.UiState.Error -> {
-                Toast.makeText(requireContext(), readableError(state.message), Toast.LENGTH_SHORT).show()
+                showHqToast(readableError(state.message))
             }
         }
     }

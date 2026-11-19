@@ -65,8 +65,9 @@
     <ScrollView
         android:id="@+id/scroll_units_container"
         android:layout_width="match_parent"
-        android:layout_height="332dp"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:background="@drawable/bg_stat_box"
         android:fadeScrollbars="false"
         android:padding="6dp">

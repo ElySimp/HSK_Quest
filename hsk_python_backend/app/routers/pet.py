@@ -21,9 +21,11 @@ from app.schemas.pet import (
     PetListResponse,
     RpsRequest,
     RpsResponse,
+    RpsSettleRequest,
     FeedPetRequest,
     FeedPetResponse,
     BlackjackActionRequest,
+    BlackjackSettleRequest,
     BlackjackStateResponse,
 )
 from app.services.pet_buffs import get_pet_buff_spec, sync_pet_record
@@ -124,6 +126,57 @@ async def equip_pet(
     return response
 
 
+def _compute_rps_outcome(player_choice: str, pet_choice: str) -> str:
+    if player_choice == pet_choice:
+        return "tie"
+    if (player_choice, pet_choice) in WINNING_CONDITIONS:
+        return "win"
+    return "lose"
+
+
+async def _apply_rps_outcome(
+    db: AsyncSession,
+    user_id: int,
+    pet: Pet,
+    stats: PlayerStats | None,
+    player_choice: str,
+    pet_choice: str,
+    outcome: str,
+    coins_dropped: int,
+) -> RpsResponse:
+    if outcome == "tie":
+        affection_gained = 3.0
+        msg = f"It's a draw! Both chose {player_choice}. Your pet enjoyed playing!"
+    elif outcome == "win":
+        affection_gained = 10.0
+        msg = f"Victory! Your {player_choice} beats {pet_choice}! Your pet is super happy!"
+    else:
+        affection_gained = 1.0
+        msg = f"Your pet's {pet_choice} beats {player_choice}! Your pet looks proud!"
+
+    pet.affection = min(100.0, (pet.affection or 0.0) + affection_gained)
+
+    if coins_dropped > 0 and stats:
+        stats.coins += coins_dropped
+        msg += f" Found {coins_dropped} coin{'s' if coins_dropped != 1 else ''} on the floor!"
+
+    quest_increments: dict[str, int] = {"pet_care": 1, "pet_rps": 1}
+    if coins_dropped > 0:
+        quest_increments["coins_earned"] = coins_dropped
+    await record_quest_progress(db, user_id, quest_increments)
+
+    return RpsResponse(
+        player_choice=player_choice,
+        pet_choice=pet_choice,
+        outcome=outcome,
+        affection_gained=affection_gained,
+        current_affection=round(pet.affection, 1),
+        coins_dropped=coins_dropped,
+        remaining_coins=stats.coins if stats else None,
+        message=msg,
+    )
+
+
 @router.post("/interact/rps", response_model=RpsResponse)
 async def play_rock_paper_scissors(
     request: RpsRequest,
@@ -153,47 +206,24 @@ async def play_rock_paper_scissors(
         )
 
     pet_choice = random.choice(list(VALID_RPS_CHOICES))
-
+    outcome = _compute_rps_outcome(player_choice, pet_choice)
     coins_dropped = 0
-    if player_choice == pet_choice:
-        outcome = "tie"
-        affection_gained = 3.0
-        msg = f"It's a draw! Both chose {player_choice}. Your pet enjoyed playing!"
-    elif (player_choice, pet_choice) in WINNING_CONDITIONS:
-        outcome = "win"
-        affection_gained = 10.0
-        # 50% chance of coin drops (reduced to 1..5 coins)
-        if random.random() < 0.5:
-            coins_dropped = random.randint(1, 5)
-        msg = f"Victory! Your {player_choice} beats {pet_choice}! Your pet is super happy!"
-    else:
-        outcome = "lose"
-        affection_gained = 1.0
-        msg = f"Your pet's {pet_choice} beats {player_choice}! Your pet looks proud!"
+    if outcome == "win" and random.random() < 0.5:
+        coins_dropped = random.randint(1, 5)
 
-    # Update pet affection (clamped to 100.0)
-    pet.affection = min(100.0, pet.affection + affection_gained)
-
-    # Award coins if dropped & record daily quest care action
     stats_res = await db.execute(
         select(PlayerStats).where(PlayerStats.user_id == user_id)
     )
     stats = stats_res.scalar_one_or_none()
-    if coins_dropped > 0 and stats:
-        stats.coins += coins_dropped
-        msg += f" Found {coins_dropped} coin{'s' if coins_dropped != 1 else ''} on the floor!"
-
-    await record_quest_progress(db, user_id, {"pet_care": 1})
-
-    return RpsResponse(
+    return await _apply_rps_outcome(
+        db=db,
+        user_id=user_id,
+        pet=pet,
+        stats=stats,
         player_choice=player_choice,
         pet_choice=pet_choice,
         outcome=outcome,
-        affection_gained=affection_gained,
-        current_affection=round(pet.affection, 1),
         coins_dropped=coins_dropped,
-        remaining_coins=stats.coins if stats else None,
-        message=msg,
     )
 
 
@@ -320,7 +350,10 @@ async def _settle_blackjack_round(
         msg = f"{pet.name} wins ({dealer_score} vs {player_score})! Lost {BLACKJACK_STAKE} Coins (+1 Affection)."
 
     pet.affection = min(100.0, (pet.affection or 0.0) + affection_gained)
-    await record_quest_progress(db, user_id, {"pet_care": 1})
+    quest_increments: dict[str, int] = {"pet_care": 1, "pet_blackjack": 1}
+    if coins_delta > 0:
+        quest_increments["coins_earned"] = coins_delta
+    await record_quest_progress(db, user_id, quest_increments)
 
     return BlackjackStateResponse(
         game_token=None,
@@ -581,7 +614,7 @@ async def feed_pet(
 
     pet.affection = min(100.0, pet.affection + affection_gain)
     pet.last_fed = datetime.now(timezone.utc)
-    await record_quest_progress(db, user_id, {"pet_care": 1})
+    await record_quest_progress(db, user_id, {"pet_care": 1, "pet_feed": 1})
 
     # Heal player HP and survival_hp if item also restores HP
     if hp_gain > 0:
@@ -601,4 +634,126 @@ async def feed_pet(
         hp_healed=hp_gain,
         current_player_hp=stats.hp,
         message=msg,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Local-first mini-game settlement endpoints (single request per round)
+# ---------------------------------------------------------------------------
+_VALID_BLACKJACK_CARDS = {
+    f"{rank}{suit}" for rank in _BLACKJACK_RANKS for suit in _BLACKJACK_SUITS
+}
+_SETTLED_LOCAL_ROUNDS: dict[tuple[str, int, str], float] = {}
+
+
+def _claim_local_round(kind: str, user_id: int, round_id: str) -> None:
+    now_ts = time.time()
+    expired = [k for k, ts in _SETTLED_LOCAL_ROUNDS.items() if now_ts - ts > 900.0]
+    for key in expired:
+        _SETTLED_LOCAL_ROUNDS.pop(key, None)
+    if len(_SETTLED_LOCAL_ROUNDS) > 1000:
+        _SETTLED_LOCAL_ROUNDS.clear()
+
+    round_key = (kind, user_id, round_id.strip())
+    if round_key in _SETTLED_LOCAL_ROUNDS:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="This mini-game round was already settled.",
+        )
+    _SETTLED_LOCAL_ROUNDS[round_key] = now_ts
+
+
+@router.post("/interact/rps/settle", response_model=RpsResponse)
+async def settle_local_rps(
+    request: RpsSettleRequest,
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Verify and settle a locally played Rock-Paper-Scissors round."""
+    expected_outcome = _compute_rps_outcome(request.player_choice, request.pet_choice)
+    if request.outcome != expected_outcome:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="RPS outcome does not match player and pet choices.",
+        )
+    if request.outcome != "win" and request.coins_dropped != 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Coin drops are only valid on an RPS victory.",
+        )
+
+    pet, stats = await _require_active_pet_and_stats(db, user_id)
+    _claim_local_round("rps", user_id, request.round_id)
+
+    return await _apply_rps_outcome(
+        db=db,
+        user_id=user_id,
+        pet=pet,
+        stats=stats,
+        player_choice=request.player_choice,
+        pet_choice=request.pet_choice,
+        outcome=request.outcome,
+        coins_dropped=request.coins_dropped,
+    )
+
+
+@router.post("/interact/blackjack/settle", response_model=BlackjackStateResponse)
+async def settle_local_blackjack(
+    request: BlackjackSettleRequest,
+    user_id: int = Depends(get_current_user_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Verify and settle a locally played 5-coin Blackjack hand."""
+    all_cards = request.player_cards + request.dealer_cards
+    if any(card not in _VALID_BLACKJACK_CARDS for card in all_cards):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid playing card in Blackjack hand.",
+        )
+    if len(all_cards) != len(set(all_cards)):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Duplicate cards detected in Blackjack hand.",
+        )
+
+    player_score = _hand_score(request.player_cards)
+    dealer_score = _hand_score(request.dealer_cards)
+    if player_score > 21:
+        expected_outcome = "player_bust"
+    else:
+        if dealer_score < 17:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Dealer must stand on 17 or higher before settling.",
+            )
+        if dealer_score > 21 or player_score > dealer_score:
+            expected_outcome = "player_win"
+        elif player_score == dealer_score:
+            expected_outcome = "push"
+        else:
+            expected_outcome = "pet_win"
+
+    if request.outcome != expected_outcome:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Blackjack outcome does not match dealt hands.",
+        )
+
+    pet, stats = await _require_active_pet_and_stats(db, user_id)
+    if stats.coins < BLACKJACK_STAKE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Need at least {BLACKJACK_STAKE} Coins to play Blackjack!",
+        )
+
+    _claim_local_round("blackjack", user_id, request.round_id)
+    stats.coins -= BLACKJACK_STAKE
+    return await _settle_blackjack_round(
+        db=db,
+        user_id=user_id,
+        pet=pet,
+        stats=stats,
+        player_cards=request.player_cards,
+        dealer_cards=request.dealer_cards,
+        forced_bust=(request.outcome == "player_bust"),
     )

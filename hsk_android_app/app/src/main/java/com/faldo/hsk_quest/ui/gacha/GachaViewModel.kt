@@ -46,17 +46,17 @@ class GachaViewModel(
         FeaturedSpiritPreview("fu_dog", "Guardian Fu Dog", "福狮", "pet_fu_dog"),
     )
 
-    private val _diamonds = MutableStateFlow(0)
+    private val _diamonds = MutableStateFlow(playerRepository.cachedMemoryPlayer?.stats?.diamonds ?: 0)
     val diamonds: StateFlow<Int> = _diamonds.asStateFlow()
 
     private val _rates = MutableStateFlow(
-        GachaRatesResponse(
-            commonRate = 0.75f,
-            rareRate = 0.15f,
-            epicRate = 0.07f,
-            legendaryRate = 0.025f,
-            secretRate = 0.005f,
-            activeTotalRate = 0.995f,
+        gachaRepository.cachedRates ?: GachaRatesResponse(
+            commonRate = 0.775f,
+            rareRate = 0.165f,
+            epicRate = 0.049f,
+            legendaryRate = 0.01f,
+            secretRate = 0.001f,
+            activeTotalRate = 0.999f,
             costSingle = 100,
             costTen = 900,
         )

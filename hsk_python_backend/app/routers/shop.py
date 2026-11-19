@@ -22,6 +22,7 @@ from app.schemas.shop import (
     UseItemRequest,
     UseItemResponse,
 )
+from app.services.quest_service import record_quest_progress
 from app.utils.security import get_current_user_id
 
 router = APIRouter(prefix="/api/shop", tags=["Shop"])
@@ -390,6 +391,8 @@ async def buy_item(
         db.add(new_inv)
         total_owned = quantity
 
+    await record_quest_progress(db, user_id, {"shop_purchases": quantity})
+
     return BuyItemResponse(
         success=True,
         message=f"Successfully purchased {quantity}x {item_meta['name']}!",
@@ -476,6 +479,8 @@ async def buy_items_batch(
                     quantity=qty,
                 )
             )
+
+    await record_quest_progress(db, user_id, {"shop_purchases": total_count})
 
     return BuyBatchResponse(
         success=True,
@@ -609,6 +614,12 @@ async def use_inventory_item(
         msg += f" Restored {hp_restored} HP!"
     if affection_gained > 0 and active_pet:
         msg += f" {active_pet.name} gained +{affection_gained} Affection!"
+
+    quest_increments: dict[str, int] = {"items_used": 1}
+    if active_pet and affection_boost > 0:
+        quest_increments["pet_feed"] = 1
+        quest_increments["pet_care"] = 1
+    await record_quest_progress(db, user_id, quest_increments)
 
     return UseItemResponse(
         success=True,

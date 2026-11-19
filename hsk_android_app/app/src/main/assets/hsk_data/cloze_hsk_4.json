@@ -1,0 +1,6102 @@
+{
+  "level": 4,
+  "totalEntries": 1016,
+  "entries": [
+    {
+      "target": "为",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "对",
+      "sentence": "老师说的这句话很 [ ___ ]。",
+      "pinyin": "Lǎoshī shuō de zhè jù huà hěn [ ___ ].",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "着",
+      "sentence": "这是我今天上午买 [ ___ ] 新书。",
+      "pinyin": "Zhè shì wǒ jīntiān shàngwǔ mǎi [ ___ ] xīn shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "与",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "将",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "日",
+      "sentence": "今天是几月几 [ ___ ]？",
+      "pinyin": "Jīntiān shì jǐ yuè jǐ [ ___ ]?",
+      "slot": "TIME"
+    },
+    {
+      "target": "好",
+      "sentence": "今天天气很 [ ___ ]，我们都很高兴。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], wǒmen dōu hěn gāoxìng.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "等",
+      "sentence": "这是我今天上午买 [ ___ ] 新书。",
+      "pinyin": "Zhè shì wǒ jīntiān shàngwǔ mǎi [ ___ ] xīn shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "而",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "两",
+      "sentence": "我在商店买了 [ ___ ] 本汉语书。",
+      "pinyin": "Wǒ zài shāngdiàn mǎi le [ ___ ] běn Hànyǔ shū.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "从",
+      "sentence": "他早上八点 [ ___ ] 家里去学校。",
+      "pinyin": "Tā zǎoshang bā diǎn [ ___ ] jiālǐ qù xuéxiào.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "啊",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "让",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "就是",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "之",
+      "sentence": "这是我今天上午买 [ ___ ] 新书。",
+      "pinyin": "Zhè shì wǒ jīntiān shàngwǔ mǎi [ ___ ] xīn shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "进行",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "记者",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "并",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "真",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "已",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "市场",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "种",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "内",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "道",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "却",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "经济",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "由",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "目前",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "活动",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "使",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "管理",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "通过",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "社会",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "表示",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "情况",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "当",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "各",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "同时",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "成为",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "技术",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "无",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "出现",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "由于",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "心",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "方面",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "像",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "国际",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "价格",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "研究",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "美",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "部门",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "作为",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "场",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "其中",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不过",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "死",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "结果",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "对于",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "教育",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "人员",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "叫",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "提供",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "因此",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "支持",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "使用",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "之后",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "自",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "继续",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "老",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "组",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "关系",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "省",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "获得",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "图",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "增加",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "能力",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "增长",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "进入",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "区",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "所有",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "一下",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "每",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "身",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "规定",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "此",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "项",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "方式",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "作用",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "感觉",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "转",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "能够",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "达到",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "全",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "入",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "过程",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "连",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "信息",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "强",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "低",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "标准",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "部分",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "提出",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "之间",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "各种",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "成功",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "单位",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "片",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "队",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "计划",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "表现",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "不断",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "基本",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "原因",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "直接",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "基础",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "任何",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "加强",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "接受",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "消息",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "甚至",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "完全",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "调查",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "间",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "条件",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "一切",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "仅",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "按",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "左右",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "台",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "当时",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "幸福",
+      "sentence": "听到这个好消息，大家心里很 [ ___ ]。",
+      "pinyin": "Tīngdào zhège hǎo xiāoxi, dàjiā xīnlǐ hěn [ ___ ].",
+      "slot": "ADJ_EMOTION"
+    },
+    {
+      "target": "座",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "质量",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "许多",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "生",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "无法",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "拉",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "内容",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "目标",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "约",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "回复",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "交",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "原来",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "重",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "举行",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "全部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "积极",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "产生",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "是否",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "城",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "严重",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "保护",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "数",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "真正",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "自然",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "取得",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "专业",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "超过",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "仍",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "重点",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "不仅",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "法律",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "整个",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "改变",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "共",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "拍",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "农村",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "任务",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "按照",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "考虑",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "科技",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "者",
+      "sentence": "这是我今天上午买 [ ___ ] 新书。",
+      "pinyin": "Zhè shì wǒ jīntiān shàngwǔ mǎi [ ___ ] xīn shū.",
+      "slot": "PARTICLE"
+    },
+    {
+      "target": "另外",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "期",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "管",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "另",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "指",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "有效",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "收入",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "十分",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "之前",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "正常",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "地址",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "改",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "克",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "实际",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "最终",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "保证",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "首",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "效果",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "责任",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "科学",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "共同",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "气",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "指出",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "经验",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "建议",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "正式",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "家庭",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "肯定",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "光",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "血",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "联系",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "定",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "更加",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "深",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "引起",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "油",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "人生",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "活",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "减少",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "压力",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "竞争",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "干",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "装",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "全球",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "永远",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "半",
+      "sentence": "我昨天买了 [ ___ ] 个大苹果。",
+      "pinyin": "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.",
+      "slot": "NUMBER"
+    },
+    {
+      "target": "生命",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "性",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "速度",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "掉",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "值",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "大量",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "爱情",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "份",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "于是",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "既",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "转发",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "交通",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "再次",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "意见",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "首先",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "感",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "推出",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "底",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "面对",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "证",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "知识",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "尽管",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "厂",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "说明",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "下降",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "表",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "心情",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "同样",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "对方",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "并且",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "购买",
+      "sentence": "下午去商店的时候，我想 [ ___ ] 几个苹果。",
+      "pinyin": "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.",
+      "slot": "VERB_PURCHASE"
+    },
+    {
+      "target": "村",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "困难",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "资料",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "此次",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "安排",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "排",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "负责",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "满",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "关键",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "节",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "倍",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "倒",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "幅",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "出口",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "广告",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "目的",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "负责人",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "仍然",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "留",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "也许",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "民族",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "无论",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "梦",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "流",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "末",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "作品",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "量",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "好好",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "降低",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "教学",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "然而",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "怕",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "值得",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "讨论",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "材料",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "世纪",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "夜",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "商品",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "秒",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "感谢",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "证明",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "特点",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "算",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "即使",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "到底",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "及时",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "理解",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "重新",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "父母",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "食品",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "取",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "重视",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "艺术",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "停",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "此外",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "假",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "月份",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "通",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "青年",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "解释",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "陪",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "抱",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "普通",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "痛",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "交流",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "步",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "加入",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "竟然",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "职业",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "教师",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "提",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "亮",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "费用",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "免费",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "至少",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "不管",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "符合",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "确实",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "公里",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "态度",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "推",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "数量",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "挂",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "经历",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "丰富",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "落",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "作者",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "各地",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "道路",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "相比",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "放弃",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "感情",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "适合",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "父亲",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "往往",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "观众",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "工人",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "失去",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "申请",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "球队",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "快速",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "美丽",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "正确",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "严格",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "加快",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "篇",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "视频",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "女性",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "儿童",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "通知",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "敢",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "晚安",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "空",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "举办",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "母亲",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "谈",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "日子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "加上",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "著名",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "加油",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "卫生",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "香",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "精彩",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "本来",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "牌",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "刀",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "火",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "货",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "紧张",
+      "sentence": "听到这个好消息，大家心里很 [ ___ ]。",
+      "pinyin": "Tīngdào zhège hǎo xiāoxi, dàjiā xīnlǐ hěn [ ___ ].",
+      "slot": "ADJ_EMOTION"
+    },
+    {
+      "target": "乱",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "今后",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "感受",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "破",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "赢",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "之中",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "准",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "数字",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不够",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "优秀",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "顺利",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "有着",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "年龄",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "图片",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "专门",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "工资",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "吸引",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "距离",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "发出",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "文件",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "反对",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "轻",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "普遍",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "估计",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "云",
+      "sentence": "你看外面，今天的 [ ___ ] 真好！",
+      "pinyin": "Nǐ kàn wàimiàn, jīntiān de [ ___ ] zhēn hǎo!",
+      "slot": "WEATHER"
+    },
+    {
+      "target": "弄",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "祝",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "帅",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "队员",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "小组",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "用于",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "样子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "皮肤",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "亚洲",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "文章",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "压",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "留下",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "苦",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "美好",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "兄弟",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "感动",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "难道",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "要是",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "提前",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "不如",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "实际上",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "适应",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "教授",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "办理",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "实在",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "存",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "整",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "支付",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "复杂",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "环保",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "动作",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "相互",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "费",
+      "sentence": "下午去商店的时候，我想 [ ___ ] 几个苹果。",
+      "pinyin": "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.",
+      "slot": "VERB_PURCHASE"
+    },
+    {
+      "target": "梦想",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "危险",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "错误",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "理想",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "输",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "拒绝",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "受伤",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "背",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "周围",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "毕业",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "错过",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "公共",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "待",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "列",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "土",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "阳光",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "轻松",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "缺",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "鼓励",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "人数",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "家长",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "提醒",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "收费",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "大大",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "警察",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "降",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "演出",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "各个",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "桥",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "困",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "总结",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "律师",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "回忆",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "否则",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "污染",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "顿",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "杂志",
+      "sentence": "晚上回家后我喜欢看一会儿 [ ___ ]。",
+      "pinyin": "Wǎnshang huí jiā hòu wǒ xǐhuan kàn yíhuìr [ ___ ].",
+      "slot": "OBJECT_READ"
+    },
+    {
+      "target": "从来",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "报名",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "失败",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "够",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "一生",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "修",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "汤",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "赶紧",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "现金",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "熟悉",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "学院",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "相同",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "擦",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "姑娘",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "绿色",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "不得不",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "允许",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "做法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "内心",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "低于",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "江",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "演",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "想法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "味",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "既然",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "醒",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "读者",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "考生",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "空气",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "停止",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "可惜",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "讨厌",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "棒",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "演员",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "判断",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "喊",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "邀请",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "味道",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "公路",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "吹",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "教练",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "取消",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "球迷",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "仅仅",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "辛苦",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "究竟",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "烟",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "西部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "细",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "温度",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "信号",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "现有",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "垃圾",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "尊重",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "说法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "食物",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "准确",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "流行",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "无聊",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "减",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "高于",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "互联网",
+      "sentence": "桌子上放着一个新买的 [ ___ ]。",
+      "pinyin": "Zhuōzi shàng fàngzhe yí gè xīn mǎi de [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "大约",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "忽然",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "俩",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "答",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "怀疑",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "眼前",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "躺",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "赢得",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "信心",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "激动",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "兴奋",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "例如",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "麻烦",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "高速",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "互相",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "暂时",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "少年",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "批评",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "响",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "将来",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "能否",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "烦",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "嗯",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "详细",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "印象",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "租",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "地球",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "大赛",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "厉害",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "奖",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "整理",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "只好",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "性格",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "浪费",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "文字",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "其次",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "答案",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "小说",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "盐",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "戴",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "高考",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "多么",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "浪漫",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "工厂",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不必",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "基本上",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "分为",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "赚",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "厚",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "课程",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "酸",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "仔细",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "付",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "羡慕",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "区别",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "顾客",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "起到",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "年底",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "首都",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "用来",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "尤其",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "等到",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "合格",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "多数",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "举",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "前后",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "看法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "街道",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "失望",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "旅客",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "乘客",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "全身",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "友好",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "到来",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "禁止",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "购物",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "赶",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "自信",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "气温",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "恐怕",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "会员",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "肚子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "男性",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "吸",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "乘",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "风景",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "答应",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "阅读",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "故意",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "生意",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "随便",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "植物",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "毕业生",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "爱心",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "从此",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "剩",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "参赛",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "提到",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "交警",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "旅行",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "后悔",
+      "sentence": "我很 [ ___ ] 今天在学校学的新字。",
+      "pinyin": "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.",
+      "slot": "VERB_MENTAL"
+    },
+    {
+      "target": "积累",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "参观",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "桶",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "熟",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "伤心",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "点头",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "再说",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "好处",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "节约",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "减轻",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "电视剧",
+      "sentence": "桌子上放着一个新买的 [ ___ ]。",
+      "pinyin": "Zhuōzi shàng fàngzhe yí gè xīn mǎi de [ ___ ].",
+      "slot": "OBJECT_TECH"
+    },
+    {
+      "target": "不满",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "正好",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "森林",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "稍",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "庆祝",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "奖金",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "脱",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "闻",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "早晨",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "观看",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "广播",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "粗",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "作家",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "弹",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "凉",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "外套",
+      "sentence": "今天很冷，快穿好这件 [ ___ ]。",
+      "pinyin": "Jīntiān hěn lěng, kuài chuānhǎo zhè jiàn [ ___ ].",
+      "slot": "OBJECT_WEAR"
+    },
+    {
+      "target": "体重",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "熊",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "缺少",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "难受",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "不论",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "办公",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "少数",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "相反",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "播放",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "订",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "猜",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "早餐",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "放松",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "家具",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "赶快",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "聚",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "鲜",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "海洋",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "东部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "日期",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "降价",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "窗",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "招聘",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "辣",
+      "sentence": "外面的风吹得让人觉得真 [ ___ ]！",
+      "pinyin": "Wàimiàn de fēng chuī de ràng rén juéde zhēn [ ___ ]!",
+      "slot": "ADJ_WEATHER_TEMP"
+    },
+    {
+      "target": "查看",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "翻译",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "勇敢",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "扔",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "排队",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "烦恼",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "歌手",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "功夫",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "博士",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "获取",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "寄",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "打工",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "身份证",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "偶尔",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "友谊",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "研究生",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "南部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "气候",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "巧克力",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "有趣",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "餐厅",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "愉快",
+      "sentence": "听到这个好消息，大家心里很 [ ___ ]。",
+      "pinyin": "Tīngdào zhège hǎo xiāoxi, dàjiā xīnlǐ hěn [ ___ ].",
+      "slot": "ADJ_EMOTION"
+    },
+    {
+      "target": "缺点",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "厨房",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "密码",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "日常",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "热闹",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "对面",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "美食",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "红包",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "全都",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "趟",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "原谅",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "琴",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "办事",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "脾气",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "家乡",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "大厅",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "骄傲",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "停车",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "队长",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "北部",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "优点",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "航班",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "抬",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "汗",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "逛",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "烤",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "从中",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "景区",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "棵",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "中年",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "夜晚",
+      "sentence": "明天 [ ___ ]，我在学校等你。",
+      "pinyin": "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.",
+      "slot": "TIME"
+    },
+    {
+      "target": "冷静",
+      "sentence": "外面的风吹得让人觉得真 [ ___ ]！",
+      "pinyin": "Wàimiàn de fēng chuī de ràng rén juéde zhēn [ ___ ]!",
+      "slot": "ADJ_WEATHER_TEMP"
+    },
+    {
+      "target": "鼻子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "聚会",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "师傅",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "收拾",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "耐心",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "外出",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "高温",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "眼镜",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "平常",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "塑料",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "厕所",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "出租",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "发送",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "暂停",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "本科",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "健身",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "乘坐",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "院长",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "远离",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "加班",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "祝贺",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "演唱",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "获奖",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "受不了",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "低价",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "帽子",
+      "sentence": "今天很冷，快穿好这件 [ ___ ]。",
+      "pinyin": "Jīntiān hěn lěng, kuài chuānhǎo zhè jiàn [ ___ ].",
+      "slot": "OBJECT_WEAR"
+    },
+    {
+      "target": "例子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "道歉",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "老年",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "课堂",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "敲",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "面试",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "商量",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "寒冷",
+      "sentence": "外面的风吹得让人觉得真 [ ___ ]！",
+      "pinyin": "Wàimiàn de fēng chuī de ràng rén juéde zhēn [ ___ ]!",
+      "slot": "ADJ_WEATHER_TEMP"
+    },
+    {
+      "target": "得意",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "护士",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "头痛",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "以内",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "巧",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "笨",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "毛衣",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "出行",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "钥匙",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "男士",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "老虎",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "幽默",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "性别",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "少量",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "景点",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "友情",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "抬头",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "体检",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "食堂",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "晚餐",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "亲戚",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "日记",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "硕士",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "稍微",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "顺便",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "葡萄",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "难忘",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "懒",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "迟",
+      "sentence": "我觉得这件新衣服很 [ ___ ]。",
+      "pinyin": "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].",
+      "slot": "ADJ_APPEARANCE"
+    },
+    {
+      "target": "咳嗽",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "笑话",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "师生",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "便于",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "座位",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "童年",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不便",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "窗户",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "客厅",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "牌子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "力气",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "快递",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "星星",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "学费",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "开玩笑",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "老是",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "老家",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "前方",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "主意",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "茶叶",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "作文",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "上门",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "报考",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "分数",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "午餐",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "咸",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "证件",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "来不及",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "钢琴",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "鲜花",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "感人",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "顺序",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "约会",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "做梦",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "赶上",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "推迟",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "乒乓球",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "降温",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "小伙子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "吃惊",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "酸奶",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "镜子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "高价",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "好笑",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "养成",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "填写",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "入学",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "误会",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "将要",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "孙子",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "活泼",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "歌声",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "按时",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "少见",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "度假",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "胳膊",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "修理",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "出差",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "咳",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "细心",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "入口",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "郊区",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "院子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "说明书",
+      "sentence": "晚上回家后我喜欢看一会儿 [ ___ ]。",
+      "pinyin": "Wǎnshang huí jiā hòu wǒ xǐhuan kàn yíhuìr [ ___ ].",
+      "slot": "OBJECT_READ"
+    },
+    {
+      "target": "大自然",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "目的地",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "收听",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "打印",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "表扬",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "葡萄酒",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "停车场",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "价钱",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "普通话",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "签证",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "假日",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "父子",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "寒假",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "月饼",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "诚实",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "打败",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "打扰",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "准时",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "体温",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "话剧",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "散步",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "小吃",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "低温",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "毛巾",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "客气",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "暑假",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "零食",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "白酒",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "馒头",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "不光",
+      "sentence": "今天天气很冷，[ ___ ] 我还是来了。",
+      "pinyin": "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.",
+      "slot": "CONJUNCTION"
+    },
+    {
+      "target": "来得及",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "大夫",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "导游",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "袜子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "底下",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "京剧",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "西红柿",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "抱歉",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "听力",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "加油站",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "旅馆",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "皮鞋",
+      "sentence": "今天很冷，快穿好这件 [ ___ ]。",
+      "pinyin": "Jīntiān hěn lěng, kuài chuānhǎo zhè jiàn [ ___ ].",
+      "slot": "OBJECT_WEAR"
+    },
+    {
+      "target": "害羞",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "暖和",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "礼貌",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "剧院",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "牙膏",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "叶子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "景色",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "美景",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "听众",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "饼干",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "摄氏度",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "降落",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "打招呼",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "自学",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "盒子",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "试题",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "背包",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "树林",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "查找",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "奖学金",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "自习",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "使馆",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "点名",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "堵车",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "多样",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "词语",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "节假日",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "厨师",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "果汁",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "一点儿",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "大巴",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "时间表",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "应聘",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "排球",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "功课",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "口语",
+      "sentence": "很多同学都很喜欢学 [ ___ ]。",
+      "pinyin": "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].",
+      "slot": "LANGUAGE"
+    },
+    {
+      "target": "语法",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "游玩",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "房东",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "母子",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "表格",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "操场",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "快餐",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "车速",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "零下",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "着火",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "举例",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "车位",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "母女",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "千克",
+      "sentence": "他在商店买了三 [ ___ ] 东西。",
+      "pinyin": "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.",
+      "slot": "MEASURE"
+    },
+    {
+      "target": "袋子",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "聚餐",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "国籍",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "转机",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "登机",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "纸巾",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "安检",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "房租",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "打印机",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "笔试",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "孙女",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "打针",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "中餐",
+      "sentence": "中午我很饿，想吃一点 [ ___ ]。",
+      "pinyin": "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].",
+      "slot": "FOOD"
+    },
+    {
+      "target": "流利",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "理发",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "十字路口",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "换乘",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "父女",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "健身房",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "售票员",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "回信",
+      "sentence": "每天早上我都会在家认真 [ ___ ] 汉语。",
+      "pinyin": "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.",
+      "slot": "VERB_STUDY_COMM"
+    },
+    {
+      "target": "复印",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "零钱",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "期中",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "结账",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "叫作",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "汽水",
+      "sentence": "早上我很想喝一杯热 [ ___ ]。",
+      "pinyin": "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].",
+      "slot": "DRINK"
+    },
+    {
+      "target": "粗心",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "零花钱",
+      "sentence": "去商店买东西前，先带好 [ ___ ]。",
+      "pinyin": "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].",
+      "slot": "MONEY"
+    },
+    {
+      "target": "干杯",
+      "sentence": "朋友们来了，请赶快 [ ___ ] 一点吧。",
+      "pinyin": "Péngyoumen lái le, qǐng gǎnkuài [ ___ ] yìdiǎn ba.",
+      "slot": "VERB_CONSUMPTION"
+    },
+    {
+      "target": "坏处",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "预习",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "差点儿",
+      "sentence": "今天天气很 [ ___ ]，大家都想出门。",
+      "pinyin": "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu xiǎng chūmén.",
+      "slot": "ADJ_GENERAL"
+    },
+    {
+      "target": "干活儿",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "点",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "打折",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "电动车",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "动车",
+      "sentence": "爸爸每天上午坐 [ ___ ] 去那里。",
+      "pinyin": "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.",
+      "slot": "VEHICLE"
+    },
+    {
+      "target": "短信",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "各位",
+      "sentence": "今天上午和老师说话的人是 [ ___ ]。",
+      "pinyin": "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].",
+      "slot": "PRONOUN"
+    },
+    {
+      "target": "接着",
+      "sentence": "时间不早了，我们现在 [ ___ ] 学校吧。",
+      "pinyin": "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.",
+      "slot": "VERB_MOTION"
+    },
+    {
+      "target": "路过",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "千万",
+      "sentence": "今天的汉语书他 [ ___ ] 看完了。",
+      "pinyin": "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.",
+      "slot": "ADVERB"
+    },
+    {
+      "target": "期末",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "入住",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "扫码",
+      "sentence": "每天早上大家都可以一起 [ ___ ] 一下。",
+      "pinyin": "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.",
+      "slot": "VERB_GENERAL"
+    },
+    {
+      "target": "市区",
+      "sentence": "我现在在 [ ___ ] 等好朋友。",
+      "pinyin": "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.",
+      "slot": "PLACE"
+    },
+    {
+      "target": "随着",
+      "sentence": "老师现在在说这个 [ ___ ]。",
+      "pinyin": "Lǎoshī xiànzài zài shuō zhège [ ___ ].",
+      "slot": "OTHER"
+    },
+    {
+      "target": "网购",
+      "sentence": "下午去商店的时候，我想 [ ___ ] 几个苹果。",
+      "pinyin": "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.",
+      "slot": "VERB_PURCHASE"
+    },
+    {
+      "target": "网页",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "网友",
+      "sentence": "前面说话的那位 [ ___ ] 认识我们。",
+      "pinyin": "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.",
+      "slot": "PERSON"
+    },
+    {
+      "target": "网址",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "线上",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    },
+    {
+      "target": "线下",
+      "sentence": "老师拿着桌上的那个 [ ___ ] 给大家看。",
+      "pinyin": "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.",
+      "slot": "NOUN_GENERAL"
+    }
+  ]
+}

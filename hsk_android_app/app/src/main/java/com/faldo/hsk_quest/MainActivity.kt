@@ -1,5 +1,7 @@
 package com.faldo.hsk_quest
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -18,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.faldo.hsk_quest.databinding.ActivityMainBinding
+import com.faldo.hsk_quest.util.DisplayScaleNormalizer
 import kotlinx.coroutines.launch
 
 /**
@@ -40,7 +43,17 @@ class MainActivity : AppCompatActivity() {
 
     private var currentTabIndex: Int = 0
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(DisplayScaleNormalizer.wrapContext(newBase))
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        DisplayScaleNormalizer.applyInPlace(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        DisplayScaleNormalizer.applyInPlace(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -63,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             R.id.gachaFragment,
             R.id.leaderboardFragment,
             R.id.practiceFragment,
+            R.id.settingsFragment,
         )
 
         appBarConfiguration = AppBarConfiguration(topLevelDestinations, binding.drawerLayout)
@@ -103,6 +117,9 @@ class MainActivity : AppCompatActivity() {
                         val container = (application as HskQuestApp).container
                         container.authRepository.logout()
                         container.questRepository.clearMemoryCache()
+                        container.petRepository.clearMemoryCache()
+                        container.shopRepository.clearMemoryCache()
+                        container.gachaRepository.clearMemoryCache()
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.nav_graph, true)
                             .setEnterAnim(R.anim.screen_enter)

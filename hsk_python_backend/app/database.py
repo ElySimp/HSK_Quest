@@ -1,5 +1,5 @@
 """
-HSK Quest — Database Engine & Session Factory
+MaoCAT — Database Engine & Session Factory
 Async SQLAlchemy engine connected to Aiven PostgreSQL with SSL.
 """
 import ssl

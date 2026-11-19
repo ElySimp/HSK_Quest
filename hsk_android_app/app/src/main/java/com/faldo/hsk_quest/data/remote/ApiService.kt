@@ -107,6 +107,16 @@ interface ApiService {
     @POST("api/shop/use")
     suspend fun useItem(@Body body: com.faldo.hsk_quest.data.model.UseItemRequest): Response<com.faldo.hsk_quest.data.model.UseItemResponse>
 
+    @POST("api/pet/interact/rps/settle")
+    suspend fun settleRps(
+        @Body body: com.faldo.hsk_quest.data.model.RpsSettleRequest,
+    ): Response<com.faldo.hsk_quest.data.model.RpsResponse>
+
+    @POST("api/pet/interact/blackjack/settle")
+    suspend fun settleBlackjack(
+        @Body body: com.faldo.hsk_quest.data.model.BlackjackSettleRequest,
+    ): Response<com.faldo.hsk_quest.data.model.BlackjackStateResponse>
+
     @GET("api/leaderboard/weekly")
     suspend fun getWeeklyLeaderboard(
         @Query("league") league: String? = null,

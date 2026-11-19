@@ -46,6 +46,27 @@ class QuestAdapter(
             quest: DailyQuestItemResponse,
             onClaimClick: (DailyQuestItemResponse) -> Unit,
         ) {
+            bindQuestCard(binding, quest, currentClaimingKey(), onClaimClick)
+        }
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<DailyQuestItemResponse>() {
+        override fun areItemsTheSame(
+            oldItem: DailyQuestItemResponse,
+            newItem: DailyQuestItemResponse,
+        ): Boolean = oldItem.questKey == newItem.questKey
+
+        override fun areContentsTheSame(
+            oldItem: DailyQuestItemResponse,
+            newItem: DailyQuestItemResponse,
+        ): Boolean = oldItem == newItem
+
+        fun bindQuestCard(
+            binding: ItemQuestCardBinding,
+            quest: DailyQuestItemResponse,
+            claimingKey: String?,
+            onClaimClick: (DailyQuestItemResponse) -> Unit,
+        ) {
             val ctx = binding.root.context
             val target = quest.target.coerceAtLeast(1)
             val progress = quest.progress.coerceIn(0, target)
@@ -63,7 +84,7 @@ class QuestAdapter(
                 if (quest.rewardCoins > 0) append("+${quest.rewardCoins} 🪙")
             }
 
-            val isBusyThis = currentClaimingKey() == quest.questKey || currentClaimingKey() == "__ALL__"
+            val isBusyThis = claimingKey == quest.questKey || claimingKey == "__ALL__"
 
             when {
                 quest.isClaimed -> {
@@ -72,6 +93,7 @@ class QuestAdapter(
                     binding.progressQuest.setIndicatorColor(ContextCompat.getColor(ctx, R.color.hq_jade))
                     binding.btnQuestClaim.text = "Claimed ✓"
                     binding.btnQuestClaim.isEnabled = false
+                    binding.btnQuestClaim.setOnClickListener(null)
                     binding.btnQuestClaim.backgroundTintList = ColorStateList.valueOf(
                         ContextCompat.getColor(ctx, R.color.hq_surface_high)
                     )
@@ -95,6 +117,7 @@ class QuestAdapter(
                     binding.progressQuest.setIndicatorColor(ContextCompat.getColor(ctx, R.color.hq_sky))
                     binding.btnQuestClaim.text = "$progress/$target"
                     binding.btnQuestClaim.isEnabled = false
+                    binding.btnQuestClaim.setOnClickListener(null)
                     binding.btnQuestClaim.backgroundTintList = ColorStateList.valueOf(
                         ContextCompat.getColor(ctx, R.color.hq_surface_high)
                     )
@@ -102,17 +125,5 @@ class QuestAdapter(
                 }
             }
         }
-    }
-
-    companion object DiffCallback : DiffUtil.ItemCallback<DailyQuestItemResponse>() {
-        override fun areItemsTheSame(
-            oldItem: DailyQuestItemResponse,
-            newItem: DailyQuestItemResponse,
-        ): Boolean = oldItem.questKey == newItem.questKey
-
-        override fun areContentsTheSame(
-            oldItem: DailyQuestItemResponse,
-            newItem: DailyQuestItemResponse,
-        ): Boolean = oldItem == newItem
     }
 }

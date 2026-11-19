@@ -3,6 +3,7 @@ package com.faldo.hsk_quest
 import android.app.Application
 import android.content.Context
 import com.faldo.hsk_quest.data.local.AppDatabase
+import com.faldo.hsk_quest.data.local.EngineSettingsManager
 import com.faldo.hsk_quest.data.local.HskJsonLoader
 import com.faldo.hsk_quest.data.local.TokenManager
 import com.faldo.hsk_quest.data.remote.ApiService
@@ -48,6 +49,15 @@ class AppContainer(context: Context) {
     val tfliteRecognizer: CustomTfliteHandwritingRecognizer? by lazy {
         CustomTfliteHandwritingRecognizer.createOrNull(appContext)
     }
+    val mandarinToneEvaluator: com.faldo.hsk_quest.engine.TfliteMandarinToneEvaluator? by lazy {
+        com.faldo.hsk_quest.engine.TfliteMandarinToneEvaluator.createOrNull(appContext)
+    }
+    val questionDeckManager: com.faldo.hsk_quest.engine.QuestionDeckManager by lazy {
+        com.faldo.hsk_quest.engine.QuestionDeckManager(appContext)
+    }
+    val engineSettingsManager: EngineSettingsManager by lazy {
+        EngineSettingsManager(appContext)
+    }
 
     val authRepository: AuthRepository by lazy {
         AuthRepository(apiService, tokenManager, database.playerDao())
@@ -68,7 +78,7 @@ class AppContainer(context: Context) {
         com.faldo.hsk_quest.data.repository.GachaRepository(apiService)
     }
     val shopRepository: com.faldo.hsk_quest.data.repository.ShopRepository by lazy {
-        com.faldo.hsk_quest.data.repository.ShopRepository(apiService)
+        com.faldo.hsk_quest.data.repository.ShopRepository(apiService, appContext)
     }
     val stageRepository: com.faldo.hsk_quest.data.repository.StageRepository by lazy {
         com.faldo.hsk_quest.data.repository.StageRepository(

@@ -68,3 +68,18 @@ data class FeedPetResponse(
     @SerializedName("current_player_hp") val currentPlayerHp: Int,
     val message: String,
 )
+
+data class RpsSettleRequest(
+    @SerializedName("round_id") val roundId: String,
+    @SerializedName("player_choice") val playerChoice: String,
+    @SerializedName("pet_choice") val petChoice: String,
+    val outcome: String,
+    @SerializedName("coins_dropped") val coinsDropped: Int,
+)
+
+data class BlackjackSettleRequest(
+    @SerializedName("round_id") val roundId: String,
+    @SerializedName("player_cards") val playerCards: List<String>,
+    @SerializedName("dealer_cards") val dealerCards: List<String>,
+    val outcome: String,
+)

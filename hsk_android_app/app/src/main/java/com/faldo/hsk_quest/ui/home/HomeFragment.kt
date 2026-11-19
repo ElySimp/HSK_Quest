@@ -29,6 +29,7 @@ import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.SpriteAnimator
 import com.faldo.hsk_quest.util.appContainer
 import com.faldo.hsk_quest.util.readableError
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
@@ -118,7 +119,7 @@ class HomeFragment : Fragment() {
                 launch { viewModel.inventoryItems.collect(::renderInventorySummary) }
                 launch {
                     viewModel.homeMessage.collect { msg ->
-                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                        showHqToast(msg)
                     }
                 }
                 launch {
@@ -200,7 +201,7 @@ class HomeFragment : Fragment() {
             is HomeViewModel.UiState.Error -> {
                 binding.progressHomeLoading.visibility = View.GONE
                 binding.layoutHomeContent.visibility = View.VISIBLE
-                Toast.makeText(requireContext(), readableError(state.message), Toast.LENGTH_SHORT).show()
+                showHqToast(readableError(state.message))
             }
             HomeViewModel.UiState.LoggedOut -> {
                 binding.progressHomeLoading.visibility = View.GONE

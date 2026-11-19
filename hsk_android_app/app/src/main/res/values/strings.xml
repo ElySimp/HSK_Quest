@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HSK Quest</string>
+    <string name="app_name">MaoCAT</string>
     <string name="app_tagline">Defeat monsters. Master Hanzi.</string>
     <string name="app_logo_hanzi">汉语</string>
 
@@ -13,6 +13,7 @@
     <string name="nav_gacha">Pet Gacha</string>
     <string name="nav_leaderboard">Leaderboard</string>
     <string name="nav_practice">AI Practice (Lab)</string>
+    <string name="nav_settings">Settings</string>
     <string name="nav_logout">Log out</string>
     <string name="nav_header_tagline">RPG × Adaptive Chinese</string>
 
@@ -89,6 +90,7 @@
     <string name="title_gacha">Gacha</string>
     <string name="title_leaderboard">Leaderboard</string>
     <string name="title_pet">Companion Pet</string>
+    <string name="title_settings">Settings &amp; AI Engines</string>
     <string name="placeholder_coming">Coming in %1$s</string>
     <string name="back">Back</string>
 

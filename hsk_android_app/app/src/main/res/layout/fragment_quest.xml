@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/quest_root"
@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_screen"
     android:clipToPadding="false"
-    android:fillViewport="true"
     android:overScrollMode="never"
     android:scrollbars="none">
 
@@ -34,7 +33,11 @@
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_box"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="6dp"
+                android:singleLine="true"
                 android:text="💎 0"
                 android:textColor="@color/hq_sky"
                 android:textSize="15sp" />
@@ -47,7 +50,11 @@
                 android:layout_marginHorizontal="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_box"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="6dp"
+                android:singleLine="true"
                 android:text="🪙 0"
                 android:textColor="@color/hq_gold"
                 android:textSize="15sp" />
@@ -98,7 +105,7 @@
                     android:background="@drawable/bg_stat_box"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
-                    android:text="Up to 100 💎/day"
+                    android:text="100–200 💎/day"
                     android:textColor="@color/hq_sky"
                     android:textSize="10.5sp"
                     android:textStyle="bold" />
@@ -112,14 +119,14 @@
                 android:layout_marginTop="6dp"
                 android:textColor="@color/hq_text_secondary"
                 android:textSize="12.5sp"
-                tools:text="2 / 4 Quests Completed · 2 Rewards Ready" />
+                tools:text="2 / 5 Daily Quests Completed · 2 Rewards Ready" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_daily_overall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:max="4"
+                android:max="5"
                 android:progress="0"
                 app:indicatorColor="@color/hq_gold"
                 app:trackColor="@color/hq_bg_deep"
@@ -142,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Progress updates automatically after Claiming Bounty, Battles, and Pet Care · Resets 00:00 UTC"
+                android:text="Progress updates from Battles, Pet Care, Bounty &amp; Shop · Resets 00:00 UTC"
                 android:textColor="@color/hq_text_muted"
                 android:textSize="10.5sp" />
         </LinearLayout>
@@ -193,16 +200,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="10dp"
-            android:text="Today's Missions"
+            android:text="Today's 5 Missions"
             android:textColor="@color/hq_gold"
             android:textSize="15sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_daily_quests"
+        <LinearLayout
+            android:id="@+id/container_daily_quests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_quest_card" />
+            android:orientation="vertical" />
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

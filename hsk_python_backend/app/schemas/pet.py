@@ -71,3 +71,18 @@ class FeedPetResponse(BaseModel):
     hp_healed: int
     current_player_hp: int
     message: str
+
+
+class RpsSettleRequest(BaseModel):
+    round_id: str = Field(..., min_length=6, max_length=64)
+    player_choice: str = Field(..., pattern=r"^(rock|paper|scissors)$")
+    pet_choice: str = Field(..., pattern=r"^(rock|paper|scissors)$")
+    outcome: str = Field(..., pattern=r"^(win|tie|lose)$")
+    coins_dropped: int = Field(default=0, ge=0, le=5)
+
+
+class BlackjackSettleRequest(BaseModel):
+    round_id: str = Field(..., min_length=6, max_length=64)
+    player_cards: list[str] = Field(..., min_length=2, max_length=11)
+    dealer_cards: list[str] = Field(..., min_length=2, max_length=11)
+    outcome: str = Field(..., pattern=r"^(player_win|pet_win|push|player_bust)$")

@@ -56,6 +56,8 @@
             app:itemPaddingBottom="8dp"
             app:itemPaddingTop="6dp"
             app:itemRippleColor="@color/hq_gold_glow_soft"
+            app:itemTextAppearanceActive="@style/HqBottomNavText"
+            app:itemTextAppearanceInactive="@style/HqBottomNavText"
             app:itemTextColor="@color/bottom_nav_item_tint"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"

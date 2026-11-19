@@ -29,6 +29,8 @@ object BattleEngine {
         isUnderleveledBoss: Boolean = false,
         usedPinyinHint: Boolean = false,
         petBuff: PetBuffSpec? = null,
+        forceCritical: Boolean? = null,
+        damageMultiplierOverride: Double? = null,
     ): BattleState {
         if (currentState.isFinished) return currentState
 
@@ -36,7 +38,7 @@ object BattleEngine {
             hasTimeExtender = hasTimeExtender,
             extraWindowMs = petBuff?.critWindowBonusMs ?: 0L,
         )
-        val isCritical = isCorrect && (elapsedTimeMs <= critWindowMs)
+        val isCritical = isCorrect && (forceCritical ?: (elapsedTimeMs <= critWindowMs))
         val nextQuestionIndex = currentState.questionIndex + 1
 
         return if (isCorrect) {
@@ -55,10 +57,15 @@ object BattleEngine {
                 critDamageBonusPct = petBuff?.critDamageBonusPct ?: 0,
                 firstStrikeBonusPct = openerBonusPct,
             )
-            val damageDealt = if (usedPinyinHint) {
-                DamageCalculator.roundTenth(max(0.5, baseDealt * 0.5))
+            val scaledDealt = if (damageMultiplierOverride != null) {
+                DamageCalculator.roundTenth(max(0.5, baseDealt * damageMultiplierOverride))
             } else {
                 baseDealt
+            }
+            val damageDealt = if (usedPinyinHint) {
+                DamageCalculator.roundTenth(max(0.5, scaledDealt * 0.5))
+            } else {
+                scaledDealt
             }
             val newMonsterHp = DamageCalculator.roundTenth(max(0.0, currentState.monsterHp - damageDealt))
             val newPhase = if (newMonsterHp <= 0.0) BattleState.Phase.VICTORY else BattleState.Phase.IN_PROGRESS

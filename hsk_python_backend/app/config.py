@@ -1,5 +1,5 @@
 """
-HSK Quest — App Configuration
+MaoCAT — App Configuration
 Loads environment variables via pydantic-settings.
 """
 from pathlib import Path

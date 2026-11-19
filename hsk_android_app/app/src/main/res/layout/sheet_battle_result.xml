@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card_raised"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp">
 
     <TextView
         android:id="@+id/tv_result_icon"
@@ -159,12 +165,13 @@
         android:layout_marginTop="20dp"
         android:text="@string/battle_fight_again" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_return_world_map"
-        style="@style/HqButton.Outlined"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/battle_return_map" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_return_world_map"
+            style="@style/HqButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/battle_return_map" />
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

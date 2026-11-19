@@ -10,11 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.faldo.hsk_quest.data.model.DailyQuestListResponse
 import com.faldo.hsk_quest.databinding.FragmentQuestBinding
+import com.faldo.hsk_quest.databinding.ItemQuestCardBinding
 import com.faldo.hsk_quest.util.Sfx
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import kotlinx.coroutines.launch
 
 /**
@@ -32,8 +33,6 @@ class QuestFragment : Fragment() {
         )
     }
 
-    private var questAdapter: QuestAdapter? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,12 +44,6 @@ class QuestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        questAdapter = QuestAdapter { quest ->
-            viewModel.claimQuest(quest.questKey)
-        }
-        binding.rvDailyQuests.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvDailyQuests.adapter = questAdapter
 
         binding.btnClaimAllQuests.setOnClickListener {
             viewModel.claimAll()
@@ -106,11 +99,10 @@ class QuestFragment : Fragment() {
                 }
 
                 launch {
-                    viewModel.claimingKey.collect { key ->
-                        questAdapter?.claimingKey = key
+                    viewModel.claimingKey.collect {
                         val daily = viewModel.dailyQuests.value
                         if (daily != null) {
-                            updateClaimAllButton(daily, key != null)
+                            renderDailyQuests(daily)
                         }
                     }
                 }
@@ -123,7 +115,7 @@ class QuestFragment : Fragment() {
 
                 launch {
                     viewModel.feedbackMessage.collect { msg ->
-                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                        showHqToast(msg)
                     }
                 }
             }
@@ -146,10 +138,21 @@ class QuestFragment : Fragment() {
             ""
         }
         binding.tvQuestCompletionSummary.text =
-            "$completed / $baseTotal Core Quests Completed$readySuffix"
+            "$completed / $baseTotal Daily Quests Completed$readySuffix"
 
-        updateClaimAllButton(daily, viewModel.claimingKey.value != null)
-        questAdapter?.submitList(daily.quests)
+        val currentClaimingKey = viewModel.claimingKey.value
+        updateClaimAllButton(daily, currentClaimingKey != null)
+
+        // Render all 5 quest cards directly inside NestedScrollView so none are clipped
+        val container = binding.containerDailyQuests
+        container.removeAllViews()
+        for (quest in daily.quests) {
+            val cardBinding = ItemQuestCardBinding.inflate(layoutInflater, container, false)
+            QuestAdapter.bindQuestCard(cardBinding, quest, currentClaimingKey) { clicked ->
+                viewModel.claimQuest(clicked.questKey)
+            }
+            container.addView(cardBinding.root)
+        }
     }
 
     private fun updateClaimAllButton(daily: DailyQuestListResponse, isBusy: Boolean) {
@@ -176,7 +179,6 @@ class QuestFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        questAdapter = null
         _binding = null
     }
 }

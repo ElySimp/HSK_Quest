@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bj_sheet_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card_raised"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:id="@+id/bj_sheet_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="18dp">
 
     <View
         android:layout_width="40dp"
@@ -209,13 +215,14 @@
         app:cornerRadius="12dp"
         tools:visibility="visible" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_bj_close"
-        style="@style/HqButton.Outlined"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Close"
-        app:cornerRadius="12dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_bj_close"
+            style="@style/HqButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Close"
+            app:cornerRadius="12dp" />
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

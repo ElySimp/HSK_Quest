@@ -1,5 +1,5 @@
 """
-Database Maintenance Service — safe auto-prune and table telemetry for HSK Quest.
+Database Maintenance Service — safe auto-prune and table telemetry for MaoCAT.
 
 Provides automated pruning of old battle history records while strictly protecting
 active weekly leaderboard rankings, plus database metrics for admin dashboard oversight.

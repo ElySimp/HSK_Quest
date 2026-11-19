@@ -37,6 +37,7 @@ import com.faldo.hsk_quest.ui.battle.AudioRecorderHelper
 import com.faldo.hsk_quest.ui.battle.CanvasWritingView
 import com.faldo.hsk_quest.ui.ocr.CameraOcrFragment
 import com.faldo.hsk_quest.util.appContainer
+import com.faldo.hsk_quest.util.showHqToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Job
@@ -94,11 +95,7 @@ class PracticeFragment : Fragment() {
                 pendingRecordingCallback = null
             } else {
                 pendingRecordingCallback = null
-                Toast.makeText(
-                    requireContext(),
-                    "Microphone permission is required to record pronunciation.",
-                    Toast.LENGTH_SHORT,
-                ).show()
+                showHqToast("Microphone permission is required to record pronunciation.")
             }
         }
 

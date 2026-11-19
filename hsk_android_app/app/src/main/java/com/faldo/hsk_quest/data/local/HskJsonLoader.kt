@@ -45,6 +45,19 @@ data class MultiWordSearchResponse(
     val flatEntries: List<DictionaryEntry>,
 )
 
+data class ClozeJsonEntry(
+    val target: String,
+    val sentence: String,
+    val pinyin: String,
+    val slot: String = "OTHER",
+)
+
+data class ClozeLevelFile(
+    val level: Int = 1,
+    val totalEntries: Int = 0,
+    val entries: List<ClozeJsonEntry> = emptyList(),
+)
+
 /**
  * Loads HSK vocabulary from assets/hsk_data and caches each level in memory.
  * Area 7, 8 and 9 all map to the combined hsk-7-9.json file.
@@ -55,6 +68,26 @@ class HskJsonLoader(context: Context) {
     private val gson = Gson()
     private val cache = ConcurrentHashMap<String, List<HskTerm>>()
     private val dictionaryCache = ConcurrentHashMap<Int, List<DictionaryEntry>>()
+    private val clozeCache = ConcurrentHashMap<String, Map<String, List<ClozeJsonEntry>>>()
+
+    suspend fun loadClozeMap(level: Int): Map<String, List<ClozeJsonEntry>> = withContext(Dispatchers.IO) {
+        val fileName = clozeFileNameFor(level)
+        clozeCache[fileName] ?: run {
+            val loaded = runCatching {
+                assets.open("$ASSET_DIR/$fileName").bufferedReader(Charsets.UTF_8).use {
+                    gson.fromJson(it, ClozeLevelFile::class.java).entries
+                }.filter { entry ->
+                    entry.target.isNotBlank() &&
+                        entry.sentence.contains(CLOZE_BLANK) &&
+                        entry.pinyin.contains(CLOZE_BLANK)
+                }.groupBy { it.target }
+            }.getOrDefault(emptyMap())
+            if (loaded.isNotEmpty()) {
+                clozeCache[fileName] = loaded
+            }
+            loaded
+        }
+    }
 
     suspend fun loadLevel(level: Int): List<HskTerm> = withContext(Dispatchers.IO) {
         val fileName = fileNameFor(level)
@@ -501,8 +534,14 @@ class HskJsonLoader(context: Context) {
         else -> "hsk-${level.coerceIn(1, 9)}.json"
     }
 
+    private fun clozeFileNameFor(level: Int): String = when (level.coerceIn(1, 9)) {
+        in 7..9 -> "cloze_hsk_7_9.json"
+        else -> "cloze_hsk_${level.coerceIn(1, 9)}.json"
+    }
+
     companion object {
         private const val ASSET_DIR = "hsk_data"
+        private const val CLOZE_BLANK = "[ ___ ]"
         private val DIACRITICS_REGEX = "\\p{InCombiningDiacriticalMarks}+".toRegex()
         private val WHITESPACE_REGEX = "\\s+".toRegex()
 

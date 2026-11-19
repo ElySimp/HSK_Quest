@@ -1,5 +1,5 @@
 """
-Admin Router — /api/admin endpoints and Web Dashboard for HSK Quest.
+Admin Router — /api/admin endpoints and Web Dashboard for MaoCAT.
 
 Provides full LiveOps telemetry, player progression tweaking, instant health restoration,
 and automated/manual database maintenance for battle history pruning.

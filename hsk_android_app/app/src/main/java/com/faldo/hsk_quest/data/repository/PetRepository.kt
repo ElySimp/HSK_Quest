@@ -1,6 +1,7 @@
 package com.faldo.hsk_quest.data.repository
 
 import com.faldo.hsk_quest.data.model.BlackjackActionRequest
+import com.faldo.hsk_quest.data.model.BlackjackSettleRequest
 import com.faldo.hsk_quest.data.model.BlackjackStateResponse
 import com.faldo.hsk_quest.data.model.FeedPetRequest
 import com.faldo.hsk_quest.data.model.FeedPetResponse
@@ -8,6 +9,7 @@ import com.faldo.hsk_quest.data.model.PetItem
 import com.faldo.hsk_quest.data.model.PetListResponse
 import com.faldo.hsk_quest.data.model.RpsRequest
 import com.faldo.hsk_quest.data.model.RpsResponse
+import com.faldo.hsk_quest.data.model.RpsSettleRequest
 import com.faldo.hsk_quest.data.remote.ApiErrorParser
 import com.faldo.hsk_quest.data.remote.ApiService
 import com.faldo.hsk_quest.util.Resource
@@ -118,6 +120,36 @@ class PetRepository(
             }
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Failed to play Rock-Paper-Scissors")
+        }
+    }
+
+    suspend fun settleRps(request: RpsSettleRequest): Resource<RpsResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.settleRps(request)
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                updateActivePetAffectionLocal(body.currentAffection)
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to sync Rock-Paper-Scissors")
+        }
+    }
+
+    suspend fun settleBlackjack(request: BlackjackSettleRequest): Resource<BlackjackStateResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.settleBlackjack(request)
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                updateActivePetAffectionLocal(body.currentAffection)
+                Resource.Success(body)
+            } else {
+                Resource.Error(ApiErrorParser.parse(response))
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to sync Blackjack")
         }
     }
 

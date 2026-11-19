@@ -1,5 +1,6 @@
 package com.faldo.hsk_quest.engine
 
+import com.faldo.hsk_quest.data.local.ClozeJsonEntry
 import com.faldo.hsk_quest.data.model.HskTerm
 import com.faldo.hsk_quest.data.model.MonsterType
 import java.text.Normalizer
@@ -108,40 +109,41 @@ object QuestionGenerator {
     private val CURATED_CLOZE_BY_HANZI: Map<String, ClozeSpec> by lazy {
         val slotsFn = setOf(SemanticSlot.PARTICLE, SemanticSlot.ADVERB, SemanticSlot.CONJUNCTION, SemanticSlot.PRONOUN, SemanticSlot.MEASURE, SemanticSlot.OTHER)
         mapOf(
-            "的" to ClozeSpec("这是我新买 [ ___ ] 汉语词典。", "Zhè shì wǒ xīn mǎi [ ___ ] Hànyǔ cídiǎn.", slotsFn),
+            "的" to ClozeSpec("这是我新买 [ ___ ] 汉语书。", "Zhè shì wǒ xīn mǎi [ ___ ] Hànyǔ shū.", slotsFn),
             "了" to ClozeSpec("我昨天去商店买 [ ___ ] 两个苹果。", "Wǒ zuótiān qù shāngdiàn mǎi [ ___ ] liǎng gè píngguǒ.", slotsFn),
             "吗" to ClozeSpec("请问，你明天上午有时间 [ ___ ]？", "Qǐngwèn, nǐ míngtiān shàngwǔ yǒu shíjiān [ ___ ]?", slotsFn),
-            "呢" to ClozeSpec("我的手机在这里，你的手机 [ ___ ]？", "Wǒ de shǒujī zài zhèlǐ, nǐ de shǒujī [ ___ ]?", slotsFn),
-            "吧" to ClozeSpec("外面太冷了，我们快进屋子里 [ ___ ]。", "Wàimiàn tài lěng le, wǒmen kuài jìn wūzi lǐ [ ___ ].", slotsFn),
-            "在" to ClozeSpec("小猫正 [ ___ ] 椅子下面睡觉。", "Xiǎomāo zhèng [ ___ ] yǐzi xiàmiàn shuìjiào.", slotsFn + setOf(SemanticSlot.VERB_MOTION)),
-            "从" to ClozeSpec("他早上八点 [ ___ ] 家里出发去学校。", "Tā zǎoshang bā diǎn [ ___ ] jiālǐ chūfā qù xuéxiào.", slotsFn),
-            "给" to ClozeSpec("请帮我把这杯热茶递 [ ___ ] 爷爷。", "Qǐng bāng wǒ bǎ zhè bēi rè chá dì [ ___ ] yéye.", slotsFn),
-            "比" to ClozeSpec("哥哥的个子 [ ___ ] 弟弟高很多。", "Gēge de gèzi [ ___ ] dìdi gāo hěn duō.", slotsFn),
-            "因为" to ClozeSpec("[ ___ ] 今天下大雨，我们没有去爬山。", "[ ___ ] jīntiān xià dàyǔ, wǒmen méiyǒu qù páshān.", slotsFn),
-            "所以" to ClozeSpec("昨天晚上睡得太晚，[ ___ ] 今天很困。", "Zuótiān wǎnshang shuì de tài wǎn, [ ___ ] jīntiān hěn kùn.", slotsFn),
-            "但是" to ClozeSpec("这件衣服很漂亮，[ ___ ] 价格有点贵。", "Zhè jiàn yīfu hěn piàoliang, [ ___ ] jiàgé yǒudiǎn guì.", slotsFn),
-            "虽然" to ClozeSpec("[ ___ ] 汉语很难学，但是我觉得很有意思。", "[ ___ ] Hànyǔ hěn nán xué, dànshì wǒ juéde hěn yǒu yìsi.", slotsFn),
-            "如果" to ClozeSpec("[ ___ ] 明天天气好，我们就去公园。", "[ ___ ] míngtiān tiānqì hǎo, wǒmen jiù qù gōngyuán.", slotsFn),
-            "个" to ClozeSpec("桌子上放着三 [ ___ ] 红苹果。", "Zhuōzi shàng fàngzhe sān [ ___ ] hóng píngguǒ.", slotsFn + setOf(SemanticSlot.NUMBER)),
-            "本" to ClozeSpec("书包里装着两 [ ___ ] 汉语书。", "Shūbāo lǐ zhuāngzhe liǎng [ ___ ] Hànyǔ shū.", slotsFn + setOf(SemanticSlot.NUMBER)),
-            "杯" to ClozeSpec("请给我倒一 [ ___ ] 温开水。", "Qǐng gěi wǒ dào yì [ ___ ] wēn kāishuǐ.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.DRINK)),
-            "只" to ClozeSpec("树枝上停着两 [ ___ ] 可爱的小鸟。", "Shùzhī shàng tíngzhe liǎng [ ___ ] kě'ài de xiǎoniǎo.", slotsFn + setOf(SemanticSlot.NUMBER)),
-            "块" to ClozeSpec("这个面包只要五 [ ___ ] 钱。", "Zhège miànbāo zhǐyào wǔ [ ___ ] qián.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.MONEY)),
-            "岁" to ClozeSpec("我妹妹今年已经八 [ ___ ] 了。", "Wǒ mèimei jīnnián yǐjīng bā [ ___ ] le.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.TIME)),
-            "几" to ClozeSpec("请问现在是下午 [ ___ ] 点？", "Qǐngwèn xiànzài shì xiàwǔ [ ___ ] diǎn?", slotsFn + setOf(SemanticSlot.NUMBER)),
-            "多少" to ClozeSpec("你们班一共有 [ ___ ] 个学生？", "Nǐmen bān yígòng yǒu [ ___ ] gè xuésheng?", slotsFn + setOf(SemanticSlot.NUMBER)),
-            "怎么" to ClozeSpec("这道题太难了，我不知道 [ ___ ] 做。", "Zhè dào tí tài nán le, wǒ bù zhīdào [ ___ ] zuò.", slotsFn),
-            "什么" to ClozeSpec("你周末通常喜欢做 [ ___ ] 运动？", "Nǐ zhōumò tōngcháng xǐhuan zuò [ ___ ] yùndòng?", slotsFn),
-            "谁" to ClozeSpec("门口敲门的那位客人是 [ ___ ]？", "Ménkǒu qiāomén de nà wèi kèrén shì [ ___ ]?", slotsFn + setOf(SemanticSlot.PERSON)),
-            "哪儿" to ClozeSpec("请问洗手间在 [ ___ ]？", "Qǐngwèn xǐshǒujiān zài [ ___ ]?", slotsFn + setOf(SemanticSlot.PLACE)),
-            "哪里" to ClozeSpec("请问附近的地铁站在 [ ___ ]？", "Qǐngwèn fùjìn de dìtiězhàn zài [ ___ ]?", slotsFn + setOf(SemanticSlot.PLACE)),
-            "很" to ClozeSpec("这里的风景 [ ___ ] 漂亮，大家都很喜欢。", "Zhèlǐ de fēngjǐng [ ___ ] piàoliang, dàjiā dōu hěn xǐhuan.", slotsFn),
-            "太" to ClozeSpec("今天的汤 [ ___ ] 热了，等凉一点再喝。", "Jīntiān de tāng [ ___ ] rè le, děng liáng yìdiǎn zài hē.", slotsFn),
-            "都" to ClozeSpec("我们全班同学 [ ___ ] 喜欢上汉语课。", "Wǒmen quánbān tóngxué [ ___ ] xǐhuan shàng Hànyǔ kè.", slotsFn),
-            "也" to ClozeSpec("姐姐喜欢画画，我 [ ___ ] 喜欢画画。", "Jiějie xǐhuan huàhuà, wǒ [ ___ ] xǐhuan huàhuà.", slotsFn),
-            "已经" to ClozeSpec("八点半了，电影 [ ___ ] 开始了。", "Bā diǎn bàn le, diànyǐng [ ___ ] kāishǐ le.", slotsFn),
-            "正在" to ClozeSpec("老师 [ ___ ] 教室里给同学们讲故事。", "Lǎoshī [ ___ ] jiàoshì lǐ gěi tóngxuémen jiǎng gùshi.", slotsFn),
-            "没有" to ClozeSpec("我今天早上 [ ___ ] 吃早饭就出门了。", "Wǒ jīntiān zǎoshang [ ___ ] chī zǎofàn jiù chūmén le.", slotsFn),
+            "呢" to ClozeSpec("我喜欢喝水，你 [ ___ ]？", "Wǒ xǐhuan hē shuǐ, nǐ [ ___ ]?", slotsFn),
+            "吧" to ClozeSpec("外面很冷，我们回家 [ ___ ]。", "Wàimiàn hěn lěng, wǒmen huí jiā [ ___ ].", slotsFn),
+            "在" to ClozeSpec("我的朋友 [ ___ ] 学校看书。", "Wǒ de péngyou [ ___ ] xuéxiào kànshū.", slotsFn + setOf(SemanticSlot.VERB_MOTION)),
+            "从" to ClozeSpec("他早上八点 [ ___ ] 家里去学校。", "Tā zǎoshang bā diǎn [ ___ ] jiālǐ qù xuéxiào.", slotsFn),
+            "给" to ClozeSpec("妈妈 [ ___ ] 我买了两本书。", "Māma [ ___ ] wǒ mǎi le liǎng běn shū.", slotsFn),
+            "比" to ClozeSpec("今天的茶 [ ___ ] 水好喝。", "Jīntiān de chá [ ___ ] shuǐ hǎohē.", slotsFn),
+            "和" to ClozeSpec("妈妈 [ ___ ] 爸爸都很高兴。", "Māma [ ___ ] bàba dōu hěn gāoxìng.", slotsFn),
+            "因为" to ClozeSpec("[ ___ ] 今天下雨，我们没有去学校。", "[ ___ ] jīntiān xià yǔ, wǒmen méiyǒu qù xuéxiào.", slotsFn),
+            "所以" to ClozeSpec("今天很冷，[ ___ ] 我在家喝热茶。", "Jīntiān hěn lěng, [ ___ ] wǒ zài jiā hē rè chá.", slotsFn),
+            "但是" to ClozeSpec("这件衣服很漂亮，[ ___ ] 太小了。", "Zhè jiàn yīfu hěn piàoliang, [ ___ ] tài xiǎo le.", slotsFn),
+            "虽然" to ClozeSpec("[ ___ ] 汉语很难，但是我觉得很有意思。", "[ ___ ] Hànyǔ hěn nán, dànshì wǒ juéde hěn yǒu yìsi.", slotsFn),
+            "如果" to ClozeSpec("[ ___ ] 明天天气好，我们就去那里。", "[ ___ ] míngtiān tiānqì hǎo, wǒmen jiù qù nàlǐ.", slotsFn),
+            "个" to ClozeSpec("我家有四 [ ___ ] 人。", "Wǒ jiā yǒu sì [ ___ ] rén.", slotsFn + setOf(SemanticSlot.NUMBER)),
+            "本" to ClozeSpec("桌子上有一 [ ___ ] 新书。", "Zhuōzi shàng yǒu yì [ ___ ] xīn shū.", slotsFn + setOf(SemanticSlot.NUMBER)),
+            "杯" to ClozeSpec("请给我一 [ ___ ] 热茶。", "Qǐng gěi wǒ yì [ ___ ] rè chá.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.DRINK)),
+            "只" to ClozeSpec("椅子上有一 [ ___ ] 小白猫。", "Yǐzi shàng yǒu yì [ ___ ] xiǎo bái māo.", slotsFn + setOf(SemanticSlot.NUMBER)),
+            "块" to ClozeSpec("那个苹果三 [ ___ ] 钱。", "Nàge píngguǒ sān [ ___ ] qián.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.MONEY)),
+            "岁" to ClozeSpec("我妹妹今年八 [ ___ ] 了。", "Wǒ mèimei jīnnián bā [ ___ ] le.", slotsFn + setOf(SemanticSlot.NUMBER, SemanticSlot.TIME)),
+            "几" to ClozeSpec("现在是下午 [ ___ ] 点？", "Xiànzài shì xiàwǔ [ ___ ] diǎn?", slotsFn + setOf(SemanticSlot.NUMBER)),
+            "多少" to ClozeSpec("请问这件衣服 [ ___ ] 钱？", "Qǐngwèn zhè jiàn yīfu [ ___ ] qián?", slotsFn + setOf(SemanticSlot.NUMBER)),
+            "怎么" to ClozeSpec("请问这个字 [ ___ ] 写？", "Qǐngwèn zhège zì [ ___ ] xiě?", slotsFn),
+            "什么" to ClozeSpec("明天上午你想买 [ ___ ] 东西？", "Míngtiān shàngwǔ nǐ xiǎng mǎi [ ___ ] dōngxi?", slotsFn),
+            "谁" to ClozeSpec("门口的那个人是 [ ___ ]？", "Ménkǒu de nàge rén shì [ ___ ]?", slotsFn + setOf(SemanticSlot.PERSON)),
+            "哪儿" to ClozeSpec("请问你的朋友去 [ ___ ] 了？", "Qǐngwèn nǐ de péngyou qù [ ___ ] le?", slotsFn + setOf(SemanticSlot.PLACE)),
+            "哪里" to ClozeSpec("请问老师现在在 [ ___ ]？", "Qǐngwèn lǎoshī xiànzài zài [ ___ ]?", slotsFn + setOf(SemanticSlot.PLACE)),
+            "很" to ClozeSpec("今天的天气 [ ___ ] 好，我们都很高兴。", "Jīntiān de tiānqì [ ___ ] hǎo, wǒmen dōu hěn gāoxìng.", slotsFn),
+            "太" to ClozeSpec("今天的茶 [ ___ ] 热了，等一下再喝。", "Jīntiān de chá [ ___ ] rè le, děng yíxià zài hē.", slotsFn),
+            "都" to ClozeSpec("我们班的同学 [ ___ ] 喜欢学汉语。", "Wǒmen bān de tóngxué [ ___ ] xǐhuan xué Hànyǔ.", slotsFn),
+            "也" to ClozeSpec("爸爸喜欢喝茶，妈妈 [ ___ ] 喜欢喝茶。", "Bàba xǐhuan hē chá, māma [ ___ ] xǐhuan hē chá.", slotsFn),
+            "已经" to ClozeSpec("八点半了，爸爸 [ ___ ] 回家了。", "Bā diǎn bàn le, bàba [ ___ ] huí jiā le.", slotsFn),
+            "正在" to ClozeSpec("妈妈 [ ___ ] 家里做饭。", "Māma [ ___ ] jiālǐ zuòfàn.", slotsFn),
+            "没有" to ClozeSpec("今天早上我 [ ___ ] 吃早饭。", "Jīntiān zǎoshang wǒ [ ___ ] chī zǎofàn.", slotsFn),
         )
     }
 
@@ -238,11 +240,34 @@ object QuestionGenerator {
         monsterType: MonsterType = MonsterType.NORMAL,
         mistakeWeights: Map<String, Int> = emptyMap(),
         allowSpeaking: Boolean = true,
+        toneEvaluator: TfliteMandarinToneEvaluator? = null,
+        deckManager: QuestionDeckManager? = null,
+        username: String = "guest",
+        areaId: Int = 1,
+        levelClozeMap: Map<String, List<ClozeJsonEntry>> = emptyMap(),
+        engineMode: QuestionEngineMode = QuestionEngineMode.RULE_BASED,
     ): BattleQuestion? {
         if (terms.size < 4) return null
 
-        val type = selectQuestionType(monsterType, allowSpeaking)
-        val target = selectTargetForQuestionType(type, terms, mistakeWeights)
+        // When Engine B (ML CAT) is trained in .ipynb and bundled as cat_scheduler.tflite,
+        // dispatch ML item/modality scoring when engineMode == QuestionEngineMode.ML_CAT.
+        val type = when (engineMode) {
+            QuestionEngineMode.RULE_BASED,
+            QuestionEngineMode.ML_CAT -> {
+                deckManager?.nextQuestionType(monsterType, allowSpeaking)
+                    ?: selectQuestionType(monsterType, allowSpeaking)
+            }
+        }
+        val target = selectTargetForQuestionType(
+            type = type,
+            terms = terms,
+            mistakeWeights = mistakeWeights,
+            toneEvaluator = toneEvaluator,
+            deckManager = deckManager,
+            username = username,
+            areaId = areaId,
+            levelClozeMap = levelClozeMap,
+        )
 
         if (type == QuestionType.WRITING_CHALLENGE) {
             val cleanMeaning = target.english.take(72)
@@ -297,7 +322,7 @@ object QuestionGenerator {
                 )
             }
             QuestionType.CLOZE_SENTENCE -> {
-                val spec = buildClozeSpec(target)
+                val spec = buildClozeSpec(target, levelClozeMap)
                 activeClozeSpec = spec
                 pinyinHint = "Sentence Pinyin: ${spec.pinyin}"
                 Triple(
@@ -343,32 +368,58 @@ object QuestionGenerator {
         type: QuestionType,
         terms: List<HskTerm>,
         mistakeWeights: Map<String, Int>,
+        toneEvaluator: TfliteMandarinToneEvaluator? = null,
+        deckManager: QuestionDeckManager? = null,
+        username: String = "guest",
+        areaId: Int = 1,
+        levelClozeMap: Map<String, List<ClozeJsonEntry>> = emptyMap(),
     ): HskTerm {
-        if (type == QuestionType.WRITING_CHALLENGE) {
-            val handwrittenSingle = terms.filter { it.handwritten && it.simplified.length == 1 }
-            val handwrittenShort = terms.filter { it.handwritten && it.simplified.length <= 2 }
-            val singleCharPool = terms.filter { it.simplified.length == 1 }
-            val writingPool = when {
-                handwrittenSingle.size >= 4 -> handwrittenSingle
-                handwrittenShort.size >= 4 -> handwrittenShort
-                singleCharPool.size >= 4 -> singleCharPool
-                else -> terms.filter { it.simplified.length <= 2 }.ifEmpty { terms }
+        val pool: List<HskTerm> = when {
+            type == QuestionType.SPEAKING_CHALLENGE && toneEvaluator != null -> {
+                val toneSupportedPool = terms.filter { toneEvaluator.isTermSupported(it.pinyin) }
+                if (toneSupportedPool.size >= 4) toneSupportedPool else terms
             }
-            return selectWeightedTarget(writingPool, mistakeWeights)
+            type == QuestionType.WRITING_CHALLENGE -> {
+                val handwrittenSingle = terms.filter { it.handwritten && it.simplified.length == 1 }
+                val handwrittenShort = terms.filter { it.handwritten && it.simplified.length <= 2 }
+                val singleCharPool = terms.filter { it.simplified.length == 1 }
+                when {
+                    handwrittenSingle.size >= 4 -> handwrittenSingle
+                    handwrittenShort.size >= 4 -> handwrittenShort
+                    singleCharPool.size >= 4 -> singleCharPool
+                    else -> terms.filter { it.simplified.length <= 2 }.ifEmpty { terms }
+                }
+            }
+            type == QuestionType.CLOZE_SENTENCE -> {
+                val jsonPool = if (levelClozeMap.isNotEmpty()) {
+                    terms.filter { !levelClozeMap[it.simplified].isNullOrEmpty() }
+                } else {
+                    emptyList()
+                }
+                val curatedOrSpecific = terms.filter { isSpecificClozeCandidate(it) }
+                val compoundContentPool = terms.filter { it.simplified.length >= 2 && isContentWord(it) }
+                when {
+                    jsonPool.size >= 4 -> jsonPool
+                    curatedOrSpecific.size >= 4 -> curatedOrSpecific
+                    compoundContentPool.size >= 4 -> compoundContentPool
+                    else -> terms
+                }
+            }
+            else -> terms
         }
 
-        if (type == QuestionType.CLOZE_SENTENCE) {
-            val curatedOrSpecific = terms.filter { isSpecificClozeCandidate(it) }
-            if (curatedOrSpecific.size >= 4) {
-                return selectWeightedTarget(curatedOrSpecific, mistakeWeights)
-            }
-            val compoundContentPool = terms.filter { it.simplified.length >= 2 && isContentWord(it) }
-            if (compoundContentPool.size >= 4) {
-                return selectWeightedTarget(compoundContentPool, mistakeWeights)
-            }
+        if (deckManager != null) {
+            val eligibleSet = pool.mapTo(HashSet(pool.size)) { it.simplified }
+            return deckManager.drawNextTarget(
+                username = username,
+                areaId = areaId,
+                terms = terms,
+                mistakeWeights = mistakeWeights,
+                eligiblePredicate = { it.simplified in eligibleSet },
+            )
         }
 
-        return selectWeightedTarget(terms, mistakeWeights)
+        return selectWeightedTarget(pool, mistakeWeights)
     }
 
     private fun isSpecificClozeCandidate(term: HskTerm): Boolean {
@@ -516,206 +567,172 @@ object QuestionGenerator {
      * Builds a contextual Mandarin cloze sentence and its corresponding sentence Pinyin
      * (without any parenthetical English answer spoilers).
      */
-    fun buildClozePrompt(target: HskTerm): Pair<String, String> {
-        val spec = buildClozeSpec(target)
+    fun buildClozePrompt(
+        target: HskTerm,
+        levelClozeMap: Map<String, List<ClozeJsonEntry>> = emptyMap(),
+    ): Pair<String, String> {
+        val spec = buildClozeSpec(target, levelClozeMap)
         return spec.sentence to spec.pinyin
     }
 
-    private fun buildClozeSpec(target: HskTerm): ClozeSpec {
+    private fun excludedSlotsFor(slot: SemanticSlot): Set<SemanticSlot> {
+        val nonNounSlots = setOf(SemanticSlot.NOUN_GENERAL, SemanticSlot.OTHER)
+        return when (slot) {
+            SemanticSlot.DRINK -> setOf(SemanticSlot.DRINK, SemanticSlot.FOOD) + nonNounSlots
+            SemanticSlot.FOOD -> setOf(SemanticSlot.FOOD, SemanticSlot.DRINK) + nonNounSlots
+            SemanticSlot.VEHICLE -> setOf(SemanticSlot.VEHICLE, SemanticSlot.PLACE) + nonNounSlots
+            SemanticSlot.PLACE -> setOf(SemanticSlot.PLACE, SemanticSlot.TIME) + nonNounSlots
+            SemanticSlot.PERSON -> setOf(SemanticSlot.PERSON, SemanticSlot.PRONOUN, SemanticSlot.ANIMAL) + nonNounSlots
+            SemanticSlot.TIME -> setOf(SemanticSlot.TIME, SemanticSlot.NUMBER) + nonNounSlots
+            SemanticSlot.WEATHER -> setOf(SemanticSlot.WEATHER, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.TIME) + nonNounSlots
+            SemanticSlot.LANGUAGE -> setOf(SemanticSlot.LANGUAGE, SemanticSlot.OBJECT_READ) + nonNounSlots
+            SemanticSlot.OBJECT_WEAR -> setOf(SemanticSlot.OBJECT_WEAR, SemanticSlot.COLOR) + nonNounSlots
+            SemanticSlot.OBJECT_READ -> setOf(SemanticSlot.OBJECT_READ, SemanticSlot.OBJECT_TECH, SemanticSlot.LANGUAGE) + nonNounSlots
+            SemanticSlot.OBJECT_TECH -> setOf(SemanticSlot.OBJECT_TECH, SemanticSlot.OBJECT_READ) + nonNounSlots
+            SemanticSlot.ANIMAL -> setOf(SemanticSlot.ANIMAL, SemanticSlot.PERSON) + nonNounSlots
+            SemanticSlot.MONEY -> setOf(SemanticSlot.MONEY, SemanticSlot.NUMBER, SemanticSlot.MEASURE) + nonNounSlots
+            SemanticSlot.COLOR -> setOf(SemanticSlot.COLOR, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL) + nonNounSlots
+            SemanticSlot.MEASURE -> setOf(SemanticSlot.MEASURE, SemanticSlot.NUMBER, SemanticSlot.PARTICLE) + nonNounSlots
+            SemanticSlot.PRONOUN -> setOf(SemanticSlot.PRONOUN, SemanticSlot.PERSON, SemanticSlot.PLACE, SemanticSlot.PARTICLE)
+            SemanticSlot.CONJUNCTION -> setOf(SemanticSlot.CONJUNCTION, SemanticSlot.PARTICLE, SemanticSlot.ADVERB)
+            SemanticSlot.NUMBER -> setOf(SemanticSlot.NUMBER, SemanticSlot.MEASURE, SemanticSlot.TIME)
+            SemanticSlot.ADVERB -> setOf(SemanticSlot.ADVERB, SemanticSlot.CONJUNCTION, SemanticSlot.PARTICLE, SemanticSlot.ADJ_GENERAL)
+            SemanticSlot.VERB_CONSUMPTION -> setOf(SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_GENERAL, SemanticSlot.VERB_PURCHASE)
+            SemanticSlot.VERB_MOTION -> setOf(SemanticSlot.VERB_MOTION, SemanticSlot.VERB_GENERAL)
+            SemanticSlot.VERB_STUDY_COMM -> setOf(SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_GENERAL)
+            SemanticSlot.VERB_MENTAL -> setOf(SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_GENERAL)
+            SemanticSlot.VERB_PURCHASE -> setOf(SemanticSlot.VERB_PURCHASE, SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_GENERAL)
+            SemanticSlot.ADJ_WEATHER_TEMP -> setOf(SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_EMOTION)
+            SemanticSlot.ADJ_EMOTION -> setOf(SemanticSlot.ADJ_EMOTION, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADVERB)
+            SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL -> setOf(SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_EMOTION, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADVERB)
+            SemanticSlot.VERB_GENERAL -> setOf(
+                SemanticSlot.VERB_GENERAL, SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_MOTION,
+                SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_PURCHASE,
+            )
+            SemanticSlot.NOUN_GENERAL, SemanticSlot.PARTICLE, SemanticSlot.OTHER -> setOf(
+                SemanticSlot.NOUN_GENERAL, SemanticSlot.OTHER, SemanticSlot.PLACE, SemanticSlot.PERSON,
+                SemanticSlot.DRINK, SemanticSlot.FOOD, SemanticSlot.OBJECT_READ, SemanticSlot.OBJECT_TECH, SemanticSlot.OBJECT_WEAR,
+            )
+        }
+    }
+
+    private fun buildClozeSpec(
+        target: HskTerm,
+        levelClozeMap: Map<String, List<ClozeJsonEntry>> = emptyMap(),
+    ): ClozeSpec {
+        val jsonEntries = levelClozeMap[target.simplified]
+        if (!jsonEntries.isNullOrEmpty()) {
+            val picked = jsonEntries[(target.number.coerceAtLeast(0) + Random.nextInt(jsonEntries.size)) % jsonEntries.size]
+            val slot = runCatching { SemanticSlot.valueOf(picked.slot) }
+                .getOrElse { classifySemanticSlot(target) }
+            return ClozeSpec(
+                sentence = picked.sentence,
+                pinyin = picked.pinyin,
+                excludedDistractorSlots = excludedSlotsFor(slot),
+            )
+        }
+
         CURATED_CLOZE_BY_HANZI[target.simplified]?.let { return it }
 
         val slot = classifySemanticSlot(target)
-        val nonNounSlots = setOf(SemanticSlot.NOUN_GENERAL, SemanticSlot.OTHER)
+        val ex = excludedSlotsFor(slot)
         val templates: List<ClozeSpec> = when (slot) {
-            SemanticSlot.DRINK -> {
-                val ex = setOf(SemanticSlot.DRINK, SemanticSlot.FOOD) + nonNounSlots
-                listOf(
-                    ClozeSpec("我口渴了，想喝一杯 [ ___ ]。", "Wǒ kǒukě le, xiǎng hē yì bēi [ ___ ].", ex),
-                    ClozeSpec("服务员，请给我来一瓶 [ ___ ]。", "Fúwùyuán, qǐng gěi wǒ lái yì píng [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.FOOD -> {
-                val ex = setOf(SemanticSlot.FOOD, SemanticSlot.DRINK) + nonNounSlots
-                listOf(
-                    ClozeSpec("中午肚子饿了，我想吃点 [ ___ ]。", "Zhōngwǔ dùzi è le, wǒ xiǎng chī diǎn [ ___ ].", ex),
-                    ClozeSpec("妈妈在厨房准备了好吃的 [ ___ ]。", "Māma zài chúfáng zhǔnbèi le hǎochī de [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.VEHICLE -> {
-                val ex = setOf(SemanticSlot.VEHICLE, SemanticSlot.PLACE) + nonNounSlots
-                listOf(
-                    ClozeSpec("他每天早上坐 [ ___ ] 去公司上班。", "Tā měitiān zǎoshang zuò [ ___ ] qù gōngsī shàngbān.", ex),
-                    ClozeSpec("去那座城市坐 [ ___ ] 非常方便。", "Qù nà zuò chéngshì zuò [ ___ ] fēicháng fāngbiàn.", ex),
-                )
-            }
-            SemanticSlot.PLACE -> {
-                val ex = setOf(SemanticSlot.PLACE, SemanticSlot.TIME) + nonNounSlots
-                listOf(
-                    ClozeSpec("我现在就在 [ ___ ] 里面等你。", "Wǒ xiànzài jiù zài [ ___ ] lǐmiàn děng nǐ.", ex),
-                    ClozeSpec("明天上午我要去 [ ___ ] 办一件事情。", "Míngtiān shàngwǔ wǒ yào qù [ ___ ] bàn yí jiàn shìqing.", ex),
-                )
-            }
-            SemanticSlot.PERSON -> {
-                val ex = setOf(SemanticSlot.PERSON, SemanticSlot.PRONOUN, SemanticSlot.ANIMAL) + nonNounSlots
-                listOf(
-                    ClozeSpec("那位正在说话的 [ ___ ] 对大家很客气。", "Nà wèi zhèngzài shuōhuà de [ ___ ] duì dàjiā hěn kèqi.", ex),
-                    ClozeSpec("今天下午我们要去看望那位 [ ___ ]。", "Jīntiān xiàwǔ wǒmen yào qù kànwàng nà wèi [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.TIME -> {
-                val ex = setOf(SemanticSlot.TIME, SemanticSlot.NUMBER) + nonNounSlots
-                listOf(
-                    ClozeSpec("[ ___ ] 下午三点，我们在门前集合吧。", "[ ___ ] xiàwǔ sāndiǎn, wǒmen zài ménqián jíhé ba.", ex),
-                    ClozeSpec("我们约好了 [ ___ ] 一起去吃晚饭。", "Wǒmen yuēhǎo le [ ___ ] yìqǐ qù chī wǎnfàn.", ex),
-                )
-            }
-            SemanticSlot.WEATHER -> {
-                val ex = setOf(SemanticSlot.WEATHER, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.TIME) + nonNounSlots
-                listOf(
-                    ClozeSpec("你看窗外，最近的 [ ___ ] 变化真大！", "Nǐ kàn chuāngwài, zuìjìn de [ ___ ] biànhuà zhēn dà!", ex),
-                    ClozeSpec("出门前先看一看外面的 [ ___ ] 吧。", "Chūmén qián xiān kàn yi kàn wàimiàn de [ ___ ] ba.", ex),
-                )
-            }
-            SemanticSlot.LANGUAGE -> {
-                val ex = setOf(SemanticSlot.LANGUAGE, SemanticSlot.OBJECT_READ) + nonNounSlots
-                listOf(
-                    ClozeSpec("越来越多的留学生喜欢学习 [ ___ ]。", "Yuèláiyuè duō de liúxuéshēng xǐhuan xuéxí [ ___ ].", ex),
-                    ClozeSpec("她能流利地用 [ ___ ] 和朋友交流。", "Tā néng liúlì de yòng [ ___ ] hé péngyou jiāoliú.", ex),
-                )
-            }
-            SemanticSlot.OBJECT_WEAR -> {
-                val ex = setOf(SemanticSlot.OBJECT_WEAR, SemanticSlot.COLOR) + nonNounSlots
-                listOf(
-                    ClozeSpec("天气转凉了，出门记得穿好这件 [ ___ ]。", "Tiānqì zhuǎn liáng le, chūmén jìde chuānhǎo zhè jiàn [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.OBJECT_READ -> {
-                val ex = setOf(SemanticSlot.OBJECT_READ, SemanticSlot.OBJECT_TECH, SemanticSlot.LANGUAGE) + nonNounSlots
-                listOf(
-                    ClozeSpec("晚上睡前我喜欢安静地读一会儿 [ ___ ]。", "Wǎnshang shuìqián wǒ xǐhuan ānjìng de dú yíhuìr [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.OBJECT_TECH -> {
-                val ex = setOf(SemanticSlot.OBJECT_TECH, SemanticSlot.OBJECT_READ) + nonNounSlots
-                listOf(
-                    ClozeSpec("桌上放着一台刚买的新 [ ___ ]。", "Zhuōshàng fàngzhe yì tái gāng mǎi de xīn [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.ANIMAL -> {
-                val ex = setOf(SemanticSlot.ANIMAL, SemanticSlot.PERSON) + nonNounSlots
-                listOf(
-                    ClozeSpec("草地上跑着一只非常可爱的 [ ___ ]。", "Cǎodì shàng pǎozhe yì zhī fēicháng kě'ài de [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.MONEY -> {
-                val ex = setOf(SemanticSlot.MONEY, SemanticSlot.NUMBER, SemanticSlot.MEASURE) + nonNounSlots
-                listOf(
-                    ClozeSpec("去超市买东西前，记得带上足够的 [ ___ ]。", "Qù chāoshì mǎi dōngxi qián, jìde dài shàng zúgòu de [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.COLOR -> {
-                val ex = setOf(SemanticSlot.COLOR, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL) + nonNounSlots
-                listOf(
-                    ClozeSpec("她特别喜欢这朵花明亮的 [ ___ ]。", "Tā tèbié xǐhuan zhè duǒ huā míngliàng de [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.MEASURE -> {
-                val ex = setOf(SemanticSlot.MEASURE, SemanticSlot.NUMBER, SemanticSlot.PARTICLE) + nonNounSlots
-                listOf(
-                    ClozeSpec("柜台上面整整齐齐地摆着三 [ ___ ] 物品。", "Guìtái shàngmiàn zhěngzhěngqíqí de bǎizhe sān [ ___ ] wùpǐn.", ex),
-                )
-            }
-            SemanticSlot.PRONOUN -> {
-                val ex = setOf(SemanticSlot.PRONOUN, SemanticSlot.PERSON, SemanticSlot.PLACE, SemanticSlot.PARTICLE)
-                listOf(
-                    ClozeSpec("刚才敲门进来的就是 [ ___ ]。", "Gāngcái qiāomén jìnlái de jiùshì [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.CONJUNCTION -> {
-                val ex = setOf(SemanticSlot.CONJUNCTION, SemanticSlot.PARTICLE, SemanticSlot.ADVERB)
-                listOf(
-                    ClozeSpec("今天风很大，[ ___ ] 我们还是按时到达了。", "Jīntiān fēng hěn dà, [ ___ ] wǒmen háishì ànshí dàodá le.", ex),
-                )
-            }
-            SemanticSlot.NUMBER -> {
-                val ex = setOf(SemanticSlot.NUMBER, SemanticSlot.MEASURE, SemanticSlot.TIME)
-                listOf(
-                    ClozeSpec("这个班一共来了 [ ___ ] 位新同学。", "Zhège bān yígòng lái le [ ___ ] wèi xīn tóngxué.", ex),
-                )
-            }
-            SemanticSlot.ADVERB -> {
-                val ex = setOf(SemanticSlot.ADVERB, SemanticSlot.CONJUNCTION, SemanticSlot.PARTICLE, SemanticSlot.ADJ_GENERAL)
-                listOf(
-                    ClozeSpec("这周的作业他 [ ___ ] 认真地完成了。", "Zhè zhōu de zuòyè tā [ ___ ] rènzhēn de wánchéng le.", ex),
-                )
-            }
-            SemanticSlot.VERB_CONSUMPTION -> {
-                val ex = setOf(SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_GENERAL, SemanticSlot.VERB_PURCHASE)
-                listOf(
-                    ClozeSpec("客人来了，请赶快先 [ ___ ] 一点吧。", "Kèrén lái le, qǐng gǎnkuài xiān [ ___ ] yìdiǎn ba.", ex),
-                )
-            }
-            SemanticSlot.VERB_MOTION -> {
-                val ex = setOf(SemanticSlot.VERB_MOTION, SemanticSlot.VERB_GENERAL)
-                listOf(
-                    ClozeSpec("时间不早了，我们现在就 [ ___ ] 图书馆吧。", "Shíjiān bù zǎo le, wǒmen xiànzài jiù [ ___ ] túshūguǎn ba.", ex),
-                )
-            }
-            SemanticSlot.VERB_STUDY_COMM -> {
-                val ex = setOf(SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_GENERAL)
-                listOf(
-                    ClozeSpec("每天早上我都会认真 [ ___ ] 新的生词。", "Měitiān zǎoshang wǒ dōu huì rènzhēn [ ___ ] xīn de shēngcí.", ex),
-                )
-            }
-            SemanticSlot.VERB_MENTAL -> {
-                val ex = setOf(SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_GENERAL)
-                listOf(
-                    ClozeSpec("我非常 [ ___ ] 今天在课堂上学到的知识。", "Wǒ fēicháng [ ___ ] jīntiān zài kètáng shàng xuédào de zhīshi.", ex),
-                )
-            }
-            SemanticSlot.VERB_PURCHASE -> {
-                val ex = setOf(SemanticSlot.VERB_PURCHASE, SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_GENERAL)
-                listOf(
-                    ClozeSpec("周末去市场的时候我想 [ ___ ] 几件日用品。", "Zhōumò qù shìchǎng de shíhou wǒ xiǎng [ ___ ] jǐ jiàn rìyòngpǐn.", ex),
-                )
-            }
-            SemanticSlot.ADJ_WEATHER_TEMP -> {
-                val ex = setOf(SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_EMOTION)
-                listOf(
-                    ClozeSpec("今天的风吹得人觉得天气真 [ ___ ]！", "Jīntiān de fēng chuī de rén juéde tiānqì zhēn [ ___ ]!", ex),
-                )
-            }
-            SemanticSlot.ADJ_EMOTION -> {
-                val ex = setOf(SemanticSlot.ADJ_EMOTION, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADVERB)
-                listOf(
-                    ClozeSpec("听到这个好消息后，大家心里都非常 [ ___ ]。", "Tīngdào zhège hǎo xiāoxi hòu, dàjiā xīnlǐ dōu fēicháng [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL -> {
-                val ex = setOf(SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL, SemanticSlot.ADJ_EMOTION, SemanticSlot.ADJ_WEATHER_TEMP, SemanticSlot.ADVERB)
-                listOf(
-                    ClozeSpec("大家都觉得这个地方看起来非常 [ ___ ]。", "Dàjiā dōu juéde zhège dìfang kàn qǐlái fēicháng [ ___ ].", ex),
-                    ClozeSpec("这件东西做得很用心，真的特别 [ ___ ]。", "Zhè jiàn dōngxi zuò de hěn yòngxīn, zhēnde tèbié [ ___ ].", ex),
-                )
-            }
-            SemanticSlot.VERB_GENERAL -> {
-                val ex = setOf(
-                    SemanticSlot.VERB_GENERAL, SemanticSlot.VERB_CONSUMPTION, SemanticSlot.VERB_MOTION,
-                    SemanticSlot.VERB_STUDY_COMM, SemanticSlot.VERB_MENTAL, SemanticSlot.VERB_PURCHASE,
-                )
-                listOf(
-                    ClozeSpec("每天早上我们都可以试着 [ ___ ] 一下。", "Měitiān zǎoshang wǒmen dōu kěyǐ shìzhe [ ___ ] yíxià.", ex),
-                )
-            }
-            SemanticSlot.NOUN_GENERAL, SemanticSlot.PARTICLE, SemanticSlot.OTHER -> {
-                val ex = setOf(
-                    SemanticSlot.NOUN_GENERAL, SemanticSlot.OTHER, SemanticSlot.PLACE, SemanticSlot.PERSON,
-                    SemanticSlot.DRINK, SemanticSlot.FOOD, SemanticSlot.OBJECT_READ, SemanticSlot.OBJECT_TECH, SemanticSlot.OBJECT_WEAR,
-                )
-                listOf(
-                    ClozeSpec("老师刚才指着桌上的那个 [ ___ ] 给大家看。", "Lǎoshī gāngcái zhǐzhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.", ex),
-                )
-            }
+            SemanticSlot.DRINK -> listOf(
+                ClozeSpec("早上我很想喝一杯热 [ ___ ]。", "Zǎoshang wǒ hěn xiǎng hē yì bēi rè [ ___ ].", ex),
+                ClozeSpec("请给我一杯 [ ___ ]，谢谢。", "Qǐng gěi wǒ yì bēi [ ___ ], xièxie.", ex),
+            )
+            SemanticSlot.FOOD -> listOf(
+                ClozeSpec("中午我很饿，想吃一点 [ ___ ]。", "Zhōngwǔ wǒ hěn è, xiǎng chī yìdiǎn [ ___ ].", ex),
+                ClozeSpec("妈妈在家做了一碗热 [ ___ ]。", "Māma zài jiā zuò le yì wǎn rè [ ___ ].", ex),
+            )
+            SemanticSlot.VEHICLE -> listOf(
+                ClozeSpec("爸爸每天上午坐 [ ___ ] 去那里。", "Bàba měitiān shàngwǔ zuò [ ___ ] qù nàlǐ.", ex),
+                ClozeSpec("他今天坐 [ ___ ] 回老家。", "Tā jīntiān zuò [ ___ ] huí lǎojiā.", ex),
+            )
+            SemanticSlot.PLACE -> listOf(
+                ClozeSpec("我现在在 [ ___ ] 等好朋友。", "Wǒ xiànzài zài [ ___ ] děng hǎo péngyou.", ex),
+                ClozeSpec("明天上午我要去 [ ___ ] 看老师。", "Míngtiān shàngwǔ wǒ yào qù [ ___ ] kàn lǎoshī.", ex),
+            )
+            SemanticSlot.PERSON -> listOf(
+                ClozeSpec("前面说话的那位 [ ___ ] 认识我们。", "Qiánmiàn shuōhuà de nà wèi [ ___ ] rènshi wǒmen.", ex),
+                ClozeSpec("明天下午我要去看我的 [ ___ ]。", "Míngtiān xiàwǔ wǒ yào qù kàn wǒ de [ ___ ].", ex),
+            )
+            SemanticSlot.TIME -> listOf(
+                ClozeSpec("明天 [ ___ ]，我在学校等你。", "Míngtiān [ ___ ], wǒ zài xuéxiào děng nǐ.", ex),
+                ClozeSpec("到了 [ ___ ]，我们一起回家吧。", "Dào le [ ___ ], wǒmen yìqǐ huí jiā ba.", ex),
+            )
+            SemanticSlot.WEATHER -> listOf(
+                ClozeSpec("你看外面，今天的 [ ___ ] 真好！", "Nǐ kàn wàimiàn, jīntiān de [ ___ ] zhēn hǎo!", ex),
+                ClozeSpec("出门前先看一看外面的 [ ___ ]。", "Chūmén qián xiān kàn yi kàn wàimiàn de [ ___ ].", ex),
+            )
+            SemanticSlot.LANGUAGE -> listOf(
+                ClozeSpec("很多同学都很喜欢学 [ ___ ]。", "Hěn duō tóngxué dōu hěn xǐhuan xué [ ___ ].", ex),
+                ClozeSpec("我每天早上都会读一读 [ ___ ]。", "Wǒ měitiān zǎoshang dōu huì dú yi dú [ ___ ].", ex),
+            )
+            SemanticSlot.OBJECT_WEAR -> listOf(
+                ClozeSpec("今天很冷，快穿好这件 [ ___ ]。", "Jīntiān hěn lěng, kuài chuānhǎo zhè jiàn [ ___ ].", ex),
+            )
+            SemanticSlot.OBJECT_READ -> listOf(
+                ClozeSpec("晚上回家后我喜欢看一会儿 [ ___ ]。", "Wǎnshang huí jiā hòu wǒ xǐhuan kàn yíhuìr [ ___ ].", ex),
+            )
+            SemanticSlot.OBJECT_TECH -> listOf(
+                ClozeSpec("桌子上放着一个新买的 [ ___ ]。", "Zhuōzi shàng fàngzhe yí gè xīn mǎi de [ ___ ].", ex),
+            )
+            SemanticSlot.ANIMAL -> listOf(
+                ClozeSpec("家里养着一只非常可爱的 [ ___ ]。", "Jiālǐ yǎngzhe yì zhī fēicháng kě'ài de [ ___ ].", ex),
+            )
+            SemanticSlot.MONEY -> listOf(
+                ClozeSpec("去商店买东西前，先带好 [ ___ ]。", "Qù shāngdiàn mǎi dōngxi qián, xiān dàihǎo [ ___ ].", ex),
+            )
+            SemanticSlot.COLOR -> listOf(
+                ClozeSpec("妹妹特别喜欢这个明亮的 [ ___ ]。", "Mèimei tèbié xǐhuan zhège míngliàng de [ ___ ].", ex),
+            )
+            SemanticSlot.MEASURE -> listOf(
+                ClozeSpec("他在商店买了三 [ ___ ] 东西。", "Tā zài shāngdiàn mǎi le sān [ ___ ] dōngxi.", ex),
+            )
+            SemanticSlot.PRONOUN -> listOf(
+                ClozeSpec("今天上午和老师说话的人是 [ ___ ]。", "Jīntiān shàngwǔ hé lǎoshī shuōhuà de rén shì [ ___ ].", ex),
+            )
+            SemanticSlot.CONJUNCTION -> listOf(
+                ClozeSpec("今天天气很冷，[ ___ ] 我还是来了。", "Jīntiān tiānqì hěn lěng, [ ___ ] wǒ háishì lái le.", ex),
+            )
+            SemanticSlot.NUMBER -> listOf(
+                ClozeSpec("我昨天买了 [ ___ ] 个大苹果。", "Wǒ zuótiān mǎi le [ ___ ] gè dà píngguǒ.", ex),
+            )
+            SemanticSlot.ADVERB -> listOf(
+                ClozeSpec("今天的汉语书他 [ ___ ] 看完了。", "Jīntiān de Hànyǔ shū tā [ ___ ] kàn wán le.", ex),
+            )
+            SemanticSlot.VERB_CONSUMPTION -> listOf(
+                ClozeSpec("朋友们来了，请赶快 [ ___ ] 一点吧。", "Péngyoumen lái le, qǐng gǎnkuài [ ___ ] yìdiǎn ba.", ex),
+            )
+            SemanticSlot.VERB_MOTION -> listOf(
+                ClozeSpec("时间不早了，我们现在 [ ___ ] 学校吧。", "Shíjiān bù zǎo le, wǒmen xiànzài [ ___ ] xuéxiào ba.", ex),
+            )
+            SemanticSlot.VERB_STUDY_COMM -> listOf(
+                ClozeSpec("每天早上我都会在家认真 [ ___ ] 汉语。", "Měitiān zǎoshang wǒ dōu huì zài jiā rènzhēn [ ___ ] Hànyǔ.", ex),
+            )
+            SemanticSlot.VERB_MENTAL -> listOf(
+                ClozeSpec("我很 [ ___ ] 今天在学校学的新字。", "Wǒ hěn [ ___ ] jīntiān zài xuéxiào xué de xīn zì.", ex),
+            )
+            SemanticSlot.VERB_PURCHASE -> listOf(
+                ClozeSpec("下午去商店的时候，我想 [ ___ ] 几个苹果。", "Xiàwǔ qù shāngdiàn de shíhou, wǒ xiǎng [ ___ ] jǐ gè píngguǒ.", ex),
+            )
+            SemanticSlot.ADJ_WEATHER_TEMP -> listOf(
+                ClozeSpec("今天天气很 [ ___ ]，大家都在家里。", "Jīntiān tiānqì hěn [ ___ ], dàjiā dōu zài jiālǐ.", ex),
+            )
+            SemanticSlot.ADJ_EMOTION -> listOf(
+                ClozeSpec("今天能见到好朋友，我真 [ ___ ]。", "Jīntiān néng jiàndào hǎo péngyou, wǒ zhēn [ ___ ].", ex),
+            )
+            SemanticSlot.ADJ_APPEARANCE, SemanticSlot.ADJ_GENERAL -> listOf(
+                ClozeSpec("我觉得这件新衣服很 [ ___ ]。", "Wǒ juéde zhè jiàn xīn yīfu hěn [ ___ ].", ex),
+                ClozeSpec("妈妈买的苹果看起来很 [ ___ ]。", "Māma mǎi de píngguǒ kàn qǐlái hěn [ ___ ].", ex),
+            )
+            SemanticSlot.VERB_GENERAL -> listOf(
+                ClozeSpec("每天早上大家都可以一起 [ ___ ] 一下。", "Měitiān zǎoshang dàjiā dōu kěyǐ yìqǐ [ ___ ] yíxià.", ex),
+            )
+            SemanticSlot.NOUN_GENERAL, SemanticSlot.PARTICLE, SemanticSlot.OTHER -> listOf(
+                ClozeSpec("老师拿着桌上的那个 [ ___ ] 给大家看。", "Lǎoshī názhe zhuōshàng de nàge [ ___ ] gěi dàjiā kàn.", ex),
+            )
         }
 
         val index = (target.number.coerceAtLeast(0) + Random.nextInt(templates.size)) % templates.size
